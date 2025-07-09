@@ -1,28 +1,178 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './css/Login.css';
+import { toast } from 'react-toastify';
+import {
+  TextField,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function Register() {
+  const [credentials, setCredentials] = useState({
+    org_name: '',
+    email: '',
+    confirmPassword: '',
+    password: ''
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Password validation rule
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return 'Password must be at least 8 characters long, contain one uppercase letter, and one symbol.';
+    }
+    return '';
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+
+    if (name === 'password') {
+      const error = validatePassword(value);
+      setPasswordError(error);
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage('');
+
+    if (credentials.password !== credentials.confirmPassword) {
+      toast.error('Password and Confirm Password do not match.');
+      setIsLoading(false);
+      return;
+    }
+
+    // Proceed with registration request here
+    // Example: await axios.post(...)
+
+    setIsLoading(false);
+  };
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleMouseDownPassword = (e) => e.preventDefault();
+
   return (
-   <div>
-     <div>Register</div>
-     <form action="">
-         <div>
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name" required />
-         </div>
-         <div>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" required />
-         </div>
-         <div>
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" required />
-         </div>
-         <button type="submit">Register</button>
-         <Link to="/login"><button>Back</button></Link>
-     </form>
-   </div>
-  )
+    <div className="login-page">
+      <div className="login-left">
+        <div className="logo">
+          <img src="/logo.png" alt="Logo" />
+        </div>
+        <h1>Welcome!</h1>
+      </div>
+
+      <div className="login-right">
+        <form onSubmit={handleRegister} className="login-form">
+          <h2>Register</h2>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+
+          {/* Organization Name */}
+          <TextField
+            label="Organization Name"
+            name="org_name"
+            type="text"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={credentials.org_name}
+            onChange={handleChange}
+            required
+          />
+
+          {/* Email */}
+          <TextField
+            label="Email Address"
+            name="email"
+            type="email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={credentials.email}
+            onChange={handleChange}
+            required
+          />
+
+          {/* Password */}
+          <FormControl variant="outlined" fullWidth margin="normal">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput
+              id="password"
+              name="password"
+              type={showPassword ? 'text' : 'password'}
+              value={credentials.password}
+              onChange={handleChange}
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+          {passwordError && <p className="error">{passwordError}</p>}
+
+          {/* Confirm Password */}
+          <FormControl variant="outlined" fullWidth margin="normal">
+            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+            <OutlinedInput
+              id="confirmPassword"
+              name="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={credentials.confirmPassword}
+              onChange={handleChange}
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowConfirmPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Confirm Password"
+            />
+          </FormControl>
+            <div className="form-options"></div>
+          <button className="submitbtn" type="submit" disabled={isLoading}>
+            {isLoading ? 'Creating...' : 'Register'}
+          </button>
+         <br></br>
+          <div className="form-options">
+            <p>
+              Already have an account? <Link to="/login">Login</Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
-export default Register
+export default Register;

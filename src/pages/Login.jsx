@@ -136,19 +136,24 @@ function Login() {
 
           <div className="form-options">
             <label>
-             <Link to="/forgot-password">
+              <Link to="/forgot-password">
                 Forgot Password?
               </Link>
             </label>
           </div>
-          <button type="submit" disabled={isLoading}>
+
+
+
+          <button className='submitbtn' type="submit" disabled={isLoading}>
             {isLoading ? 'Signing In...' : 'SIGN IN'}
           </button>
-          <Link to="/register">
-            <button type="button" className="register-btn">
-              Create an Organization
-            </button>
-            </Link>
+
+          <div className="form-options">
+            <label>
+              <p>Don't have an account ? <Link to="/register"> Register</Link></p>
+            </label>
+          </div>
+
         </form>
       </div>
     </div>

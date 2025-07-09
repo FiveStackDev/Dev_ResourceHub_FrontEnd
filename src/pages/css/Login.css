@@ -28,7 +28,10 @@
   justify-content: center;
   align-items: center;
 }
-
+.submitbtn{
+  display: block;
+  margin: auto  ;
+}
 .login-page .login-form {
   width: 90%;
   max-width: 400px;
@@ -68,7 +71,7 @@
 }
 
 button[type='submit'] {
-  width: calc(100% - 20px);
+  width: 100%;
   padding: 10px;
   background-color: #4f9ef8;
   border-radius: 7px;
