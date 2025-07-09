@@ -1,13 +1,6 @@
+
 import { useState, useEffect } from 'react';
-import {
-  Button,
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  CircularProgress,
-} from '@mui/material';
+import { Button, TextField, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@mui/material';
 import { Plus, Search } from 'lucide-react';
 import { AddMaintenancePopup } from '../../../components/Maintenance/AddMaintenancePopup';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
+import { useUser } from '../../../contexts/UserContext';
+import { decodeToken } from '../../../contexts/UserContext';
 
 const MaintenanceDetailsUser = () => {
   const [maintenance, setMaintenance] = useState([]);
@@ -40,9 +35,18 @@ const MaintenanceDetailsUser = () => {
     fetchMaintenanceData();
   }, []);
 
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('MaintenanceDetailsUser fallback decoded userId:', userId);
+  } else {
+    console.log('MaintenanceDetailsUser userId:', userId);
+  }
   const handleAddMaintenance = async (newMaintenance) => {
     try {
-      const userId = localStorage.getItem('Userid');
       if (!userId) {
         toast.error('User ID not found. Please login again.');
         return;

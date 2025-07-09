@@ -1,19 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import MonitorTable from '../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  Button,
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-} from '@mui/material';
+import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { Search } from 'lucide-react';
 import EditAssetPopup from '../../../components/Asset/OrganizationAssets/AssetEdit';
 import DeleteAssetPopup from '../../../components/Asset/OrganizationAssets/AssetDelete';
 import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
+import { useUser } from '../../../contexts/UserContext';
+import { decodeToken } from '../../../contexts/UserContext';
 
 const DueAssetUser = () => {
   const navigate = useNavigate();
@@ -32,9 +28,20 @@ const DueAssetUser = () => {
     ...new Set(assets.map((asset) => asset.category)),
   ];
 
+
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('DueAssetUser fallback decoded userId:', userId);
+  } else {
+    console.log('DueAssetUser userId:', userId);
+  }
   useEffect(() => {
     const fetchAssets = async () => {
-      const userId = localStorage.getItem('Userid');
+      if (!userId) return;
       const response = await fetch(
         `${BASE_URLS.assetRequest}/dueassets/${userId}`,
       );
@@ -42,7 +49,7 @@ const DueAssetUser = () => {
       setAssets(data);
     };
     fetchAssets();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     setFilterCategory(passedCategory);

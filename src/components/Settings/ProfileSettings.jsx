@@ -1,9 +1,12 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Styles/ProfileSection.css';
 import { BASE_URLS } from '../../services/api/config';
 import ConfirmationDialog from './ConfirmationDialog';
 import { toast } from 'react-toastify';
+import { useUser } from '../../contexts/UserContext';
+import { decodeToken } from '../../contexts/UserContext';
 
 const ProfileSection = () => {
   // State to store form data
@@ -20,19 +23,32 @@ const ProfileSection = () => {
     onConfirm: null,
   });
 
+
+  // Get user id from context
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('ProfileSettings fallback decoded userId:', userId);
+  } else {
+    console.log('ProfileSettings userId:', userId);
+  }
+
   // Fetch user profile data on component mount
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem('Userid');
-        if (!userId) throw new Error('User ID not found');
-
+        if (!userId) {
+          setError('User ID not found. Please log in again.');
+          setLoading(false);
+          return;
+        }
         const { data } = await axios.get(
           `${BASE_URLS.settings}/details/${userId}`,
         );
         const [profile] = data;
-
-        // Populate form with fetched profile data
         setFormData({
           name: profile.username || '',
           picture: profile.profile_picture_url || '',
@@ -44,9 +60,8 @@ const ProfileSection = () => {
         setLoading(false);
       }
     };
-
     fetchUserData();
-  }, []);
+  }, [userId]);
 
   // Handle changes in form inputs
   const handleChange = (e) =>
@@ -67,7 +82,7 @@ const ProfileSection = () => {
       message: 'Are you sure you want to update your profile?',
       onConfirm: async () => {
         try {
-          const userId = localStorage.getItem('Userid');
+          // Use fallback userId (from context or decoded token)
           if (!userId) throw new Error('User ID not found');
 
           // Send profile update request
@@ -89,7 +104,16 @@ const ProfileSection = () => {
 
   // Show loading or error messages before rendering form
   if (loading) return <p className="loading">Loading...</p>;
-  if (error) return <p className="error">Error: {error}</p>;
+  if (error) {
+    return (
+      <div className="error">
+        <p>Error: {error}</p>
+        <a href="/login">
+          <button style={{marginTop: '1rem'}}>Go to Login</button>
+        </a>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-section">

@@ -15,8 +15,14 @@ function VerificationPopup({ onClose, email, code }) {
     // Check if the entered code matches the generated code
     if (inputcode === code) {
       try {
-        const userId = localStorage.getItem('Userid');
-        if (!userId) throw new Error('User ID not found');
+
+        // Use decoded token for userId instead of localStorage
+        // Import decodeToken from UserContext
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { decodeToken } = require('../../contexts/UserContext');
+        const decoded = decodeToken();
+        const userId = decoded?.id;
+        if (!userId) throw new Error('User ID not found in token');
 
         // Send verified email update to the server
         await axios.put(`${BASE_URLS.settings}/email/${userId}`, { email });

@@ -42,9 +42,14 @@ const MaintenanceDetails = () => {
 
   const handleAddMaintenance = async (newMaintenance) => {
     try {
-      const userId = localStorage.getItem('Userid');
+      // Use decoded token for userId instead of localStorage
+      // Import decodeToken from UserContext
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { decodeToken } = require('../../../contexts/UserContext');
+      const decoded = decodeToken();
+      const userId = decoded?.id;
       if (!userId) {
-        toast.error('User ID not found. Please login again.');
+        toast.error('User ID not found in token. Please login again.');
         return;
       }
 

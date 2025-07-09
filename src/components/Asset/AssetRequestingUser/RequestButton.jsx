@@ -13,8 +13,20 @@ import { toast } from 'react-toastify';
 import AssetSearch from './AssetSearch';
 import { BASE_URLS } from '../../../services/api/config';
 import axios from 'axios';
+import { useUser } from '../../../contexts/UserContext';
+import { decodeToken } from '../../../contexts/UserContext';
 
 function RequestButton({ open, onClose, onRequest }) {
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('RequestButton fallback decoded userId:', userId);
+  } else {
+    console.log('RequestButton userId:', userId);
+  }
   const [requestData, setRequestData] = useState({
     userName: '',
     assetName: '',
@@ -27,33 +39,13 @@ function RequestButton({ open, onClose, onRequest }) {
   });
 
   useEffect(() => {
-    if (!open) return; // Don't fetch user data if the dialog is not open
-
-    const fetchUserData = async () => {
-      const userId = localStorage.getItem('Userid');
-      if (!userId) return;
-
-      try {
-        const response = await axios.get(
-          `${BASE_URLS.settings}/details/${userId}`,
-        );
-        const storedUser = response.data[0]?.username;
-        if (storedUser) {
-          setRequestData((prev) => ({ ...prev, userName: storedUser }));
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    // Reset handoverDate to today's date every time the dialog opens
+    if (!open) return;
     setRequestData((prev) => ({
       ...prev,
-      handoverDate: new Date().toISOString().split('T')[0], // Reset the date
+      userName: userData.name || '',
+      handoverDate: new Date().toISOString().split('T')[0],
     }));
-
-    fetchUserData();
-  }, [open]); // Depend on `open` to refetch when dialog is opened
+  }, [open, userData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,11 +62,8 @@ function RequestButton({ open, onClose, onRequest }) {
       toast.error('Please fill in all fields');
       return;
     }
-
-    const userId = localStorage.getItem('Userid');
     const assetId = requestData.assetId;
     const borrowedDate = new Date().toISOString().split('T')[0];
-
     const payload = {
       user_id: parseInt(userId),
       asset_id: parseInt(assetId),

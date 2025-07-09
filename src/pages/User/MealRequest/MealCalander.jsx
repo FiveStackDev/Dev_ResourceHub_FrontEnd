@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,6 +10,8 @@ import axios from 'axios';
 import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
 import { toast } from 'react-toastify';
+import { useUser } from '../../../contexts/UserContext';
+import { decodeToken } from '../../../contexts/UserContext';
 
 function MealCalendar() {
   // State variables
@@ -24,11 +27,25 @@ function MealCalendar() {
     fetchEvents(); // Fetch existing meal events on mount
   }, []);
 
+
+  // Get user id from context
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('MealCalander fallback decoded userId:', userId);
+  } else {
+    console.log('MealCalander userId:', userId);
+  }
+
   // Fetch meal events from backend
   const fetchEvents = async () => {
     try {
+      if (!userId) return;
       const response = await axios.get(
-        `${BASE_URLS.calendar}/mealevents/${localStorage.getItem('Userid')}`
+        `${BASE_URLS.calendar}/mealevents/${userId}`
       );
       const formattedEvents = response.data.map((event) => ({
         id: event.requestedmeal_id,
@@ -70,10 +87,11 @@ function MealCalendar() {
     mealTypeName
   ) => {
     try {
+      if (!userId) throw new Error('User ID not found');
       const response = await axios.post(`${BASE_URLS.calendar}/mealevents/add`, {
         mealtime_id: mealTimeId,
         mealtype_id: mealTypeId,
-        user_id: parseInt(localStorage.getItem('Userid')),
+        user_id: parseInt(userId),
         submitted_date: today,
         meal_request_date: selectedDate,
       });
