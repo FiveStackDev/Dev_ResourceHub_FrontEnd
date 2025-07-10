@@ -1,7 +1,7 @@
 // API base URL for all microservices
 const BASE_URL =
-  'https://e7f2b9c3-7f86-4a6b-91f9-2ae1c2e1c631-dev.e1-us-east-azure.choreoapis.dev/default/ballerina';
-
+  'https://4f2de039-e4b3-45c1-93e2-4873c5ea1a8e-dev.e1-us-east-azure.choreoapis.dev/devresourcehub/backend';
+  
 // Service-specific base URLs
 export const BASE_URLS = {
   login: "`${BASE_URL}/v1.0`",
