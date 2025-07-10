@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, CircularProgress, Autocomplete } from '@mui/material';
 import axios from 'axios';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { BASE_URLS } from '../../../services/api/config';
 
 function AssetSearch({ value, onChange, setAssetId }) {
@@ -9,7 +10,7 @@ function AssetSearch({ value, onChange, setAssetId }) {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URLS.asset}/details`)
+      .get(`${BASE_URLS.asset}/details`, { headers: { ...getAuthHeader() } })
       .then((res) => {
         setAssets(res.data);
         setLoading(false);

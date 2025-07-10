@@ -1,5 +1,13 @@
+// Helper to decode base64url (JWT) payloads
+function base64UrlDecode(str) {
+  str = str.replace(/-/g, '+').replace(/_/g, '/');
+  while (str.length % 4) {
+    str += '=';
+  }
+  return atob(str);
+}
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './css/Login.css';
 import { useUser } from '../contexts/UserContext';
 import { BASE_URLS } from '../services/api/config';
@@ -19,20 +27,37 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { refreshUserData } = useUser();
 
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    const userRole = localStorage.getItem('userRole');
 
-    if (isAuthenticated === 'true' && userRole) {
-      const redirectPath =
-        userRole.toLowerCase() === 'admin'
-          ? '/admin-dashboardadmin'
-          : '/user-dashboarduser';
-      navigate(redirectPath);
+
+
+useEffect(() => {
+  // Only redirect if on the login page and token is present
+  const token = localStorage.getItem('token');
+  if (
+    token &&
+    (location.pathname === '/' || location.pathname === '/login')
+  ) {
+    try {
+      const payload = token.split('.')[1];
+      if (!payload) throw new Error('Malformed token');
+      const decoded = JSON.parse(base64UrlDecode(payload));
+      // console.log('Decoded token:', decoded); // Remove or comment out for production
+      const userRole =
+        decoded.role?.charAt(0).toUpperCase() +
+        decoded.role?.slice(1).toLowerCase();
+      if (userRole === 'Admin') {
+        navigate('/admin-dashboardadmin', { replace: true });
+      } else {
+        navigate('/user-dashboarduser', { replace: true });
+      }
+    } catch (e) {
+      console.error('Invalid token:', e);
     }
-  }, [navigate]);
+  }
+}, [navigate, location.pathname]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -52,21 +77,36 @@ function Login() {
         throw new Error(data.message || 'Login failed');
       }
 
-      const userRole =
-        data.usertype.charAt(0).toUpperCase() +
-        data.usertype.slice(1).toLowerCase();
-
       localStorage.setItem('token', data.token);
-      localStorage.setItem('userRole', userRole);
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('Userid', data.id);
+      // Do NOT store userRole, isAuthenticated, or Userid in localStorage for security
+      // localStorage.setItem('userRole', userRole);
+      // localStorage.setItem('isAuthenticated', 'true');
+      // localStorage.setItem('Userid', data.id);
 
-      refreshUserData();
-
-      if (userRole === 'Admin') {
-        navigate('/admin-dashboardadmin');
-      } else {
-        navigate('/user-dashboarduser');
+      // Decode and log token details for debugging and navigate
+      try {
+        const payload = data.token.split('.')[1];
+        if (!payload) throw new Error('Malformed token');
+        const decoded = JSON.parse(base64UrlDecode(payload));
+        console.log('Decoded token after login:', {
+          id: decoded.id,
+          name: decoded.username,
+          email: decoded.email,
+          role: decoded.role,
+          profile_picture: decoded.profile_picture,
+        });
+        refreshUserData();
+        // Use decoded.role for navigation
+        const userRole =
+          decoded.role?.charAt(0).toUpperCase() +
+          decoded.role?.slice(1).toLowerCase();
+        if (userRole === 'Admin') {
+          navigate('/admin-dashboardadmin');
+        } else {
+          navigate('/user-dashboarduser');
+        }
+      } catch (e) {
+        console.error('Invalid token after login:', e);
       }
     } catch (error) {
       setErrorMessage(error.message || 'Invalid email or password');

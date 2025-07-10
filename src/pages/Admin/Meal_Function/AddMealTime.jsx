@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../../utils/authHeader';
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,10 +24,15 @@ function AddMealTime() {
   // Handle deletion of a meal time
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
-        method: 'DELETE',
-      });
-
+      const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
+      );
       if (response.ok) {
         await fetchMealTimes(); // Refresh list on success
       } else {
@@ -40,7 +46,15 @@ function AddMealTime() {
   // Fetch all meal times from API
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch(`${BASE_URLS.mealtime}/details`);
+      const response = await fetch(
+        `${BASE_URLS.mealtime}/details`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }

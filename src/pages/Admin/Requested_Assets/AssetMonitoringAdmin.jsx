@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../../utils/authHeader';
 import React, { useState, useEffect } from 'react';
 import MonitorTable from '../../../components/Asset/AssetMonitoring/MonitorTable';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -28,7 +29,15 @@ const AssetMonitoringAdmin = () => {
   ];
 
   const fetchAssets = async () => {
-    const response = await fetch(`${BASE_URLS.assetRequest}/details`);
+    const response = await fetch(
+      `${BASE_URLS.assetRequest}/details`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      }
+    );
     const data = await response.json();
     setAssets(data);
   };
@@ -54,6 +63,7 @@ const AssetMonitoringAdmin = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            ...getAuthHeader(),
           },
           body: JSON.stringify(updatedAsset),
         },

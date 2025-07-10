@@ -1,15 +1,21 @@
+
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { getAuthHeader } from '../utils/authHeader';
 import { BASE_URLS } from '../services/api/config';
+import { decodeToken } from '../contexts/UserContext';
 
 export function useUserDashboardData() {
   return useQuery({
     queryKey: ['userDashboardData'],
     queryFn: async () => {
-      const userId = localStorage.getItem('Userid');
+      // Use decoded token for userId instead of localStorage
+      const decoded = decodeToken();
+      const userId = decoded?.id;
+      if (!userId) throw new Error('User ID not found in token');
       const [statsResponse, activitiesResponse] = await Promise.all([
-        axios.get(`${BASE_URLS.dashboardUser}/stats/${userId}`),
-        axios.get(`${BASE_URLS.dashboardUser}/activities/${userId}`),
+        axios.get(`${BASE_URLS.dashboardUser}/stats/${userId}`, { headers: { ...getAuthHeader() } }),
+        axios.get(`${BASE_URLS.dashboardUser}/activities/${userId}`, { headers: { ...getAuthHeader() } }),
       ]);
       return {
         stats: Array.isArray(statsResponse.data)

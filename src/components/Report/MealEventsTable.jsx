@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../utils/authHeader';
 import React, { useEffect, useState } from 'react';
 import {
   Table,
@@ -36,7 +37,12 @@ const MealEventsTable = () => {
 
   // Fetch meal events
   useEffect(() => {
-    fetch(`${BASE_URLS.calendar}/mealevents`)
+    fetch(`${BASE_URLS.calendar}/mealevents`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setMealEvents(data);
@@ -47,7 +53,12 @@ const MealEventsTable = () => {
 
   // Fetch meal times from API
   useEffect(() => {
-    fetch(`${BASE_URLS.mealtime}/details`)
+    fetch(`${BASE_URLS.mealtime}/details`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const mealNames = data.map((meal) => ({

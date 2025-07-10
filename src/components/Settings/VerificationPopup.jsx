@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import './Styles/VerifyPopup.css';
-import axios from 'axios';
-import { BASE_URLS } from '../../services/api/config';
+
 import { toast } from 'react-toastify';
+import { getAuthHeader } from '../../utils/authHeader';
+import { decodeToken } from '../../contexts/UserContext';
 
 function VerificationPopup({ onClose, email, code }) {
   // Local state to hold the user-entered verification code
@@ -15,11 +14,24 @@ function VerificationPopup({ onClose, email, code }) {
     // Check if the entered code matches the generated code
     if (inputcode === code) {
       try {
-        const userId = localStorage.getItem('Userid');
-        if (!userId) throw new Error('User ID not found');
 
-        // Send verified email update to the server
-        await axios.put(`${BASE_URLS.settings}/email/${userId}`, { email });
+        // Use decoded token for userId instead of localStorage
+        const decoded = decodeToken();
+        const userId = decoded?.id;
+        if (!userId) throw new Error('User ID not found in token');
+
+
+
+        // Send verified email update to the server with Authorization header
+        await axios.put(
+          `${BASE_URLS.settings}/email/${userId}`,
+          { email },
+          {
+            headers: {
+              ...getAuthHeader(),
+            },
+          }
+        );
 
         toast.success('Verification successful!');
         onClose(); // Close the popup after successful verification

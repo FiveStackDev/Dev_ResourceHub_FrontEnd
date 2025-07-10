@@ -16,6 +16,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import AdminLayout from '../../../layouts/Admin/AdminLayout.jsx';
 import { BASE_URLS } from '../../../services/api/config.js';
+import { getAuthHeader } from '../../../utils/authHeader';
+import { useUser } from '../../../contexts/UserContext';
+import { decodeToken } from '../../../contexts/UserContext';
+
 
 const MaintenanceDetails = () => {
   const [maintenance, setMaintenance] = useState([]);
@@ -26,7 +30,10 @@ const MaintenanceDetails = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get(`${BASE_URLS.maintenance}/details`);
+      const response = await axios.get(
+        `${BASE_URLS.maintenance}/details`,
+        { headers: { ...getAuthHeader() } }
+      );
       setMaintenance(response.data);
     } catch (error) {
       console.error('Failed to fetch maintenance data:', error);
@@ -36,13 +43,22 @@ const MaintenanceDetails = () => {
     }
   };
 
-  useEffect(() => {
+ useEffect(() => {
     fetchMaintenanceData();
   }, []);
 
-  const handleAddMaintenance = async (newMaintenance) => {
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('MaintenanceDetailsUser fallback decoded userId:', userId);
+  } else {
+    console.log('MaintenanceDetailsUser userId:', userId);
+  }
+   const handleAddMaintenance = async (newMaintenance) => {
     try {
-      const userId = localStorage.getItem('Userid');
       if (!userId) {
         toast.error('User ID not found. Please login again.');
         return;
@@ -58,6 +74,7 @@ const MaintenanceDetails = () => {
       const response = await axios.post(
         `${BASE_URLS.maintenance}/add`,
         payload,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
@@ -72,6 +89,7 @@ const MaintenanceDetails = () => {
     try {
       await axios.delete(
         `http://localhost:9090/maintenance/details/${maintenanceId}`,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success('Maintenance deleted successfully!');
       fetchMaintenanceData();
@@ -95,6 +113,7 @@ const MaintenanceDetails = () => {
       const response = await axios.put(
         `${BASE_URLS.maintenance}/details/${editedMaintenance.maintenance_id}`,
         editedMaintenance,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success(response.data.message);
       fetchMaintenanceData();

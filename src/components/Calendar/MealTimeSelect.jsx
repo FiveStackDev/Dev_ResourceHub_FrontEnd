@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../utils/authHeader';
 import React, { useState, useEffect } from 'react';
 import MealTimeCard from './MealTimeCard';
 import './Calender-CSS/MealTimeSelect.css';
@@ -18,7 +19,15 @@ export default function MealTimeSelect({
 
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch(`${BASE_URLS.mealtime}/details`);
+      const response = await fetch(
+        `${BASE_URLS.mealtime}/details`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`Failed to fetch meal times: ${response.status}`);
       }

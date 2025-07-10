@@ -13,6 +13,7 @@ import EditAssetPopup from '../../../components/Asset/OrganizationAssets/AssetEd
 import DeleteAssetPopup from '../../../components/Asset/OrganizationAssets/AssetDelete';
 import AssetAdd from '../../../components/Asset/OrganizationAssets/AssetAdd';
 import axios from 'axios';
+import { getAuthHeader } from '../../../utils/authHeader';
 import '../../css/AssetAdmin.css';
 import AdminLayout from '../../../layouts/Admin/AdminLayout';
 import { BASE_URLS } from '../../../services/api/config';
@@ -31,7 +32,11 @@ function AssetAdmin() {
   }, []);
 
   const fetchAssets = () => {
-    fetch(`${BASE_URLS.asset}/details`)
+    fetch(`${BASE_URLS.asset}/details`, {
+      headers: {
+        ...getAuthHeader(),
+      },
+    })
       .then((response) => response.json())
       .then((data) => setAssets(data))
       .catch((error) => console.error('Error fetching assets:', error));
@@ -67,7 +72,9 @@ function AssetAdmin() {
 
   const handleDeleteAsset = async (id) => {
     try {
-      await axios.delete(`${BASE_URLS.asset}/details/${id}`);
+      await axios.delete(`${BASE_URLS.asset}/details/${id}`,
+        { headers: { ...getAuthHeader() } }
+      );
       setAssets((prevAssets) => prevAssets.filter((asset) => asset.id !== id));
       setDeleteOpen(false);
       setSelectedAsset(null);

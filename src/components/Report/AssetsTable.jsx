@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../utils/authHeader';
 import React, { useEffect, useState } from 'react';
 import {
   Chip,
@@ -20,7 +21,12 @@ const AssetsTable = () => {
 
   // Fetch data from the API
   useEffect(() => {
-    fetch(`${BASE_URLS.asset}/details`)
+    fetch(`${BASE_URLS.asset}/details`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    })
       .then((response) => response.json())
       .then((data) => setassets(data))
       .catch((error) => console.error('Error fetching meal events:', error));

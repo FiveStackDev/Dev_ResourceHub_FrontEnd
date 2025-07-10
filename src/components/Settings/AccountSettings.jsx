@@ -1,20 +1,18 @@
 // React imports and necessary dependencies
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Styles/AccountSection.css';
 import { BASE_URLS } from '../../services/api/config';
+import { getAuthHeader } from '../../utils/authHeader';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
 import { toast } from 'react-toastify';
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useUser } from '../../contexts/UserContext';
+import { decodeToken } from '../../contexts/UserContext';
 
 const AccountSection = () => {
   // Form data state and UI state
@@ -51,17 +49,30 @@ const AccountSection = () => {
   };
 
   // Fetch user data on component mount
+
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('AccountSettings fallback decoded userId:', userId);
+  } else {
+    console.log('AccountSettings userId:', userId);
+  }
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem('Userid');
         if (!userId) throw new Error('User ID not found');
-
         const { data } = await axios.get(
           `${BASE_URLS.settings}/details/${userId}`,
+          {
+            headers: {
+              ...getAuthHeader(),
+            },
+          }
         );
         const [profile] = data;
-
         setFormData((prev) => ({
           ...prev,
           email: profile.email || '',
@@ -73,9 +84,8 @@ const AccountSection = () => {
         setLoading(false);
       }
     };
-
     fetchUserData();
-  }, []);
+  }, [userData.id]);
 
   // Handle input changes and password validation
   const handleChange = (e) => {
@@ -103,26 +113,33 @@ const AccountSection = () => {
     }
 
     try {
-      const userId = localStorage.getItem('Userid');
       if (!userId) throw new Error('User ID not found');
-
       const { data } = await axios.get(
         `${BASE_URLS.settings}/details/${userId}`,
+        {
+          headers: {
+            ...getAuthHeader(),
+          },
+        }
       );
       const existingPhone = data[0]?.phone_number;
-
       if (formData.phone === existingPhone) {
         toast.error('This phone number is already in use.');
         return;
       }
-
       setConfirmationDialog({
         open: true,
         message: 'Are you sure you want to update your phone number?',
         onConfirm: async () => {
-          await axios.put(`${BASE_URLS.settings}/phone/${userId}`, {
-            phone_number: formData.phone,
-          });
+          await axios.put(
+            `${BASE_URLS.settings}/phone/${userId}`,
+            { phone_number: formData.phone },
+            {
+              headers: {
+                ...getAuthHeader(),
+              },
+            }
+          );
           toast.success('Phone updated successfully!');
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
         },
@@ -135,30 +152,38 @@ const AccountSection = () => {
   // Handle email update and trigger verification popup
   const handleEmailSubmit = async (email) => {
     try {
-      const userId = localStorage.getItem('Userid');
+      const userId = userData.id;
       if (!userId) throw new Error('User ID not found');
-
       const { data } = await axios.get(
         `${BASE_URLS.settings}/details/${userId}`,
+        {
+          headers: {
+            ...getAuthHeader(),
+          },
+        }
       );
       const existingEmail = data[0]?.email;
-
       if (email === existingEmail) {
         toast.error('This email is already in use.');
         return;
       }
-
       setSelectedEmail(email);
       setOpenVerifyPopup(true);
-
       const randomCode =
         Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
-
-      await axios.post(`${BASE_URLS.settings}/sendEmail/`, {
-        email,
-        code: randomCode,
-      });
+      await axios.post(
+        `${BASE_URLS.settings}/sendEmail/`,
+        {
+          email,
+          code: randomCode,
+        },
+        {
+          headers: {
+            ...getAuthHeader(),
+          },
+        }
+      );
       toast.success(`Verification code sent to ${email} successfully!`);
     } catch (error) {
       toast.error(
@@ -188,14 +213,19 @@ const AccountSection = () => {
       message: 'Are you sure you want to update your password?',
       onConfirm: async () => {
         try {
-          const userId = localStorage.getItem('Userid');
           if (!userId) throw new Error('User ID not found');
-
-          await axios.put(`${BASE_URLS.settings}/password/${userId}`, {
-            current_password: formData.currentPassword,
-            new_password: formData.newPassword,
-          });
-
+          await axios.put(
+            `${BASE_URLS.settings}/password/${userId}`,
+            {
+              current_password: formData.currentPassword,
+              new_password: formData.newPassword,
+            },
+            {
+              headers: {
+                ...getAuthHeader(),
+              },
+            }
+          );
           toast.success('Password updated successfully!');
           setFormData((prev) => ({
             ...prev,

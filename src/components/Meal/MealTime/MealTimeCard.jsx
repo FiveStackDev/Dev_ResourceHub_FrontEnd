@@ -11,6 +11,7 @@ import EditPopup from './EditMealTimePopup';
 import DeletePopup from './DeleteMealTimePopup';
 import '../Meal-CSS/Mealcard.css';
 import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -55,7 +56,10 @@ function MealCard({ mealId, name, image, onDelete }) {
     try {
       const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
         body: JSON.stringify({ mealtime_name: name, mealtime_image_url: image }),
       });
 

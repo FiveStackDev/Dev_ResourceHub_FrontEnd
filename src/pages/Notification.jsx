@@ -1,9 +1,12 @@
+import { getAuthHeader } from '../utils/authHeader';
+
 import React, { useState, useEffect } from 'react';
 import { MaintenanceNotificationCard } from '../components/Maintenance/MaintenanceNotificationCard';
 import AdminLayout from '../layouts/Admin/AdminLayout';
 import UserLayout from '../layouts/User/UserLayout'; // Adjust path as needed
 import { BASE_URLS } from '../services/api/config';
 import { toast, ToastContainer } from 'react-toastify';
+import { useUser } from '../contexts/UserContext';
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);
@@ -14,7 +17,15 @@ function Notification() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch(`${BASE_URLS.maintenance}/notification`);
+        const response = await fetch(
+          `${BASE_URLS.maintenance}/notification`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              ...getAuthHeader(),
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error(`Failed to fetch notifications: ${response.status}`);
         }
@@ -50,8 +61,10 @@ function Notification() {
     setCurrentPage(pageNumber);
   };
 
-  // Get user role from localStorage
-  const userRole = localStorage.getItem('userRole');
+
+  // Get user role from context
+  const { userData } = useUser();
+  const userRole = userData.role;
 
   // Conditional layout rendering
   const renderContent = (

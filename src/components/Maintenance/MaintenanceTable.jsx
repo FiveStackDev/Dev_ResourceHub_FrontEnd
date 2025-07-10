@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../utils/authHeader';
 import { useState } from 'react';
 import {
   Table,
@@ -144,6 +145,7 @@ export const MaintenanceTable = ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...getAuthHeader(),
         },
         body: JSON.stringify({
           user_id: parseInt(maintenanceItem.user_id),

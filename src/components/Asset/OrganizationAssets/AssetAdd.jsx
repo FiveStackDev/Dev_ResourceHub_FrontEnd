@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { BASE_URLS } from '../../../services/api/config';
 import { toast } from 'react-toastify';
+import { getAuthHeader } from '../../../utils/authHeader';
 
 function AssetAdd({ open, onClose, onAdd }) {
   const [newAsset, setNewAsset] = useState({
@@ -43,7 +44,10 @@ function AssetAdd({ open, onClose, onAdd }) {
     try {
       const response = await fetch(`${BASE_URLS.asset}/add`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
         body: JSON.stringify({
           asset_name: newAsset.name,
           category: newAsset.category,

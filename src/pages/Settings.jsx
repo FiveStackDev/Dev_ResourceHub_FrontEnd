@@ -1,13 +1,17 @@
+
 import React, { useState } from 'react';
 import ProfileSection from '../components/Settings/ProfileSettings';
 import AccountSection from '../components/Settings/AccountSettings';
 import AdminLayout from '../layouts/Admin/AdminLayout';
 import UserLayout from '../layouts/User/UserLayout';
 import { Tabs, Tab, Box, Paper } from '@mui/material';
+import { useUser } from '../contexts/UserContext';
 
 const Settings = () => {
-  // Get the user's role from localStorage to determine layout
-  const userRole = localStorage.getItem('userRole');
+
+  // Get the user's role from context
+  const { userData } = useUser();
+  const userRole = userData.role;
 
   // State to track which tab is active (0 = Profile, 1 = Account)
   const [tab, setTab] = useState(0);
