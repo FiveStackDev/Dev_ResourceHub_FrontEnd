@@ -16,6 +16,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import AdminLayout from '../../../layouts/Admin/AdminLayout.jsx';
 import { BASE_URLS } from '../../../services/api/config.js';
+import { useUser } from '../../../contexts/UserContext';
+import { decodeToken } from '../../../contexts/UserContext';
+
 
 const MaintenanceDetails = () => {
   const [maintenance, setMaintenance] = useState([]);
@@ -36,20 +39,24 @@ const MaintenanceDetails = () => {
     }
   };
 
-  useEffect(() => {
+ useEffect(() => {
     fetchMaintenanceData();
   }, []);
 
-  const handleAddMaintenance = async (newMaintenance) => {
+  const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('MaintenanceDetailsUser fallback decoded userId:', userId);
+  } else {
+    console.log('MaintenanceDetailsUser userId:', userId);
+  }
+   const handleAddMaintenance = async (newMaintenance) => {
     try {
-      // Use decoded token for userId instead of localStorage
-      // Import decodeToken from UserContext
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { decodeToken } = require('../../../contexts/UserContext');
-      const decoded = decodeToken();
-      const userId = decoded?.id;
       if (!userId) {
-        toast.error('User ID not found in token. Please login again.');
+        toast.error('User ID not found. Please login again.');
         return;
       }
 
