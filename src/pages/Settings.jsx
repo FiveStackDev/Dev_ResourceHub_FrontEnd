@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import ProfileSection from '../components/Settings/ProfileSettings';
 import AccountSection from '../components/Settings/AccountSettings';
+import OrganizationSection from '../components/Settings/OrganizationSettings';
 import AdminLayout from '../layouts/Admin/AdminLayout';
 import UserLayout from '../layouts/User/UserLayout';
 import { Tabs, Tab, Box, Paper } from '@mui/material';
@@ -30,12 +31,14 @@ const Settings = () => {
       <Tabs value={tab} onChange={handleTabChange} centered sx={{ mb: 3 }}>
         <Tab label="Profile" />
         <Tab label="Account" />
+           {userRole === 'Admin' && <Tab label="Organization" />}
       </Tabs>
 
       {/* Tab content */}
       <Box>
         {tab === 0 && <ProfileSection />}
         {tab === 1 && <AccountSection />}
+        {tab === 2 && userRole === 'Admin' && <OrganizationSection />}
       </Box>
     </Paper>
   );
