@@ -98,8 +98,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.get(
         `${BASE_URLS.settings}/details/${decoded.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
       );
       const [profile] = response.data;
       setUserData((prev) => ({

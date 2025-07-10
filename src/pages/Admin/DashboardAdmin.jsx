@@ -41,6 +41,18 @@ const customUserActions = [
     path: '/user-maintenance',
   },
 ];
+
+// Axios instance with JWT token for authenticated endpoints
+const getAuthConfig = () => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+};
+
 // Map icon names (strings) to actual icon components
 const iconMap = {
   Users: <Users className="text-blue-500" />,
@@ -51,6 +63,9 @@ const iconMap = {
 
 const AdminDashboard = () => {
   const monthLabels = getMonthLabels();
+  // If you use axios directly for authenticated endpoints, use getAuthConfig()
+  // Example:
+  // const response = await axios.get(`${BASE_URL}/some-protected-endpoint`, getAuthConfig());
   const { data, isLoading, isError, error, refetch } = useAdminDashboardData();
 
   if (isLoading) {
