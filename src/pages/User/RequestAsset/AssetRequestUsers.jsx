@@ -41,17 +41,29 @@ const AssetRequestUsers = () => {
   // Fetch assets
   const fetchAssets = async () => {
     if (!userId) return;
-    const response = await fetch(
-      `${BASE_URLS.assetRequest}/details/${userId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeader(),
-        },
+    try {
+      const response = await fetch(
+        `${BASE_URLS.assetRequest}/details/${userId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
+      );
+      const data = await response.json();
+      // Ensure assets is always an array
+      if (Array.isArray(data)) {
+        setAssets(data);
+      } else if (data && Array.isArray(data.assets)) {
+        setAssets(data.assets);
+      } else {
+        setAssets([]);
       }
-    );
-    const data = await response.json();
-    setAssets(data);
+    } catch (error) {
+      setAssets([]);
+      console.error('Failed to fetch assets:', error);
+    }
   };
 
   useEffect(() => {

@@ -26,12 +26,13 @@ export const Users = () => {
   const [loading, setLoading] = useState(true);
 
   const apiRequest = async (url, method, body = null) => {
-    const token = localStorage.getItem('authToken');
+    // Try both 'authToken' and 'token' for compatibility
+    const token = localStorage.getItem('authToken') || localStorage.getItem('token');
     const options = {
       method,
       headers: {
         'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       ...(body && { body: JSON.stringify(body) }),
     };

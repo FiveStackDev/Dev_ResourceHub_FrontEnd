@@ -129,6 +129,11 @@ function MealCalendar() {
 
   // Delete selected meal event
   const handleDeleteEvent = async (eventId) => {
+    if (!eventId) {
+      toast.error('Invalid event ID. Cannot delete event.');
+      console.error('Attempted to delete event with undefined ID.');
+      return;
+    }
     try {
       await axios.delete(
         `${BASE_URLS.calendar}/mealevents/${eventId}`,

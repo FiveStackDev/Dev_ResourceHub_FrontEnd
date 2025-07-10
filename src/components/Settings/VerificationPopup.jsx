@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import './Styles/VerifyPopup.css';
-import axios from 'axios';
-import { BASE_URLS } from '../../services/api/config';
 
 import { toast } from 'react-toastify';
 import { getAuthHeader } from '../../utils/authHeader';
+import { decodeToken } from '../../contexts/UserContext';
 
 function VerificationPopup({ onClose, email, code }) {
   // Local state to hold the user-entered verification code
@@ -19,9 +16,6 @@ function VerificationPopup({ onClose, email, code }) {
       try {
 
         // Use decoded token for userId instead of localStorage
-        // Import decodeToken from UserContext
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { decodeToken } = require('../../contexts/UserContext');
         const decoded = decodeToken();
         const userId = decoded?.id;
         if (!userId) throw new Error('User ID not found in token');

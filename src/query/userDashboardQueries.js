@@ -1,16 +1,15 @@
+
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { getAuthHeader } from '../utils/authHeader';
 import { BASE_URLS } from '../services/api/config';
+import { decodeToken } from '../contexts/UserContext';
 
 export function useUserDashboardData() {
   return useQuery({
     queryKey: ['userDashboardData'],
     queryFn: async () => {
       // Use decoded token for userId instead of localStorage
-      // Import decodeToken from UserContext
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { decodeToken } = require('../contexts/UserContext');
       const decoded = decodeToken();
       const userId = decoded?.id;
       if (!userId) throw new Error('User ID not found in token');
