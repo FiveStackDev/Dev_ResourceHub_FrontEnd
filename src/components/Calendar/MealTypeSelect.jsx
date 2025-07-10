@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../utils/authHeader';
 import React, { useState, useEffect } from 'react';
 import MealTypeCard from './MealTypeCard';
 import './Calender-CSS/MealTypeSelect.css';
@@ -14,7 +15,15 @@ export default function MealTypeSelect({ onSelect }) {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch(`${BASE_URLS.mealtype}/details`);
+      const response = await fetch(
+        `${BASE_URLS.mealtype}/details`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`Failed to fetch meal types: ${response.status}`);
       }

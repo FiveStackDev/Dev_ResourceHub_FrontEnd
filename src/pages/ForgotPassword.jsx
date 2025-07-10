@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../utils/authHeader';
 import React, { useState } from "react";
 import { BASE_URLS } from "../services/api/config";
 import "./css/ForgotPassword.css";
@@ -30,6 +31,7 @@ const ForgotPassword = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...getAuthHeader(),
         },
         body: JSON.stringify({ email }),
       });

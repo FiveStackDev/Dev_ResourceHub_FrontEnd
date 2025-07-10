@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import './Styles/VerifyPopup.css';
 import axios from 'axios';
 import { BASE_URLS } from '../../services/api/config';
+
 import { toast } from 'react-toastify';
+import { getAuthHeader } from '../../utils/authHeader';
 
 function VerificationPopup({ onClose, email, code }) {
   // Local state to hold the user-entered verification code
@@ -25,15 +27,14 @@ function VerificationPopup({ onClose, email, code }) {
         if (!userId) throw new Error('User ID not found in token');
 
 
-        // Get the JWT token from localStorage
-        const token = localStorage.getItem('token');
+
         // Send verified email update to the server with Authorization header
         await axios.put(
           `${BASE_URLS.settings}/email/${userId}`,
           { email },
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              ...getAuthHeader(),
             },
           }
         );

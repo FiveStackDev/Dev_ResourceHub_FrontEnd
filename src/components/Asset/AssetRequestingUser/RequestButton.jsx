@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import AssetSearch from './AssetSearch';
 import { BASE_URLS } from '../../../services/api/config';
 import axios from 'axios';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
 
@@ -78,6 +79,7 @@ function RequestButton({ open, onClose, onRequest }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...getAuthHeader(),
         },
         body: JSON.stringify(payload),
       });

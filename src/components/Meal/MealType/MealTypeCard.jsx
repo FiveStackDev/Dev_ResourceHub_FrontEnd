@@ -11,6 +11,7 @@ import EditPopup from './EditMealTypePopup';
 import DeletePopup from './DeleteMealTypePopup';
 import '../Meal-CSS/Mealcard.css';
 import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -53,6 +54,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          ...getAuthHeader(),
         },
         body: JSON.stringify({
           mealtype_name: name,

@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../utils/authHeader';
 
 import React, { useState, useEffect } from 'react';
 import { MaintenanceNotificationCard } from '../components/Maintenance/MaintenanceNotificationCard';
@@ -16,7 +17,15 @@ function Notification() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch(`${BASE_URLS.maintenance}/notification`);
+        const response = await fetch(
+          `${BASE_URLS.maintenance}/notification`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              ...getAuthHeader(),
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error(`Failed to fetch notifications: ${response.status}`);
         }

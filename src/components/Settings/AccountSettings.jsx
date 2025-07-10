@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Styles/AccountSection.css';
 import { BASE_URLS } from '../../services/api/config';
+import { getAuthHeader } from '../../utils/authHeader';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
 import { toast } from 'react-toastify';
@@ -63,12 +64,11 @@ const AccountSection = () => {
     const fetchUserData = async () => {
       try {
         if (!userId) throw new Error('User ID not found');
-        const token = localStorage.getItem('token');
         const { data } = await axios.get(
           `${BASE_URLS.settings}/details/${userId}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              ...getAuthHeader(),
             },
           }
         );
@@ -114,12 +114,11 @@ const AccountSection = () => {
 
     try {
       if (!userId) throw new Error('User ID not found');
-      const token = localStorage.getItem('token');
       const { data } = await axios.get(
         `${BASE_URLS.settings}/details/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
           },
         }
       );
@@ -137,7 +136,7 @@ const AccountSection = () => {
             { phone_number: formData.phone },
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                ...getAuthHeader(),
               },
             }
           );
@@ -155,12 +154,11 @@ const AccountSection = () => {
     try {
       const userId = userData.id;
       if (!userId) throw new Error('User ID not found');
-      const token = localStorage.getItem('token');
       const { data } = await axios.get(
         `${BASE_URLS.settings}/details/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
           },
         }
       );
@@ -182,7 +180,7 @@ const AccountSection = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeader(),
           },
         }
       );
@@ -216,7 +214,6 @@ const AccountSection = () => {
       onConfirm: async () => {
         try {
           if (!userId) throw new Error('User ID not found');
-          const token = localStorage.getItem('token');
           await axios.put(
             `${BASE_URLS.settings}/password/${userId}`,
             {
@@ -225,7 +222,7 @@ const AccountSection = () => {
             },
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                ...getAuthHeader(),
               },
             }
           );

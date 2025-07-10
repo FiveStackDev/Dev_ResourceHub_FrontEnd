@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../../utils/authHeader';
 
 import React, { useState, useEffect } from 'react';
 import MonitorTable from '../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable';
@@ -44,6 +45,12 @@ const DueAssetUser = () => {
       if (!userId) return;
       const response = await fetch(
         `${BASE_URLS.assetRequest}/dueassets/${userId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
       );
       const data = await response.json();
       setAssets(data);

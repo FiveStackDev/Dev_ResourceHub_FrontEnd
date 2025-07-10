@@ -4,6 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
 
 function DeletePopup({ open, onClose, onDelete, mealId }) {
   // State to track any error messages during deletion
@@ -14,6 +15,9 @@ function DeletePopup({ open, onClose, onDelete, mealId }) {
     try {
       const response = await fetch(`${BASE_URLS.mealtype}/details/${mealId}`, {
         method: 'DELETE',
+        headers: {
+          ...getAuthHeader(),
+        },
       });
 
       if (response.ok) {

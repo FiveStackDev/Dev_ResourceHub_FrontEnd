@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../utils/authHeader';
 import React, { useEffect, useState } from 'react';
 import {
   Table,
@@ -19,7 +20,12 @@ const MaintenanceTable = () => {
 
   // Fetch data from the API
   useEffect(() => {
-    fetch(`${BASE_URLS.maintenance}/details`)
+    fetch(`${BASE_URLS.maintenance}/details`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    })
       .then((response) => response.json())
       .then((data) => setmaintenance(data))
       .catch((error) => console.error('Error fetching maintenance:', error));

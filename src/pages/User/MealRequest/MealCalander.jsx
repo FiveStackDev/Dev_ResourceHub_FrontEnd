@@ -9,6 +9,7 @@ import DeletePopup from '../../../components/Calendar/DeletePopup';
 import axios from 'axios';
 import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
@@ -45,7 +46,8 @@ function MealCalendar() {
     try {
       if (!userId) return;
       const response = await axios.get(
-        `${BASE_URLS.calendar}/mealevents/${userId}`
+        `${BASE_URLS.calendar}/mealevents/${userId}`,
+        { headers: { ...getAuthHeader() } }
       );
       const formattedEvents = response.data.map((event) => ({
         id: event.requestedmeal_id,
@@ -88,13 +90,17 @@ function MealCalendar() {
   ) => {
     try {
       if (!userId) throw new Error('User ID not found');
-      const response = await axios.post(`${BASE_URLS.calendar}/mealevents/add`, {
-        mealtime_id: mealTimeId,
-        mealtype_id: mealTypeId,
-        user_id: parseInt(userId),
-        submitted_date: today,
-        meal_request_date: selectedDate,
-      });
+      const response = await axios.post(
+        `${BASE_URLS.calendar}/mealevents/add`,
+        {
+          mealtime_id: mealTimeId,
+          mealtype_id: mealTypeId,
+          user_id: parseInt(userId),
+          submitted_date: today,
+          meal_request_date: selectedDate,
+        },
+        { headers: { ...getAuthHeader() } }
+      );
 
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Failed to add event: ${response.status}`);
@@ -124,7 +130,10 @@ function MealCalendar() {
   // Delete selected meal event
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`${BASE_URLS.calendar}/mealevents/${eventId}`);
+      await axios.delete(
+        `${BASE_URLS.calendar}/mealevents/${eventId}`,
+        { headers: { ...getAuthHeader() } }
+      );
       setDeletePopupOpen(false);
       await fetchEvents(); // Refresh calendar after deletion
       toast.success('Event deleted successfully!');

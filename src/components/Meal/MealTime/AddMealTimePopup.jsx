@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
 import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
@@ -15,7 +16,10 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
       try {
         const response = await fetch(`${BASE_URLS.mealtime}/add`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
           body: JSON.stringify({
             mealtime_name: mealName,
             mealtime_image_url: mealImageUrl,

@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import AdminLayout from '../../../layouts/Admin/AdminLayout.jsx';
 import { BASE_URLS } from '../../../services/api/config.js';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
 
@@ -29,7 +30,10 @@ const MaintenanceDetails = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get(`${BASE_URLS.maintenance}/details`);
+      const response = await axios.get(
+        `${BASE_URLS.maintenance}/details`,
+        { headers: { ...getAuthHeader() } }
+      );
       setMaintenance(response.data);
     } catch (error) {
       console.error('Failed to fetch maintenance data:', error);
@@ -70,6 +74,7 @@ const MaintenanceDetails = () => {
       const response = await axios.post(
         `${BASE_URLS.maintenance}/add`,
         payload,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
@@ -84,6 +89,7 @@ const MaintenanceDetails = () => {
     try {
       await axios.delete(
         `http://localhost:9090/maintenance/details/${maintenanceId}`,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success('Maintenance deleted successfully!');
       fetchMaintenanceData();
@@ -107,6 +113,7 @@ const MaintenanceDetails = () => {
       const response = await axios.put(
         `${BASE_URLS.maintenance}/details/${editedMaintenance.maintenance_id}`,
         editedMaintenance,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success(response.data.message);
       fetchMaintenanceData();

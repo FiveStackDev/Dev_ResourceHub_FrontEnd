@@ -1,3 +1,4 @@
+import { getAuthHeader } from '../../../utils/authHeader';
 
 import React, { useState, useEffect } from 'react';
 import MonitorTable from '../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable';
@@ -40,7 +41,15 @@ const AssetRequestUsers = () => {
   // Fetch assets
   const fetchAssets = async () => {
     if (!userId) return;
-    const response = await fetch(`${BASE_URLS.assetRequest}/details/${userId}`);
+    const response = await fetch(
+      `${BASE_URLS.assetRequest}/details/${userId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      }
+    );
     const data = await response.json();
     setAssets(data);
   };

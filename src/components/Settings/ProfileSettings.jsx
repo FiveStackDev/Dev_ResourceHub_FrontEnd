@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Styles/ProfileSection.css';
 import { BASE_URLS } from '../../services/api/config';
+import { getAuthHeader } from '../../utils/authHeader';
 import ConfirmationDialog from './ConfirmationDialog';
 import { toast } from 'react-toastify';
 import { useUser } from '../../contexts/UserContext';
@@ -45,12 +46,11 @@ const ProfileSection = () => {
           setLoading(false);
           return;
         }
-        const token = localStorage.getItem('token');
         const { data } = await axios.get(
           `${BASE_URLS.settings}/details/${userId}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              ...getAuthHeader(),
             },
           }
         );
@@ -90,7 +90,6 @@ const ProfileSection = () => {
         try {
           // Use fallback userId (from context or decoded token)
           if (!userId) throw new Error('User ID not found');
-          const token = localStorage.getItem('token');
           // Send profile update request
           await axios.put(
             `${BASE_URLS.settings}/profile/${userId}`,
@@ -101,7 +100,7 @@ const ProfileSection = () => {
             },
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                ...getAuthHeader(),
               },
             }
           );

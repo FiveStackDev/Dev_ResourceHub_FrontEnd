@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
 
@@ -21,7 +22,10 @@ const MaintenanceDetailsUser = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get(`${BASE_URLS.maintenance}/details`);
+      const response = await axios.get(
+        `${BASE_URLS.maintenance}/details`,
+        { headers: { ...getAuthHeader() } }
+      );
       setMaintenance(response.data);
     } catch (error) {
       console.error('Failed to fetch maintenance data:', error);
@@ -62,6 +66,7 @@ const MaintenanceDetailsUser = () => {
       const response = await axios.post(
         `${BASE_URLS.maintenance}/add`,
         payload,
+        { headers: { ...getAuthHeader() } }
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
