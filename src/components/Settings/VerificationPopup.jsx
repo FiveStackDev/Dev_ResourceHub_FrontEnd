@@ -24,8 +24,19 @@ function VerificationPopup({ onClose, email, code }) {
         const userId = decoded?.id;
         if (!userId) throw new Error('User ID not found in token');
 
-        // Send verified email update to the server
-        await axios.put(`${BASE_URLS.settings}/email/${userId}`, { email });
+
+        // Get the JWT token from localStorage
+        const token = localStorage.getItem('token');
+        // Send verified email update to the server with Authorization header
+        await axios.put(
+          `${BASE_URLS.settings}/email/${userId}`,
+          { email },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         toast.success('Verification successful!');
         onClose(); // Close the popup after successful verification

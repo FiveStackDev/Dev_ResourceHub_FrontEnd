@@ -45,8 +45,14 @@ const ProfileSection = () => {
           setLoading(false);
           return;
         }
+        const token = localStorage.getItem('token');
         const { data } = await axios.get(
           `${BASE_URLS.settings}/details/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         const [profile] = data;
         setFormData({
@@ -84,14 +90,21 @@ const ProfileSection = () => {
         try {
           // Use fallback userId (from context or decoded token)
           if (!userId) throw new Error('User ID not found');
-
+          const token = localStorage.getItem('token');
           // Send profile update request
-          await axios.put(`${BASE_URLS.settings}/profile/${userId}`, {
-            username: formData.name,
-            profile_picture_url: formData.picture,
-            bio: formData.bio,
-          });
-
+          await axios.put(
+            `${BASE_URLS.settings}/profile/${userId}`,
+            {
+              username: formData.name,
+              profile_picture_url: formData.picture,
+              bio: formData.bio,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           toast.success('Profile updated successfully!');
           // Close dialog after successful update
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
