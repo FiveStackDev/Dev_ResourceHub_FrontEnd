@@ -1,11 +1,16 @@
 
+import React, { useState } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getAuthHeader } from '../../utils/authHeader';
-import { decodeToken } from '../../contexts/UserContext';
+import { decodeToken, useUser } from '../../contexts/UserContext';
+import { BASE_URLS } from '../../services/api/config';
+import './Styles/VerifyPopup.css';
 
 function VerificationPopup({ onClose, email, code }) {
   // Local state to hold the user-entered verification code
   const [inputcode, setInputCode] = useState('');
+  const { userData } = useUser();
 
   // Handle form submission for email verification
   const handleSubmit = async (e) => {
@@ -14,13 +19,13 @@ function VerificationPopup({ onClose, email, code }) {
     // Check if the entered code matches the generated code
     if (inputcode === code) {
       try {
-
-        // Use decoded token for userId instead of localStorage
-        const decoded = decodeToken();
-        const userId = decoded?.id;
+        // Use consistent userId logic with fallback
+        let userId = userData?.id;
+        if (!userId) {
+          const decoded = decodeToken();
+          userId = decoded?.id;
+        }
         if (!userId) throw new Error('User ID not found in token');
-
-
 
         // Send verified email update to the server with Authorization header
         await axios.put(

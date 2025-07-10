@@ -152,10 +152,15 @@ const AccountSection = () => {
   // Handle email update and trigger verification popup
   const handleEmailSubmit = async (email) => {
     try {
-      const userId = userData.id;
-      if (!userId) throw new Error('User ID not found');
+      // Use the same userId logic as other functions
+      let currentUserId = userData.id;
+      if (!currentUserId) {
+        const decoded = decodeToken();
+        currentUserId = decoded?.id;
+      }
+      if (!currentUserId) throw new Error('User ID not found');
       const { data } = await axios.get(
-        `${BASE_URLS.settings}/details/${userId}`,
+        `${BASE_URLS.settings}/details/${currentUserId}`,
         {
           headers: {
             ...getAuthHeader(),
@@ -289,7 +294,7 @@ const AccountSection = () => {
             required
           />
           <button
-            type="submit"
+            type="button"
             onClick={() => handleEmailSubmit(formData.email)}
           >
             Update Email
