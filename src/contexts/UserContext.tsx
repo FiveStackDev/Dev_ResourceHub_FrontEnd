@@ -25,6 +25,7 @@ interface UserContextType {
   userData: UserData;
   refreshUserData: () => void;
   isAdminView: boolean;
+  loading: boolean;
 }
 
 // Default fallback user
@@ -40,6 +41,7 @@ const UserContext = createContext<UserContextType>({
   userData: defaultUser,
   refreshUserData: () => {},
   isAdminView: false,
+  loading: true,
 });
 
 export const useUser = () => useContext(UserContext);
@@ -75,9 +77,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // User data state
   const [userData, setUserData] = useState<UserData>(defaultUser);
+  const [loading, setLoading] = useState(true);
 
   // Update userData reactively when token changes
   useEffect(() => {
+    setLoading(true);
     const decoded = decodeToken();
     setUserData({
       ...defaultUser,
@@ -87,14 +91,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       email: decoded?.email || '',
       profilePicture: decoded?.profile_picture || '',
     });
+    setLoading(false);
   }, [localStorage.getItem('token')]);
 
 
   // Optionally, fetch extra info from API if needed
   const fetchUserData = useCallback(async () => {
+    setLoading(true);
     const decoded = decodeToken();
     if (!decoded?.id) {
       setUserData(defaultUser);
+      setLoading(false);
       return;
     }
     try {
@@ -116,7 +123,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         profilePicture: profile.profile_picture_url || prev.profilePicture,
       }));
     } catch (error) {
+      // If error (e.g., invalid/expired token), clear token and user data
+      localStorage.removeItem('token');
       setUserData(defaultUser);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -150,8 +161,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       userData,
       refreshUserData,
       isAdminView,
+      loading,
     }),
-    [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView],
+    [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView, loading],
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
