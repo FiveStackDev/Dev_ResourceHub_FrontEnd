@@ -9,7 +9,7 @@ import {
   Button,
 } from '@mui/material';
 
-function SchedulePopup({ onClose, table }) {
+function SchedulePopup({ onClose, table, onFrequencySelect }) {
   const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -59,7 +59,7 @@ function SchedulePopup({ onClose, table }) {
           }}
         >
           <Card sx={{ ...cardStyle, width: '80%' }}>
-            <CardActionArea>
+            <CardActionArea onClick={() => onFrequencySelect && onFrequencySelect('Weekly')}>
               <CardContent sx={{ textAlign: 'center', padding: '20px' }}>
                 <Typography variant="h6">Weekly</Typography>
                 <Typography variant="body2" sx={{ color: '#aaa' }}>
@@ -69,7 +69,7 @@ function SchedulePopup({ onClose, table }) {
             </CardActionArea>
           </Card>
           <Card sx={{ ...cardStyle, width: '80%' }}>
-            <CardActionArea>
+            <CardActionArea onClick={() => onFrequencySelect && onFrequencySelect('Bi-Weekly')}>
               <CardContent sx={{ textAlign: 'center', padding: '20px' }}>
                 <Typography variant="h6">Bi-Weekly</Typography>
                 <Typography variant="body2" sx={{ color: '#aaa' }}>
@@ -79,7 +79,7 @@ function SchedulePopup({ onClose, table }) {
             </CardActionArea>
           </Card>
           <Card sx={{ ...cardStyle, width: '80%' }}>
-            <CardActionArea>
+            <CardActionArea onClick={() => onFrequencySelect && onFrequencySelect('Monthly')}>
               <CardContent sx={{ textAlign: 'center', padding: '20px' }}>
                 <Typography variant="h6">Monthly</Typography>
                 <Typography variant="body2" sx={{ color: '#aaa' }}>
@@ -90,9 +90,6 @@ function SchedulePopup({ onClose, table }) {
           </Card>
         </Box>
         <br></br>
-        <Button onClick={onClose} variant="contained">
-          Back
-        </Button>
       </Box>
     </Modal>
   );
