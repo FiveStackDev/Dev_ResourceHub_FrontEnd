@@ -72,7 +72,12 @@ const MealEventsTable = () => {
 
   // Fetch meal types from API
   useEffect(() => {
-    fetch(`${BASE_URLS.mealtype}/details`)
+    fetch(`${BASE_URLS.mealtype}/details`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const mealTypeList = data.map((type) => ({
@@ -90,12 +95,12 @@ const MealEventsTable = () => {
 
     if (selectedMealTime) {
       filtered = filtered.filter(
-        (event) => event.meal_time === selectedMealTime,
+        (event) => String(event.mealtime_id) === String(selectedMealTime)
       );
     }
     if (selectedMealType) {
       filtered = filtered.filter(
-        (event) => event.meal_type === selectedMealType,
+        (event) => String(event.mealtype_id) === String(selectedMealType)
       );
     }
     if (selectedMonth) {
