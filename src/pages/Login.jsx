@@ -129,7 +129,7 @@ useEffect(() => {
       <div className="login-right">
         <form onSubmit={handleLogin} className="login-form">
           <h2>Sign In</h2>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          {errorMessage && <div className="error-message" style={{ color: 'red' }}>{errorMessage}</div>}
 
           {/* Email Field */}
           <TextField
