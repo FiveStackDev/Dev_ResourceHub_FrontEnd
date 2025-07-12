@@ -33,6 +33,10 @@ const MealEventsTable = () => {
   const [selectedMealTime, setSelectedMealTime] = useState('');
   const [selectedMealType, setSelectedMealType] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+  // Removed day filter
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [openschedulePopup, setOpenSchedulePopup] = useState(false);
 
   // Fetch meal events
@@ -93,25 +97,43 @@ const MealEventsTable = () => {
   useEffect(() => {
     let filtered = mealEvents;
 
-    if (selectedMealTime) {
-      filtered = filtered.filter(
-        (event) => String(event.mealtime_id) === String(selectedMealTime)
-      );
-    }
-    if (selectedMealType) {
-      filtered = filtered.filter(
-        (event) => String(event.mealtype_id) === String(selectedMealType)
-      );
-    }
-    if (selectedMonth) {
+    // If both startDate and endDate are set, use date range filter and ignore year/month/day
+    if (startDate && endDate) {
       filtered = filtered.filter((event) => {
-        const eventMonth = new Date(event.meal_request_date).getMonth() + 1;
-        return eventMonth === parseInt(selectedMonth, 10);
+        const eventDate = new Date(event.meal_request_date);
+        return (
+          eventDate >= new Date(startDate) &&
+          eventDate <= new Date(endDate)
+        );
       });
+    } else {
+      if (selectedMealTime) {
+        filtered = filtered.filter(
+          (event) => String(event.mealtime_id) === String(selectedMealTime)
+        );
+      }
+      if (selectedMealType) {
+        filtered = filtered.filter(
+          (event) => String(event.mealtype_id) === String(selectedMealType)
+        );
+      }
+      if (selectedMonth) {
+        filtered = filtered.filter((event) => {
+          const eventMonth = new Date(event.meal_request_date).getMonth() + 1;
+          return eventMonth === parseInt(selectedMonth, 10);
+        });
+      }
+      if (selectedYear) {
+        filtered = filtered.filter((event) => {
+          const eventYear = new Date(event.meal_request_date).getFullYear();
+          return eventYear === parseInt(selectedYear, 10);
+        });
+      }
+
     }
 
     setFilteredEvents(filtered);
-  }, [selectedMealTime, selectedMealType, selectedMonth, mealEvents]);
+  }, [selectedMealTime, selectedMealType, selectedMonth, selectedYear,startDate, endDate, mealEvents]);
 
   const handleDownloadPDF = () => {
     try {
@@ -168,6 +190,33 @@ const MealEventsTable = () => {
           </Select>
         </FormControl>
 
+        
+        {/* Year Filter */}
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Year</InputLabel>
+          <Select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            label="Year"
+          >
+            <MenuItem value="">All</MenuItem>
+            {/* Dynamically get years from mealEvents */}
+            {Array.from(
+              new Set(
+                mealEvents
+                  .filter((event) => event && event.meal_request_date)
+                  .map((event) => new Date(event.meal_request_date).getFullYear())
+              )
+            )
+              .sort((a, b) => b - a)
+              .map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+
         {/* Month Filter */}
         <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
           <InputLabel>Month</InputLabel>
@@ -184,6 +233,30 @@ const MealEventsTable = () => {
             ))}
           </Select>
         </FormControl>
+
+
+
+        {/* Date Range Filter (after Month) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 14, marginRight: 4 }}>Start Date:</span>
+          <FormControl variant="outlined" size="small" sx={{ minWidth: 140 }}>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc',background: '#0000' }}
+            />
+          </FormControl>
+          <span style={{ fontSize: 14, margin: '0 4px' }}>End Date:</span>
+          <FormControl variant="outlined" size="small" sx={{ minWidth: 140 }}>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc',background: '#2222' }}
+            />
+          </FormControl>
+        </div>
 
         {/* Download PDF Button */}
         <Button variant="contained" color="primary" onClick={handleDownloadPDF}>
