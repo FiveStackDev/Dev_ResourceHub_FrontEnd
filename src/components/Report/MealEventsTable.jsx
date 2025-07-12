@@ -51,14 +51,14 @@ const MealEventsTable = () => {
       const decoded = decodeToken();
       const userId = decoded?.id;
       if (!userId) throw new Error('User ID not found');
-      const endpoint = `${BASE_URLS.calendar}/schedule-report`;
+      const endpoint = `${BASE_URLS.report}/addscedulereport`;
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ userId, frequency: selectedFrequency, reportType: 'meal' }),
+        body: JSON.stringify({ user_id: userId, report_name: 'meal', frequency: selectedFrequency }),
       });
       if (!res.ok) throw new Error('Failed to schedule report');
       toast.success('Meal report scheduled successfully!');

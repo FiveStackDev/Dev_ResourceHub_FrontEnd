@@ -61,14 +61,14 @@ const MaintenanceTable = () => {
       const userId = decoded?.id;
       if (!userId) throw new Error('User ID not found');
       // TODO: Replace with your actual endpoint
-      const endpoint = `${BASE_URLS.maintenance}/schedule-report`;
+      const endpoint = `${BASE_URLS.report}/addscedulereport`;
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ userId, frequency: selectedFrequency, reportType: 'maintenance' }),
+        body: JSON.stringify({ user_id: userId, report_name: 'maintenance', frequency: selectedFrequency }),
       });
       if (!res.ok) throw new Error('Failed to schedule report');
       toast.success('Maintenance report scheduled successfully!');

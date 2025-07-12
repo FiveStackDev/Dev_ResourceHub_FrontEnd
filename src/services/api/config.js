@@ -29,4 +29,5 @@ export const BASE_URLS = {
   dashboardAdmin: "http://localhost:9090/dashboard/admin",
   dashboardUser: "http://localhost:9090/dashboard/user",
   orgsettings: "http://localhost:9090/orgsettings",
+  report: "http://localhost:9090/schedulereports",
 };
