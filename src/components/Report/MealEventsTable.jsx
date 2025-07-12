@@ -244,7 +244,7 @@ const MealEventsTable = () => {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc',background: '#0000' }}
+              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc', background: '#ffffffff', color: '#000' }}
             />
           </FormControl>
           <span style={{ fontSize: 14, margin: '0 4px' }}>End Date:</span>
@@ -253,7 +253,7 @@ const MealEventsTable = () => {
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc',background: '#2222' }}
+              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc', background: '#ffffffff', color: '#000' }}
             />
           </FormControl>
         </div>
