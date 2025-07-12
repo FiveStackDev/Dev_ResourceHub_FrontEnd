@@ -1,6 +1,6 @@
 import { getAuthHeader } from '../../utils/authHeader';
 import React, { useEffect, useState } from 'react';
-import {
+import{
   Chip,
   Table,
   TableBody,
@@ -10,6 +10,12 @@ import {
   TableRow,
   Paper,
   Button,
+  TextField,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
@@ -18,6 +24,9 @@ import { toast } from 'react-toastify';
 // Component to display meal events table
 const AssetsTable = () => {
   const [Assets, setassets] = useState([]);
+  // Removed date range filter
+  const [categoryFilter, setCategoryFilter] = useState('All');
+  const [conditionFilter, setConditionFilter] = useState('All');
 
   // Fetch data from the API
   useEffect(() => {
@@ -50,40 +59,105 @@ const AssetsTable = () => {
     }
   };
 
-  if (!Array.isArray(Assets) || Assets.length === 0) {
+
+  // Get unique categories and condition types for filters
+  const categoryOptions = ['All', ...Array.from(new Set(Assets.map(a => a.category).filter(Boolean)))];
+  const conditionOptions = ['All', ...Array.from(new Set(Assets.map(a => a.condition_type).filter(Boolean)))];
+
+  // Filtered data by category and condition type only
+  const filteredAssets = Assets.filter((asset) => {
+    const categoryMatch = categoryFilter === 'All' || asset.category === categoryFilter;
+    const conditionMatch = conditionFilter === 'All' || asset.condition_type === conditionFilter;
+    return categoryMatch && conditionMatch;
+  });
+
+  if (!Array.isArray(filteredAssets) || filteredAssets.length === 0) {
     return (
-      <TableContainer component={Paper} id="asset-table">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Asset Name</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Condition Type</TableCell>
-              <TableCell>Location</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell colSpan={5}>No data available.</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Box>
+        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={categoryFilter}
+              onChange={e => setCategoryFilter(e.target.value)}
+              label="Category"
+            >
+              {categoryOptions.map(option => (
+                <MenuItem key={option} value={option}>{option}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Condition</InputLabel>
+            <Select
+              value={conditionFilter}
+              onChange={e => setConditionFilter(e.target.value)}
+              label="Condition"
+            >
+              {conditionOptions.map(option => (
+                <MenuItem key={option} value={option}>{option}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <TableContainer component={Paper} id="asset-table">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Asset Name</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Condition Type</TableCell>
+                <TableCell>Location</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={5}>No data available.</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     );
   }
 
   return (
-    <div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleDownloadPDF}
-        style={{ marginBottom: 20, float: 'right' }}
-      >
-        Download PDF
-      </Button>
-
+    <Box>
+      <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Category</InputLabel>
+          <Select
+            value={categoryFilter}
+            onChange={e => setCategoryFilter(e.target.value)}
+            label="Category"
+          >
+            {categoryOptions.map(option => (
+              <MenuItem key={option} value={option}>{option}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Condition</InputLabel>
+          <Select
+            value={conditionFilter}
+            onChange={e => setConditionFilter(e.target.value)}
+            label="Condition"
+          >
+            {conditionOptions.map(option => (
+              <MenuItem key={option} value={option}>{option}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleDownloadPDF}
+          sx={{ ml: 'auto' }}
+        >
+          Download PDF
+        </Button>
+      </Box>
       {/* Table Container */}
       <TableContainer component={Paper} id="asset-table">
         <Table>
@@ -99,8 +173,8 @@ const AssetsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Assets &&
-              Assets.map((Assets, index) => (
+            {filteredAssets &&
+              filteredAssets.map((Assets, index) => (
                 <TableRow key={index}>
                   <TableCell>{Assets.asset_id}</TableCell>
                   <TableCell>{Assets.asset_name}</TableCell>
@@ -117,7 +191,7 @@ const AssetsTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Box>
   );
 };
 

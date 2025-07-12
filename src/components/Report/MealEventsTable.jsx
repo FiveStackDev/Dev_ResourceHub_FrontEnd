@@ -13,12 +13,7 @@ import {
   Select,
   FormControl,
   InputLabel,
-  Modal,
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardActionArea,
+  TextField,
 } from '@mui/material';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
@@ -238,24 +233,24 @@ const MealEventsTable = () => {
 
         {/* Date Range Filter (after Month) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 14, marginRight: 4 }}>Start Date:</span>
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 140 }}>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc', background: '#ffffffff', color: '#000' }}
-            />
-          </FormControl>
-          <span style={{ fontSize: 14, margin: '0 4px' }}>End Date:</span>
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 140 }}>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              style={{ padding: '5px', borderRadius: 4, border: '1px solid #ccc', background: '#ffffffff', color: '#000' }}
-            />
-          </FormControl>
+          <TextField
+            label="Start Date"
+            type="date"
+            size="small"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            sx={{ minWidth: 140 }}
+          />
+          <TextField
+            label="End Date"
+            type="date"
+            size="small"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
+            sx={{ minWidth: 140 }}
+          />
         </div>
 
         {/* Download PDF Button */}

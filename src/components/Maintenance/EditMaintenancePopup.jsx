@@ -82,6 +82,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                 <MenuItem value="Pending">Pending</MenuItem>
                 <MenuItem value="In Progress">In Progress</MenuItem>
                 <MenuItem value="Completed">Completed</MenuItem>
+                <MenuItem value="Rejected">Rejected</MenuItem>
               </Select>
             </FormControl>
           </div>
