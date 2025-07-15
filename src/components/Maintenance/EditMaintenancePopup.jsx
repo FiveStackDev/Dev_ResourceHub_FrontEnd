@@ -49,7 +49,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
             <TextField
               fullWidth
               label="Request Date"
-              value={maintenance?.request_date || ''}
+              value={maintenance?.submitted_date || ''}
               disabled
             />
             <FormControl fullWidth>
