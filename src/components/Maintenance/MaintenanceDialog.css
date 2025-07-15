@@ -1,0 +1,559 @@
+/* MaintenanceDialog.css */
+
+/* Theme variables for light mode */
+:root {
+  --maintenance-popup-bg-primary: #ffffff;
+  --maintenance-popup-bg-secondary: #f8fafc;
+  --maintenance-popup-text-primary: #1e293b;
+  --maintenance-popup-text-secondary: #64748b;
+  --maintenance-popup-border-color: #f1f5f9;
+  --maintenance-popup-shadow: rgba(0, 0, 0, 0.15);
+  --maintenance-popup-input-bg: #ffffff;
+  --maintenance-popup-input-border: #e5e7eb;
+  --maintenance-popup-input-border-hover: #d1d5db;
+  --maintenance-popup-input-focus-shadow: rgba(59, 130, 246, 0.1);
+  --maintenance-popup-select-bg: #ffffff;
+  --maintenance-popup-select-border: #e5e7eb;
+  --maintenance-popup-button-cancel-bg: #ffffff;
+  --maintenance-popup-button-cancel-bg-hover: #f1f5f9;
+  --maintenance-popup-button-cancel-text: #64748b;
+  --maintenance-popup-button-cancel-border: #e2e8f0;
+  --maintenance-delete-warning-bg-primary: #f8fafc;
+  --maintenance-delete-warning-bg-secondary: #f1f5f9;
+  --maintenance-delete-warning-border: #e2e8f0;
+  --maintenance-delete-error-bg-primary: #fef2f2;
+  --maintenance-delete-error-bg-secondary: #fee2e2;
+  --maintenance-delete-error-border: #fecaca;
+}
+
+/* Theme variables for dark mode */
+[data-mui-color-scheme="dark"] {
+  --maintenance-popup-bg-primary: #1e1e2f;
+  --maintenance-popup-bg-secondary: #252537;
+  --maintenance-popup-text-primary: #ffffff;
+  --maintenance-popup-text-secondary: rgba(255, 255, 255, 0.7);
+  --maintenance-popup-border-color: #374151;
+  --maintenance-popup-shadow: rgba(0, 0, 0, 0.3);
+  --maintenance-popup-input-bg: #2a2a3e;
+  --maintenance-popup-input-border: #374151;
+  --maintenance-popup-input-border-hover: #4b5563;
+  --maintenance-popup-input-focus-shadow: rgba(59, 130, 246, 0.2);
+  --maintenance-popup-select-bg: #2a2a3e;
+  --maintenance-popup-select-border: #374151;
+  --maintenance-popup-button-cancel-bg: #2a2a3e;
+  --maintenance-popup-button-cancel-bg-hover: #374151;
+  --maintenance-popup-button-cancel-text: rgba(255, 255, 255, 0.7);
+  --maintenance-popup-button-cancel-border: #374151;
+  --maintenance-delete-warning-bg-primary: #2a2a3e;
+  --maintenance-delete-warning-bg-secondary: #374151;
+  --maintenance-delete-warning-border: #4b5563;
+  --maintenance-delete-error-bg-primary: #3c1e1e;
+  --maintenance-delete-error-bg-secondary: #4a2222;
+  --maintenance-delete-error-border: #6b2d2d;
+}
+
+/* Popup Container */
+.maintenance-popup-container {
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0px 20px 40px var(--maintenance-popup-shadow);
+  background: linear-gradient(135deg, var(--maintenance-popup-bg-primary) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.maintenance-popup-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f59e0b, #ea580c, #dc2626);
+}
+
+.maintenance-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--maintenance-popup-border-color);
+}
+
+.maintenance-popup-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fbbf24;
+  margin-right: 16px;
+}
+
+.maintenance-popup-header-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.maintenance-popup-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--maintenance-popup-text-primary);
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.maintenance-popup-subtitle {
+  font-size: 1rem;
+  margin-top: 6px;
+  color: var(--maintenance-popup-text-secondary);
+  font-weight: 400;
+}
+
+.maintenance-popup-close-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.maintenance-popup-close-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.4);
+}
+
+.maintenance-popup-content {
+  margin-bottom: 32px;
+}
+
+.maintenance-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.maintenance-popup-input-group {
+  margin-bottom: 4px;
+}
+
+.maintenance-popup-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--maintenance-popup-text-primary);
+  margin-bottom: 12px;
+  display: block;
+  letter-spacing: 0.025em;
+}
+
+/* Custom TextField styling */
+.maintenance-popup-textfield .MuiOutlinedInput-root {
+  background: var(--maintenance-popup-input-bg);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.maintenance-popup-textfield .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border: 2px solid var(--maintenance-popup-input-border);
+  transition: all 0.3s ease;
+}
+
+.maintenance-popup-textfield .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--maintenance-popup-input-border-hover);
+}
+
+.maintenance-popup-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px var(--maintenance-popup-input-focus-shadow);
+}
+
+.maintenance-popup-textfield .MuiOutlinedInput-input {
+  color: var(--maintenance-popup-text-primary);
+  padding: 16px;
+}
+
+.maintenance-popup-textfield .MuiInputLabel-root {
+  color: var(--maintenance-popup-text-secondary);
+  font-weight: 600;
+}
+
+.maintenance-popup-textfield .MuiInputLabel-root.Mui-focused {
+  color: #f59e0b;
+}
+
+.maintenance-popup-textfield .MuiFormHelperText-root {
+  color: var(--maintenance-popup-text-secondary);
+  margin-left: 8px;
+}
+
+.maintenance-popup-textfield .MuiFormHelperText-root.Mui-error {
+  color: #ef4444;
+}
+
+/* Custom Select styling */
+.maintenance-popup-select .MuiOutlinedInput-root {
+  background: var(--maintenance-popup-select-bg);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.maintenance-popup-select .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border: 2px solid var(--maintenance-popup-select-border);
+  transition: all 0.3s ease;
+}
+
+.maintenance-popup-select .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--maintenance-popup-input-border-hover);
+}
+
+.maintenance-popup-select .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px var(--maintenance-popup-input-focus-shadow);
+}
+
+.maintenance-popup-select .MuiSelect-select {
+  color: var(--maintenance-popup-text-primary);
+  padding: 16px;
+}
+
+.maintenance-popup-select .MuiInputLabel-root {
+  color: var(--maintenance-popup-text-secondary);
+  font-weight: 600;
+}
+
+.maintenance-popup-select .MuiInputLabel-root.Mui-focused {
+  color: #f59e0b;
+}
+
+
+/* Error message styling */
+.maintenance-popup-error-message {
+  background: linear-gradient(135deg, var(--maintenance-delete-error-bg-primary) 0%, var(--maintenance-delete-error-bg-secondary) 100%);
+  border: 2px solid var(--maintenance-delete-error-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 0.875rem;
+}
+
+/* Buttons */
+.maintenance-popup-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 2px solid var(--maintenance-popup-border-color);
+}
+
+.maintenance-popup-cancel-btn,
+.maintenance-popup-submit-btn {
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.maintenance-popup-cancel-btn {
+  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  color: var(--maintenance-popup-button-cancel-text);
+  border: 2px solid var(--maintenance-popup-button-cancel-border);
+}
+
+.maintenance-popup-cancel-btn:hover {
+  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg-hover) 0%, var(--maintenance-popup-button-cancel-border) 100%);
+  color: var(--maintenance-popup-text-secondary);
+  border-color: var(--maintenance-popup-input-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--maintenance-popup-shadow);
+}
+
+.maintenance-popup-submit-btn {
+ 
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.maintenance-popup-submit-btn:hover {
+  background: linear-gradient(135deg, #6a72ec 0%, #314eee 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+}
+
+.maintenance-popup-submit-btn:disabled {
+  background: linear-gradient(135deg, #fde68a 0%, #fbbf24 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Delete dialog specific styles */
+.maintenance-delete-container {
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0px 20px 40px var(--maintenance-popup-shadow);
+  background: linear-gradient(135deg, var(--maintenance-popup-bg-primary) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.maintenance-delete-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #dc2626, #b91c1c);
+}
+
+.maintenance-delete-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: none;
+}
+
+.maintenance-delete-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fecaca;
+}
+
+.maintenance-delete-header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.maintenance-delete-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--maintenance-popup-text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.maintenance-delete-subtitle {
+  margin: 4px 0 0 0;
+  color: var(--maintenance-popup-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.maintenance-delete-content {
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.maintenance-delete-warning-box {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--maintenance-delete-warning-bg-primary) 0%, var(--maintenance-delete-warning-bg-secondary) 100%);
+  border-radius: 12px;
+  border: 2px solid var(--maintenance-delete-warning-border);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.maintenance-delete-warning-text {
+  color: var(--maintenance-popup-text-primary);
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.maintenance-delete-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0;
+}
+
+.maintenance-delete-cancel-btn {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  color: var(--maintenance-popup-button-cancel-text);
+  border: 2px solid var(--maintenance-popup-button-cancel-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.maintenance-delete-cancel-btn:hover {
+  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg-hover) 0%, var(--maintenance-popup-button-cancel-border) 100%);
+  color: var(--maintenance-popup-text-secondary);
+  border-color: var(--maintenance-popup-input-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--maintenance-popup-shadow);
+}
+
+.maintenance-delete-confirm-btn {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.maintenance-delete-confirm-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.maintenance-delete-confirm-btn:disabled {
+  background: linear-gradient(135deg, #fca5a5 0%, #f87171 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading spinner */
+.maintenance-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status styling */
+.status-pending {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #a16207;
+  border: 1px solid #f59e0b;
+}
+
+.status-in-progress {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1d4ed8;
+  border: 1px solid #3b82f6;
+}
+
+.status-completed {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #15803d;
+  border: 1px solid #22c55e;
+}
+
+.status-rejected {
+  background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+  color: #dc2626;
+  border: 1px solid #ef4444;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .maintenance-popup-container,
+  .maintenance-delete-container {
+    padding: 24px 20px;
+  }
+  
+  .maintenance-popup-title,
+  .maintenance-delete-title {
+    font-size: 1.5rem;
+  }
+  
+  .maintenance-popup-actions,
+  .maintenance-delete-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .maintenance-popup-cancel-btn,
+  .maintenance-popup-submit-btn,
+  .maintenance-delete-cancel-btn,
+  .maintenance-delete-confirm-btn {
+    width: 100%;
+  }
+}
+
+/* Focus states for accessibility */
+.maintenance-popup-cancel-btn:focus,
+.maintenance-popup-submit-btn:focus,
+.maintenance-popup-close-btn:focus,
+.maintenance-delete-cancel-btn:focus,
+.maintenance-delete-confirm-btn:focus {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* Animation for popup entrance */
+@keyframes maintenancePopupSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.maintenance-popup-container,
+.maintenance-delete-container {
+  animation: maintenancePopupSlideIn 0.3s ease-out;
+}

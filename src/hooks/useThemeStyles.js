@@ -75,6 +75,54 @@ export const useThemeStyles = () => {
         root.style.setProperty('--card-button-error-hover-bg', 'rgba(239, 68, 68, 0.25)');
         root.style.setProperty('--card-button-error-hover-border', '#f87171');
         root.style.setProperty('--card-button-error-hover-text', '#fca5a5');
+
+        // User dialog variables
+        root.style.setProperty('--user-popup-bg-primary', '#1e1e2f');
+        root.style.setProperty('--user-popup-bg-secondary', '#252537');
+        root.style.setProperty('--user-popup-text-primary', '#ffffff');
+        root.style.setProperty('--user-popup-text-secondary', 'rgba(255, 255, 255, 0.7)');
+        root.style.setProperty('--user-popup-border-color', '#374151');
+        root.style.setProperty('--user-popup-shadow', 'rgba(0, 0, 0, 0.3)');
+        root.style.setProperty('--user-popup-input-bg', '#2a2a3e');
+        root.style.setProperty('--user-popup-input-border', '#374151');
+        root.style.setProperty('--user-popup-input-border-hover', '#4b5563');
+        root.style.setProperty('--user-popup-input-focus-shadow', 'rgba(59, 130, 246, 0.2)');
+        root.style.setProperty('--user-popup-select-bg', '#2a2a3e');
+        root.style.setProperty('--user-popup-select-border', '#374151');
+        root.style.setProperty('--user-popup-button-cancel-bg', '#2a2a3e');
+        root.style.setProperty('--user-popup-button-cancel-bg-hover', '#374151');
+        root.style.setProperty('--user-popup-button-cancel-text', 'rgba(255, 255, 255, 0.7)');
+        root.style.setProperty('--user-popup-button-cancel-border', '#374151');
+        root.style.setProperty('--user-delete-warning-bg-primary', '#2a2a3e');
+        root.style.setProperty('--user-delete-warning-bg-secondary', '#374151');
+        root.style.setProperty('--user-delete-warning-border', '#4b5563');
+        root.style.setProperty('--user-delete-error-bg-primary', '#3c1e1e');
+        root.style.setProperty('--user-delete-error-bg-secondary', '#4a2222');
+        root.style.setProperty('--user-delete-error-border', '#6b2d2d');
+
+        // Maintenance dialog variables
+        root.style.setProperty('--maintenance-popup-bg-primary', '#1e1e2f');
+        root.style.setProperty('--maintenance-popup-bg-secondary', '#252537');
+        root.style.setProperty('--maintenance-popup-text-primary', '#ffffff');
+        root.style.setProperty('--maintenance-popup-text-secondary', 'rgba(255, 255, 255, 0.7)');
+        root.style.setProperty('--maintenance-popup-border-color', '#374151');
+        root.style.setProperty('--maintenance-popup-shadow', 'rgba(0, 0, 0, 0.3)');
+        root.style.setProperty('--maintenance-popup-input-bg', '#2a2a3e');
+        root.style.setProperty('--maintenance-popup-input-border', '#374151');
+        root.style.setProperty('--maintenance-popup-input-border-hover', '#4b5563');
+        root.style.setProperty('--maintenance-popup-input-focus-shadow', 'rgba(245, 158, 11, 0.2)');
+        root.style.setProperty('--maintenance-popup-select-bg', '#2a2a3e');
+        root.style.setProperty('--maintenance-popup-select-border', '#374151');
+        root.style.setProperty('--maintenance-popup-button-cancel-bg', '#2a2a3e');
+        root.style.setProperty('--maintenance-popup-button-cancel-bg-hover', '#374151');
+        root.style.setProperty('--maintenance-popup-button-cancel-text', 'rgba(255, 255, 255, 0.7)');
+        root.style.setProperty('--maintenance-popup-button-cancel-border', '#374151');
+        root.style.setProperty('--maintenance-delete-warning-bg-primary', '#2a2a3e');
+        root.style.setProperty('--maintenance-delete-warning-bg-secondary', '#374151');
+        root.style.setProperty('--maintenance-delete-warning-border', '#4b5563');
+        root.style.setProperty('--maintenance-delete-error-bg-primary', '#3c1e1e');
+        root.style.setProperty('--maintenance-delete-error-bg-secondary', '#4a2222');
+        root.style.setProperty('--maintenance-delete-error-border', '#6b2d2d');
       } else {
         // Light mode variables
         root.style.setProperty('--popup-bg-primary', '#ffffff');
@@ -136,6 +184,54 @@ export const useThemeStyles = () => {
         root.style.setProperty('--card-button-error-hover-bg', 'rgba(239, 68, 68, 0.1)');
         root.style.setProperty('--card-button-error-hover-border', '#dc2626');
         root.style.setProperty('--card-button-error-hover-text', '#dc2626');
+
+        // User dialog variables
+        root.style.setProperty('--user-popup-bg-primary', '#ffffff');
+        root.style.setProperty('--user-popup-bg-secondary', '#f8fafc');
+        root.style.setProperty('--user-popup-text-primary', '#1e293b');
+        root.style.setProperty('--user-popup-text-secondary', '#64748b');
+        root.style.setProperty('--user-popup-border-color', '#f1f5f9');
+        root.style.setProperty('--user-popup-shadow', 'rgba(0, 0, 0, 0.15)');
+        root.style.setProperty('--user-popup-input-bg', '#ffffff');
+        root.style.setProperty('--user-popup-input-border', '#e5e7eb');
+        root.style.setProperty('--user-popup-input-border-hover', '#d1d5db');
+        root.style.setProperty('--user-popup-input-focus-shadow', 'rgba(59, 130, 246, 0.1)');
+        root.style.setProperty('--user-popup-select-bg', '#ffffff');
+        root.style.setProperty('--user-popup-select-border', '#e5e7eb');
+        root.style.setProperty('--user-popup-button-cancel-bg', '#ffffff');
+        root.style.setProperty('--user-popup-button-cancel-bg-hover', '#f1f5f9');
+        root.style.setProperty('--user-popup-button-cancel-text', '#64748b');
+        root.style.setProperty('--user-popup-button-cancel-border', '#e2e8f0');
+        root.style.setProperty('--user-delete-warning-bg-primary', '#f8fafc');
+        root.style.setProperty('--user-delete-warning-bg-secondary', '#f1f5f9');
+        root.style.setProperty('--user-delete-warning-border', '#e2e8f0');
+        root.style.setProperty('--user-delete-error-bg-primary', '#fef2f2');
+        root.style.setProperty('--user-delete-error-bg-secondary', '#fee2e2');
+        root.style.setProperty('--user-delete-error-border', '#fecaca');
+
+        // Maintenance dialog variables
+        root.style.setProperty('--maintenance-popup-bg-primary', '#ffffff');
+        root.style.setProperty('--maintenance-popup-bg-secondary', '#f8fafc');
+        root.style.setProperty('--maintenance-popup-text-primary', '#1e293b');
+        root.style.setProperty('--maintenance-popup-text-secondary', '#64748b');
+        root.style.setProperty('--maintenance-popup-border-color', '#f1f5f9');
+        root.style.setProperty('--maintenance-popup-shadow', 'rgba(0, 0, 0, 0.15)');
+        root.style.setProperty('--maintenance-popup-input-bg', '#ffffff');
+        root.style.setProperty('--maintenance-popup-input-border', '#e5e7eb');
+        root.style.setProperty('--maintenance-popup-input-border-hover', '#d1d5db');
+        root.style.setProperty('--maintenance-popup-input-focus-shadow', 'rgba(245, 158, 11, 0.1)');
+        root.style.setProperty('--maintenance-popup-select-bg', '#ffffff');
+        root.style.setProperty('--maintenance-popup-select-border', '#e5e7eb');
+        root.style.setProperty('--maintenance-popup-button-cancel-bg', '#ffffff');
+        root.style.setProperty('--maintenance-popup-button-cancel-bg-hover', '#f1f5f9');
+        root.style.setProperty('--maintenance-popup-button-cancel-text', '#64748b');
+        root.style.setProperty('--maintenance-popup-button-cancel-border', '#e2e8f0');
+        root.style.setProperty('--maintenance-delete-warning-bg-primary', '#f8fafc');
+        root.style.setProperty('--maintenance-delete-warning-bg-secondary', '#f1f5f9');
+        root.style.setProperty('--maintenance-delete-warning-border', '#e2e8f0');
+        root.style.setProperty('--maintenance-delete-error-bg-primary', '#fef2f2');
+        root.style.setProperty('--maintenance-delete-error-bg-secondary', '#fee2e2');
+        root.style.setProperty('--maintenance-delete-error-border', '#fecaca');
       }
     };
     

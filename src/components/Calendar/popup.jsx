@@ -1,8 +1,11 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import { Calendar, X } from 'lucide-react';
+import { useThemeStyles } from '../../hooks/useThemeStyles';
 import MealTimeSelect from './MealTimeSelect';
-import './Calender-CSS/Popup.css';
+import './CalendarComponents.css';
 
 function Popup({
   open,
@@ -11,24 +14,48 @@ function Popup({
   onAddEvent,
   isMealSelected,
 }) {
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
+
   return (
     <Modal
       open={open}
       onClose={handleClose}
       BackdropProps={{
-        className: 'popup-backdrop1', // Custom backdrop styling
+        className: 'calendar-popup-backdrop',
       }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className="popup-box1" sx={{ overflowY: 'auto' }}>
-        {/* Component for selecting meal time based on selected date */}
-        <MealTimeSelect
-          selectedDate={selectedDate}
-          onAddEvent={onAddEvent}
-          isMealSelected={isMealSelected}
-        />
-      </Box>
+      <div className="calendar-popup-container">
+        <div className="calendar-popup-header">
+          <div className="calendar-popup-header-content">
+            <div className="calendar-popup-header-icon">
+              <Calendar size={24} color="#22c55e" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <h2 className="calendar-popup-title">Schedule Meal</h2>
+              <p className="calendar-popup-subtitle">Choose your meal time for {selectedDate}</p>
+            </div>
+          </div>
+          <button onClick={handleClose} className="calendar-popup-close-btn">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
+          <MealTimeSelect
+            selectedDate={selectedDate}
+            onAddEvent={onAddEvent}
+            isMealSelected={isMealSelected}
+          />
+        </div>
+      </div>
     </Modal>
   );
 }

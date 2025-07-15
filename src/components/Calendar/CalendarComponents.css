@@ -1,0 +1,603 @@
+/* CalendarComponents.css */
+
+/* Theme variables for light mode */
+:root {
+  --calendar-popup-bg-primary: #ffffff;
+  --calendar-popup-bg-secondary: #f8fafc;
+  --calendar-popup-text-primary: #1e293b;
+  --calendar-popup-text-secondary: #64748b;
+  --calendar-popup-border-color: #f1f5f9;
+  --calendar-popup-shadow: rgba(0, 0, 0, 0.15);
+  --calendar-card-bg-primary: #ffffff;
+  --calendar-card-bg-secondary: #f8fafc;
+  --calendar-card-text-primary: #1e293b;
+  --calendar-card-shadow: rgba(0, 0, 0, 0.08);
+  --calendar-card-shadow-hover: rgba(0, 0, 0, 0.12);
+  --calendar-card-border: #e2e8f0;
+  --calendar-card-border-hover: #cbd5e1;
+  --calendar-button-primary-bg: rgba(34, 197, 94, 0.05);
+  --calendar-button-primary-border: #22c55e;
+  --calendar-button-primary-text: #22c55e;
+  --calendar-button-primary-hover-bg: rgba(34, 197, 94, 0.1);
+  --calendar-button-primary-hover-border: #16a34a;
+  --calendar-button-primary-hover-text: #16a34a;
+  --calendar-button-secondary-bg: rgba(59, 130, 246, 0.05);
+  --calendar-button-secondary-border: #3b82f6;
+  --calendar-button-secondary-text: #3b82f6;
+  --calendar-button-secondary-hover-bg: rgba(59, 130, 246, 0.1);
+  --calendar-button-secondary-hover-border: #2563eb;
+  --calendar-button-secondary-hover-text: #2563eb;
+  --calendar-delete-warning-bg-primary: #f8fafc;
+  --calendar-delete-warning-bg-secondary: #f1f5f9;
+  --calendar-delete-warning-border: #e2e8f0;
+  --calendar-delete-error-bg-primary: #fef2f2;
+  --calendar-delete-error-bg-secondary: #fee2e2;
+  --calendar-delete-error-border: #fecaca;
+}
+
+/* Theme variables for dark mode */
+[data-mui-color-scheme="dark"] {
+  --calendar-popup-bg-primary: #1e1e2f;
+  --calendar-popup-bg-secondary: #252537;
+  --calendar-popup-text-primary: #ffffff;
+  --calendar-popup-text-secondary: rgba(255, 255, 255, 0.7);
+  --calendar-popup-border-color: #374151;
+  --calendar-popup-shadow: rgba(0, 0, 0, 0.3);
+  --calendar-card-bg-primary: #1e1e2f;
+  --calendar-card-bg-secondary: #252537;
+  --calendar-card-text-primary: #ffffff;
+  --calendar-card-shadow: rgba(0, 0, 0, 0.2);
+  --calendar-card-shadow-hover: rgba(0, 0, 0, 0.3);
+  --calendar-card-border: #374151;
+  --calendar-card-border-hover: #4b5563;
+  --calendar-button-primary-bg: rgba(34, 197, 94, 0.15);
+  --calendar-button-primary-border: #22c55e;
+  --calendar-button-primary-text: #4ade80;
+  --calendar-button-primary-hover-bg: rgba(34, 197, 94, 0.25);
+  --calendar-button-primary-hover-border: #4ade80;
+  --calendar-button-primary-hover-text: #86efac;
+  --calendar-button-secondary-bg: rgba(59, 130, 246, 0.15);
+  --calendar-button-secondary-border: #3b82f6;
+  --calendar-button-secondary-text: #60a5fa;
+  --calendar-button-secondary-hover-bg: rgba(59, 130, 246, 0.25);
+  --calendar-button-secondary-hover-border: #60a5fa;
+  --calendar-button-secondary-hover-text: #93c5fd;
+  --calendar-delete-warning-bg-primary: #2a2a3e;
+  --calendar-delete-warning-bg-secondary: #374151;
+  --calendar-delete-warning-border: #4b5563;
+  --calendar-delete-error-bg-primary: #3c1e1e;
+  --calendar-delete-error-bg-secondary: #4a2222;
+  --calendar-delete-error-border: #6b2d2d;
+}
+
+/* Popup Containers */
+.calendar-popup-container {
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0px 20px 40px var(--calendar-popup-shadow);
+  background: linear-gradient(135deg, var(--calendar-popup-bg-primary) 0%, var(--calendar-popup-bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+  width: 60%;
+  height: 60%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.calendar-popup-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+}
+
+.calendar-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--calendar-popup-border-color);
+}
+
+.calendar-popup-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #4ade80;
+  margin-right: 16px;
+}
+
+.calendar-popup-header-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.calendar-popup-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--calendar-popup-text-primary);
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  width: 100%;
+}
+
+.calendar-popup-subtitle {
+  font-size: 1rem;
+  margin-top: 6px;
+  color: var(--calendar-popup-text-secondary);
+  font-weight: 400;
+  text-align: center;
+}
+
+.calendar-popup-close-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.calendar-popup-close-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Card Styling */
+.calendar-meal-card {
+  width: 250px;
+  height: 320px;
+  padding: 20px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, var(--calendar-card-bg-primary) 0%, var(--calendar-card-bg-secondary) 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px var(--calendar-card-shadow);
+  transition: all 0.3s ease;
+  border: 1px solid var(--calendar-card-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.calendar-meal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.calendar-meal-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px var(--calendar-card-shadow-hover);
+  border-color: var(--calendar-card-border-hover);
+}
+
+.calendar-meal-card:hover::before {
+  opacity: 1;
+}
+
+.calendar-meal-card-media {
+  height: 200px;
+  width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px var(--calendar-card-shadow);
+  transition: all 0.3s ease;
+  background-size: cover;
+  background-position: center;
+}
+
+.calendar-meal-card:hover .calendar-meal-card-media {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px var(--calendar-card-shadow-hover);
+}
+
+.calendar-meal-card-content {
+  text-align: center;
+  padding: 16px 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calendar-meal-card-content h5 {
+  color: var(--calendar-card-text-primary);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-meal-card-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.calendar-meal-card-button {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.calendar-meal-card-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-meal-card-button.select-button {
+  background: linear-gradient(135deg, var(--calendar-button-primary-bg) 0%, rgba(34, 197, 94, 0.1) 100%);
+  color: var(--calendar-button-primary-text);
+  border: 2px solid var(--calendar-button-primary-border);
+}
+
+.calendar-meal-card-button.select-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--calendar-button-primary-hover-bg) 0%, rgba(34, 197, 94, 0.2) 100%);
+  border-color: var(--calendar-button-primary-hover-border);
+  color: var(--calendar-button-primary-hover-text);
+}
+
+.calendar-meal-card-button.request-button {
+  background: linear-gradient(135deg, var(--calendar-button-secondary-bg) 0%, rgba(59, 130, 246, 0.1) 100%);
+  color: var(--calendar-button-secondary-text);
+  border: 2px solid var(--calendar-button-secondary-border);
+}
+
+.calendar-meal-card-button.request-button:hover {
+  background: linear-gradient(135deg, var(--calendar-button-secondary-hover-bg) 0%, rgba(59, 130, 246, 0.2) 100%);
+  border-color: var(--calendar-button-secondary-hover-border);
+  color: var(--calendar-button-secondary-hover-text);
+}
+
+.calendar-meal-card-button:disabled {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #9ca3af;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Grid Layout */
+.calendar-meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .calendar-meal-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .calendar-meal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .calendar-meal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Delete Modal Styling */
+.calendar-delete-container {
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0px 20px 40px var(--calendar-popup-shadow);
+  background: linear-gradient(135deg, var(--calendar-popup-bg-primary) 0%, var(--calendar-popup-bg-secondary) 100%);
+  position: relative;
+  overflow: hidden;
+  width: 450px;
+  max-width: 95%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.calendar-delete-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #dc2626, #b91c1c);
+}
+
+.calendar-delete-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: none;
+}
+
+.calendar-delete-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fecaca;
+  margin-right: 16px;
+}
+
+.calendar-delete-header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calendar-delete-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--calendar-popup-text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-delete-subtitle {
+  margin: 4px 0 0 0;
+  color: var(--calendar-popup-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.calendar-delete-content {
+  padding: 0;
+  margin-bottom: 32px;
+}
+
+.calendar-delete-warning-box {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--calendar-delete-warning-bg-primary) 0%, var(--calendar-delete-warning-bg-secondary) 100%);
+  border-radius: 12px;
+  border: 2px solid var(--calendar-delete-warning-border);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.calendar-delete-warning-text {
+  color: var(--calendar-popup-text-primary);
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.calendar-delete-event-name {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.calendar-delete-actions {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.calendar-delete-actions button {
+  min-width: 120px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.calendar-delete-cancel-btn {
+  background: linear-gradient(135deg, var(--calendar-popup-bg-primary) 0%, var(--calendar-popup-bg-secondary) 100%);
+  color: var(--calendar-popup-text-secondary);
+  border: 2px solid var(--calendar-popup-border-color);
+}
+
+.calendar-delete-cancel-btn:hover {
+  background: linear-gradient(135deg, var(--calendar-popup-bg-secondary) 0%, var(--calendar-popup-border-color) 100%);
+  color: var(--calendar-popup-text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--calendar-popup-shadow);
+}
+
+.calendar-delete-confirm-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.calendar-delete-confirm-btn:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Backdrop styling */
+.calendar-popup-backdrop {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.calendar-delete-backdrop {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Loading spinner */
+.calendar-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .calendar-popup-container,
+  .calendar-delete-container {
+    width: 95%;
+    padding: 24px;
+  }
+  
+  .calendar-delete-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .calendar-delete-warning-text {
+    font-size: 1rem;
+    margin-bottom: 28px;
+  }
+  
+  .calendar-delete-actions {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .calendar-delete-actions button {
+    width: 100%;
+  }
+  
+  .calendar-meal-card {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .calendar-meal-card-media {
+    height: 180px;
+    width: 180px;
+  }
+}
+
+/* Focus states for accessibility */
+.calendar-delete-cancel-btn:focus,
+.calendar-delete-confirm-btn:focus,
+.calendar-popup-close-btn:focus,
+.calendar-meal-card-button:focus {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+}
+
+/* Animation for popup entrance */
+@keyframes calendarPopupSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.calendar-popup-container,
+.calendar-delete-container {
+  animation: calendarPopupSlideIn 0.3s ease-out;
+}
+
+/* Card entrance animation */
+@keyframes calendarCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.calendar-meal-card {
+  animation: calendarCardFadeIn 0.4s ease-out;
+}
+
+/* Section title styling */
+.calendar-section-title {
+  color: var(--calendar-popup-text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Error display */
+.calendar-error-message {
+  background: linear-gradient(135deg, var(--calendar-delete-error-bg-primary) 0%, var(--calendar-delete-error-bg-secondary) 100%);
+  border: 2px solid var(--calendar-delete-error-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 0.875rem;
+}
