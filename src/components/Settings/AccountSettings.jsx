@@ -2,17 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Styles/AccountSection.css';
+import { toast } from 'react-toastify';
+import { Eye, EyeOff, User, Mail, Lock, Phone, Save } from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
+import { useUser, decodeToken } from '../../contexts/UserContext';
+import { useThemeStyles } from '../../hooks/useThemeStyles';
 import VerificationPopup from './VerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
-import { toast } from 'react-toastify';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useUser } from '../../contexts/UserContext';
-import { decodeToken } from '../../contexts/UserContext';
+import './Styles/SettingsComponents.css';
 
 const AccountSection = () => {
   // Form data state and UI state
@@ -39,6 +37,14 @@ const AccountSection = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const { userData } = useUser();
+  const { updateCSSVariables } = useThemeStyles();
+
+  // Apply theme variables when component mounts
+  React.useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
+
   // Password validation rule
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
@@ -49,8 +55,6 @@ const AccountSection = () => {
   };
 
   // Fetch user data on component mount
-
-  const { userData } = useUser();
   // Fallback: decode token directly if userData.id is undefined
   let userId = userData.id;
   if (!userId) {
@@ -268,137 +272,142 @@ const AccountSection = () => {
   // Main UI rendering
   return (
     <div className="account-section">
-      <h2>Account</h2>
+      <div className="header">
+        <User className="section-icon" size={32} />
+        <h2>Account Settings</h2>
+        <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: 0 }}>
+          Manage your account information and security
+        </p>
+      </div>
+      
       <div className="form-container">
         {/* Phone update form */}
         <form onSubmit={handlePhoneSubmit} className="form-group">
-          <label>Phone Number</label>
+          <label>
+            <Phone size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Phone Number
+          </label>
           <input
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            placeholder="Enter your phone number"
             required
           />
-          <button type="submit">Update Phone</button>
+          <button type="submit">
+            <Save size={18} />
+            Update Phone
+          </button>
         </form>
 
         {/* Email update section */}
         <div className="form-group">
-          <label>Email</label>
+          <label>
+            <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Email Address
+          </label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            placeholder="Enter your email address"
             required
           />
           <button
             type="button"
             onClick={() => handleEmailSubmit(formData.email)}
           >
+            <Save size={18} />
             Update Email
           </button>
         </div>
 
         {/* Password change form */}
         <form onSubmit={handlePasswordSubmit}>
-          <label>Change Password</label>
           <div className="form-group-password">
+            <div className="password-header">
+              <Lock size={24} style={{ color: 'var(--settings-accent-primary)' }} />
+              <h3>Change Password</h3>
+            </div>
+            
             {/* Current password */}
-            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-current-password">
-                Current Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-current-password"
-                type={showCurrentPassword ? 'text' : 'password'}
-                name="currentPassword"
-                value={formData.currentPassword}
-                onChange={handleChange}
-                required
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle current password visibility"
-                      onClick={handleClickShowCurrentPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Current Password"
-              />
-            </FormControl>
+            <div className="password-input-group">
+              <label className="password-input-label">Current Password</label>
+              <div className="password-input-container">
+                <input
+                  type={showCurrentPassword ? 'text' : 'password'}
+                  name="currentPassword"
+                  value={formData.currentPassword}
+                  onChange={handleChange}
+                  placeholder="Enter your current password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={handleClickShowCurrentPassword}
+                >
+                  {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
 
             {/* New password */}
-            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-new-password">
-                New Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-new-password"
-                type={showNewPassword ? 'text' : 'password'}
-                name="newPassword"
-                value={formData.newPassword}
-                onChange={handleChange}
-                required
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle new password visibility"
-                      onClick={handleClickShowNewPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="New Password"
-              />
-            </FormControl>
-            {/* Password error message */}
-            {passwordError && <p className="error">{passwordError}</p>}
+            <div className="password-input-group">
+              <label className="password-input-label">New Password</label>
+              <div className="password-input-container">
+                <input
+                  type={showNewPassword ? 'text' : 'password'}
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  placeholder="Enter your new password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={handleClickShowNewPassword}
+                >
+                  {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
 
-            {/* Confirm new password */}
-            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-confirm-password">
-                Confirm New Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-confirm-password"
-                type={showConfirmPassword ? 'text' : 'password'}
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle confirm password visibility"
-                      onClick={handleClickShowConfirmPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Confirm New Password"
-              />
-            </FormControl>
-            <button
-              className="passwordsumbit"
-              type="submit"
-              disabled={!!passwordError}
-            >
-              Update Password
+            {/* Confirm password */}
+            <div className="password-input-group">
+              <label className="password-input-label">Confirm New Password</label>
+              <div className="password-input-container">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm your new password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={handleClickShowConfirmPassword}
+                >
+                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {passwordError && (
+              <div className="password-error">
+                <Lock size={16} />
+                {passwordError}
+              </div>
+            )}
+
+            <button type="submit" className="passwordsumbit">
+              <Lock size={18} />
+              Change Password
             </button>
           </div>
         </form>

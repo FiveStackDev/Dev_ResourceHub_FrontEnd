@@ -1,14 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Styles/ProfileSection.css';
+import { toast } from 'react-toastify';
+import { Building, Upload, MapPin, Mail, Save, Image } from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
-import ConfirmationDialog from './ConfirmationDialog';
-import { toast } from 'react-toastify';
-import { useUser } from '../../contexts/UserContext';
-import { decodeToken } from '../../contexts/UserContext';
+import { useUser, decodeToken } from '../../contexts/UserContext';
+import { useThemeStyles } from '../../hooks/useThemeStyles';
 import VerificationPopup from './OrgVerificationPopup';
+import ConfirmationDialog from './ConfirmationDialog';
+import './Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
   // State to store form data
@@ -30,9 +31,14 @@ const OrganizationSection = () => {
     onConfirm: null,
   });
 
-
   // Get user id from context
   const { userData } = useUser();
+  const { updateCSSVariables } = useThemeStyles();
+
+  // Apply theme variables when component mounts
+  React.useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
   // Fallback: decode token directly if userData.id is undefined
   let userId = userData.id;
   if (!userId) {
@@ -248,7 +254,11 @@ const OrganizationSection = () => {
   return (
     <div className="profile-section">
       <div className="header">
-        <h2>Organization</h2>
+        <Building size={32} style={{ marginBottom: '16px', color: 'var(--settings-accent-primary)' }} />
+        <h2>Organization Settings</h2>
+        <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: '0 0 16px 0' }}>
+          Manage your organization profile and information
+        </p>
         {formData.org_logo && (
           <div style={{ marginTop: '10px' }}>
             <img
@@ -258,8 +268,9 @@ const OrganizationSection = () => {
                 maxWidth: '150px',
                 maxHeight: '150px',
                 objectFit: 'cover',
-                border: '1px solid #ddd',
-                boderRadius: '50%',
+                border: '4px solid var(--settings-accent-primary)',
+                borderRadius: '16px',
+                boxShadow: '0 8px 32px rgba(147, 51, 234, 0.2)',
               }}
               onError={(e) => { 
                 e.target.style.display = 'none'; 
@@ -271,68 +282,88 @@ const OrganizationSection = () => {
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
-          <label>Organization Name</label>
+          <label>
+            <Building size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Organization Name
+          </label>
           <input
             className="form-input"
             type="text"
             name="name"
             value={formData.org_name}
             onChange={handleChange}
+            placeholder="Enter organization name"
             required
           />
         </div>
         <div className="form-group">
-          <label>Organization Logo</label>
-          <div style={{ marginBottom: '10px' }}>
+          <label>
+            <Image size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Organization Logo
+          </label>
+          <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Upload size={16} style={{ color: 'var(--settings-accent-primary)' }} />
             <input
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              style={{ marginBottom: '10px' }}
+              style={{ flex: 1 }}
             />
           </div>
-          <label>Or Organization Logo URL</label>
+          <label style={{ fontSize: '14px', color: 'var(--settings-popup-text-secondary)' }}>
+            Or enter logo URL directly:
+          </label>
           <input
             className="form-input"
             type="url"
             name="picture"
             value={formData.org_logo}
             onChange={handleChange}
-            placeholder="Enter image URL or upload file above"
+            placeholder="https://example.com/logo.jpg"
           />
         </div>
         <div className="form-group">
-          <label>Address</label>
+          <label>
+            <MapPin size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Organization Address
+          </label>
           <textarea
             name="bio"
             value={formData.org_address}
             onChange={handleChange}
-            rows="3"
+            rows="4"
+            placeholder="Enter organization address..."
           />
         </div>
         <button type="submit" disabled={uploading}>
-          {uploading ? 'Uploading...' : 'Save Changes'}
+          <Save size={18} />
+          {uploading ? 'Uploading...' : 'Save Organization'}
         </button>
       </form>
-      <br></br>
-         <hr></hr>
-         <br></br>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.org_email}
-            onChange={handleChange}
-            required
-          />
-          <button
-            type="button"
-            onClick={() => handleEmailSubmit(formData.org_email)}
-          >
-            Update Email
-          </button>
-        </div>
+      
+      <hr />
+      
+      <div className="form-group" style={{ marginTop: '24px' }}>
+        <label>
+          <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+          Organization Email
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.org_email}
+          onChange={handleChange}
+          placeholder="Enter organization email"
+          required
+        />
+        <button
+          type="button"
+          onClick={() => handleEmailSubmit(formData.org_email)}
+        >
+          <Save size={18} />
+          Update Email
+        </button>
+      </div>
 
 
         {openVerifyPopup && (

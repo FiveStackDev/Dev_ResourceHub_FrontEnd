@@ -194,7 +194,7 @@ export const useThemeStyles = () => {
         root.style.setProperty('--asset-input-border-hover', '#4b5563');
         root.style.setProperty('--asset-input-focus-shadow', 'rgba(59, 130, 246, 0.2)');
 
-        // Settings Theme Variables (Blue) - Dark Mode
+        // Settings Theme Variables (Blue/Indigo) - Dark Mode
         root.style.setProperty('--settings-popup-bg-primary', '#1e1e2f');
         root.style.setProperty('--settings-popup-bg-secondary', '#252537');
         root.style.setProperty('--settings-popup-text-primary', '#ffffff');
@@ -212,16 +212,25 @@ export const useThemeStyles = () => {
         root.style.setProperty('--settings-button-primary-hover-bg', 'rgba(59, 130, 246, 0.25)');
         root.style.setProperty('--settings-button-primary-hover-border', '#60a5fa');
         root.style.setProperty('--settings-button-primary-hover-text', '#93c5fd');
-        root.style.setProperty('--settings-button-secondary-bg', 'rgba(37, 99, 235, 0.15)');
-        root.style.setProperty('--settings-button-secondary-border', '#2563eb');
-        root.style.setProperty('--settings-button-secondary-text', '#60a5fa');
-        root.style.setProperty('--settings-button-secondary-hover-bg', 'rgba(37, 99, 235, 0.25)');
-        root.style.setProperty('--settings-button-secondary-hover-border', '#60a5fa');
-        root.style.setProperty('--settings-button-secondary-hover-text', '#93c5fd');
+        root.style.setProperty('--settings-button-secondary-bg', 'rgba(99, 102, 241, 0.15)');
+        root.style.setProperty('--settings-button-secondary-border', '#6366f1');
+        root.style.setProperty('--settings-button-secondary-text', '#a5b4fc');
+        root.style.setProperty('--settings-button-secondary-hover-bg', 'rgba(99, 102, 241, 0.25)');
+        root.style.setProperty('--settings-button-secondary-hover-border', '#a5b4fc');
+        root.style.setProperty('--settings-button-secondary-hover-text', '#c7d2fe');
         root.style.setProperty('--settings-input-bg', '#2a2a3e');
         root.style.setProperty('--settings-input-border', '#374151');
         root.style.setProperty('--settings-input-border-hover', '#4b5563');
         root.style.setProperty('--settings-input-focus-shadow', 'rgba(59, 130, 246, 0.2)');
+        root.style.setProperty('--settings-popup-input-bg', '#2a2a3e');
+        root.style.setProperty('--settings-popup-input-border', '#374151');
+        root.style.setProperty('--settings-popup-input-border-hover', '#4b5563');
+        root.style.setProperty('--settings-popup-input-focus-shadow', 'rgba(59, 130, 246, 0.2)');
+        root.style.setProperty('--settings-popup-button-cancel-bg', '#2a2a3e');
+        root.style.setProperty('--settings-popup-button-cancel-bg-hover', '#374151');
+        root.style.setProperty('--settings-popup-button-cancel-text', 'rgba(255, 255, 255, 0.7)');
+        root.style.setProperty('--settings-popup-button-cancel-border', '#374151');
+        root.style.setProperty('--settings-popup-button-cancel-border-hover', '#4b5563');
         root.style.setProperty('--settings-accent-primary', '#3b82f6');
         root.style.setProperty('--settings-accent-secondary', '#2563eb');
         root.style.setProperty('--settings-accent-tertiary', '#1d4ed8');
@@ -405,7 +414,7 @@ export const useThemeStyles = () => {
         root.style.setProperty('--asset-input-border-hover', '#d1d5db');
         root.style.setProperty('--asset-input-focus-shadow', 'rgba(59, 130, 246, 0.1)');
 
-        // Settings Theme Variables (Blue) - Light Mode
+        // Settings Theme Variables (Blue/Indigo) - Light Mode
         root.style.setProperty('--settings-popup-bg-primary', '#ffffff');
         root.style.setProperty('--settings-popup-bg-secondary', '#f8fafc');
         root.style.setProperty('--settings-popup-text-primary', '#1e293b');
@@ -423,16 +432,25 @@ export const useThemeStyles = () => {
         root.style.setProperty('--settings-button-primary-hover-bg', 'rgba(59, 130, 246, 0.1)');
         root.style.setProperty('--settings-button-primary-hover-border', '#2563eb');
         root.style.setProperty('--settings-button-primary-hover-text', '#2563eb');
-        root.style.setProperty('--settings-button-secondary-bg', 'rgba(37, 99, 235, 0.05)');
-        root.style.setProperty('--settings-button-secondary-border', '#2563eb');
-        root.style.setProperty('--settings-button-secondary-text', '#2563eb');
-        root.style.setProperty('--settings-button-secondary-hover-bg', 'rgba(37, 99, 235, 0.1)');
-        root.style.setProperty('--settings-button-secondary-hover-border', '#1d4ed8');
-        root.style.setProperty('--settings-button-secondary-hover-text', '#1d4ed8');
+        root.style.setProperty('--settings-button-secondary-bg', 'rgba(99, 102, 241, 0.05)');
+        root.style.setProperty('--settings-button-secondary-border', '#6366f1');
+        root.style.setProperty('--settings-button-secondary-text', '#6366f1');
+        root.style.setProperty('--settings-button-secondary-hover-bg', 'rgba(99, 102, 241, 0.1)');
+        root.style.setProperty('--settings-button-secondary-hover-border', '#4f46e5');
+        root.style.setProperty('--settings-button-secondary-hover-text', '#4f46e5');
         root.style.setProperty('--settings-input-bg', '#ffffff');
         root.style.setProperty('--settings-input-border', '#e5e7eb');
         root.style.setProperty('--settings-input-border-hover', '#d1d5db');
         root.style.setProperty('--settings-input-focus-shadow', 'rgba(59, 130, 246, 0.1)');
+        root.style.setProperty('--settings-popup-input-bg', '#ffffff');
+        root.style.setProperty('--settings-popup-input-border', '#e5e7eb');
+        root.style.setProperty('--settings-popup-input-border-hover', '#d1d5db');
+        root.style.setProperty('--settings-popup-input-focus-shadow', 'rgba(59, 130, 246, 0.1)');
+        root.style.setProperty('--settings-popup-button-cancel-bg', '#f8fafc');
+        root.style.setProperty('--settings-popup-button-cancel-bg-hover', '#f1f5f9');
+        root.style.setProperty('--settings-popup-button-cancel-text', '#64748b');
+        root.style.setProperty('--settings-popup-button-cancel-border', '#e5e7eb');
+        root.style.setProperty('--settings-popup-button-cancel-border-hover', '#d1d5db');
         root.style.setProperty('--settings-accent-primary', '#3b82f6');
         root.style.setProperty('--settings-accent-secondary', '#2563eb');
         root.style.setProperty('--settings-accent-tertiary', '#1d4ed8');
