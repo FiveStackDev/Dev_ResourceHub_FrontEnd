@@ -94,7 +94,18 @@ function EditPopup({
     setPreviewUrl(mealImage || '');
   }, [mealImage]);
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="sm" 
+      fullWidth
+      BackdropProps={{
+        style: {
+          backdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)'
+        }
+      }}
+    >
       <div className="mealtime-popup-container">
         <div className="mealtime-popup-header">
           <div>

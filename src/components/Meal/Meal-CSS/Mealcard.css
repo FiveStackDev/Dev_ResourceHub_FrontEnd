@@ -1,30 +1,125 @@
 /* MealTimeCard.css */
 
 .mealtime-card {
-  width: 250px;
-  height: 300px;
+  width: 280px;
+  height: 340px;
   padding: 20px;
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.mealtime-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mealtime-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  border-color: #cbd5e1;
+}
+
+.mealtime-card:hover::before {
+  opacity: 1;
 }
 
 .mealtime-card-media {
-  height: 200px;
-  width: 200px;
+  height: 180px;
+  width: 180px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  background-size: cover;
+  background-position: center;
+}
+
+.mealtime-card:hover .mealtime-card-media {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .mealtime-card-content {
   text-align: center;
+  padding: 16px 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mealtime-card-content h5 {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .mealtime-card-actions {
-  display: block;
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: auto;
 }
 
 .mealtime-card-button {
-  width: 90px;
+  width: 100px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.mealtime-card-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mealtime-card-button.MuiButton-outlined {
+  border-width: 2px;
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.mealtime-card-button.MuiButton-outlined:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.mealtime-card-button.MuiButton-outlined.MuiButton-colorError {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.mealtime-card-button.MuiButton-outlined.MuiButton-colorError:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #dc2626;
+  color: #dc2626;
 }

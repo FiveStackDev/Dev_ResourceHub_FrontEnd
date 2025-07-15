@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -143,6 +144,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         onClose={handleDeleteClose}
         onDelete={handleConfirmDelete}
         mealId={mealId}
+        mealName={mealName}
       />
     </div>
   );

@@ -132,6 +132,7 @@ function MealCard({ mealId, name, image, onDelete }) {
         onClose={handleDeleteClose}
         onDelete={handleConfirmDelete}
         mealId={mealId}
+        mealName={mealName}
       />
     </div>
   );
