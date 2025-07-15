@@ -19,7 +19,7 @@ export const BASE_URLS = {
   // report: `${BASE_URL}/schedulereports-a9e/v1.0`,
 
   // For local development
-  login: "http://localhost:9090/auth",
+  login: "http://localhost:9094/auth",
   maintenance: "http://localhost:9090/maintenance",
   asset: "http://localhost:9090/asset",
   user: "http://localhost:9090/user",
@@ -28,9 +28,9 @@ export const BASE_URLS = {
   mealtime: "http://localhost:9090/mealtime",
   mealtype: "http://localhost:9090/mealtype",
   settings: "http://localhost:9090/settings",
-  dashboardAdmin: "http://localhost:9090/dashboard/admin",
-  dashboardUser: "http://localhost:9090/dashboard/user",
+  dashboardAdmin: "http://localhost:9092/dashboard/admin",
+  dashboardUser: "http://localhost:9092/dashboard/user",
   orgsettings: "http://localhost:9090/orgsettings",
   report: "http://localhost:9090/schedulereports",
-  notification: "http://localhost:9090/notification",
+  notification: "http://localhost:9093/notification",
 };
