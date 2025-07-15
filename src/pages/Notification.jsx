@@ -11,14 +11,14 @@ import { useUser } from '../contexts/UserContext';
 function Notification() {
   const [notifications, setNotifications] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   // Fetch notifications from the API
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
-          `${BASE_URLS.maintenance}/notification`,
+          `${BASE_URLS.notification}/details`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -38,7 +38,6 @@ function Notification() {
           priorityLevel: item.priorityLevel,
         }));
         setNotifications(mappedData);
-        toast.success('Notifications loaded successfully!');
       } catch (error) {
         console.error('Error fetching notifications:', error);
         toast.error('Error fetching notifications:', error);

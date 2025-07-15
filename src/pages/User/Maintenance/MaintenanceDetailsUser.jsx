@@ -20,10 +20,21 @@ const MaintenanceDetailsUser = () => {
   const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 
+    const { userData } = useUser();
+  // Fallback: decode token directly if userData.id is undefined
+  let userId = userData.id;
+  if (!userId) {
+    const decoded = decodeToken();
+    userId = decoded?.id;
+    console.log('MaintenanceDetailsUser fallback decoded userId:', userId);
+  } else {
+    console.log('MaintenanceDetailsUser userId:', userId);
+  }
+
   const fetchMaintenanceData = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URLS.maintenance}/details`,
+        `${BASE_URLS.maintenance}/details/${userId}`,
         { headers: { ...getAuthHeader() } }
       );
       setMaintenance(response.data);
@@ -39,16 +50,8 @@ const MaintenanceDetailsUser = () => {
     fetchMaintenanceData();
   }, []);
 
-  const { userData } = useUser();
-  // Fallback: decode token directly if userData.id is undefined
-  let userId = userData.id;
-  if (!userId) {
-    const decoded = decodeToken();
-    userId = decoded?.id;
-    console.log('MaintenanceDetailsUser fallback decoded userId:', userId);
-  } else {
-    console.log('MaintenanceDetailsUser userId:', userId);
-  }
+
+
   const handleAddMaintenance = async (newMaintenance) => {
     try {
       if (!userId) {

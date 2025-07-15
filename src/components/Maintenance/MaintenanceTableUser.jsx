@@ -139,7 +139,14 @@ export const MaintenanceTableUser = ({ maintenance }) => {
                         borderBottom: `1px solid ${theme.palette.divider}`,
                       }}
                     >
-                      <TableCell>{item.username}</TableCell>
+                      <TableCell> <div className="flex items-center gap-3">
+                        <img
+                          src={item.profilePicture}
+                          alt={item.username}
+                          className="w-8 h-8 rounded-full"
+                        />
+                        {item.username}
+                      </div></TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell>
                         <Chip

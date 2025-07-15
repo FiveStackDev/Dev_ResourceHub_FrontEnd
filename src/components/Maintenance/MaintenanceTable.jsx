@@ -141,7 +141,7 @@ export const MaintenanceTable = ({
   // Function to call addnotification endpoint
   const handleSendNotification = async (maintenanceItem) => {
     try {
-      const response = await fetch(`${BASE_URLS.maintenance}/addnotification`, {
+      const response = await fetch(`${BASE_URLS.notification}/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
