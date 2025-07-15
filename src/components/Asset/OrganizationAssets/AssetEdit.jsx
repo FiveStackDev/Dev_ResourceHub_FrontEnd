@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { BASE_URLS } from '../../../services/api/config';
 import { toast } from 'react-toastify';
+import { getAuthHeader } from '../../../utils/authHeader';
 
 function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   const [editedAsset, setEditedAsset] = useState({
@@ -63,7 +64,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
         `${BASE_URLS.asset}/details/${editedAsset.id}`,
         {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
           body: JSON.stringify({
             asset_id: editedAsset.id,
             asset_name: editedAsset.name,

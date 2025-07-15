@@ -24,7 +24,7 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
   const handleSaveClick = () => {
     onSave({
       ...asset,
-      quantity,
+      quantity: parseInt(quantity),
       status,
       handover_date: handoverDate,
       is_returning: isReturning,
