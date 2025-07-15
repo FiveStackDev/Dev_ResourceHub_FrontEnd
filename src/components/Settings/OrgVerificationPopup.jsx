@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Modal, Box } from '@mui/material';
 import { Shield, Mail, Check, X } from 'lucide-react';
 import { getAuthHeader } from '../../utils/authHeader';
 import { decodeToken, useUser } from '../../contexts/UserContext';
@@ -59,8 +60,16 @@ function OrgVerificationPopup({ onClose, email, code }) {
   };
 
   return (
-    <div className="verify-outer">
-      <div className="verify-inner">
+    <Modal
+      open={true}
+      onClose={onClose}
+      aria-labelledby="org-verification-popup-title"
+      aria-describedby="org-verification-popup-description"
+      BackdropProps={{
+        className: 'verify-popup-backdrop'
+      }}
+    >
+      <Box className="verify-inner">
         <div className="verify-header">
           <div className="verify-icon">
             <Shield className="shield-icon" />
@@ -109,8 +118,8 @@ function OrgVerificationPopup({ onClose, email, code }) {
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </Box>
+    </Modal>
   );
 }
 

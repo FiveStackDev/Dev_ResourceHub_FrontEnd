@@ -128,7 +128,7 @@
   background: var(--settings-input-bg);
   border: 2px solid var(--settings-input-border);
   border-radius: 12px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
 }
 
@@ -140,34 +140,42 @@
   outline: none;
   border-color: var(--settings-accent-primary);
   box-shadow: 0 0 0 3px var(--settings-input-focus-shadow);
-  transform: translateY(-1px);
 }
 
-.password-toggle-btn {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
+/* Password toggle button - v2.0 */
+.password-input-container .password-toggle-btn {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
   cursor: pointer;
   color: var(--settings-accent-primary);
-  padding: 8px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  display: flex;
+  padding: 2px !important;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex !important;
   align-items: center;
   justify-content: center;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  flex-shrink: 0;
+  z-index: 2;
 }
 
-.password-toggle-btn:hover {
-  background: var(--settings-button-primary-bg);
+.password-input-container .password-toggle-btn:hover {
+  background: var(--settings-button-primary-bg) !important;
   color: var(--settings-accent-secondary);
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) !important;
 }
 
-.password-toggle-btn:active {
-  transform: translateY(-50%) scale(0.95);
+.password-input-container .password-toggle-btn:active {
+  background: var(--settings-accent-primary) !important;
+  color: white;
+  transform: translateY(-50%) !important;
 }
 
 .password-input-group {

@@ -1,29 +1,32 @@
 /* Settings Confirmation Dialog Styles */
+/* Settings Confirmation Dialog Styles */
+
+/* Backdrop styling for Material-UI Modal */
+.confirmation-popup-backdrop {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Remove the old overlay styles */
 .confirmation-dialog-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(12px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding: 20px;
+  display: none;
 }
 
 .confirmation-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: var(--settings-popup-bg-primary);
   border: 1px solid var(--settings-popup-border-color);
   border-radius: 20px;
   padding: 32px;
-  width: 100%;
+  width: 90%;
   max-width: 440px;
   box-shadow: 0 25px 50px -12px var(--settings-popup-shadow);
   animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   text-align: center;
+  outline: none;
 }
 
 .confirmation-header {
