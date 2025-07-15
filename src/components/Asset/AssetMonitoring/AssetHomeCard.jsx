@@ -1,44 +1,32 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+import { useEffect } from 'react';
+import { Package } from 'lucide-react';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import '../AssetComponents.css';
 
 function AssetHomeCard({ name, image, onClick }) {
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
+
   return (
-    <div onClick={onClick} style={{ cursor: 'pointer' }}>
-      <Card
-        sx={{
-          width: 250,
-          height: 290,
-          padding: '0px',
-          maxWidth: 400,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: '15px',
-          backgroundColor: 'rgb(188, 223, 255)',
-          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-          transition: 'transform 0.2s ease-in-out',
-          '&:hover': {
-            transform: 'scale(1.05)',
-          },
-        }}
-      >
-        <CardMedia
-          sx={{ height: 200, width: 200 }}
-          image={image}
-          title={name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
-            {name}
-          </Typography>
-        </CardContent>
-        <CardActions></CardActions>
-      </Card>
+    <div onClick={onClick} className="asset-home-card">
+      <div
+        className="asset-home-card-media"
+        style={{ backgroundImage: `url(${image})` }}
+        title={name}
+      />
+      <div className="asset-home-card-content">
+        <h5>{name}</h5>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--asset-card-text-primary)', opacity: 0.7 }}>
+        <Package size={16} />
+        <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>Asset Category</span>
+      </div>
     </div>
   );
 }
