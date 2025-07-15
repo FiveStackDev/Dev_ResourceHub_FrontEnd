@@ -16,6 +16,19 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   // State to track upload progress
   const [uploading, setUploading] = useState(false);
 
+  // Function to clear all form fields
+  const clearFields = () => {
+    setMealName('');
+    setMealImageUrl('');
+    setImageFile(null);
+  };
+
+  // Handle close and clear fields
+  const handleClose = () => {
+    clearFields();
+    onClose();
+  };
+
   // Handle selection of file input and create preview URL
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -36,12 +49,12 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
     setUploading(true);
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('upload_preset', 'ResourceHub'); // Cloudinary preset
-    formData.append('cloud_name', 'dyjwjhekd'); // Cloudinary cloud name
+    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+    formData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
     try {
       const response = await fetch(
-        'https://api.cloudinary.com/v1_1/dyjwjhekd/image/upload',
+        import.meta.env.VITE_CLOUDINARY_API_URL,
         {
           method: 'POST',
           body: formData,
@@ -80,8 +93,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
           }),
         });
 
-        setMealName('');
-        setMealImageUrl('');
+
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -89,6 +101,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
         const result = await response.json();
         console.log('Server Response:', result);
+        clearFields(); // Clear fields after successful submission
         onClose();
         onSubmit(); // Refresh meal types list
       } catch (error) {
@@ -101,7 +114,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <div className="mealtime-popup-container">
         <div className="mealtime-popup-header">
           <div>
@@ -111,7 +124,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
             <p className="mealtime-subtitle">{subtitle}</p>
           </div>
           {/* Close button */}
-          <button onClick={onClose} className="mealtime-close-btn">
+          <button onClick={handleClose} className="mealtime-close-btn">
             <X size={20} />
           </button>
         </div>
@@ -160,7 +173,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
         <div className="mealtime-buttons">
           {/* Cancel button */}
-          <button onClick={onClose} className="mealtime-cancel-btn">
+          <button onClick={handleClose} className="mealtime-cancel-btn">
             Cancel
           </button>
           {/* Submit button disabled while uploading */}
