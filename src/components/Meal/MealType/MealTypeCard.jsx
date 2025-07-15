@@ -1,5 +1,6 @@
 
 import * as React from 'react';
+import { useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -15,6 +16,7 @@ import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 
 function MealCard({ mealId, name, image, onEdit, onDelete }) {
   // States to control edit/delete dialogs and error messages
@@ -23,6 +25,14 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
   const [mealName, setMealName] = React.useState(name);
   const [mealImage, setMealImage] = React.useState(image);
   const [error, setError] = React.useState(null);
+  
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
   // Open edit dialog and clear errors
   const handleEditClickOpen = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,10 +9,19 @@ import { AlertTriangle, Trash2, X } from 'lucide-react';
 import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
 import '../Meal-CSS/DeletePopup.css';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 
 function DeletePopup({ open, onClose, onDelete, mealId, mealName }) {
   const [error, setError] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
   // Handles deleting the meal time via API call
   const handleDelete = async () => {

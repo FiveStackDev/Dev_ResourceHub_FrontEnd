@@ -1,18 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
 import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 
 export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [mealName, setMealName] = useState('');
   const [mealImageUrl, setMealImageUrl] = useState('');
-    // State to hold selected file object
-    const [imageFile, setImageFile] = useState(null);
-    // State to track upload progress
-    const [uploading, setUploading] = useState(false);
+  // State to hold selected file object
+  const [imageFile, setImageFile] = useState(null);
+  // State to track upload progress
+  const [uploading, setUploading] = useState(false);
+  
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
     // Function to clear all form fields
     const clearFields = () => {
@@ -136,20 +145,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
           </button>
         </div>
 
-
-        <div className="mealtime-form">
-          <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Time Image</label>
-            {/* File input for image upload */}
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              fullWidth
-            />
-          </div>
-
-          {/* Show image preview if available */}
+                  {/* Show image preview if available */}
           {mealImageUrl && (
             <div className="mealtime-image-preview">
               <Typography variant="h6">Preview:</Typography>
@@ -165,6 +161,18 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
               />
             </div>
           )}
+
+        <div className="mealtime-form">
+          <div className="mealtime-input-group">
+            <label className="mealtime-label">Meal Time Image</label>
+            {/* File input for image upload */}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              fullWidth
+            />
+          </div>
 
           <div className="mealtime-input-group">
             <label className="mealtime-label">Meal Time Name</label>

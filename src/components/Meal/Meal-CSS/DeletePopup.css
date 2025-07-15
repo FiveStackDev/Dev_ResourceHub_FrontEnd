@@ -1,10 +1,52 @@
 /* Delete Popup Styles */
 
+/* Theme variables for light mode */
+:root {
+  --delete-popup-bg-primary: #ffffff;
+  --delete-popup-bg-secondary: #f8fafc;
+  --delete-popup-text-primary: #1f2937;
+  --delete-popup-text-secondary: #6b7280;
+  --delete-popup-shadow: rgba(0, 0, 0, 0.15);
+  --delete-warning-bg-primary: #f8fafc;
+  --delete-warning-bg-secondary: #f1f5f9;
+  --delete-warning-border: #e2e8f0;
+  --delete-error-bg-primary: #fef2f2;
+  --delete-error-bg-secondary: #fee2e2;
+  --delete-error-border: #fecaca;
+  --delete-cancel-bg-primary: #f9fafb;
+  --delete-cancel-bg-secondary: #f3f4f6;
+  --delete-cancel-text: #6b7280;
+  --delete-cancel-border: #e5e7eb;
+  --delete-cancel-hover-bg: #f3f4f6;
+  --delete-cancel-hover-text: #4b5563;
+}
+
+/* Theme variables for dark mode */
+[data-mui-color-scheme="dark"] {
+  --delete-popup-bg-primary: #1e1e2f;
+  --delete-popup-bg-secondary: #252537;
+  --delete-popup-text-primary: #ffffff;
+  --delete-popup-text-secondary: rgba(255, 255, 255, 0.7);
+  --delete-popup-shadow: rgba(0, 0, 0, 0.3);
+  --delete-warning-bg-primary: #2a2a3e;
+  --delete-warning-bg-secondary: #374151;
+  --delete-warning-border: #4b5563;
+  --delete-error-bg-primary: #3c1e1e;
+  --delete-error-bg-secondary: #4a2222;
+  --delete-error-border: #6b2d2d;
+  --delete-cancel-bg-primary: #2a2a3e;
+  --delete-cancel-bg-secondary: #374151;
+  --delete-cancel-text: rgba(255, 255, 255, 0.7);
+  --delete-cancel-border: #4b5563;
+  --delete-cancel-hover-bg: #374151;
+  --delete-cancel-hover-text: #ffffff;
+}
+
 .delete-popup-container {
   padding: 24px;
   border-radius: 16px;
-  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0px 20px 40px var(--delete-popup-shadow);
+  background: linear-gradient(135deg, var(--delete-popup-bg-primary) 0%, var(--delete-popup-bg-secondary) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -48,13 +90,13 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
-  color: #1f2937;
+  color: var(--delete-popup-text-primary);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .delete-subtitle {
   margin: 4px 0 0 0;
-  color: #6b7280;
+  color: var(--delete-popup-text-secondary);
   font-size: 0.875rem;
   font-weight: 400;
 }
@@ -94,15 +136,15 @@
 
 .delete-warning-box {
   padding: 20px;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(135deg, var(--delete-warning-bg-primary) 0%, var(--delete-warning-bg-secondary) 100%);
   border-radius: 12px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--delete-warning-border);
   margin-bottom: 16px;
   text-align: center;
 }
 
 .delete-warning-text {
-  color: #374151;
+  color: var(--delete-popup-text-primary);
   font-weight: 500;
   margin: 0;
   line-height: 1.5;
@@ -115,8 +157,8 @@
 }
 
 .delete-error-message {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 2px solid #fecaca;
+  background: linear-gradient(135deg, var(--delete-error-bg-primary) 0%, var(--delete-error-bg-secondary) 100%);
+  border: 2px solid var(--delete-error-border);
   border-radius: 8px;
   padding: 12px 16px;
   color: #dc2626;
@@ -139,18 +181,18 @@
   border-radius: 8px;
   font-weight: 600;
   text-transform: none;
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
+  background: linear-gradient(135deg, var(--delete-cancel-bg-primary) 0%, var(--delete-cancel-bg-secondary) 100%);
+  color: var(--delete-cancel-text);
+  border: 2px solid var(--delete-cancel-border);
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .delete-cancel-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4b5563;
+  background: linear-gradient(135deg, var(--delete-cancel-hover-bg) 0%, var(--delete-cancel-border) 100%);
+  color: var(--delete-cancel-hover-text);
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px var(--delete-popup-shadow);
 }
 
 .delete-confirm-btn {

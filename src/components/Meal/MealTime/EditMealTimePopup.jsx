@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as React from 'react';
 import { Dialog, Input, Button, Typography } from '@mui/material';
 import { X } from 'lucide-react';
@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
 import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 
 function EditPopup({
   open,
@@ -23,6 +24,14 @@ function EditPopup({
   const [uploading, setUploading] = useState(false);
   // State for image preview URL
   const [previewUrl, setPreviewUrl] = useState(mealImage || '');
+  
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
   // Handle selection of file input and create preview URL
   const handleFileChange = (e) => {
@@ -118,18 +127,6 @@ function EditPopup({
           </button>
         </div>
 
-        <div className="mealtime-form">
-          <div className="mealtime-input-group">
-            <label className="mealtime-label">Meal Time Image</label>
-            {/* File input for image upload */}
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              fullWidth
-            />
-          </div>
-
           {/* Show image preview if available */}
           {previewUrl && (
             <div className="mealtime-image-preview">
@@ -146,6 +143,18 @@ function EditPopup({
               />
             </div>
           )}
+
+        <div className="mealtime-form">
+          <div className="mealtime-input-group">
+            <label className="mealtime-label">Meal Time Image</label>
+            {/* File input for image upload */}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              fullWidth
+            />
+          </div>
 
           <div className="mealtime-input-group">
             <label className="mealtime-label">Meal Time Name</label>
