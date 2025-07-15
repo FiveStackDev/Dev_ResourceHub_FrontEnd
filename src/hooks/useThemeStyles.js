@@ -234,6 +234,20 @@ export const useThemeStyles = () => {
         root.style.setProperty('--settings-accent-primary', '#3b82f6');
         root.style.setProperty('--settings-accent-secondary', '#2563eb');
         root.style.setProperty('--settings-accent-tertiary', '#1d4ed8');
+
+        // Report Theme Variables (Blue) - Dark Mode
+        root.style.setProperty('--report-popup-bg-primary', '#1e1e2f');
+        root.style.setProperty('--report-popup-bg-secondary', '#252537');
+        root.style.setProperty('--report-popup-text-primary', '#ffffff');
+        root.style.setProperty('--report-popup-text-secondary', 'rgba(255, 255, 255, 0.7)');
+        root.style.setProperty('--report-popup-border-color', '#374151');
+        root.style.setProperty('--report-popup-shadow', 'rgba(0, 0, 0, 0.3)');
+        root.style.setProperty('--report-popup-accent-primary', '#3b82f6');
+        root.style.setProperty('--report-popup-accent-secondary', '#2563eb');
+        root.style.setProperty('--report-popup-card-bg', '#2a2a3e');
+        root.style.setProperty('--report-popup-card-border', '#374151');
+        root.style.setProperty('--report-popup-card-hover-bg', '#374151');
+        root.style.setProperty('--report-popup-card-hover-border', '#3b82f6');
       } else {
         // Light mode variables
         root.style.setProperty('--popup-bg-primary', '#ffffff');
@@ -454,6 +468,20 @@ export const useThemeStyles = () => {
         root.style.setProperty('--settings-accent-primary', '#3b82f6');
         root.style.setProperty('--settings-accent-secondary', '#2563eb');
         root.style.setProperty('--settings-accent-tertiary', '#1d4ed8');
+
+        // Report Theme Variables (Blue) - Light Mode
+        root.style.setProperty('--report-popup-bg-primary', '#ffffff');
+        root.style.setProperty('--report-popup-bg-secondary', '#f8fafc');
+        root.style.setProperty('--report-popup-text-primary', '#1e293b');
+        root.style.setProperty('--report-popup-text-secondary', '#64748b');
+        root.style.setProperty('--report-popup-border-color', '#f1f5f9');
+        root.style.setProperty('--report-popup-shadow', 'rgba(0, 0, 0, 0.15)');
+        root.style.setProperty('--report-popup-accent-primary', '#3b82f6');
+        root.style.setProperty('--report-popup-accent-secondary', '#2563eb');
+        root.style.setProperty('--report-popup-card-bg', '#ffffff');
+        root.style.setProperty('--report-popup-card-border', '#e2e8f0');
+        root.style.setProperty('--report-popup-card-hover-bg', '#f8fafc');
+        root.style.setProperty('--report-popup-card-hover-border', '#3b82f6');
       }
     };
     
