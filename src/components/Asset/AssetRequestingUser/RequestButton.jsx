@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button,
-  TextField,
-  Switch,
-  FormControlLabel,
-} from '@mui/material';
+import { Modal, Switch } from '@mui/material';
+import { Send, User, Calendar, FileText, ToggleLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import AssetSearch from './AssetSearch';
 import { BASE_URLS } from '../../../services/api/config';
-import axios from 'axios';
 import { getAuthHeader } from '../../../utils/authHeader';
-import { useUser } from '../../../contexts/UserContext';
-import { decodeToken } from '../../../contexts/UserContext';
+import { useUser, decodeToken } from '../../../contexts/UserContext';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import '../AssetComponents.css';
 
 function RequestButton({ open, onClose, onRequest }) {
   const { userData } = useUser();
@@ -28,6 +20,7 @@ function RequestButton({ open, onClose, onRequest }) {
   } else {
     console.log('RequestButton userId:', userId);
   }
+
   const [requestData, setRequestData] = useState({
     userName: '',
     assetName: '',
@@ -38,6 +31,14 @@ function RequestButton({ open, onClose, onRequest }) {
     reason: '',
     isAssetReturning: true,
   });
+
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
   useEffect(() => {
     if (!open) return;
@@ -108,39 +109,55 @@ function RequestButton({ open, onClose, onRequest }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Request an Asset</DialogTitle>
-      <DialogContent>
-        <TextField
-          label="Your Name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="userName"
-          value={requestData.userName}
-          onChange={handleInputChange}
-          disabled
-        />
-        <AssetSearch
-          value={requestData.assetName}
-          onChange={handleInputChange}
-          setAssetId={(assetId) =>
-            setRequestData((prev) => ({ ...prev, assetId }))
-          }
-        />
-        <TextField
-          label="Quantity"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          type="number"
-          name="quantity"
-          value={requestData.quantity}
-          onChange={handleInputChange}
-          inputProps={{ min: 0 }}
-        />
-        <FormControlLabel
-          control={
+    <Modal
+      open={open}
+      onClose={onClose}
+      BackdropProps={{
+        className: 'asset-popup-backdrop',
+      }}
+    >
+      <div className="asset-popup-container">
+        <div className="asset-popup-header">
+          <div className="asset-popup-header-content">
+            <div className="asset-popup-header-icon">
+              <Send size={24} color="#3b82f6" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <h2 className="asset-popup-title">Request an Asset</h2>
+              <p className="asset-popup-subtitle">Submit a request for organizational assets</p>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ overflowY: 'auto', maxHeight: 'calc(80vh - 200px)' }}>
+
+
+          <div className="asset-form-group">
+            <label className="asset-form-label">Asset Name</label>
+            <AssetSearch
+              value={requestData.assetName}
+              onChange={handleInputChange}
+              setAssetId={(assetId) =>
+                setRequestData((prev) => ({ ...prev, assetId }))
+              }
+            />
+          </div>
+
+          <div className="asset-form-group">
+            <label htmlFor="quantity" className="asset-form-label">Quantity</label>
+            <input
+              id="quantity"
+              type="number"
+              name="quantity"
+              value={requestData.quantity}
+              onChange={handleInputChange}
+              className="asset-form-input"
+              min="1"
+              placeholder="Enter quantity needed"
+            />
+          </div>
+
+          <div className="asset-switch-container">
             <Switch
               checked={requestData.isAssetReturning}
               onChange={(e) =>
@@ -151,45 +168,56 @@ function RequestButton({ open, onClose, onRequest }) {
               }
               color="primary"
             />
-          }
-          label="Asset Returning"
-        />
-        <TextField
-          label="Handover Date"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          type="date"
-          name="handoverDate"
-          value={requestData.handoverDate}
-          onChange={handleInputChange}
-          disabled={!requestData.isAssetReturning}
-        />
-        <TextField
-          label="Reason for Request"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          multiline
-          rows={3}
-          name="reason"
-          value={requestData.reason}
-          onChange={handleInputChange}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary" variant="outlined">
-          Cancel
-        </Button>
-        <Button
-          onClick={handleRequestAsset}
-          variant="contained"
-          color="primary"
-        >
-          Submit Request
-        </Button>
-      </DialogActions>
-    </Dialog>
+            <span className="asset-switch-label">
+              <ToggleLeft size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              Asset Returning
+            </span>
+          </div>
+
+          <div className="asset-form-group">
+            <label htmlFor="handoverDate" className="asset-form-label">
+              <Calendar size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              Handover Date
+            </label>
+            <input
+              id="handoverDate"
+              type="date"
+              name="handoverDate"
+              value={requestData.handoverDate}
+              onChange={handleInputChange}
+              disabled={!requestData.isAssetReturning}
+              className="asset-form-input"
+            />
+          </div>
+
+          <div className="asset-form-group">
+            <label htmlFor="reason" className="asset-form-label">
+              <FileText size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              Reason for Request
+            </label>
+            <textarea
+              id="reason"
+              name="reason"
+              value={requestData.reason}
+              onChange={handleInputChange}
+              className="asset-form-textarea"
+              placeholder="Please explain why you need this asset..."
+              rows={3}
+            />
+          </div>
+        </div>
+
+        <div className="asset-button-group">
+          <button className="asset-button asset-button-cancel" onClick={onClose}>
+            Cancel
+          </button>
+          <button className="asset-button asset-button-primary" onClick={handleRequestAsset}>
+            <Send size={16} />
+            Submit Request
+          </button>
+        </div>
+      </div>
+    </Modal>
   );
 }
 

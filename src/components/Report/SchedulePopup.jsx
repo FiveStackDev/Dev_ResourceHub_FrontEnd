@@ -1,95 +1,96 @@
-import React from 'react';
-import {
-  Modal,
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  CardActionArea,
-  Button,
-} from '@mui/material';
+import React, { useEffect } from 'react';
+import { Modal, Box } from '@mui/material';
+import { Calendar, Clock, BarChart3, X } from 'lucide-react';
+import { useThemeStyles } from '../../hooks/useThemeStyles';
+import './ReportPopup.css';
 
 function SchedulePopup({ onClose, table, onFrequencySelect }) {
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '400px',
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-    borderRadius: '8px',
-  };
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
-  const cardStyle = {
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  const frequencyOptions = [
+    {
+      id: 'Weekly',
+      title: 'Weekly',
+      description: 'Generate every week',
+      icon: Calendar
+    },
+    {
+      id: 'Bi-Weekly',
+      title: 'Bi-Weekly', 
+      description: 'Generate every two weeks',
+      icon: Clock
+    },
+    {
+      id: 'Monthly',
+      title: 'Monthly',
+      description: 'Generate every month',
+      icon: BarChart3
+    }
+  ];
+
+  const handleFrequencySelect = (frequency) => {
+    if (onFrequencySelect) {
+      onFrequencySelect(frequency);
+    }
   };
 
   return (
     <Modal
       open={true}
       onClose={onClose}
-      aria-labelledby="frequency-modal-title"
+      aria-labelledby="schedule-popup-title"
+      aria-describedby="schedule-popup-description"
+      BackdropProps={{
+        className: 'report-popup-backdrop'
+      }}
     >
-      <Box sx={modalStyle}>
-        <Typography
-          id="frequency-modal-title"
-          variant="h5"
-          component="h2"
-          gutterBottom
-          sx={{ textAlign: 'center', fontWeight: 'bold' }}
-        >
-          Schedule Your {table} Report
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          sx={{ textAlign: 'center', mb: 2, color: '#666' }}
-        >
-          Select the frequency for generating the <br></br> {table} Report
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
-          <Card sx={{ ...cardStyle, width: '80%' }}>
-            <CardActionArea onClick={() => onFrequencySelect && onFrequencySelect('Weekly')}>
-              <CardContent sx={{ textAlign: 'center', padding: '20px' }}>
-                <Typography variant="h6">Weekly</Typography>
-                <Typography variant="body2" sx={{ color: '#aaa' }}>
-                  Generate every week
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ ...cardStyle, width: '80%' }}>
-            <CardActionArea onClick={() => onFrequencySelect && onFrequencySelect('Bi-Weekly')}>
-              <CardContent sx={{ textAlign: 'center', padding: '20px' }}>
-                <Typography variant="h6">Bi-Weekly</Typography>
-                <Typography variant="body2" sx={{ color: '#aaa' }}>
-                  Generate every two weeks
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ ...cardStyle, width: '80%' }}>
-            <CardActionArea onClick={() => onFrequencySelect && onFrequencySelect('Monthly')}>
-              <CardContent sx={{ textAlign: 'center', padding: '20px' }}>
-                <Typography variant="h6">Monthly</Typography>
-                <Typography variant="body2" sx={{ color: '#aaa' }}>
-                  Generate every month
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Box>
-        <br></br>
+      <Box className="report-popup-container">
+        <div className="report-popup-header">
+          <div className="report-popup-header-icon">
+            <BarChart3 size={28} color="white" />
+          </div>
+          <h2 className="report-popup-title">Schedule Your {table} Report</h2>
+          <p className="report-popup-subtitle">
+            Select the frequency for generating the {table} Report
+          </p>
+          <button onClick={onClose} className="report-popup-close-btn">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="report-popup-content">
+          <div className="report-frequency-options">
+            {frequencyOptions.map((option) => {
+              const IconComponent = option.icon;
+              return (
+                <div
+                  key={option.id}
+                  className="report-frequency-card"
+                  onClick={() => handleFrequencySelect(option.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleFrequencySelect(option.id);
+                    }
+                  }}
+                >
+                  <div className="report-frequency-icon">
+                    <IconComponent size={20} color="white" />
+                  </div>
+                  <h3 className="report-frequency-title">{option.title}</h3>
+                  <p className="report-frequency-description">{option.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </Box>
     </Modal>
   );

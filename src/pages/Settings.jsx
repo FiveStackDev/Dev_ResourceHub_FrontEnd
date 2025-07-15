@@ -5,22 +5,81 @@ import AccountSection from '../components/Settings/AccountSettings';
 import OrganizationSection from '../components/Settings/OrganizationSettings';
 import AdminLayout from '../layouts/Admin/AdminLayout';
 import UserLayout from '../layouts/User/UserLayout';
-import { Tabs, Tab, Box, Paper } from '@mui/material';
+import { Tabs, Tab, Box, Paper, Typography, Card, CardContent, Stack } from '@mui/material';
 import { useUser } from '../contexts/UserContext';
+import { useThemeContext } from '../theme/ThemeProvider';
+import ThemeToggle from '../layouts/shared/ThemeToggle';
+import { Palette, Monitor } from 'lucide-react';
 
 const Settings = () => {
-
   // Get the user's role from context
   const { userData } = useUser();
   const userRole = userData.role;
+  const { mode } = useThemeContext();
 
-  // State to track which tab is active (0 = Profile, 1 = Account)
+  // State to track which tab is active (0 = Profile, 1 = Account, 2 = Organization, 3 = Theme)
   const [tab, setTab] = useState(0);
 
   // Handler for changing tabs
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
+
+  // Theme Settings Component
+  const ThemeSettings = () => (
+    <Box sx={{ maxWidth: 600, mx: 'auto', mt: 2 }}>
+      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
+        Appearance Settings
+      </Typography>
+      
+      <Stack spacing={3}>
+        <Card elevation={1}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Palette size={24} style={{ marginRight: 12, color: '#3b82f6' }} />
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Theme Preference
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Choose between light and dark theme for your interface
+            </Typography>
+            
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                <Typography variant="body2" fontWeight={500}>Icon Toggle</Typography>
+                <ThemeToggle variant="icon" size="large" />
+              </Box>
+              
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                <Typography variant="body2" fontWeight={500}>Button Toggle</Typography>
+                <ThemeToggle variant="button" />
+              </Box>
+              
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                <Typography variant="body2" fontWeight={500}>Switch Toggle</Typography>
+                <ThemeToggle variant="switch" />
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Card elevation={1}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Monitor size={24} style={{ marginRight: 12, color: '#3b82f6' }} />
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Current Theme
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
+              You are currently using <strong>{mode === 'light' ? 'Light' : 'Dark'}</strong> theme
+            </Typography>
+          </CardContent>
+        </Card>
+      </Stack>
+    </Box>
+  );
 
   // Common content for both Admin and User layouts
   const renderContent = (
@@ -31,7 +90,8 @@ const Settings = () => {
       <Tabs value={tab} onChange={handleTabChange} centered sx={{ mb: 3 }}>
         <Tab label="Profile" />
         <Tab label="Account" />
-           {userRole === 'Admin' && <Tab label="Organization" />}
+        {userRole === 'Admin' && <Tab label="Organization" />}
+        <Tab label="Theme" />
       </Tabs>
 
       {/* Tab content */}
@@ -39,6 +99,7 @@ const Settings = () => {
         {tab === 0 && <ProfileSection />}
         {tab === 1 && <AccountSection />}
         {tab === 2 && userRole === 'Admin' && <OrganizationSection />}
+        {(tab === 2 && userRole !== 'Admin') || (tab === 3) ? <ThemeSettings /> : null}
       </Box>
     </Paper>
   );

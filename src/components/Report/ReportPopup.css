@@ -1,0 +1,225 @@
+/* Report Popup Styles */
+
+/* Backdrop styling for Material-UI Modal */
+.report-popup-backdrop {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Main popup container */
+.report-popup-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 450px;
+  background: linear-gradient(135deg, var(--report-popup-bg-primary) 0%, var(--report-popup-bg-secondary) 100%);
+  border-radius: 20px;
+  box-shadow: 0px 25px 50px -12px var(--report-popup-shadow);
+  padding: 0;
+  outline: none;
+  border: none;
+  animation: reportPopupSlideIn 0.3s ease-out;
+  overflow: hidden;
+}
+
+.report-popup-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--report-popup-accent-primary) 0%, var(--report-popup-accent-secondary) 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+/* Header section */
+.report-popup-header {
+  padding: 32px 32px 24px 32px;
+  text-align: center;
+  position: relative;
+}
+
+.report-popup-header-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--report-popup-accent-primary), var(--report-popup-accent-secondary));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+}
+
+.report-popup-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--report-popup-text-primary);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.report-popup-subtitle {
+  font-size: 16px;
+  color: var(--report-popup-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.report-popup-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--report-popup-text-secondary);
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-popup-close-btn:hover {
+  background: var(--report-popup-card-hover-bg);
+  color: var(--report-popup-text-primary);
+  transform: scale(1.1);
+}
+
+/* Content section */
+.report-popup-content {
+  padding: 0 32px 32px 32px;
+}
+
+.report-frequency-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Frequency option cards */
+.report-frequency-card {
+  background: var(--report-popup-card-bg);
+  border: 2px solid var(--report-popup-card-border);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.report-frequency-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.report-frequency-card:hover {
+  border-color: var(--report-popup-card-hover-border);
+  background: var(--report-popup-card-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.report-frequency-card:hover::before {
+  left: 100%;
+}
+
+.report-frequency-card:active {
+  transform: translateY(0);
+}
+
+.report-frequency-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--report-popup-text-primary);
+  margin: 0 0 8px 0;
+}
+
+.report-frequency-description {
+  font-size: 14px;
+  color: var(--report-popup-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Frequency icon styling */
+.report-frequency-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--report-popup-accent-primary), var(--report-popup-accent-secondary));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
+  transition: transform 0.3s ease;
+}
+
+.report-frequency-card:hover .report-frequency-icon {
+  transform: scale(1.1);
+}
+
+/* Animation for popup entrance */
+@keyframes reportPopupSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .report-popup-container {
+    width: 95%;
+    max-width: none;
+    margin: 20px;
+  }
+  
+  .report-popup-header {
+    padding: 24px 20px 20px 20px;
+  }
+  
+  .report-popup-content {
+    padding: 0 20px 24px 20px;
+  }
+  
+  .report-popup-title {
+    font-size: 20px;
+  }
+  
+  .report-popup-subtitle {
+    font-size: 14px;
+  }
+  
+  .report-frequency-card {
+    padding: 16px;
+  }
+  
+  .report-frequency-title {
+    font-size: 16px;
+  }
+}
+
+/* Focus states for accessibility */
+.report-frequency-card:focus,
+.report-popup-close-btn:focus {
+  outline: 2px solid var(--report-popup-accent-primary);
+  outline-offset: 2px;
+}

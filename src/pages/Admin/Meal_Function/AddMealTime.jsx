@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import MealCard from '../../../components/Meal/MealTime/MealTimeCard';
 import { MealCardPopup } from '../../../components/Meal/MealTime/AddMealTimePopup';
-import '../../css/AddMealTime.css';
+import '../../css/MealManagement.css';
 import AdminLayout from '../../../layouts/Admin/AdminLayout';
 import { BASE_URLS } from '../../../services/api/config';
 
@@ -78,11 +78,11 @@ function AddMealTime() {
         {/* Button to open the add meal time popup */}
         <Button
           variant="contained"
-          className="addbtn"
+          className="meal-add-btn"
           onClick={handlePopupOpen}
         >
           New Meal Time
-          <span className="addicon">
+          <span className="meal-add-icon">
             <AddIcon />
           </span>
         </Button>
@@ -91,7 +91,7 @@ function AddMealTime() {
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
         {/* Meal time cards */}
-        <div className="mealtimes">
+        <div className="meal-items-grid">
           {mealTimes.length > 0 ? (
             mealTimes.map((meal) => (
               <MealCard
@@ -103,7 +103,7 @@ function AddMealTime() {
               />
             ))
           ) : (
-            <p>No meal times available</p>
+            <p className="meal-no-items">No meal times available</p>
           )}
         </div>
 

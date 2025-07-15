@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Styles/ProfileSection.css';
+import { toast } from 'react-toastify';
+import { User, Camera, FileText, Save } from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
+import { useUser, decodeToken } from '../../contexts/UserContext';
+import { useThemeStyles } from '../../hooks/useThemeStyles';
 import ConfirmationDialog from './ConfirmationDialog';
-import { toast } from 'react-toastify';
-import { useUser } from '../../contexts/UserContext';
-import { decodeToken } from '../../contexts/UserContext';
+import './Styles/SettingsComponents.css';
 
 const ProfileSection = () => {
   // State to store form data
@@ -24,9 +25,14 @@ const ProfileSection = () => {
     onConfirm: null,
   });
 
-
   // Get user id from context
   const { userData } = useUser();
+  const { updateCSSVariables } = useThemeStyles();
+
+  // Apply theme variables when component mounts
+  React.useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
   // Fallback: decode token directly if userData.id is undefined
   let userId = userData.id;
   if (!userId) {
@@ -130,7 +136,10 @@ const ProfileSection = () => {
   return (
     <div className="profile-section">
       <div className="header">
-        <h2>Profile</h2>
+        <h2>Profile Settings</h2>
+        <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: '0 0 16px 0' }}>
+          Customize your profile information and appearance
+        </p>
         {formData.picture && (
           <img
             src={formData.picture}
@@ -141,36 +150,61 @@ const ProfileSection = () => {
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
-          <label>Name</label>
+          <label>
+            <User size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Display Name
+          </label>
           <input
             className="form-input"
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
+            placeholder="Enter your display name"
             required
           />
         </div>
         <div className="form-group">
-          <label>Profile Picture URL</label>
+          <label>
+            <Camera size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Profile Picture URL
+          </label>
           <input
             className="form-input"
             type="url"
             name="picture"
             value={formData.picture}
             onChange={handleChange}
+            placeholder="Enter profile picture URL"
           />
         </div>
         <div className="form-group">
-          <label>Bio</label>
+          <label>
+            <FileText size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Bio (150 characters max)
+          </label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            rows="3"
+            rows="4"
+            placeholder="Tell us about yourself..."
+            maxLength={150}
           />
+          <small style={{ 
+            color: 'var(--settings-popup-text-secondary)', 
+            fontSize: '13px', 
+            textAlign: 'right', 
+            display: 'block',
+            marginTop: '4px'
+          }}>
+            {formData.bio.length}/150 characters
+          </small>
         </div>
-        <button type="submit">Save Profile</button>
+        <button type="submit">
+          <Save size={18} />
+          Save Profile
+        </button>
       </form>
       {confirmationDialog.open && (
         <ConfirmationDialog

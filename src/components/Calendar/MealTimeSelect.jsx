@@ -1,7 +1,8 @@
 import { getAuthHeader } from '../../utils/authHeader';
 import React, { useState, useEffect } from 'react';
+import { useThemeStyles } from '../../hooks/useThemeStyles';
 import MealTimeCard from './MealTimeCard';
-import './Calender-CSS/MealTimeSelect.css';
+import './CalendarComponents.css';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from 'react-toastify';
 
@@ -12,6 +13,14 @@ export default function MealTimeSelect({
 }) {
   const [mealTimes, setMealTimes] = useState([]);
   const [error, setError] = useState(null);
+
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
   useEffect(() => {
     fetchMealTimes(); // Fetch meal times when component mounts
@@ -41,9 +50,9 @@ export default function MealTimeSelect({
 
   return (
     <div>
-      <h3>Select a meal time</h3>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div className="meal">
+      <h3 className="calendar-section-title">Select a meal time</h3>
+      {error && <div className="calendar-error-message">{error}</div>}
+      <div className="calendar-meal-grid">
         {mealTimes.map((mealtime) => (
           <MealTimeCard
             key={mealtime.mealtime_id}

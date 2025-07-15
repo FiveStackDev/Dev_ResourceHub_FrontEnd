@@ -20,30 +20,69 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { Pencil, Trash2, SendHorizontal } from 'lucide-react';
+import { Pencil, Trash2, SendHorizontal, Send, X } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
 import { DeleteConfirmDialog } from './DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../services/api/config.js';
+import './MaintenanceDialog.css';
 
 const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Confirm Notification</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Are you sure you want to send this notification?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
-          Send
-        </Button>
-      </DialogActions>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="sm" 
+      fullWidth
+      BackdropProps={{
+        style: {
+          backdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)'
+        }
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          overflow: 'visible'
+        }
+      }}
+    >
+      <div className="maintenance-popup-container">
+        <div className="maintenance-popup-header">
+          <div className="maintenance-popup-header-content">
+            <div className="maintenance-popup-header-icon">
+              <SendHorizontal size={24} color="#3b82f6" />
+            </div>
+            <div>
+              <h2 className="maintenance-popup-title">Confirm Notification</h2>
+              <p className="maintenance-popup-subtitle">Send maintenance notification to user</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="maintenance-popup-close-btn">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="maintenance-popup-content">
+          <div className="maintenance-delete-warning-box">
+            <p className="maintenance-delete-warning-text">
+              Are you sure you want to send this notification? 
+              The user will be notified about their maintenance request status.
+            </p>
+          </div>
+        </div>
+
+        <div className="maintenance-popup-actions">
+          <button onClick={onClose} className="maintenance-popup-cancel-btn">
+            Cancel
+          </button>
+          <button onClick={onConfirm} className="maintenance-popup-submit-btn">
+            <Send size={16} />
+            Send Notification
+          </button>
+        </div>
+      </div>
     </Dialog>
   );
 };

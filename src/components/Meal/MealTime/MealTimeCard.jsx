@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,6 +15,7 @@ import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 
 function MealCard({ mealId, name, image, onDelete }) {
   // State to control edit popup visibility
@@ -26,6 +28,14 @@ function MealCard({ mealId, name, image, onDelete }) {
   const [mealImage, setMealImage] = React.useState(image);
   // State to hold error messages
   const [error, setError] = React.useState(null);
+  
+  // Theme styles hook
+  const { updateCSSVariables } = useThemeStyles();
+  
+  // Update CSS variables when theme changes
+  useEffect(() => {
+    updateCSSVariables();
+  }, [updateCSSVariables]);
 
   // Open edit popup and reset errors
   const handleEditClickOpen = () => {
@@ -132,6 +142,7 @@ function MealCard({ mealId, name, image, onDelete }) {
         onClose={handleDeleteClose}
         onDelete={handleConfirmDelete}
         mealId={mealId}
+        mealName={mealName}
       />
     </div>
   );
