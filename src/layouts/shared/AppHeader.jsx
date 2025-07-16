@@ -127,8 +127,8 @@ const AppHeader = ({
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
-          {/* Only render ModeToggle if user has Admin role */}
-          {userData.role === 'Admin' && (
+          {/* Only render ModeToggle if user has Admin or SuperAdmin role */}
+          {(userData.role === 'Admin' || userData.role === 'SuperAdmin') && (
             <ModeToggle
               isAdmin={isAdminView}
               toggleAdminMode={toggleAdminMode}

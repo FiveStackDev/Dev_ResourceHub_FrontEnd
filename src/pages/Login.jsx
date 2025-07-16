@@ -48,7 +48,7 @@ useEffect(() => {
       const userRole =
         decoded.role?.charAt(0).toUpperCase() +
         decoded.role?.slice(1).toLowerCase();
-      if (userRole === 'Admin') {
+      if (userRole === 'Admin' || userRole === 'SuperAdmin') {
         navigate('/admin-dashboardadmin', { replace: true });
       } else {
         navigate('/user-dashboarduser', { replace: true });
@@ -78,10 +78,7 @@ useEffect(() => {
       }
 
       localStorage.setItem('token', data.token);
-      // Do NOT store userRole, isAuthenticated, or Userid in localStorage for security
-      // localStorage.setItem('userRole', userRole);
-      // localStorage.setItem('isAuthenticated', 'true');
-      // localStorage.setItem('Userid', data.id);
+
 
       // Decode and log token details for debugging and navigate
       try {
@@ -100,7 +97,7 @@ useEffect(() => {
         const userRole =
           decoded.role?.charAt(0).toUpperCase() +
           decoded.role?.slice(1).toLowerCase();
-        if (userRole === 'Admin') {
+        if (userRole === 'Admin' || userRole === 'SuperAdmin') {
           navigate('/admin-dashboardadmin');
         } else {
           navigate('/user-dashboarduser');

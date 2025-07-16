@@ -128,7 +128,7 @@ function Notification() {
 
   return (
     <>
-      {userRole == 'Admin' ? (
+      {userRole == 'Admin' || userRole == 'SuperAdmin' ? (
         <AdminLayout>{renderContent}</AdminLayout>
       ) : userRole == 'User' ? (
         <UserLayout>{renderContent}</UserLayout>

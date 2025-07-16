@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 
 interface ProtectedRouteProps {
-  requiredRole: 'Admin' | 'User';
+  requiredRole: 'Admin' | 'User' | 'SuperAdmin';
   children: React.ReactNode;
 }
 
@@ -41,6 +41,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Normalize roles for case-insensitive comparison
   const userRole = userData.role?.toLowerCase?.() || '';
   const requiredRoleLower = requiredRole.toLowerCase();
+
+  // SuperAdmins can access all routes (Admin, User, and SuperAdmin)
+  if (userRole === 'superadmin') {
+    return <>{children}</>;
+  }
 
   // Admins can access both admin and user routes
   if (userRole === 'admin') {

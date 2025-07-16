@@ -11,13 +11,15 @@ import {
   IconButton,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { BASE_URLS } from '../services/api/config';
 
 function Register() {
   const [credentials, setCredentials] = useState({
     org_name: '',
     email: '',
+    username: '',
     confirmPassword: '',
-    password: ''
+    password: '',
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +41,7 @@ function Register() {
     const { name, value } = e.target;
     setCredentials((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     if (name === 'password') {
@@ -59,14 +61,46 @@ function Register() {
       return;
     }
 
-    // Proceed with registration request here
-    // Example: await axios.post(...)
+    setIsLoading(true);
+    try {
+      const payload = {
+        org_name: credentials.org_name,
+        email: credentials.email,
+        username: credentials.username,
+        password: credentials.password,
+      };
+      const response = await fetch(`${BASE_URLS.orgsettings}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(typeof getAuthHeader === 'function' ? getAuthHeader() : {}),
+        },
+        body: JSON.stringify(payload),
+      });
 
-    setIsLoading(false);
+      if (response.ok) {
+        toast.success('Registration successful!');
+        setCredentials({
+          org_name: '',
+          email: '',
+          username: '',
+          confirmPassword: '',
+          password: '',
+        });
+      } else {
+        const errorData = await response.json();
+        setErrorMessage( 'Failed to register');
+      }
+    } catch (err) {
+      setErrorMessage('An error occurred. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (e) => e.preventDefault();
 
   return (
@@ -98,7 +132,20 @@ function Register() {
 
           {/* Email */}
           <TextField
-            label="Email Address"
+            label="Username"
+            name="username"
+            type="test"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={credentials.username}
+            onChange={handleChange}
+            required
+          />
+
+          {/* Email */}
+          <TextField
+            label="Youer Email Address"
             name="email"
             type="email"
             variant="outlined"
@@ -159,11 +206,11 @@ function Register() {
               label="Confirm Password"
             />
           </FormControl>
-            <div className="form-options"></div>
+          <div className="form-options"></div>
           <button className="submitbtn" type="submit" disabled={isLoading}>
             {isLoading ? 'Creating...' : 'Register'}
           </button>
-         <br></br>
+          <br></br>
           <div className="form-options">
             <p>
               Already have an account? <Link to="/login">Login</Link>

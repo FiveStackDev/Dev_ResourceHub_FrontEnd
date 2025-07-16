@@ -214,7 +214,11 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                           fontSize: '0.75rem',
                           fontWeight: 600,
                           backgroundColor:
-                            user.userType === 'Admin'
+                            user.userType === 'SuperAdmin'
+                              ? theme.palette.mode === 'dark'
+                                ? alpha('#9333ea', 0.2)
+                                : alpha('#9333ea', 0.1)
+                              : user.userType === 'Admin'
                               ? theme.palette.mode === 'dark'
                                 ? alpha(theme.palette.primary.main, 0.2)
                                 : alpha(theme.palette.primary.main, 0.1)
@@ -222,7 +226,9 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                                 ? alpha(theme.palette.grey[700], 0.5)
                                 : alpha(theme.palette.grey[300], 0.8),
                           color:
-                            user.userType === 'Admin'
+                            user.userType === 'SuperAdmin'
+                              ? '#9333ea'
+                              : user.userType === 'Admin'
                               ? theme.palette.primary.main
                               : theme.palette.text.secondary,
                         }}

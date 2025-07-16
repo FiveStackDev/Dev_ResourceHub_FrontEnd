@@ -66,7 +66,7 @@ const Settings = () => {
       <Tabs value={tab} onChange={handleTabChange} centered sx={{ mb: 3 }}>
         <Tab label="Profile" />
         <Tab label="Account" />
-        {userRole === 'Admin' && <Tab label="Organization" />}
+        {(userRole === 'SuperAdmin') && <Tab label="Organization" />}
         <Tab label="Theme" />
       </Tabs>
 
@@ -74,8 +74,8 @@ const Settings = () => {
       <Box>
         {tab === 0 && <ProfileSection />}
         {tab === 1 && <AccountSection />}
-        {tab === 2 && userRole === 'Admin' && <OrganizationSection />}
-        {(tab === 2 && userRole !== 'Admin') || (tab === 3) ? <ThemeSettings /> : null}
+        {tab === 2 && (userRole === 'SuperAdmin') && <OrganizationSection />}
+        {((tab === 2 && userRole !== 'SuperAdmin') || (tab === 3)) ? <ThemeSettings /> : null}
       </Box>
     </Paper>
   );
@@ -83,12 +83,11 @@ const Settings = () => {
   // Layout conditional rendering based on role
   return (
     <>
-      {userRole === 'Admin' ? (
+      {userRole === 'Admin' || userRole === 'SuperAdmin' ? (
         <AdminLayout>{renderContent}</AdminLayout>
       ) : userRole === 'User' ? (
         <UserLayout>{renderContent}</UserLayout>
       ) : (
-        // If no valid role is found, show fallback
         <div className="max-w-2xl mx-auto p-4">
           <p>Please log in to view this page.</p>
         </div>

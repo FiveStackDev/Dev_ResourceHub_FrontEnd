@@ -21,6 +21,7 @@ export interface UserData {
 
 interface UserContextType {
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   toggleAdminMode: () => void;
   userData: UserData;
   refreshUserData: () => void;
@@ -37,6 +38,7 @@ const defaultUser: UserData = {
 
 const UserContext = createContext<UserContextType>({
   isAdmin: false,
+  isSuperAdmin: false,
   toggleAdminMode: () => {},
   userData: defaultUser,
   refreshUserData: () => {},
@@ -141,7 +143,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [refreshUserData]);
 
   const isUserAdmin = useMemo(
-    () => userData.role?.toLowerCase() === 'admin',
+    () => userData.role?.toLowerCase() === 'admin' || userData.role?.toLowerCase() === 'superadmin',
+    [userData.role],
+  );
+
+  const isSuperAdmin = useMemo(
+    () => userData.role?.toLowerCase() === 'superadmin',
     [userData.role],
   );
 
@@ -157,13 +164,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const value = useMemo(
     () => ({
       isAdmin: isUserAdmin,
+      isSuperAdmin,
       toggleAdminMode,
       userData,
       refreshUserData,
       isAdminView,
       loading,
     }),
-    [isUserAdmin, toggleAdminMode, userData, refreshUserData, isAdminView, loading],
+    [isUserAdmin, isSuperAdmin, toggleAdminMode, userData, refreshUserData, isAdminView, loading],
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
