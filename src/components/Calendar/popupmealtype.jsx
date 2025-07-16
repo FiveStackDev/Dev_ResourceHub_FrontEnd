@@ -30,7 +30,7 @@ function Popupmealtype({ open, handleClose, onAddEvent }) {
         <div className="calendar-popup-header">
           <div className="calendar-popup-header-content">
             <div className="calendar-popup-header-icon">
-              <ShoppingCart size={24} color="#22c55e" />
+              <ShoppingCart size={24} color="#3b82f6" />
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="calendar-popup-title">Choose Meal Type</h2>

@@ -36,7 +36,7 @@ function Popup({
         <div className="calendar-popup-header">
           <div className="calendar-popup-header-content">
             <div className="calendar-popup-header-icon">
-              <Calendar size={24} color="#22c55e" />
+              <Calendar size={24} color="#3b82f6" />
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="calendar-popup-title">Schedule Meal</h2>
