@@ -37,7 +37,7 @@ const navItems = [
     ],
   },
   {
-    title: <Link to="/admin-assethome"> Assets</Link>,
+    title: 'Assets',
     icon: <AssetIcon />,
     path: '/admin-assethome',
     submenu: [
