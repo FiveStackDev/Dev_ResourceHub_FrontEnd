@@ -56,7 +56,7 @@ const AdminHeader = () => {
   return (
     <AppHeader
       title="Resource Hub" // Updated title
-      logo={formData.org_logo || '/WSO2 logo.png'} // Updated logo path with fallback
+      logo={formData.org_logo || '/ResourceHub.png'} // Updated logo path with fallback
       notificationCount={0}
       showSettings={false}
       showOrdersInProfile={false}
