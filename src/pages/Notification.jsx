@@ -69,7 +69,7 @@ function Notification() {
   const renderContent = (
     <section className="relative flex flex-col justify-start overflow-hidden antialiased">
       <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-6">
-        <h2 className="text-xl font-bold mb-6">Maintenance Notifications</h2>
+        <h2 className="text-xl font-bold mb-6">Notifications</h2>
         <div className="space-y-4">
           {paginatedNotifications.map((notification, index) => (
             <MaintenanceNotificationCard
