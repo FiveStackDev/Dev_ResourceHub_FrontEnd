@@ -29,52 +29,28 @@ const Settings = () => {
   const ThemeSettings = () => (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 2 }}>
       <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
-        Appearance Settings
+        Other Settings
       </Typography>
       
       <Stack spacing={3}>
-        <Card elevation={1}>
-          <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <Palette size={24} style={{ marginRight: 12, color: '#3b82f6' }} />
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Theme Preference
-              </Typography>
-            </Box>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-              Choose between light and dark theme for your interface
-            </Typography>
-            
-            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                <Typography variant="body2" fontWeight={500}>Icon Toggle</Typography>
-                <ThemeToggle variant="icon" size="large" />
-              </Box>
-              
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                <Typography variant="body2" fontWeight={500}>Button Toggle</Typography>
-                <ThemeToggle variant="button" />
-              </Box>
-              
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                <Typography variant="body2" fontWeight={500}>Switch Toggle</Typography>
-                <ThemeToggle variant="switch" />
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
-
+      
         <Card elevation={1}>
           <CardContent>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <Monitor size={24} style={{ marginRight: 12, color: '#3b82f6' }} />
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Current Theme
+                Appearance
               </Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary">
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column',margin:'auto' ,alignItems: 'center', gap: 1 }}>
+                <ThemeToggle variant="icon" size="large" />
+              </Box>
+            </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1,textAlign: 'center' }}>
               You are currently using <strong>{mode === 'light' ? 'Light' : 'Dark'}</strong> theme
             </Typography>
+
           </CardContent>
         </Card>
       </Stack>

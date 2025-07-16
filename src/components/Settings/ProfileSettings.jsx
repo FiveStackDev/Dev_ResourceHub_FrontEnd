@@ -151,7 +151,7 @@ const ProfileSection = () => {
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
           <label>
-            <User size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <User size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Display Name
           </label>
           <input
@@ -166,7 +166,7 @@ const ProfileSection = () => {
         </div>
         <div className="form-group">
           <label>
-            <Camera size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Camera size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Profile Picture URL
           </label>
           <input
@@ -180,8 +180,8 @@ const ProfileSection = () => {
         </div>
         <div className="form-group">
           <label>
-            <FileText size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
-            Bio (150 characters max)
+            <FileText size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
+            Bio
           </label>
           <textarea
             name="bio"

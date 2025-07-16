@@ -284,7 +284,7 @@ const AccountSection = () => {
         {/* Phone update form */}
         <form onSubmit={handlePhoneSubmit} className="form-group">
           <label>
-            <Phone size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Phone size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Phone Number
           </label>
           <input
@@ -304,7 +304,7 @@ const AccountSection = () => {
         {/* Email update section */}
         <div className="form-group">
           <label>
-            <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Email Address
           </label>
           <input

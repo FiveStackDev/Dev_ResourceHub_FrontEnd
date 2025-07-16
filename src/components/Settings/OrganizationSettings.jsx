@@ -283,7 +283,7 @@ const OrganizationSection = () => {
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
           <label>
-            <Building size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Building size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Organization Name
           </label>
           <input
@@ -298,7 +298,7 @@ const OrganizationSection = () => {
         </div>
         <div className="form-group">
           <label>
-            <Image size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Image size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Organization Logo
           </label>
           <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -324,7 +324,7 @@ const OrganizationSection = () => {
         </div>
         <div className="form-group">
           <label>
-            <MapPin size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <MapPin size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
             Organization Address
           </label>
           <textarea
@@ -345,7 +345,7 @@ const OrganizationSection = () => {
       
       <div className="form-group" style={{ marginTop: '24px' }}>
         <label>
-          <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+          <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
           Organization Email
         </label>
         <input
