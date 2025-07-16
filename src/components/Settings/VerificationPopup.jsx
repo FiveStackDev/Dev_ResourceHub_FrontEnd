@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Modal, Box } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { Shield, Mail, Check, X } from 'lucide-react';
 import { getAuthHeader } from '../../utils/authHeader';
 import { decodeToken, useUser } from '../../contexts/UserContext';
@@ -60,16 +60,24 @@ function VerificationPopup({ onClose, email, code }) {
   };
 
   return (
-    <Modal
+    <Dialog
       open={true}
       onClose={onClose}
+      maxWidth="sm"
+      fullWidth
       aria-labelledby="verification-popup-title"
       aria-describedby="verification-popup-description"
       BackdropProps={{
         className: 'verify-popup-backdrop'
       }}
+      PaperProps={{
+        style: {
+          borderRadius: '20px',
+          overflow: 'visible'
+        }
+      }}
     >
-      <Box className="verify-inner">
+      <div className="verify-inner">
         <div className="verify-header">
           <div className="verify-icon">
             <Shield className="shield-icon" />
@@ -118,8 +126,8 @@ function VerificationPopup({ onClose, email, code }) {
             </button>
           </div>
         </form>
-      </Box>
-    </Modal>
+      </div>
+    </Dialog>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Switch } from '@mui/material';
+import { Dialog, Switch } from '@mui/material';
 import { Send, User, Calendar, FileText, ToggleLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import AssetSearch from './AssetSearch';
@@ -109,11 +109,19 @@ function RequestButton({ open, onClose, onRequest }) {
   };
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={onClose}
+      maxWidth="sm"
+      fullWidth
       BackdropProps={{
         className: 'asset-popup-backdrop',
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          overflow: 'visible'
+        }
       }}
     >
       <div className="asset-popup-container">
@@ -217,7 +225,7 @@ function RequestButton({ open, onClose, onRequest }) {
           </button>
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 }
 

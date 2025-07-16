@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Box } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { AlertTriangle, Check, X } from 'lucide-react';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
 import './Styles/ConfirmationDialog.css';
@@ -14,16 +14,24 @@ const ConfirmationDialog = ({ message, onConfirm, onCancel }) => {
   }, [updateCSSVariables]);
 
   return (
-    <Modal
+    <Dialog
       open={true}
       onClose={onCancel}
+      maxWidth="sm"
+      fullWidth
       aria-labelledby="confirmation-dialog-title"
       aria-describedby="confirmation-dialog-description"
       BackdropProps={{
         className: 'confirmation-popup-backdrop'
       }}
+      PaperProps={{
+        style: {
+          borderRadius: '20px',
+          overflow: 'visible'
+        }
+      }}
     >
-      <Box className="confirmation-dialog">
+      <div className="confirmation-dialog">
         <div className="confirmation-header">
           <div className="confirmation-icon">
             <AlertTriangle className="warning-icon" />
@@ -45,8 +53,8 @@ const ConfirmationDialog = ({ message, onConfirm, onCancel }) => {
             Cancel
           </button>
         </div>
-      </Box>
-    </Modal>
+      </div>
+    </Dialog>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Switch } from '@mui/material';
+import { Dialog, Switch } from '@mui/material';
 import { Edit, Package, MapPin, ToggleLeft } from 'lucide-react';
 import { BASE_URLS } from '../../../services/api/config';
 import { toast } from 'react-toastify';
@@ -90,11 +90,19 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
   };
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={onClose}
+      maxWidth="sm"
+      fullWidth
       BackdropProps={{
         className: 'asset-popup-backdrop',
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          overflow: 'visible'
+        }
       }}
     >
       <div className="asset-popup-container">
@@ -213,7 +221,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           </button>
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 }
 

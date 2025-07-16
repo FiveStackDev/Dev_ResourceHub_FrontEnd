@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Modal } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { AlertTriangle, Trash2 } from 'lucide-react';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import '../AssetComponents.css';
@@ -14,11 +14,19 @@ function DeleteAssetPopup({ open, asset, onClose, onDelete }) {
   }, [updateCSSVariables]);
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={onClose}
+      maxWidth="sm"
+      fullWidth
       BackdropProps={{
         className: 'asset-popup-backdrop',
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          overflow: 'visible'
+        }
       }}
     >
       <div className="asset-delete-container">
@@ -52,7 +60,7 @@ function DeleteAssetPopup({ open, asset, onClose, onDelete }) {
           </button>
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 }
 

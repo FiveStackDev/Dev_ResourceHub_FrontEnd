@@ -13,16 +13,10 @@
 }
 
 .verify-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: var(--settings-popup-bg-primary);
   border: 1px solid var(--settings-popup-border-color, #e2e8f0);
   border-radius: 20px;
   padding: 32px;
-  width: 90%;
-  max-width: 480px;
   max-height: 85vh;
   box-shadow: 0 25px 50px -12px var(--settings-popup-shadow);
   animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);

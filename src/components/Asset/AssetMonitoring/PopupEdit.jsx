@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '@mui/material/Modal';
-import Switch from '@mui/material/Switch';
+import { Dialog, Switch } from '@mui/material';
 import { Edit, Calendar } from 'lucide-react';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import '../AssetComponents.css';
@@ -43,11 +42,19 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
   };
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={handleClose}
+      maxWidth="sm"
+      fullWidth
       BackdropProps={{
         className: 'asset-popup-backdrop',
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          overflow: 'visible'
+        }
       }}
       aria-labelledby="edit-asset-modal-title"
       aria-describedby="edit-asset-modal-description"
@@ -154,7 +161,7 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
           </button>
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 };
 

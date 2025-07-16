@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { Plus, Package } from 'lucide-react';
 import { BASE_URLS } from '../../../services/api/config';
 import { toast } from 'react-toastify';
@@ -79,11 +79,19 @@ function AssetAdd({ open, onClose, onAdd }) {
   };
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={onClose}
+      maxWidth="sm"
+      fullWidth
       BackdropProps={{
         className: 'asset-popup-backdrop',
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          overflow: 'visible'
+        }
       }}
     >
       <div className="asset-popup-container">
@@ -188,7 +196,7 @@ function AssetAdd({ open, onClose, onAdd }) {
           </button>
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 }
 
