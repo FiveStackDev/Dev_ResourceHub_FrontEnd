@@ -45,10 +45,8 @@ useEffect(() => {
       if (!payload) throw new Error('Malformed token');
       const decoded = JSON.parse(base64UrlDecode(payload));
       // console.log('Decoded token:', decoded); // Remove or comment out for production
-      const userRole =
-        decoded.role?.charAt(0).toUpperCase() +
-        decoded.role?.slice(1).toLowerCase();
-      if (userRole === 'Admin' || userRole === 'SuperAdmin') {
+      const role = decoded.role?.toLowerCase();
+      if (role === 'admin' || role === 'superadmin') {
         navigate('/admin-dashboardadmin', { replace: true });
       } else {
         navigate('/user-dashboarduser', { replace: true });
@@ -94,10 +92,8 @@ useEffect(() => {
         });
         refreshUserData();
         // Use decoded.role for navigation
-        const userRole =
-          decoded.role?.charAt(0).toUpperCase() +
-          decoded.role?.slice(1).toLowerCase();
-        if (userRole === 'Admin' || userRole === 'SuperAdmin') {
+        const role = decoded.role?.toLowerCase();
+        if (role === 'admin' || role === 'superadmin') {
           navigate('/admin-dashboardadmin');
         } else {
           navigate('/user-dashboarduser');
