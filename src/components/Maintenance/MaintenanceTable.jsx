@@ -192,6 +192,7 @@ export const MaintenanceTable = ({
           reference_id: maintenanceItem.maintenance_id,
           title: maintenanceItem.title || 'Maintenance Notification',
           message: maintenanceItem.description || 'A new maintenance notification has been sent.',
+          priority: maintenanceItem.priorityLevel || 'General',
         }),
       });
 

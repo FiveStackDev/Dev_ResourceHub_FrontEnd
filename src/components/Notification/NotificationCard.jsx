@@ -9,9 +9,9 @@ import {
   Button,
 } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
-// ...existing code...
 import InfoIcon from '@mui/icons-material/Info';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import BuildIcon from '@mui/icons-material/Build'; // Wrench icon
 
 
 // Notification type configurations
@@ -20,7 +20,7 @@ const getTypeConfig = (type) => {
     maintenance: {
       color: '#1976D2',
       label: 'Maintenance',
-      icon: InfoIcon,
+      icon: BuildIcon, // Wrench icon
     },
     asset_accept: {
       color: '#388E3C',
@@ -52,6 +52,18 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
     else type = 'default';
   }
   const config = getTypeConfig(type);
+  
+  // Priority level configs
+  // Priority level configs (4 distinct colors)
+  const priorityConfigs = {
+  general: { label: 'General', color: '#1976D2' },  // Blue - neutral, calm
+  low:     { label: 'Low',     color: '#FBC02D' },  // Brighter Yellow - better visibility
+  medium:  { label: 'Medium',  color: '#FB8C00' },  // Deep Orange - urgency but not danger
+  high:    { label: 'High',    color: '#C62828' },  // Deep Red - danger, critical
+  };
+  // Accept both priorityLevel and priority
+  const priorityLevel = (notification.priorityLevel || notification.priority || '').toLowerCase();
+  const priorityConfig = priorityConfigs[priorityLevel] || priorityConfigs.general;
 
   // If title is 'Asset Request Accepted', override icon and color
   let IconComponent = config.icon;
@@ -128,21 +140,20 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
                   : (notification.title || '').toLowerCase() === 'asset request rejected'
                   ? '#D32F2F'
                   : config.color,
-                              }}  >
-
-
-
+            }}
+          >
             {/* For asset reject, do not show username; for others, show title if available */}
             {type === 'asset_reject' ? config.label : (notification.title || config.label)}
           </Typography>
+          {/* Priority chip */}
           <Chip
-            label={config.label}
+            label={priorityConfig.label}
             size="small"
             sx={{
               ml: 1.5,
-              bgcolor: `${config.color}10`,
-              color: config.color,
-              border: `1px solid ${config.color}30`,
+              bgcolor: `${priorityConfig.color}10`,
+              color: priorityConfig.color,
+              border: `1px solid ${priorityConfig.color}30`,
               fontWeight: 700,
             }}
           />
@@ -183,12 +194,12 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
         {/* Date moved below title and chip */}
         {!notification.is_read && (
           <Button
-            variant="contained"
+            variant="outlined"
             size="small"
-            sx={{ mt: 1, bgcolor: '#1976D2', color: '#fff', fontWeight: 600, borderRadius: 2, textTransform: 'none', boxShadow: 'none', '&:hover': { bgcolor: '#115293' } }}
+            sx={{ mt: 1,  fontWeight: 600, borderRadius: 2, textTransform: 'none', boxShadow: 'none', '&:hover': { bgcolor: '#115293' } }}
             onClick={() => onMarkRead && onMarkRead(notification.notification_id)}
           >
-            Read
+           New
           </Button>
         )}
       </Box>

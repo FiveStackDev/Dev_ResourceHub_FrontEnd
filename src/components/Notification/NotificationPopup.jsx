@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box, Avatar } from '@mui/material';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
-import './MaintenanceDialog.css';
+import './NotificationDialog.css';
 
 
 // Notification type configurations (same as NotificationCard)

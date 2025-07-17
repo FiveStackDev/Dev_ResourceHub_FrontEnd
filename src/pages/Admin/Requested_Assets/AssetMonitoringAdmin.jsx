@@ -83,6 +83,7 @@ const AssetMonitoringAdmin = () => {
             reference_id: updatedAsset.requestedasset_id,
             title: `Asset Request ${updatedAsset.status}`,
             message: `Your asset request for '${updatedAsset.asset_name}' has been ${updatedAsset.status.toLowerCase()}.`,
+            priority: 'General', // Always set priority for asset notifications
           });
           toast.success('User notified about asset request status!');
         } catch (err) {
