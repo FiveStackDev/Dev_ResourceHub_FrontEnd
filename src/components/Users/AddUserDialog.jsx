@@ -41,10 +41,9 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
       return;
     }
 
-    // Only Super Admin can add Admins, Admin can only add Users
-    if (!isSuperAdmin && userType === 'Admin') {
+    // Only Admins should be blocked from submitting Admins
+    if (isAdmin && !isSuperAdmin && userType === 'Admin') {
       // Prevent Admin from adding Admins
-      setUserType('User');
       return;
     }
 
@@ -132,15 +131,10 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
                     value={userType}
                     label="User Type"
                     onChange={(e) => setUserType(e.target.value)}
+                    disabled={isAdmin && !isSuperAdmin}
                   >
-                    {isSuperAdmin ? (
-                      <>
-                        <MenuItem value="Admin">Admin</MenuItem>
-                        <MenuItem value="User">User</MenuItem>
-                      </>
-                    ) : (
-                      <MenuItem value="User">User</MenuItem>
-                    )}
+                    <MenuItem value="User">User</MenuItem>
+                    {isSuperAdmin && <MenuItem value="Admin">Admin</MenuItem>}
                   </Select>
                 </FormControl>
               </div>

@@ -51,8 +51,8 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
     onClose();
   };
 
-  // Determine if role dropdown should be disabled for Admins
-  const isEditingAdminOrSuperAdmin = isAdmin && (user.userType === 'Admin' || user.userType === 'SuperAdmin');
+  // Only disable dropdown/details if Admin is editing Admin/SuperAdmin
+  const isEditingAdminOrSuperAdmin = isAdmin && !isSuperAdmin && (user.userType === 'Admin' || user.userType === 'SuperAdmin');
 
   return (
     <Dialog 
@@ -113,14 +113,8 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
                     onChange={(e) => setUserType(e.target.value)}
                     disabled={isEditingAdminOrSuperAdmin}
                   >
-                    {isSuperAdmin ? (
-                      <>
-                        <MenuItem value="Admin">Admin</MenuItem>
-                        <MenuItem value="User">User</MenuItem>
-                      </>
-                    ) : (
-                      <MenuItem value="User">User</MenuItem>
-                    )}
+                    <MenuItem value="User">User</MenuItem>
+                    {isSuperAdmin && <MenuItem value="Admin">Admin</MenuItem>}
                   </Select>
                 </FormControl>
               </div>
