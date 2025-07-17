@@ -117,9 +117,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                     label="Priority Level"
                     onChange={(e) => setPriorityLevel(e.target.value)}
                   >
-                    <MenuItem value="Low">Low</MenuItem>
-                    <MenuItem value="Medium">Medium</MenuItem>
-                    <MenuItem value="High">High</MenuItem>
+                     <MenuItem value="Low">🟡 Low </MenuItem>
+                    <MenuItem value="Medium">🟠 Medium </MenuItem>
+                    <MenuItem value="High">🔴 High </MenuItem>
                   </Select>
                 </FormControl>
               </div>

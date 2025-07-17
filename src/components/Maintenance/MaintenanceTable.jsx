@@ -178,29 +178,33 @@ export const MaintenanceTable = ({
   };
 
   // Function to call addnotification endpoint
+  // Function to call sendMaintenanceNotification endpoint
   const handleSendNotification = async (maintenanceItem) => {
     try {
-      const response = await fetch(`${BASE_URLS.notification}/add`, {
+      const response = await fetch(`${BASE_URLS.notification}/sendMaintenanceNotification`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
         body: JSON.stringify({
-          user_id: parseInt(maintenanceItem.user_id),
-          maintenance_id: parseInt(maintenanceItem.maintenance_id),
+          type: 'maintenance',
+          reference_id: maintenanceItem.maintenance_id,
+          title: maintenanceItem.title || 'Maintenance Notification',
+          message: maintenanceItem.description || 'A new maintenance notification has been sent.',
+          priority: maintenanceItem.priorityLevel || 'General',
         }),
       });
 
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(
-          `Failed to add notification: ${response.status} ${errorText}`,
+          `Failed to send maintenance notification: ${response.status} ${errorText}`,
         );
       }
 
       const result = await response.json();
-      toast.success(result.message || 'Notification sent successfully!', {
+      toast.success(result.message || 'Maintenance notification sent to all users!', {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -210,7 +214,7 @@ export const MaintenanceTable = ({
         theme: 'colored',
       });
     } catch (error) {
-      console.error('Error adding notification:', error);
+      console.error('Error sending maintenance notification:', error);
       toast.error(`Failed to send notification: ${error.message}`, {
         position: 'top-right',
         autoClose: 3000,

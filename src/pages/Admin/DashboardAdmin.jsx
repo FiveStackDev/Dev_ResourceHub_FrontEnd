@@ -62,7 +62,7 @@ const iconMap = {
 };
 
 const AdminDashboard = () => {
-  const monthLabels = getMonthLabels();
+  // Use dynamic month labels from backend if available
   // If you use axios directly for authenticated endpoints, use getAuthConfig()
   // Example:
   // const response = await axios.get(`${BASE_URL}/some-protected-endpoint`, getAuthConfig());
@@ -103,16 +103,16 @@ const AdminDashboard = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
-            <StatCard
-              key={index}
-              title={stat.title}
-              value={stat.value}
-              icon={iconMap[stat.icon] || <BoxIcon />}
-              chartData={{
-                labels: monthLabels,
-                data: stat.monthlyData,
-              }}
-            />
+          <StatCard
+            key={index}
+            title={stat.title}
+            value={stat.value}
+            icon={iconMap[stat.icon] || <BoxIcon />}
+            chartData={{
+              labels: stat.monthLabels || [],
+              data: stat.monthlyData,
+            }}
+          />
           ))}
         </div>
         {/* Charts Grid */}

@@ -13,6 +13,7 @@ import { Search } from 'lucide-react';
 import AdminLayout from '../../../layouts/Admin/AdminLayout';
 import { BASE_URLS } from '../../../services/api/config';
 import { toast, ToastContainer } from 'react-toastify';
+import { sendAssetNotification } from '../../../utils/sendAssetNotification';
 
 const AssetMonitoringAdmin = () => {
   const navigate = useNavigate();
@@ -72,6 +73,23 @@ const AssetMonitoringAdmin = () => {
       if (!response.ok) throw new Error('Failed to update asset');
 
       await response.json();
+
+      // Send notification to user if status is approved or rejected
+      if (["Accepted", "Rejected"].includes(updatedAsset.status)) {
+        try {
+          await sendAssetNotification({
+            user_id: updatedAsset.user_id,
+            type: 'asset',
+            reference_id: updatedAsset.requestedasset_id,
+            title: `Asset Request ${updatedAsset.status}`,
+            message: `Your asset request for '${updatedAsset.asset_name}' has been ${updatedAsset.status.toLowerCase()}.`,
+            priority: 'General', // Always set priority for asset notifications
+          });
+          toast.success('User notified about asset request status!');
+        } catch (err) {
+          toast.error('Failed to send asset notification');
+        }
+      }
 
       toast.success('Asset updated successfully!');
 

@@ -11,11 +11,13 @@ import {
   InputLabel,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { useUser } from '../../contexts/UserContext';
 import { X, UserPlus } from 'lucide-react';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
 import './UserDialog.css';
 
 export const AddUserDialog = ({ open, onClose, onAdd }) => {
+  const { isSuperAdmin, isAdmin, userData } = useUser();
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('User');
   const [additionalDetails, setAdditionalDetails] = useState('');
@@ -36,6 +38,13 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
 
     if (!emailRegex.test(email)) {
       setEmailError(true);
+      return;
+    }
+
+    // Only Super Admin can add Admins, Admin can only add Users
+    if (!isSuperAdmin && userType === 'Admin') {
+      // Prevent Admin from adding Admins
+      setUserType('User');
       return;
     }
 
@@ -124,8 +133,14 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
                     label="User Type"
                     onChange={(e) => setUserType(e.target.value)}
                   >
-                    <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="User">User</MenuItem>
+                    {isSuperAdmin ? (
+                      <>
+                        <MenuItem value="Admin">Admin</MenuItem>
+                        <MenuItem value="User">User</MenuItem>
+                      </>
+                    ) : (
+                      <MenuItem value="User">User</MenuItem>
+                    )}
                   </Select>
                 </FormControl>
               </div>

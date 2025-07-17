@@ -11,11 +11,15 @@ import {
   InputLabel,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
+
 import { X, Edit } from 'lucide-react';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
+import { useUser } from '../../contexts/UserContext';
 import './UserDialog.css';
 
+
 export const EditUserDialog = ({ user, open, onClose, onSave }) => {
+  const { isSuperAdmin, isAdmin } = useUser();
   const [email, setEmail] = useState(user.email);
   const [userType, setUserType] = useState(user.userType);
   const [additionalDetails, setAdditionalDetails] = useState(
@@ -46,6 +50,9 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
     });
     onClose();
   };
+
+  // Determine if role dropdown should be disabled for Admins
+  const isEditingAdminOrSuperAdmin = isAdmin && (user.userType === 'Admin' || user.userType === 'SuperAdmin');
 
   return (
     <Dialog 
@@ -96,7 +103,7 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
                   className="user-popup-textfield"
                 />
               </div>
-              
+
               <div className="user-popup-input-group">
                 <FormControl fullWidth className="user-popup-select">
                   <InputLabel>User Type</InputLabel>
@@ -104,13 +111,20 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
                     value={userType}
                     label="User Type"
                     onChange={(e) => setUserType(e.target.value)}
+                    disabled={isEditingAdminOrSuperAdmin}
                   >
-                    <MenuItem value="Admin">Admin</MenuItem>
-                    <MenuItem value="User">User</MenuItem>
+                    {isSuperAdmin ? (
+                      <>
+                        <MenuItem value="Admin">Admin</MenuItem>
+                        <MenuItem value="User">User</MenuItem>
+                      </>
+                    ) : (
+                      <MenuItem value="User">User</MenuItem>
+                    )}
                   </Select>
                 </FormControl>
               </div>
-              
+
               <div className="user-popup-input-group">
                 <TextField
                   fullWidth
@@ -120,6 +134,7 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
                   value={additionalDetails}
                   onChange={(e) => setAdditionalDetails(e.target.value)}
                   className="user-popup-textfield"
+                  disabled={isEditingAdminOrSuperAdmin}
                 />
               </div>
             </div>
@@ -136,6 +151,7 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
             <button 
               type="submit" 
               className="user-popup-submit-btn"
+              disabled={isEditingAdminOrSuperAdmin}
             >
               <Edit size={16} />
               Save Changes
