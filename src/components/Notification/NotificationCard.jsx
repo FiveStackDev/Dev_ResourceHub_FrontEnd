@@ -56,7 +56,7 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
   // Priority level configs
   // Priority level configs (4 distinct colors)
   const priorityConfigs = {
-  general: { label: 'General', color: '#1976D2' },  // Blue - neutral, calm
+  general: { label: 'General', color: '#9E9E9E' },  // Blue - neutral, calm
   low:     { label: 'Low',     color: '#FBC02D' },  // Brighter Yellow - better visibility
   medium:  { label: 'Medium',  color: '#FB8C00' },  // Deep Orange - urgency but not danger
   high:    { label: 'High',    color: '#C62828' },  // Deep Red - danger, critical
