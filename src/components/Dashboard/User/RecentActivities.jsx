@@ -20,7 +20,7 @@ export const RecentActivities = ({ activities }) => {
       </h2>
       <div className="space-y-4">
         {activities.map((activity, index) => {
-          const formattedDate = new Date(activity.timestamp).toLocaleString(); // Format date and time
+          const formattedDate = new Date(activity.timestamp).toLocaleDateString();
           return (
             <div
               key={index}
