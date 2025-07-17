@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import AppHeader from '../shared/AppHeader';
 import { getUnreadCount } from '../../utils/notificationApi';
 import { useUser, decodeToken } from '../../contexts/UserContext';
-import { getAuthHeader } from '../../utils/authHeader';
-import { BASE_URLS } from '../../services/api/config';
 
 const AdminHeader = () => {
 
