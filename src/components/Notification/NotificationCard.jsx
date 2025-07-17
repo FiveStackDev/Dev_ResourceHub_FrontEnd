@@ -9,7 +9,7 @@ import {
   Button,
 } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
-import WarningIcon from '@mui/icons-material/Warning';
+// ...existing code...
 import InfoIcon from '@mui/icons-material/Info';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -33,7 +33,7 @@ const getTypeConfig = (type) => {
       icon: ErrorIcon,
     },
     default: {
-      color: '#FFB300',
+      color: '#ffb813ff',
       label: 'General',
       icon: InfoIcon,
     },
@@ -54,16 +54,13 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
   const config = getTypeConfig(type);
 
   // If title is 'Asset Request Accepted', override icon and color
-  let showGreenTick = false;
   let IconComponent = config.icon;
   let cardColor = config.color;
   if ((notification.title || '').toLowerCase() === 'asset request accepted') {
-    showGreenTick = true;
     IconComponent = CheckCircleIcon;
     cardColor = '#388E3C';
   }
-    if ((notification.title || '').toLowerCase() === 'asset request rejected') {
-    showGreenTick = true;
+  if ((notification.title || '').toLowerCase() === 'asset request rejected') {
     IconComponent = InfoIcon;
     cardColor = '#D32F2F';
   }
@@ -131,8 +128,10 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
                   : (notification.title || '').toLowerCase() === 'asset request rejected'
                   ? '#D32F2F'
                   : config.color,
-            }}
-          >
+                              }}  >
+
+
+
             {/* For asset reject, do not show username; for others, show title if available */}
             {type === 'asset_reject' ? config.label : (notification.title || config.label)}
           </Typography>
@@ -164,6 +163,10 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
         >
           {notification.description}
         </Typography>
+        {/* Date below title and chip */}
+        <Typography variant="body2" color="text.secondary">
+          Date: {notification.created_at ? notification.created_at.replace(/\.0$/, '') : ''}
+        </Typography>
       </Box>
 
       {/* Date & Unread Button Section */}
@@ -177,9 +180,7 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
           width: '160px',
         }}
       >
-        <Typography variant="caption" color="text.secondary">
-          {notification.date || notification.request_date}
-        </Typography>
+        {/* Date moved below title and chip */}
         {!notification.is_read && (
           <Button
             variant="contained"
@@ -191,6 +192,7 @@ export const NotificationCard = ({ notification, onMarkRead }) => {
           </Button>
         )}
       </Box>
+
     </Card>
   );
 };
