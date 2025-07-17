@@ -41,25 +41,29 @@ const OrganizationSection = () => {
   }, [updateCSSVariables]);
   // Fallback: decode token directly if userData.id is undefined
   let userId = userData.id;
+  let orgId = null;
   if (!userId) {
     const decoded = decodeToken();
     userId = decoded?.id;
-    console.log('ProfileSettings fallback decoded userId:', userId);
+    orgId = decoded?.org_id;
+    console.log('ProfileSettings fallback decoded userId:', userId, 'orgId:', orgId);
   } else {
-    console.log('ProfileSettings userId:', userId);
+    const decoded = decodeToken();
+    orgId = decoded?.org_id;
+    console.log('ProfileSettings userId:', userId, 'orgId:', orgId);
   }
 
   // Fetch user profile data on component mount
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (!userId) {
-          setError('User ID not found. Please log in again.');
+        if (!userId || !orgId) {
+          setError('User or Organization ID not found. Please log in again.');
           setLoading(false);
           return;
         }
         const { data } = await axios.get(
-          `${BASE_URLS.orgsettings}/details/1`,
+          `${BASE_URLS.orgsettings}/details/${orgId}`,
           {
             headers: {
               ...getAuthHeader(),
@@ -80,7 +84,7 @@ const OrganizationSection = () => {
       }
     };
     fetchUserData();
-  }, [userId]);
+  }, [userId, orgId]);
 
   // Handle changes in form inputs
   const handleChange = (e) => {
