@@ -1,0 +1,26 @@
+/* Notification popups and dialogs - reused from MaintenanceDialog.css */
+
+:root {
+  --notification-popup-bg-primary: #ffffff;
+  --notification-popup-bg-secondary: #f8fafc;
+  --notification-popup-text-primary: #1e293b;
+  --notification-popup-text-secondary: #64748b;
+  --notification-popup-border-color: #f1f5f9;
+  --notification-popup-shadow: rgba(0, 0, 0, 0.15);
+}
+[data-mui-color-scheme="dark"] {
+  --notification-popup-bg-primary: #1e1e2f;
+  --notification-popup-bg-secondary: #252537;
+  --notification-popup-text-primary: #ffffff;
+  --notification-popup-text-secondary: rgba(255, 255, 255, 0.7);
+  --notification-popup-border-color: #374151;
+  --notification-popup-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Example notification popup container */
+.notification-popup-container {
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0px 20px 40px var(--notification-popup-shadow);
+  background: linear-gradient(135deg, var(--notification-popup-bg-primary) 0%, var(--notification-popup-bg-secondary) 100%);
+}

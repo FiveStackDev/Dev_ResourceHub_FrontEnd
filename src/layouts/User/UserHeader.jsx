@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AppHeader from '../shared/AppHeader';
+import { getUnreadCount } from '../../utils/notificationApi';
 import { useUser, decodeToken } from '../../contexts/UserContext';
 import { getAuthHeader } from '../../utils/authHeader';
 import { BASE_URLS } from '../../services/api/config';
@@ -24,7 +25,8 @@ const UserHeader = () => {
     console.log('UserHeader userId:', userId);
   }
 
-  // Fetch user profile data on component mount
+  // Fetch user profile data and unread notification count on component mount
+  const [unreadCount, setUnreadCount] = useState(0);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -45,6 +47,9 @@ const UserHeader = () => {
         setFormData({
           org_logo: organization.org_logo || '',
         });
+        // Fetch unread notification count
+        const count = await getUnreadCount();
+        setUnreadCount(count);
       } catch (err) {
         setError(err.response?.data?.message || err.message);
         console.error('Error fetching organization data:', err);
@@ -59,7 +64,7 @@ const UserHeader = () => {
     <AppHeader
       title="Resource Hub"
       logo={formData.org_logo || '/ResourceHub.png'}
-      notificationCount={0}
+      notificationCount={unreadCount}
       showSettings={false}
       showOrdersInProfile={true}
     />
