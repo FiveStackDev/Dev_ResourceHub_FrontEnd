@@ -163,7 +163,7 @@ const OrganizationSection = () => {
           
           // Send profile update request
           await axios.put(
-            `${BASE_URLS.orgsettings}/profile/1`,
+            `${BASE_URLS.orgsettings}/profile/${orgId}`,
             {
               org_name: formData.org_name,
               org_logo: imageUrl || formData.org_logo,
@@ -218,7 +218,7 @@ const OrganizationSection = () => {
       }
       if (!currentUserId) throw new Error('User ID not found');
       const { data } = await axios.get(
-        `${BASE_URLS.orgsettings}/details/1`,
+        `${BASE_URLS.orgsettings}/details/${orgId}`,
         {
           headers: {
             ...getAuthHeader(),

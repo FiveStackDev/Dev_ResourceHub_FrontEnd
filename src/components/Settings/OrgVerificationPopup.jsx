@@ -15,6 +15,14 @@ function OrgVerificationPopup({ onClose, email, code }) {
   const [inputcode, setInputCode] = useState('');
   const { userData } = useUser();
   const { updateCSSVariables } = useThemeStyles();
+  // Get orgId from user context or decoded token
+  let orgId = null;
+  if (userData?.org_id) {
+    orgId = userData.org_id;
+  } else {
+    const decoded = decodeToken();
+    orgId = decoded?.org_id;
+  }
 
   // Apply theme variables when component mounts
   React.useEffect(() => {
@@ -35,10 +43,11 @@ function OrgVerificationPopup({ onClose, email, code }) {
           userId = decoded?.id;
         }
         if (!userId) throw new Error('User ID not found in token');
+        if (!orgId) throw new Error('Organization ID not found');
 
         // Send verified email update to the server with Authorization header
         await axios.put(
-          `${BASE_URLS.orgsettings}/email/1`,
+          `${BASE_URLS.orgsettings}/email/${orgId}`,
           { email },
           {
             headers: {
