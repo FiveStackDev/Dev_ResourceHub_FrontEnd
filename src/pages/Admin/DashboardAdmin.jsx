@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, Typography, Paper } from '@mui/material';
+import { Grid, Box, Typography, Paper, Button, Alert } from '@mui/material';
 import {
   Users,
   Utensils,
@@ -7,6 +7,7 @@ import {
   Wrench,
   CalendarDays,
   PackageCheck,
+  Refresh,
 } from 'lucide-react';
 import axios from 'axios';
 import AdminLayout from '../../layouts/Admin/AdminLayout';
@@ -14,8 +15,10 @@ import { StatCard } from '../../components/Dashboard/Admin/StatCard';
 import { ResourceCard } from '../../components/Dashboard/Admin/ResourceCard';
 import { MealDistributionChart } from '../../components/Dashboard/Admin/MealDistributionChart';
 import { ResourceAllocation } from '../../components/Dashboard/Admin/ResourceAllocation';
+import ConnectionStatusIndicator from '../../components/Dashboard/Admin/ConnectionStatusIndicator';
+import RealtimeNotifications from '../../components/Dashboard/Admin/RealtimeNotifications';
 import { getMonthLabels } from '../../utils/dateUtils';
-import { useAdminDashboardData } from '../../query/adminDashboardQueries';
+import { useRealtimeAdminDashboard } from '../../query/adminDashboardQueries';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 
 const customUserActions = [
@@ -62,11 +65,22 @@ const iconMap = {
 };
 
 const AdminDashboard = () => {
-  // Use dynamic month labels from backend if available
-  // If you use axios directly for authenticated endpoints, use getAuthConfig()
-  // Example:
-  // const response = await axios.get(`${BASE_URL}/some-protected-endpoint`, getAuthConfig());
-  const { data, isLoading, isError, error, refetch } = useAdminDashboardData();
+  // Use the enhanced hook that combines REST API with real-time WebSocket updates
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    isRealtimeConnected,
+    realtimeError,
+    reconnectAttempts,
+    notifications,
+    retry,
+    refresh,
+    connect,
+    clearNotifications,
+    removeNotification,
+  } = useRealtimeAdminDashboard();
 
   if (isLoading) {
     return (
@@ -79,30 +93,77 @@ const AdminDashboard = () => {
   if (isError) {
     return (
       <AdminLayout>
-        <div className="p-6 text-red-500">
-          {error?.message ||
-            'Failed to load dashboard data. Please try again later.'}
-          <button
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            onClick={() => refetch()}
+        <div className="p-6">
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error?.message ||
+              'Failed to load dashboard data. Please try again later.'}
+          </Alert>
+          <Button
+            variant="contained"
+            startIcon={<Refresh />}
+            onClick={retry}
+            color="primary"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </AdminLayout>
     );
   }
 
-  const { stats, resources, mealData, resourceData } = data;
+  const { stats, resources, mealData, resourceData } = data || {};
 
   return (
     <AdminLayout>
       <div className="min-h-screen space-y-6 p-6">
-        {/* Heading */}
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        {/* Header with Connection Status */}
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+          <Typography variant="h4" component="h1" fontWeight="600">
+            Dashboard
+          </Typography>
+          
+          <Box display="flex" alignItems="center" gap={2}>
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={refresh}
+              size="small"
+            >
+              Refresh
+            </Button>
+            
+            <ConnectionStatusIndicator
+              isConnected={isRealtimeConnected}
+              connectionError={realtimeError}
+              reconnectAttempts={reconnectAttempts}
+              onRetry={connect}
+            />
+          </Box>
+        </Box>
+
+        {/* Real-time Notifications */}
+        <RealtimeNotifications
+          notifications={notifications}
+          onClearAll={clearNotifications}
+          onRemoveNotification={removeNotification}
+        />
+
+        {/* Connection Status Alert */}
+        {!isRealtimeConnected && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            Real-time updates are currently unavailable. Data may not be up-to-date.
+            {realtimeError && ` Error: ${realtimeError}`}
+          </Alert>
+        )}
+
+        {isRealtimeConnected && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            ✅ Real-time updates are active! Dashboard data will update automatically.
+          </Alert>
+        )}
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
+          {stats?.map((stat, index) => (
           <StatCard
             key={index}
             title={stat.title}
@@ -112,31 +173,22 @@ const AdminDashboard = () => {
               labels: stat.monthLabels || [],
               data: stat.monthlyData,
             }}
+            isRealtime={isRealtimeConnected}
           />
           ))}
         </div>
+        
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <MealDistributionChart data={mealData} />
+            {mealData && <MealDistributionChart data={mealData} />}
           </div>
           <div className="lg:col-span-1">
-            <ResourceAllocation data={resourceData} />
+            {resourceData && <ResourceAllocation data={resourceData} />}
           </div>
         </div>
-        {/* Resource Cards
-        <h2 className="text-xl font-semibold pt-4">Resource Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resources.map((resource, index) => (
-            <ResourceCard
-              key={index}
-              title={resource.title}
-              total={resource.total}
-              highPriority={resource.highPriority}
-              progress={resource.progress}
-            />
-          ))}
-        </div> */}
+        
+        {/* Quick Actions */}
         <QuickActions actions={customUserActions} />
       </div>
     </AdminLayout>
