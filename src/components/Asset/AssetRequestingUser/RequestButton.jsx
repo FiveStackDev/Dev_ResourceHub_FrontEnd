@@ -210,6 +210,7 @@ function RequestButton({ open, onClose, onRequest }) {
               onChange={handleInputChange}
               className="asset-form-textarea"
               placeholder="Please explain why you need this asset..."
+              required
               rows={3}
             />
           </div>

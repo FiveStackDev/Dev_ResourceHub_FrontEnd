@@ -182,6 +182,7 @@ function AssetAdd({ open, onClose, onAdd }) {
               onChange={handleInputChange}
               className="asset-form-input"
               placeholder="Enter location"
+              required
             />
           </div>
         </div>

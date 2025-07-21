@@ -120,6 +120,7 @@ function MealCalendar() {
 
       setEventData((prevEvents) => [...prevEvents, newEvent]);
       setPopupOpen(false);
+      await fetchEvents(); // Refresh calendar after adding
       toast.success('Event added successfully!');
     } catch (error) {
       console.error('Error adding event:', error);
