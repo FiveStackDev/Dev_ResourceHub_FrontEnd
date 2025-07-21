@@ -16,11 +16,14 @@ const UserHeader = () => {
   // Fetch unread notification count on mount
   const [unreadCount, setUnreadCount] = useState(0);
   useEffect(() => {
+    let intervalId;
     const fetchUnreadCount = async () => {
       const count = await getUnreadCount();
       setUnreadCount(count);
     };
     fetchUnreadCount();
+    intervalId = setInterval(fetchUnreadCount, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

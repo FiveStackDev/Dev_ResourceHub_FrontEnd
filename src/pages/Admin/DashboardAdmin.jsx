@@ -8,13 +8,13 @@ import {
   CalendarDays,
   PackageCheck,
 } from 'lucide-react';
-import axios from 'axios';
+// import axios from 'axios';
 import AdminLayout from '../../layouts/Admin/AdminLayout';
 import { StatCard } from '../../components/Dashboard/Admin/StatCard';
-import { ResourceCard } from '../../components/Dashboard/Admin/ResourceCard';
+// import { ResourceCard } from '../../components/Dashboard/Admin/ResourceCard';
 import { MealDistributionChart } from '../../components/Dashboard/Admin/MealDistributionChart';
 import { ResourceAllocation } from '../../components/Dashboard/Admin/ResourceAllocation';
-import { getMonthLabels } from '../../utils/dateUtils';
+// import { getMonthLabels } from '../../utils/dateUtils';
 import { useAdminDashboardData } from '../../query/adminDashboardQueries';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 
