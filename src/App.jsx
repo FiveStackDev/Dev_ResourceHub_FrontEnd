@@ -41,6 +41,8 @@ import MaintenanceDetailsUser from './pages/User/Maintenance/MaintenanceDetailsU
 // Shared Pages
 import Notification from './pages/Notification';
 import Settings from './pages/Settings';
+import OrganizationDetails from './pages/OrganizationDetails';
+
 
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
@@ -214,11 +216,12 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+          
 
               {/* Shared Routes */}
               <Route path="/notifications" element={<Notification />} />
               <Route path="/settings" element={<Settings />} />
-
+              <Route path="/organization" element={<OrganizationDetails />}/>
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>

@@ -1,0 +1,83 @@
+.orgDetailsWrapper {
+  width: 70%;
+  max-width: 50%;
+  margin: 10px auto;
+  padding: 20px 24px;
+}
+
+.orgDetailsWrapper h2{
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--settings-card-text-primary);
+    margin-bottom: 16px;
+}
+
+
+.orgDetailsWrapper label{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+.profile-section {
+  background: var(--settings-card-bg-primary);
+  border: 1px solid var(--settings-card-border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 20px var(--settings-card-shadow);
+  transition: all 0.3s ease;
+}
+
+.profile-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--settings-card-shadow);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--settings-card-border);
+}
+
+.form-container {
+  margin-top: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+
+.form-input {
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--settings-card-border);
+  background: var(--settings-background-tertiary);
+  color: var(--settings-card-text-primary);
+  font-size: 16px;
+  opacity: 0.8;
+  cursor: default;
+  margin-top: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.form-input:hover, .form-input:focus {
+  background: var(--settings-background-hover, #282a36);
+  border-color: var(--settings-accent-primary, #7c3aed);
+}
+
+.form-input[readonly],
+.form-input:read-only {
+  background: var(--settings-background-tertiary);
+  opacity: 0.8;
+  cursor: default;
+}
+
+textarea.form-input {
+  resize: none;
+  min-height: 80px;
+}

@@ -6,6 +6,7 @@ import {
   ListItemText,
   Collapse,
   useTheme,
+  Divider,
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
@@ -14,6 +15,7 @@ import {
   Build as MaintenanceIcon,
   People as UsersIcon,
   Settings as SettingsIcon,
+  Business as BusinessIcon,
   ExpandLess,
   ExpandMore,
 } from '@mui/icons-material';
@@ -58,11 +60,18 @@ const UserSidebar = () => {
 
   const sidebarFooter = (
     <List>
+      <ListItemButton component={Link} to="/organization">
+        <ListItemIcon sx={{ minWidth: 40 }}>
+          <BusinessIcon />
+        </ListItemIcon>
+        {isOpen && <ListItemText primary="Organization Details" />}
+      </ListItemButton>
+      <Divider sx={{ my: 1 }} />
       <ListItemButton component={Link} to="/settings">
         <ListItemIcon sx={{ minWidth: 40 }}>
           <SettingsIcon />
         </ListItemIcon>
-        {isOpen && <ListItemText primary="Profile Settings" />}
+        {isOpen && <ListItemText primary="Settings" />}
       </ListItemButton>
     </List>
   );
