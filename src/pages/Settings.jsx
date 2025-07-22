@@ -7,15 +7,14 @@ import AdminLayout from '../layouts/Admin/AdminLayout';
 import UserLayout from '../layouts/User/UserLayout';
 import { Tabs, Tab, Box, Paper, Typography, Card, CardContent, Stack } from '@mui/material';
 import { useUser } from '../contexts/UserContext';
-import { useThemeContext } from '../theme/ThemeProvider';
-import ThemeToggle from '../layouts/shared/ThemeToggle';
-import { Palette, Monitor } from 'lucide-react';
+
+import AppearanceSettings from '../components/Settings/AppearanceSettings';
 
 const Settings = () => {
   // Get the user's role from context
   const { userData } = useUser();
   const userRole = userData.role;
-  const { mode } = useThemeContext();
+
 
   // State to track which tab is active (0 = Profile, 1 = Account, 2 = Organization, 3 = Theme)
   const [tab, setTab] = useState(0);
@@ -25,37 +24,7 @@ const Settings = () => {
     setTab(newValue);
   };
 
-  // Theme Settings Component
-  const ThemeSettings = () => (
-    <Box sx={{ maxWidth: 600, mx: 'auto', mt: 2 }}>
-      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
-        Other Settings
-      </Typography>
-      
-      <Stack spacing={3}>
-      
-        <Card elevation={1}>
-          <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <Monitor size={24} style={{ marginRight: 12, color: '#3b82f6' }} />
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Appearance
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'column',margin:'auto' ,alignItems: 'center', gap: 1 }}>
-                <ThemeToggle variant="icon" size="large" />
-              </Box>
-            </Box>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1,textAlign: 'center' }}>
-              You are currently using <strong>{mode === 'light' ? 'Light' : 'Dark'}</strong> theme
-            </Typography>
 
-          </CardContent>
-        </Card>
-      </Stack>
-    </Box>
-  );
 
   // Common content for both Admin and User layouts
   const renderContent = (
@@ -75,7 +44,7 @@ const Settings = () => {
         {tab === 0 && <ProfileSection />}
         {tab === 1 && <AccountSection />}
         {tab === 2 && (userRole === 'SuperAdmin') && <OrganizationSection />}
-        {((tab === 2 && userRole !== 'SuperAdmin') || (tab === 3)) ? <ThemeSettings /> : null}
+        {((tab === 2 && userRole !== 'SuperAdmin') || (tab === 3)) ? <AppearanceSettings /> : null}
       </Box>
     </Paper>
   );
