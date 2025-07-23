@@ -28,12 +28,12 @@ const ForgotPassword = () => {
     }
     setIsLoading(true);
     try {
-      // Generate random code and open popup
+      // Generate random code
       const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
-      setOpenVerifyPopup(true);
-      // Send code to email (same as AccountSettings logic)
-      await fetch(`${BASE_URLS.settings}/sendEmail/`, {
+      
+      // Send code to email using the forgot password endpoint that checks if user exists
+      const response = await fetch(`${BASE_URLS.login}/sendForgotPasswordCode`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,14 @@ const ForgotPassword = () => {
         },
         body: JSON.stringify({ email, code: randomCode }),
       });
-      setMessage(`Verification code sent to ${email}`);
+
+      if (response.ok) {
+        setOpenVerifyPopup(true);
+        setMessage(`Verification code sent to ${email}`);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Failed to send verification code. Please check your email address.");
+      }
     } catch (err) {
       setError("Failed to send verification code. Please try again later.");
     } finally {
