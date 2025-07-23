@@ -55,6 +55,6 @@ export function useUserDashboardData() {
     },
     staleTime: 1000 * 60, // 1 minute
     retry: 2,
-    refetchInterval: 5000, // Refetch every 5 seconds
+    refetchInterval: 2000, // Refetch every 5 seconds
   });
 }
