@@ -28,7 +28,6 @@ function RequestButton({ open, onClose, onRequest }) {
     category: '',
     quantity: '',
     handoverDate: new Date().toISOString().split('T')[0], // Initial date to today's date
-    reason: '',
     isAssetReturning: true,
   });
 
@@ -58,8 +57,7 @@ function RequestButton({ open, onClose, onRequest }) {
     if (
       !requestData.userName ||
       !requestData.assetId ||
-      !requestData.quantity ||
-      !requestData.reason
+      !requestData.quantity
     ) {
       toast.error('Please fill in all fields');
       return;
@@ -95,7 +93,6 @@ function RequestButton({ open, onClose, onRequest }) {
           category: '',
           quantity: '',
           handoverDate: '',
-          reason: '',
           isAssetReturning: true,
         });
         toast.success('Request submitted successfully!');
@@ -195,23 +192,6 @@ function RequestButton({ open, onClose, onRequest }) {
               onChange={handleInputChange}
               disabled={!requestData.isAssetReturning}
               className="asset-form-input"
-            />
-          </div>
-
-          <div className="asset-form-group">
-            <label htmlFor="reason" className="asset-form-label">
-              <FileText size={16} style={{ display: 'inline', marginRight: '8px' }} />
-              Reason for Request
-            </label>
-            <textarea
-              id="reason"
-              name="reason"
-              value={requestData.reason}
-              onChange={handleInputChange}
-              className="asset-form-textarea"
-              placeholder="Please explain why you need this asset..."
-              required
-              rows={3}
             />
           </div>
         </div>

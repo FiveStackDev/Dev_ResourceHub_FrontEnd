@@ -6,10 +6,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { Search } from 'lucide-react';
 import RequestButton from '../../../components/Asset/AssetRequestingUser/RequestButton';
+import EditAssetRequestPopup from '../../../components/Asset/AssetRequestingUser/EditAssetRequestPopup';
+import DeleteAssetRequestPopup from '../../../components/Asset/AssetRequestingUser/DeleteAssetRequestPopup';
 import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
+import { toast } from 'react-toastify';
 
 const AssetRequestUsers = () => {
   const navigate = useNavigate();
@@ -20,6 +23,9 @@ const AssetRequestUsers = () => {
   const [filterCategory, setFilterCategory] = useState(passedCategory);
   const [assets, setAssets] = useState([]);
   const [requestOpen, setRequestOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(null);
 
   const uniqueCategories = [
     'All',
@@ -94,6 +100,67 @@ const AssetRequestUsers = () => {
     setRequestOpen(false); // Close the request dialog
   };
 
+  const handleEditAsset = (asset) => {
+    setSelectedAsset(asset);
+    setEditDialogOpen(true);
+  };
+
+  const handleDeleteAsset = (asset) => {
+    setSelectedAsset(asset);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleSaveEdit = async (updatedAsset) => {
+    try {
+      const response = await fetch(
+        `${BASE_URLS.assetRequest}/details/${updatedAsset.requestedasset_id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify(updatedAsset),
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to update asset request');
+
+      toast.success('Asset request updated successfully!');
+      fetchAssets();
+      setEditDialogOpen(false);
+      setSelectedAsset(null);
+    } catch (error) {
+      console.error('Error updating asset request:', error);
+      toast.error('Failed to update asset request');
+    }
+  };
+
+  const handleConfirmDelete = async (asset) => {
+    try {
+      const response = await fetch(
+        `${BASE_URLS.assetRequest}/details/${asset.requestedasset_id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to delete asset request');
+
+      toast.success('Asset request deleted successfully!');
+      fetchAssets();
+      setDeleteDialogOpen(false);
+      setSelectedAsset(null);
+    } catch (error) {
+      console.error('Error deleting asset request:', error);
+      toast.error('Failed to delete asset request');
+    }
+  };
+
   return (
     <UserLayout>
       <div className="min-h-screen space-y-6 p-6">
@@ -140,13 +207,39 @@ const AssetRequestUsers = () => {
         </div>
 
         <div className="mt-6">
-          <MonitorTable assets={filteredAssets} />
+          <MonitorTable 
+            assets={filteredAssets} 
+            onEditAsset={handleEditAsset}
+            onDeleteAsset={handleDeleteAsset}
+          />
         </div>
 
         <RequestButton
           open={requestOpen}
           onClose={handleRequestClose}
           onRequest={handleRequestSubmit}
+        />
+
+        {/* Edit Dialog */}
+        <EditAssetRequestPopup
+          open={editDialogOpen}
+          onClose={() => {
+            setEditDialogOpen(false);
+            setSelectedAsset(null);
+          }}
+          asset={selectedAsset}
+          onSave={handleSaveEdit}
+        />
+
+        {/* Delete Dialog */}
+        <DeleteAssetRequestPopup
+          open={deleteDialogOpen}
+          onClose={() => {
+            setDeleteDialogOpen(false);
+            setSelectedAsset(null);
+          }}
+          asset={selectedAsset}
+          onDelete={handleConfirmDelete}
         />
       </div>
     </UserLayout>

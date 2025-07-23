@@ -9,8 +9,11 @@ import {
   Avatar,
   useTheme,
   Chip,
+  Button,
+  Tooltip,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import { Edit, Trash2 } from 'lucide-react';
 
 const getStatusColor = (status, theme) => {
   switch (status.toLowerCase()) {
@@ -69,6 +72,8 @@ const MonitorTable = ({
   assets,
   showHandoverColumns = true,
   customColumns = [],
+  onEditAsset,
+  onDeleteAsset,
 }) => {
   const theme = useTheme();
 
@@ -88,6 +93,7 @@ const MonitorTable = ({
             {customColumns.map((col, index) => (
               <TableCell key={`head-${index}`}>{col.label}</TableCell>
             ))}
+            <TableCell align='center'>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -133,6 +139,34 @@ const MonitorTable = ({
                     {col.render(asset)}
                   </TableCell>
                 ))}
+                <TableCell>
+                  {(asset.status === 'Pending' || asset.status === 'Rejected') && (
+                    <div className="flex justify-center gap-2">
+                      <Tooltip title="Edit Asset Request">
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          size="small"
+                          startIcon={<Edit size={18} />}
+                          onClick={() => onEditAsset && onEditAsset(asset)}
+                        >
+                          Edit
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title="Delete Asset Request">
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          size="small"
+                          startIcon={<Trash2 size={18} />}
+                          onClick={() => onDeleteAsset && onDeleteAsset(asset)}
+                        >
+                          Delete
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  )}
+                </TableCell>
               </TableRow>
             );
           })}

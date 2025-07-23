@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@mui/material';
 import { Plus, Search } from 'lucide-react';
-import { AddMaintenancePopup } from '../../../components/Maintenance/User';
+import { AddMaintenancePopup, EditMaintenancePopup, DeleteMaintenancePopup } from '../../../components/Maintenance/User';
 import { ToastContainer, toast } from 'react-toastify';
 import { MaintenanceTableUser } from '../../../components/Maintenance/User';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +16,9 @@ import { decodeToken } from '../../../contexts/UserContext';
 const MaintenanceDetailsUser = () => {
   const [maintenance, setMaintenance] = useState([]);
   const [isAddMaintenanceOpen, setIsAddMaintenanceOpen] = useState(false);
+  const [isEditMaintenanceOpen, setIsEditMaintenanceOpen] = useState(false);
+  const [isDeleteMaintenanceOpen, setIsDeleteMaintenanceOpen] = useState(false);
+  const [selectedMaintenance, setSelectedMaintenance] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -80,6 +83,49 @@ const MaintenanceDetailsUser = () => {
     }
   };
 
+  const handleEditMaintenance = (maintenance) => {
+    setSelectedMaintenance(maintenance);
+    setIsEditMaintenanceOpen(true);
+  };
+
+  const handleDeleteMaintenance = (maintenance) => {
+    setSelectedMaintenance(maintenance);
+    setIsDeleteMaintenanceOpen(true);
+  };
+
+  const handleSaveEdit = async (updatedMaintenance) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URLS.maintenance}/details/${updatedMaintenance.maintenance_id}`,
+        updatedMaintenance,
+        { headers: { ...getAuthHeader() } }
+      );
+      toast.success(response.data.message);
+      fetchMaintenanceData();
+      setIsEditMaintenanceOpen(false);
+      setSelectedMaintenance(null);
+    } catch (error) {
+      console.error('Error updating maintenance:', error);
+      toast.error('Failed to update maintenance.');
+    }
+  };
+
+  const handleConfirmDelete = async (maintenance) => {
+    try {
+      await axios.delete(
+        `${BASE_URLS.maintenance}/details/${maintenance.maintenance_id}`,
+        { headers: { ...getAuthHeader() } }
+      );
+      toast.success('Maintenance deleted successfully!');
+      fetchMaintenanceData();
+      setIsDeleteMaintenanceOpen(false);
+      setSelectedMaintenance(null);
+    } catch (error) {
+      console.error('Failed to delete maintenance:', error);
+      toast.error('Failed to delete maintenance!');
+    }
+  };
+
   const filteredMaintenance = maintenance.filter((item) => {
     const searchMatch = item.name
       .toLowerCase()
@@ -136,7 +182,11 @@ const MaintenanceDetailsUser = () => {
             <CircularProgress />
           </div>
         ) : (
-          <MaintenanceTableUser maintenance={filteredMaintenance} />
+          <MaintenanceTableUser 
+            maintenance={filteredMaintenance} 
+            onEditMaintenance={handleEditMaintenance}
+            onDeleteMaintenance={handleDeleteMaintenance}
+          />
         )}
 
         <AddMaintenancePopup
@@ -144,6 +194,29 @@ const MaintenanceDetailsUser = () => {
           onClose={() => setIsAddMaintenanceOpen(false)}
           onAdd={handleAddMaintenance}
         />
+
+        {/* Edit Dialog */}
+        <EditMaintenancePopup
+          open={isEditMaintenanceOpen}
+          onClose={() => {
+            setIsEditMaintenanceOpen(false);
+            setSelectedMaintenance(null);
+          }}
+          maintenance={selectedMaintenance}
+          onSave={handleSaveEdit}
+        />
+
+        {/* Delete Dialog */}
+        <DeleteMaintenancePopup
+          open={isDeleteMaintenanceOpen}
+          onClose={() => {
+            setIsDeleteMaintenanceOpen(false);
+            setSelectedMaintenance(null);
+          }}
+          maintenance={selectedMaintenance}
+          onDelete={handleConfirmDelete}
+        />
+
         <ToastContainer />
       </div>
     </UserLayout>
