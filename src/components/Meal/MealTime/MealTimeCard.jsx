@@ -16,6 +16,7 @@ import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import { getMealTypesForMealTime } from '../shared/mockRelationshipData'; // Import mock data helper
 
 function MealCard({ mealId, name, image, onDelete }) {
   // State to control edit popup visibility
@@ -62,7 +63,7 @@ function MealCard({ mealId, name, image, onDelete }) {
   };
 
   // Update meal details via API call
-  const handleSaveEdit = async (mealId, name, image) => {
+  const handleSaveEdit = async (mealId, name, image, selectedMealTypeIds) => {
     try {
       const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
         method: 'PUT',
@@ -70,7 +71,11 @@ function MealCard({ mealId, name, image, onDelete }) {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ mealtime_name: name, mealtime_image_url: image }),
+        body: JSON.stringify({ 
+          mealtime_name: name, 
+          mealtime_image_url: image,
+          mealtype_ids: selectedMealTypeIds || [] // Include selected meal type IDs
+        }),
       });
 
       if (!response.ok) throw new Error('Failed to update meal');
@@ -134,6 +139,7 @@ function MealCard({ mealId, name, image, onDelete }) {
         setMealName={setMealName}
         setMealImage={setMealImage}
         mealId={mealId}
+        existingMealTypes={getMealTypesForMealTime(mealId)} // Pass existing meal types
       />
 
       {/* Delete confirmation popup */}

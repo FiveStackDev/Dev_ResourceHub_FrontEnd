@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
-import { Dialog, Input, Button, Typography } from '@mui/material';
+import { Dialog, Input, Button, Typography, Autocomplete, TextField, Chip, Box } from '@mui/material';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
@@ -17,6 +17,7 @@ function EditPopup({
   setMealName,
   setMealImage,
   mealId,
+  existingMealTypes = [], // Add prop for existing meal types
 }) {
   // State to hold selected file object
   const [imageFile, setImageFile] = useState(null);
@@ -24,6 +25,12 @@ function EditPopup({
   const [uploading, setUploading] = useState(false);
   // State for image preview URL
   const [previewUrl, setPreviewUrl] = useState(mealImage || '');
+  // State for selected meal types
+  const [selectedMealTypes, setSelectedMealTypes] = useState([]);
+  // State for available meal types
+  const [availableMealTypes, setAvailableMealTypes] = useState([]);
+  // State for loading meal types
+  const [loadingMealTypes, setLoadingMealTypes] = useState(false);
   
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
@@ -32,6 +39,39 @@ function EditPopup({
   useEffect(() => {
     updateCSSVariables();
   }, [updateCSSVariables]);
+
+  // Fetch meal types and set existing selections when popup opens
+  useEffect(() => {
+    if (open) {
+      fetchMealTypes();
+      setSelectedMealTypes(existingMealTypes || []);
+    }
+  }, [open, existingMealTypes]);
+
+  // Fetch meal types from API
+  const fetchMealTypes = async () => {
+    setLoadingMealTypes(true);
+    try {
+      const response = await fetch(`${BASE_URLS.mealtype}/details`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch meal types: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setAvailableMealTypes(data);
+    } catch (error) {
+      console.error('Error fetching meal types:', error);
+      toast.error('Failed to fetch meal types');
+    } finally {
+      setLoadingMealTypes(false);
+    }
+  };
 
   // Handle selection of file input and create preview URL
   const handleFileChange = (e) => {
@@ -95,7 +135,7 @@ function EditPopup({
       }
     }
 
-    onSave(mealId, mealName, finalImageUrl);
+    onSave(mealId, mealName, finalImageUrl, selectedMealTypes.map(type => type.mealtype_id));
   };
 
   // Update preview when mealImage prop changes
@@ -164,7 +204,82 @@ function EditPopup({
               onChange={(e) => setMealName(e.target.value)}
               fullWidth
               className="mealtime-input"
+              placeholder="Enter meal time name"
             />
+          </div>
+
+          <div className="mealtime-input-group">
+            <label className="mealtime-label">Select Meal Types</label>
+            <Autocomplete
+              multiple
+              options={availableMealTypes}
+              getOptionLabel={(option) => option.mealtype_name}
+              value={selectedMealTypes}
+              onChange={(event, newValue) => setSelectedMealTypes(newValue)}
+              loading={loadingMealTypes}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option.mealtype_name}
+                    {...getTagProps({ index })}
+                    key={option.mealtype_id}
+                    sx={{
+                      backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                      borderColor: '#3b82f6',
+                      color: '#3b82f6',
+                      '& .MuiChip-deleteIcon': {
+                        color: '#3b82f6',
+                      },
+                    }}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Search and select meal types"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'var(--popup-input-bg)',
+                      '& fieldset': {
+                        borderColor: 'var(--popup-input-border)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'var(--popup-input-border-hover)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#3b82f6',
+                        boxShadow: '0 0 0 3px var(--popup-input-focus-shadow)',
+                      },
+                    },
+                  }}
+                />
+              )}
+              sx={{ marginTop: 1 }}
+            />
+            {selectedMealTypes.length > 0 && (
+              <Box sx={{ marginTop: 2 }}>
+                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
+                  Selected Meal Types ({selectedMealTypes.length}):
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {selectedMealTypes.map((type) => (
+                    <Chip
+                      key={type.mealtype_id}
+                      label={type.mealtype_name}
+                      onDelete={() => {
+                        setSelectedMealTypes(selectedMealTypes.filter(t => t.mealtype_id !== type.mealtype_id));
+                      }}
+                      color="primary"
+                      variant="filled"
+                      size="small"
+                    />
+                  ))}
+                </Box>
+              </Box>
+            )}
           </div>
         </div>
 

@@ -401,6 +401,118 @@
   animation: cardFadeIn 0.4s ease-out;
 }
 
+/* Autocomplete and Chips Styling */
+.mealtime-autocomplete-container {
+  margin-top: 8px;
+}
+
+.mealtime-selected-chips {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--popup-border-color);
+  border-radius: 8px;
+  background: var(--popup-preview-bg);
+}
+
+.mealtime-chips-title {
+  font-size: 0.875rem;
+  color: var(--popup-text-secondary);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.mealtime-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Custom chip styling for light/dark theme compatibility */
+.mealtime-chip {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: #3b82f6 !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.mealtime-chip:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.08) 100%) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.mealtime-chip .MuiChip-deleteIcon {
+  color: #3b82f6 !important;
+  transition: color 0.2s ease;
+}
+
+.mealtime-chip .MuiChip-deleteIcon:hover {
+  color: #1e40af !important;
+}
+
+/* Autocomplete input styling */
+.MuiAutocomplete-root .MuiOutlinedInput-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.MuiAutocomplete-root .MuiOutlinedInput-root:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.MuiAutocomplete-root .MuiOutlinedInput-root.Mui-focused {
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+}
+
+/* Loading state for autocomplete */
+.MuiAutocomplete-loading {
+  color: var(--popup-text-secondary);
+}
+
+/* Dropdown menu styling */
+.MuiAutocomplete-popper {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.MuiAutocomplete-listbox {
+  border-radius: 12px;
+  background: var(--popup-bg-primary);
+  border: 1px solid var(--popup-border-color);
+}
+
+.MuiAutocomplete-option {
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+.MuiAutocomplete-option:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.MuiAutocomplete-option[aria-selected="true"] {
+  background: rgba(59, 130, 246, 0.12) !important;
+  color: #3b82f6 !important;
+  font-weight: 500;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .mealtime-chips-container {
+    gap: 6px;
+  }
+  
+  .mealtime-chip {
+    font-size: 0.75rem;
+  }
+  
+  .mealtime-selected-chips {
+    padding: 8px;
+  }
+}
+
 /* Smooth popup entrance animation */
 @keyframes popupSlideIn {
   from {

@@ -17,6 +17,7 @@ import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import { getMealTimesForMealType } from '../shared/mockRelationshipData'; // Import mock data helper
 
 function MealCard({ mealId, name, image, onEdit, onDelete }) {
   // States to control edit/delete dialogs and error messages
@@ -59,7 +60,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
   };
 
   // Handle saving edited meal details with API call
-  const handleSaveEdit = async (mealId, name, image) => {
+  const handleSaveEdit = async (mealId, name, image, selectedMealTimeIds) => {
     try {
       const response = await fetch(`${BASE_URLS.mealtype}/details/${mealId}`, {
         method: 'PUT',
@@ -70,6 +71,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         body: JSON.stringify({
           mealtype_name: name,
           mealtype_image_url: image,
+          mealtime_ids: selectedMealTimeIds || [] // Include selected meal time IDs
         }),
       });
 
@@ -146,6 +148,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         setMealName={setMealName}
         setMealImage={setMealImage}
         mealId={mealId}
+        existingMealTimes={getMealTimesForMealType(mealId)} // Pass existing meal times
       />
 
       {/* Delete confirmation popup */}

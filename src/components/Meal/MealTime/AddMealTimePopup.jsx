@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Dialog, Input, Button, Typography } from '@mui/material';
+import { Dialog, Input, Button, Typography, Autocomplete, TextField, Chip, Box } from '@mui/material';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
@@ -14,6 +14,12 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [imageFile, setImageFile] = useState(null);
   // State to track upload progress
   const [uploading, setUploading] = useState(false);
+  // State for selected meal types
+  const [selectedMealTypes, setSelectedMealTypes] = useState([]);
+  // State for available meal types
+  const [availableMealTypes, setAvailableMealTypes] = useState([]);
+  // State for loading meal types
+  const [loadingMealTypes, setLoadingMealTypes] = useState(false);
   
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
@@ -23,11 +29,44 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
     updateCSSVariables();
   }, [updateCSSVariables]);
 
+  // Fetch available meal types when popup opens
+  useEffect(() => {
+    if (open) {
+      fetchMealTypes();
+    }
+  }, [open]);
+
+  // Fetch meal types from API
+  const fetchMealTypes = async () => {
+    setLoadingMealTypes(true);
+    try {
+      const response = await fetch(`${BASE_URLS.mealtype}/details`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch meal types: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setAvailableMealTypes(data);
+    } catch (error) {
+      console.error('Error fetching meal types:', error);
+      toast.error('Failed to fetch meal types');
+    } finally {
+      setLoadingMealTypes(false);
+    }
+  };
+
     // Function to clear all form fields
     const clearFields = () => {
       setMealName('');
       setMealImageUrl('');
       setImageFile(null);
+      setSelectedMealTypes([]);
     };
 
     // Handle close and clear fields
@@ -81,42 +120,49 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
   // Submit meal name and image URL to backend
   const handleSubmit = async () => {
+    // Validate required fields
+    if (!mealName.trim()) {
+      toast.error('Please provide a meal time name.');
+      return;
+    }
+    
+    if (!imageFile) {
+      toast.error('Please select an image.');
+      return;
+    }
+
     const imageUrl = await uploadImageToCloudinary();
     if (!imageUrl) return;
 
     setMealImageUrl(imageUrl); // Update with Cloudinary URL
 
-    if (imageUrl && mealName) {
-      try {
-        const response = await fetch(`${BASE_URLS.mealtime}/add`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-          body: JSON.stringify({
-            mealtime_name: mealName,
-            mealtime_image_url: imageUrl, // Use uploaded image URL
-          }),
-        });
+    try {
+      const response = await fetch(`${BASE_URLS.mealtime}/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+        body: JSON.stringify({
+          mealtime_name: mealName,
+          mealtime_image_url: imageUrl,
+          mealtype_ids: selectedMealTypes.map(type => type.mealtype_id), // Send selected meal type IDs
+        }),
+      });
 
-
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        console.log('Server Response:', result);
-        clearFields(); // Clear fields after successful submission
-        onClose();
-        onSubmit(); // Refresh meal types list
-      } catch (error) {
-        console.error('Fetch error:', error);
-        toast.error('Failed to add meal type. Please try again.');
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    } else {
-      toast.error('Please provide both meal name and an image.');
+
+      const result = await response.json();
+      console.log('Server Response:', result);
+      clearFields(); // Clear fields after successful submission
+      onClose();
+      onSubmit(); // Refresh meal types list
+      toast.success('Meal time added successfully!');
+    } catch (error) {
+      console.error('Fetch error:', error);
+      toast.error('Failed to add meal time. Please try again.');
     }
   };
 
@@ -182,7 +228,82 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
               onChange={(e) => setMealName(e.target.value)}
               fullWidth
               className="mealtime-input"
+              placeholder="Enter meal time name"
             />
+          </div>
+
+          <div className="mealtime-input-group">
+            <label className="mealtime-label">Select Meal Types</label>
+            <Autocomplete
+              multiple
+              options={availableMealTypes}
+              getOptionLabel={(option) => option.mealtype_name}
+              value={selectedMealTypes}
+              onChange={(event, newValue) => setSelectedMealTypes(newValue)}
+              loading={loadingMealTypes}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option.mealtype_name}
+                    {...getTagProps({ index })}
+                    key={option.mealtype_id}
+                    sx={{
+                      backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                      borderColor: '#3b82f6',
+                      color: '#3b82f6',
+                      '& .MuiChip-deleteIcon': {
+                        color: '#3b82f6',
+                      },
+                    }}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Search and select meal types"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'var(--popup-input-bg)',
+                      '& fieldset': {
+                        borderColor: 'var(--popup-input-border)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'var(--popup-input-border-hover)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#3b82f6',
+                        boxShadow: '0 0 0 3px var(--popup-input-focus-shadow)',
+                      },
+                    },
+                  }}
+                />
+              )}
+              sx={{ marginTop: 1 }}
+            />
+            {selectedMealTypes.length > 0 && (
+              <Box sx={{ marginTop: 2 }}>
+                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
+                  Selected Meal Types ({selectedMealTypes.length}):
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {selectedMealTypes.map((type) => (
+                    <Chip
+                      key={type.mealtype_id}
+                      label={type.mealtype_name}
+                      onDelete={() => {
+                        setSelectedMealTypes(selectedMealTypes.filter(t => t.mealtype_id !== type.mealtype_id));
+                      }}
+                      color="primary"
+                      variant="filled"
+                      size="small"
+                    />
+                  ))}
+                </Box>
+              </Box>
+            )}
           </div>
         </div>
 
