@@ -70,7 +70,19 @@ const AssetMonitoringAdmin = () => {
         },
       );
 
-      if (!response.ok) throw new Error('Failed to update asset');
+      if (!response.ok) {
+        const errorText = await response.text();
+        
+        // Check for quantity-related errors
+        if (errorText.includes('INSUFFICIENT_QUANTITY_3819') || 
+            errorText.includes('CONSTRAINT_VIOLATION_3819') ||
+            errorText.includes('Not enough quantity available')) {
+          toast.error('Cannot approve request: Not enough quantity available in inventory');
+          return;
+        }
+        
+        throw new Error(errorText || 'Failed to update asset');
+      }
 
       await response.json();
 
@@ -97,7 +109,16 @@ const AssetMonitoringAdmin = () => {
       fetchAssets();
     } catch (error) {
       console.error('Error updating asset:', error);
-      toast.error('Error updating asset:', error);
+      
+      // Check for specific error messages in the error object
+      const errorMessage = error.message || error.toString();
+      if (errorMessage.includes('INSUFFICIENT_QUANTITY_3819') || 
+          errorMessage.includes('CONSTRAINT_VIOLATION_3819') ||
+          errorMessage.includes('Not enough quantity available')) {
+        toast.error('Cannot approve request: Not enough quantity available in inventory');
+      } else {
+        toast.error(`Error updating asset: ${errorMessage}`);
+      }
     }
   };
 
