@@ -19,28 +19,33 @@ import ThemeToggle from '../../layouts/shared/ThemeToggle';
 
 const AppearanceSettings = () => {
   const { mode, toggleMode, setMode } = useThemeContext();
-  const [scheduled, setScheduled] = useState(() => {
-    const saved = localStorage.getItem('darkModeScheduled');
-    return saved === 'true';
-  });
   
-  const [darkModeStart, setDarkModeStart] = useState(() => {
-    const saved = localStorage.getItem('darkModeStart');
-    return saved || '19:00';
-  });
-  
-  const [darkModeEnd, setDarkModeEnd] = useState(() => {
-    const saved = localStorage.getItem('darkModeEnd');
-    return saved || '07:00';
-  });
+  // Load schedule settings from localStorage once on mount
+  const getScheduleSettings = () => {
+    const saved = localStorage.getItem('themeSchedule');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.warn('Failed to parse theme schedule settings');
+      }
+    }
+    return {
+      enabled: false,
+      startTime: '19:00',
+      endTime: '07:00'
+    };
+  };
+
+  const [scheduleSettings, setScheduleSettings] = useState(getScheduleSettings);
 
   // Helper to check if current time is in dark mode range
   const isDarkTime = () => {
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
     
-    const [startHour, startMin] = darkModeStart.split(':').map(Number);
-    const [endHour, endMin] = darkModeEnd.split(':').map(Number);
+    const [startHour, startMin] = scheduleSettings.startTime.split(':').map(Number);
+    const [endHour, endMin] = scheduleSettings.endTime.split(':').map(Number);
     
     const startTime = startHour * 60 + startMin;
     const endTime = endHour * 60 + endMin;
@@ -56,47 +61,42 @@ const AppearanceSettings = () => {
 
   // Apply theme based on schedule
   const applyScheduledTheme = useCallback(() => {
-    if (scheduled) {
+    if (scheduleSettings.enabled) {
       const shouldBeDark = isDarkTime();
       setMode(shouldBeDark ? 'dark' : 'light');
-      localStorage.setItem('currentScheduledTheme', shouldBeDark ? 'dark' : 'light');
     }
-  }, [scheduled, darkModeStart, darkModeEnd, setMode]);
+  }, [scheduleSettings, setMode]);
 
   // On mount, apply scheduled theme if enabled
   useEffect(() => {
-    applyScheduledTheme();
-  }, [applyScheduledTheme]); // Include applyScheduledTheme in dependencies
-
-  // When schedule settings change, save to localStorage and apply theme
-  useEffect(() => {
-    localStorage.setItem('darkModeScheduled', scheduled.toString());
-    localStorage.setItem('darkModeStart', darkModeStart);
-    localStorage.setItem('darkModeEnd', darkModeEnd);
-    applyScheduledTheme();
-  }, [scheduled, darkModeStart, darkModeEnd, applyScheduledTheme]); // Dependencies for settings changes
-
-  // Check and update theme every minute when scheduled
-  useEffect(() => {
-    if (!scheduled) return;
-    
-    const interval = setInterval(() => {
+    if (scheduleSettings.enabled) {
       applyScheduledTheme();
-    }, 60000); // Check every minute
+      
+      const interval = setInterval(applyScheduledTheme, 60000); // Check every minute
+      return () => clearInterval(interval);
+    }
+  }, [scheduleSettings.enabled, applyScheduledTheme]);
 
-    return () => clearInterval(interval);
-  }, [scheduled, applyScheduledTheme]); // Re-create interval when settings change
+  // When schedule settings change, save to localStorage
+  useEffect(() => {
+    localStorage.setItem('themeSchedule', JSON.stringify(scheduleSettings));
+    if (scheduleSettings.enabled) {
+      applyScheduledTheme();
+    }
+  }, [scheduleSettings, applyScheduledTheme]); // Dependencies for settings changes
 
   const handleScheduleToggle = () => {
-    setScheduled(prev => !prev);
+    setScheduleSettings(prev => ({
+      ...prev,
+      enabled: !prev.enabled
+    }));
   };
 
   const handleTimeChange = (type, value) => {
-    if (type === 'start') {
-      setDarkModeStart(value);
-    } else {
-      setDarkModeEnd(value);
-    }
+    setScheduleSettings(prev => ({
+      ...prev,
+      [type === 'start' ? 'startTime' : 'endTime']: value
+    }));
   };
 
   return (
@@ -146,13 +146,13 @@ const AppearanceSettings = () => {
                   border: 1,
                   borderColor: 'divider'
                 }}>
-                  <ThemeToggle variant="icon" size="large" disabled={scheduled} />
+                  <ThemeToggle variant="icon" size="large" disabled={scheduleSettings.enabled} />
                   <Typography 
                     variant="body2" 
-                    color={scheduled ? 'text.disabled' : 'text.secondary'}
+                    color={scheduleSettings.enabled ? 'text.disabled' : 'text.secondary'}
                     sx={{ textAlign: 'center' }}
                   >
-                    {scheduled ? 'Manual toggle disabled during scheduling' : 'Click to toggle theme'}
+                    {scheduleSettings.enabled ? 'Manual toggle disabled during scheduling' : 'Click to toggle theme'}
                   </Typography>
                 </Box>
               </Grid>
@@ -171,13 +171,13 @@ const AppearanceSettings = () => {
                     Current Status:
                   </Typography>
                   <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                    {scheduled
+                    {scheduleSettings.enabled
                       ? `Auto-scheduled: ${isDarkTime() ? 'Dark' : 'Light'} mode`
                       : `Manual: ${mode === 'light' ? 'Light' : 'Dark'} mode`}
                   </Typography>
-                  {scheduled && (
+                  {scheduleSettings.enabled && (
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                      Schedule: {darkModeStart} - {darkModeEnd}
+                      Schedule: {scheduleSettings.startTime} - {scheduleSettings.endTime}
                     </Typography>
                   )}
                 </Paper>
@@ -195,8 +195,8 @@ const AppearanceSettings = () => {
                 Automatic Theme Scheduling
               </Typography>
               <Chip 
-                label={scheduled ? 'Active' : 'Inactive'} 
-                color={scheduled ? 'success' : 'default'}
+                label={scheduleSettings.enabled ? 'Active' : 'Inactive'} 
+                color={scheduleSettings.enabled ? 'success' : 'default'}
                 size="small"
                 sx={{ ml: 'auto', fontWeight: 600 }}
               />
@@ -205,7 +205,7 @@ const AppearanceSettings = () => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={scheduled}
+                  checked={scheduleSettings.enabled}
                   onChange={handleScheduleToggle}
                   color="primary"
                   size="medium"
@@ -221,10 +221,10 @@ const AppearanceSettings = () => {
                   </Typography>
                 </Box>
               }
-              sx={{ mb: scheduled ? 3 : 0, alignItems: 'flex-start' }}
+              sx={{ mb: scheduleSettings.enabled ? 3 : 0, alignItems: 'flex-start' }}
             />
             
-            {scheduled && (
+            {scheduleSettings.enabled && (
               <>
                 <Divider sx={{ my: 3 }} />
                 <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600 }}>
@@ -235,7 +235,7 @@ const AppearanceSettings = () => {
                     <TextField
                       label="Dark mode starts"
                       type="time"
-                      value={darkModeStart}
+                      value={scheduleSettings.startTime}
                       onChange={(e) => handleTimeChange('start', e.target.value)}
                       fullWidth
                       variant="outlined"
@@ -255,7 +255,7 @@ const AppearanceSettings = () => {
                     <TextField
                       label="Dark mode ends"
                       type="time"
-                      value={darkModeEnd}
+                      value={scheduleSettings.endTime}
                       onChange={(e) => handleTimeChange('end', e.target.value)}
                       fullWidth
                       variant="outlined"
@@ -283,8 +283,8 @@ const AppearanceSettings = () => {
                     💡 Schedule Preview
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                    Dark theme will be active from {darkModeStart} to {darkModeEnd}.
-                    {darkModeStart > darkModeEnd ? ' This schedule spans overnight.' : ' This schedule is within the same day.'}
+                    Dark theme will be active from {scheduleSettings.startTime} to {scheduleSettings.endTime}.
+                    {scheduleSettings.startTime > scheduleSettings.endTime ? ' This schedule spans overnight.' : ' This schedule is within the same day.'}
                   </Typography>
                 </Paper>
               </>
