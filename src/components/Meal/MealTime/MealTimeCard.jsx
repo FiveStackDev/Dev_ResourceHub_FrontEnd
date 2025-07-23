@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography
+} from '@mui/material';
+import {
+  ModeEditTwoTone as ModeEditTwoToneIcon,
+  DeleteTwoTone as DeleteTwoToneIcon
+} from '@mui/icons-material';
 import EditPopup from './EditMealTimePopup';
 import DeletePopup from './DeleteMealTimePopup';
 import '../Meal-CSS/Mealcard.css';
@@ -17,7 +21,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
 
-function MealCard({ mealId, name, image, onDelete }) {
+function MealCard({ mealId, name, image, onDelete, mealtype_ids = [] }) {
   // State to control edit popup visibility
   const [openEdit, setOpenEdit] = React.useState(false);
   // State to control delete popup visibility
@@ -62,7 +66,7 @@ function MealCard({ mealId, name, image, onDelete }) {
   };
 
   // Update meal details via API call
-  const handleSaveEdit = async (mealId, name, image) => {
+  const handleSaveEdit = async (mealId, name, image, selectedMealTypeIds) => {
     try {
       const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
         method: 'PUT',
@@ -70,7 +74,11 @@ function MealCard({ mealId, name, image, onDelete }) {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ mealtime_name: name, mealtime_image_url: image }),
+        body: JSON.stringify({ 
+          mealtime_name: name, 
+          mealtime_image_url: image,
+          mealtype_ids: selectedMealTypeIds || [] // Include selected meal type IDs
+        }),
       });
 
       if (!response.ok) throw new Error('Failed to update meal');
@@ -134,6 +142,7 @@ function MealCard({ mealId, name, image, onDelete }) {
         setMealName={setMealName}
         setMealImage={setMealImage}
         mealId={mealId}
+        existingMealTypes={mealtype_ids} // Pass existing meal type IDs from API
       />
 
       {/* Delete confirmation popup */}

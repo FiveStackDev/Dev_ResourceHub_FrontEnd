@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
-import { Dialog, Input, Button, Typography } from '@mui/material';
+import { Dialog, Input, Button, Typography, Autocomplete, TextField, Chip, Box } from '@mui/material';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
@@ -17,6 +17,7 @@ function EditPopup({
   setMealName,
   setMealImage,
   mealId,
+  existingMealTimes = [], // Add prop for existing meal times
 }) {
   // State to hold selected file object
   const [imageFile, setImageFile] = useState(null);
@@ -24,6 +25,12 @@ function EditPopup({
   const [uploading, setUploading] = useState(false);
   // State for image preview URL
   const [previewUrl, setPreviewUrl] = useState(mealImage || '');
+  // State for selected meal times
+  const [selectedMealTimes, setSelectedMealTimes] = useState([]);
+  // State for available meal times
+  const [availableMealTimes, setAvailableMealTimes] = useState([]);
+  // State for loading meal times
+  const [loadingMealTimes, setLoadingMealTimes] = useState(false);
   
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
@@ -32,6 +39,49 @@ function EditPopup({
   useEffect(() => {
     updateCSSVariables();
   }, [updateCSSVariables]);
+
+  // Fetch meal times and set existing selections when popup opens
+  useEffect(() => {
+    if (open) {
+      fetchMealTimes();
+    }
+  }, [open]);
+
+  // Set existing meal times after available meal times are fetched
+  useEffect(() => {
+    if (availableMealTimes.length > 0 && existingMealTimes.length > 0) {
+      // Filter available meal times to get the existing ones
+      const existingMealTimeObjects = availableMealTimes.filter(time => 
+        existingMealTimes.includes(time.mealtime_id)
+      );
+      setSelectedMealTimes(existingMealTimeObjects);
+    }
+  }, [availableMealTimes, existingMealTimes]);
+
+  // Fetch meal times from API
+  const fetchMealTimes = async () => {
+    setLoadingMealTimes(true);
+    try {
+      const response = await fetch(`${BASE_URLS.mealtime}/details`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch meal times: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setAvailableMealTimes(data);
+    } catch (error) {
+      console.error('Error fetching meal times:', error);
+      toast.error('Failed to fetch meal times');
+    } finally {
+      setLoadingMealTimes(false);
+    }
+  };
 
   // Handle selection of file input and create preview URL
   const handleFileChange = (e) => {
@@ -95,7 +145,7 @@ function EditPopup({
       }
     }
 
-    onSave(mealId, mealName, finalImageUrl);
+    onSave(mealId, mealName, finalImageUrl, selectedMealTimes.map(time => time.mealtime_id));
   };
 
   // Update preview when mealImage prop changes
@@ -108,15 +158,22 @@ function EditPopup({
       onClose={onClose} 
       maxWidth="sm" 
       fullWidth
+      maxHeight="90vh"
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
           backgroundColor: 'rgba(0, 0, 0, 0.6)'
         }
       }}
+      PaperProps={{
+        style: {
+          maxHeight: '90vh',
+          overflow: 'hidden'
+        }
+      }}
     >
-      <div className="mealtime-popup-container">
-        <div className="mealtime-popup-header">
+      <div className="mealtime-popup-container" style={{ maxHeight: '85vh', overflow: 'auto', padding: '20px' }}>
+        <div className="mealtime-popup-header" style={{ marginBottom: '16px', paddingBottom: '12px' }}>
           <div>
             <h2 className="mealtime-title">Edit Meal Type</h2>
             <p className="mealtime-subtitle">Update meal type information</p>
@@ -129,23 +186,24 @@ function EditPopup({
 
                   {/* Show image preview if available */}
           {previewUrl && (
-            <div className="mealtime-image-preview">
-              <Typography variant="h6">Preview:</Typography>
+            <div className="mealtime-image-preview" style={{ marginBottom: '12px' }}>
+              <Typography variant="body2" sx={{ marginBottom: 0.5 }}>Preview:</Typography>
               <img
                 src={previewUrl}
                 alt="Meal Type Preview"
                 className="mealtime-preview-img"
                 style={{
                   maxWidth: '100%',
-                  maxHeight: '300px',
+                  maxHeight: '120px',
                   objectFit: 'cover',
+                  borderRadius: '6px'
                 }}
               />
             </div>
           )}
 
-        <div className="mealtime-form">
-          <div className="mealtime-input-group">
+        <div className="mealtime-form" style={{ marginBottom: '16px' }}>
+          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
             <label className="mealtime-label">Meal Type Image</label>
             {/* File input for image upload */}
             <Input
@@ -156,7 +214,7 @@ function EditPopup({
             />
           </div>
 
-          <div className="mealtime-input-group">
+          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
             <label className="mealtime-label">Meal Type Name</label>
             <Input
               type="text"
@@ -164,7 +222,83 @@ function EditPopup({
               onChange={(e) => setMealName(e.target.value)}
               fullWidth
               className="mealtime-input"
+              placeholder="Enter meal type name"
             />
+          </div>
+
+          <div className="mealtime-input-group">
+            <label className="mealtime-label">Select Meal Times</label>
+            <Autocomplete
+              multiple
+              options={availableMealTimes}
+              getOptionLabel={(option) => option.mealtime_name}
+              value={selectedMealTimes}
+              onChange={(event, newValue) => setSelectedMealTimes(newValue)}
+              loading={loadingMealTimes}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option.mealtime_name}
+                    {...getTagProps({ index })}
+                    key={option.mealtime_id}
+                    sx={{
+                      backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                      borderColor: '#3b82f6',
+                      color: '#3b82f6',
+                      '& .MuiChip-deleteIcon': {
+                        color: '#3b82f6',
+                      },
+                    }}
+                  />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  size="small"
+                  placeholder="Search and select meal times"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'var(--popup-input-bg)',
+                      '& fieldset': {
+                        borderColor: 'var(--popup-input-border)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'var(--popup-input-border-hover)',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: '#3b82f6',
+                        boxShadow: '0 0 0 3px var(--popup-input-focus-shadow)',
+                      },
+                    },
+                  }}
+                />
+              )}
+              sx={{ marginTop: 1 }}
+            />
+            {selectedMealTimes.length > 0 && (
+              <Box sx={{ marginTop: 1.5 }}>
+                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
+                  Selected Meal Times ({selectedMealTimes.length}):
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
+                  {selectedMealTimes.map((time) => (
+                    <Chip
+                      key={time.mealtime_id}
+                      label={time.mealtime_name}
+                      onDelete={() => {
+                        setSelectedMealTimes(selectedMealTimes.filter(t => t.mealtime_id !== time.mealtime_id));
+                      }}
+                      color="primary"
+                      variant="filled"
+                      size="small"
+                    />
+                  ))}
+                </Box>
+              </Box>
+            )}
           </div>
         </div>
 

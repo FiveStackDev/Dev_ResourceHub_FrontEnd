@@ -6,7 +6,7 @@ import './CalendarComponents.css';
 import { BASE_URLS } from '../../services/api/config';
 import { toast, ToastContainer } from 'react-toastify';
 
-export default function MealTypeSelect({ onSelect }) {
+export default function MealTypeSelect({ onSelect, mealtype_ids = [] }) {
   const [mealTypes, setMealTypes] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,8 +19,8 @@ export default function MealTypeSelect({ onSelect }) {
   }, [updateCSSVariables]);
 
   useEffect(() => {
-    fetchMealTypes(); // Fetch meal types when component mounts
-  }, []);
+    fetchMealTypes(); // Fetch meal types when component mounts or mealtype_ids change
+  }, [mealtype_ids]);
 
   const fetchMealTypes = async () => {
     try {
@@ -37,7 +37,13 @@ export default function MealTypeSelect({ onSelect }) {
         throw new Error(`Failed to fetch meal types: ${response.status}`);
       }
       const data = await response.json();
-      setMealTypes(data); // Store retrieved meal types
+      
+      // Filter meal types based on mealtype_ids if provided
+      const filteredMealTypes = mealtype_ids.length > 0 
+        ? data.filter(mealType => mealtype_ids.includes(mealType.mealtype_id))
+        : data;
+      
+      setMealTypes(filteredMealTypes); // Store filtered meal types
     } catch (error) {
       console.error('Error fetching meal types:', error);
       toast.error(`Error: ${error.message}`); // Show error notification

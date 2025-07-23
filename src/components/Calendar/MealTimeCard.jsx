@@ -5,7 +5,7 @@ import { useThemeStyles } from '../../hooks/useThemeStyles';
 import Popupmealtype from './popupmealtype';
 import './CalendarComponents.css';
 
-const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
+const MealTimeCard = ({ name, image, onSelect, isDisabled, id, mealtype_ids = [] }) => {
   const [popupOpen, setPopupOpen] = React.useState(false);
 
   // Theme styles hook
@@ -57,6 +57,7 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled, id }) => {
       <Popupmealtype
         open={popupOpen}
         handleClose={() => setPopupOpen(false)}
+        mealtype_ids={mealtype_ids}
         onAddEvent={(mealTypeId, mealTypeName) =>
           onSelect(mealTypeId, mealTypeName)
         }
