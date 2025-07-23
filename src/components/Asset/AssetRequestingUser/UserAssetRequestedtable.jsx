@@ -93,7 +93,7 @@ const MonitorTable = ({
             {customColumns.map((col, index) => (
               <TableCell key={`head-${index}`}>{col.label}</TableCell>
             ))}
-            <TableCell align='center'>Actions</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -140,8 +140,8 @@ const MonitorTable = ({
                   </TableCell>
                 ))}
                 <TableCell>
-                  {(asset.status === 'Pending' || asset.status === 'Rejected') && (
-                    <div className="flex justify-center gap-2">
+                  <div className="flex justify-end gap-2">
+                    {(asset.status === 'Pending') && (
                       <Tooltip title="Edit Asset Request">
                         <Button
                           variant="outlined"
@@ -153,6 +153,9 @@ const MonitorTable = ({
                           Edit
                         </Button>
                       </Tooltip>
+                    )}
+
+                    {(asset.status === 'Rejected' || asset.status === 'Pending') && (
                       <Tooltip title="Delete Asset Request">
                         <Button
                           variant="outlined"
@@ -164,8 +167,8 @@ const MonitorTable = ({
                           Delete
                         </Button>
                       </Tooltip>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             );

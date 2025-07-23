@@ -179,19 +179,22 @@ export const MaintenanceTableUser = ({ maintenance, onEditMaintenance, onDeleteM
                         />
                       </TableCell>
                       <TableCell align="center">
-                        {(item.status === 'pending' || item.status === 'Rejected') && (
-                          <div className="flex justify-center gap-2">
-                            <Tooltip title="Edit Maintenance">
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                size="small"
-                                startIcon={<Edit size={18} />}
-                                onClick={() => onEditMaintenance && onEditMaintenance(item)}
-                              >
-                                Edit
-                              </Button>
-                            </Tooltip>
+                        
+                          <div className="flex justify-end gap-2">
+                            {(item.status === 'Pending') && (
+                              <Tooltip title="Edit Maintenance">
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  size="small"
+                                  startIcon={<Edit size={18} />}
+                                  onClick={() => onEditMaintenance && onEditMaintenance(item)}
+                                >
+                                  Edit
+                                </Button>
+                              </Tooltip>
+                            )}
+                            {(item.status === 'Pending' || item.status === 'Rejected') && (
                             <Tooltip title="Delete Maintenance">
                               <Button
                                 variant="outlined"
@@ -203,8 +206,9 @@ export const MaintenanceTableUser = ({ maintenance, onEditMaintenance, onDeleteM
                                 Delete
                               </Button>
                             </Tooltip>
+                            )}
                           </div>
-                        )}
+
                       </TableCell>
                     </TableRow>
                   );

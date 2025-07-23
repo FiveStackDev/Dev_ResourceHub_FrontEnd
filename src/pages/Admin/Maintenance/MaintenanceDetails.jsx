@@ -127,7 +127,7 @@ const MaintenanceDetails = () => {
   };
 
   const filteredMaintenance = maintenance.filter((item) => {
-    const searchMatch = item.name
+    const searchMatch = item.username 
       .toLowerCase()
       .includes(searchText.toLowerCase());
     const typeMatch = filterType === 'All' || item.priorityLevel === filterType;
