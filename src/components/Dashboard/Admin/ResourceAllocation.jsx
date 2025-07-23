@@ -52,17 +52,23 @@ export const ResourceAllocation = ({ data }) => {
         background: theme.palette.background.paper,
         color: theme.palette.text.primary,
         boxShadow: theme.shadows[1],
+        minHeight: 340,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        // Removed justifyContent: 'center' to start content from top
+        height: '100%',
       }}
       className="p-6 rounded-lg"
     >
       <h2
-        className="text-xl font-semibold mb-2"
+        className="mb-2 text-xl font-semibold"
         style={{ color: theme.palette.text.primary }}
       >
         Resource Allocation
       </h2>
       <p
-        className="text-sm mb-6"
+        className="mb-6 text-sm"
         style={{ color: theme.palette.text.secondary }}
       >
         Current resource distribution

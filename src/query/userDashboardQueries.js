@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { getAuthHeader } from '../utils/authHeader';
@@ -14,8 +13,12 @@ export function useUserDashboardData() {
       const userId = decoded?.id;
       if (!userId) throw new Error('User ID not found in token');
       const [statsResponse, activitiesResponse] = await Promise.all([
-        axios.get(`${BASE_URLS.dashboardUser}/stats/${userId}`, { headers: { ...getAuthHeader() } }),
-        axios.get(`${BASE_URLS.dashboardUser}/activities/${userId}`, { headers: { ...getAuthHeader() } }),
+        axios.get(`${BASE_URLS.dashboardUser}/stats/${userId}`, {
+          headers: { ...getAuthHeader() },
+        }),
+        axios.get(`${BASE_URLS.dashboardUser}/activities/${userId}`, {
+          headers: { ...getAuthHeader() },
+        }),
       ]);
       // If backend sends monthLabels, map it to each stat
       if (Array.isArray(statsResponse.data)) {
@@ -55,6 +58,6 @@ export function useUserDashboardData() {
     },
     staleTime: 1000 * 60, // 1 minute
     retry: 2,
-    refetchInterval: 2000, // Refetch every 5 seconds
+    refetchInterval: 5000, // Refetch every 5 seconds
   });
 }

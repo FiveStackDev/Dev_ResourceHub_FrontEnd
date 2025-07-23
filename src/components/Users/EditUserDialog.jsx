@@ -17,7 +17,6 @@ import { useThemeStyles } from '../../hooks/useThemeStyles';
 import { useUser } from '../../contexts/UserContext';
 import './UserDialog.css';
 
-
 export const EditUserDialog = ({ user, open, onClose, onSave }) => {
   const { isSuperAdmin, isAdmin } = useUser();
   const [email, setEmail] = useState(user.email);
@@ -28,7 +27,7 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -52,25 +51,28 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
   };
 
   // Only disable dropdown/details if Admin is editing Admin/SuperAdmin
-  const isEditingAdminOrSuperAdmin = isAdmin && !isSuperAdmin && (user.userType === 'Admin' || user.userType === 'SuperAdmin');
+  const isEditingAdminOrSuperAdmin =
+    isAdmin &&
+    !isSuperAdmin &&
+    (user.userType === 'Admin' || user.userType === 'SuperAdmin');
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="user-popup-container">
@@ -135,15 +137,15 @@ export const EditUserDialog = ({ user, open, onClose, onSave }) => {
           </div>
 
           <div className="user-popup-actions">
-            <button 
-              type="button" 
-              onClick={onClose} 
+            <button
+              type="button"
+              onClick={onClose}
               className="user-popup-cancel-btn"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="user-popup-submit-btn"
               disabled={isEditingAdminOrSuperAdmin}
             >

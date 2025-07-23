@@ -27,7 +27,7 @@
 }
 
 /* Theme variables for dark mode */
-[data-mui-color-scheme="dark"] {
+[data-mui-color-scheme='dark'] {
   --user-popup-bg-primary: #1e1e2f;
   --user-popup-bg-secondary: #252537;
   --user-popup-text-primary: #ffffff;
@@ -57,7 +57,11 @@
   padding: 32px;
   border-radius: 16px;
   box-shadow: 0px 20px 40px var(--user-popup-shadow);
-  background: linear-gradient(135deg, var(--user-popup-bg-primary) 0%, var(--user-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-popup-bg-primary) 0%,
+    var(--user-popup-bg-secondary) 100%
+  );
   position: relative;
   overflow: hidden;
 }
@@ -172,11 +176,15 @@
   transition: all 0.3s ease;
 }
 
-.user-popup-textfield .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.user-popup-textfield
+  .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
   border-color: var(--user-popup-input-border-hover);
 }
 
-.user-popup-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.user-popup-textfield
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px var(--user-popup-input-focus-shadow);
 }
@@ -216,11 +224,15 @@
   transition: all 0.3s ease;
 }
 
-.user-popup-select .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.user-popup-select
+  .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
   border-color: var(--user-popup-input-border-hover);
 }
 
-.user-popup-select .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.user-popup-select
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px var(--user-popup-input-focus-shadow);
 }
@@ -241,7 +253,11 @@
 
 /* Error message styling */
 .user-popup-error-message {
-  background: linear-gradient(135deg, var(--user-delete-error-bg-primary) 0%, var(--user-delete-error-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-delete-error-bg-primary) 0%,
+    var(--user-delete-error-bg-secondary) 100%
+  );
   border: 2px solid var(--user-delete-error-border);
   border-radius: 8px;
   padding: 12px 16px;
@@ -280,13 +296,21 @@
 }
 
 .user-popup-cancel-btn {
-  background: linear-gradient(135deg, var(--user-popup-button-cancel-bg) 0%, var(--user-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-popup-button-cancel-bg) 0%,
+    var(--user-popup-bg-secondary) 100%
+  );
   color: var(--user-popup-button-cancel-text);
   border: 2px solid var(--user-popup-button-cancel-border);
 }
 
 .user-popup-cancel-btn:hover {
-  background: linear-gradient(135deg, var(--user-popup-button-cancel-bg-hover) 0%, var(--user-popup-button-cancel-border) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-popup-button-cancel-bg-hover) 0%,
+    var(--user-popup-button-cancel-border) 100%
+  );
   color: var(--user-popup-text-secondary);
   border-color: var(--user-popup-input-border-hover);
   transform: translateY(-2px);
@@ -317,7 +341,11 @@
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0px 20px 40px var(--user-popup-shadow);
-  background: linear-gradient(135deg, var(--user-popup-bg-primary) 0%, var(--user-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-popup-bg-primary) 0%,
+    var(--user-popup-bg-secondary) 100%
+  );
   position: relative;
   overflow: hidden;
 }
@@ -379,7 +407,11 @@
 
 .user-delete-warning-box {
   padding: 20px;
-  background: linear-gradient(135deg, var(--user-delete-warning-bg-primary) 0%, var(--user-delete-warning-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-delete-warning-bg-primary) 0%,
+    var(--user-delete-warning-bg-secondary) 100%
+  );
   border-radius: 12px;
   border: 2px solid var(--user-delete-warning-border);
   margin-bottom: 16px;
@@ -414,7 +446,11 @@
   flex: 1;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, var(--user-popup-button-cancel-bg) 0%, var(--user-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-popup-button-cancel-bg) 0%,
+    var(--user-popup-bg-secondary) 100%
+  );
   color: var(--user-popup-button-cancel-text);
   border: 2px solid var(--user-popup-button-cancel-border);
   display: flex;
@@ -424,7 +460,11 @@
 }
 
 .user-delete-cancel-btn:hover {
-  background: linear-gradient(135deg, var(--user-popup-button-cancel-bg-hover) 0%, var(--user-popup-button-cancel-border) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--user-popup-button-cancel-bg-hover) 0%,
+    var(--user-popup-button-cancel-border) 100%
+  );
   color: var(--user-popup-text-secondary);
   border-color: var(--user-popup-input-border-hover);
   transform: translateY(-2px);
@@ -473,8 +513,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -483,18 +527,18 @@
   .user-delete-container {
     padding: 24px 20px;
   }
-  
+
   .user-popup-title,
   .user-delete-title {
     font-size: 1.5rem;
   }
-  
+
   .user-popup-actions,
   .user-delete-actions {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .user-popup-cancel-btn,
   .user-popup-submit-btn,
   .user-delete-cancel-btn,

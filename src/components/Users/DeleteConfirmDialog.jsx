@@ -18,29 +18,29 @@ export const DeleteConfirmDialog = ({
 }) => {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
   }, [updateCSSVariables]);
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="user-delete-container">
@@ -51,7 +51,9 @@ export const DeleteConfirmDialog = ({
             </div>
             <div>
               <h2 className="user-delete-title">Confirm Deletion</h2>
-              <p className="user-delete-subtitle">This action cannot be undone</p>
+              <p className="user-delete-subtitle">
+                This action cannot be undone
+              </p>
             </div>
           </div>
           <button onClick={onClose} className="user-popup-close-btn">
@@ -63,8 +65,11 @@ export const DeleteConfirmDialog = ({
           <div className="user-delete-warning-box">
             <p className="user-delete-warning-text">
               Are you sure you want to delete{' '}
-              <span className="user-delete-count">{userCount} user{userCount !== 1 ? 's' : ''}</span>?
-              This will permanently remove {userCount !== 1 ? 'them' : 'it'} from the system.
+              <span className="user-delete-count">
+                {userCount} user{userCount !== 1 ? 's' : ''}
+              </span>
+              ? This will permanently remove {userCount !== 1 ? 'them' : 'it'}{' '}
+              from the system.
             </p>
           </div>
         </div>

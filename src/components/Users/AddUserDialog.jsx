@@ -25,7 +25,7 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -72,22 +72,22 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={handleClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="user-popup-container">
@@ -98,7 +98,9 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
             </div>
             <div>
               <h2 className="user-popup-title">Add User</h2>
-              <p className="user-popup-subtitle">Add a new user to the system</p>
+              <p className="user-popup-subtitle">
+                Add a new user to the system
+              </p>
             </div>
           </div>
           <button onClick={handleClose} className="user-popup-close-btn">
@@ -123,7 +125,7 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
                   className="user-popup-textfield"
                 />
               </div>
-              
+
               <div className="user-popup-input-group">
                 <FormControl fullWidth className="user-popup-select">
                   <InputLabel>User Type</InputLabel>
@@ -138,7 +140,7 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
                   </Select>
                 </FormControl>
               </div>
-              
+
               <div className="user-popup-input-group">
                 <TextField
                   fullWidth
@@ -154,17 +156,14 @@ export const AddUserDialog = ({ open, onClose, onAdd }) => {
           </div>
 
           <div className="user-popup-actions">
-            <button 
-              type="button" 
-              onClick={handleClose} 
+            <button
+              type="button"
+              onClick={handleClose}
               className="user-popup-cancel-btn"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              className="user-popup-submit-btn"
-            >
+            <button type="submit" className="user-popup-submit-btn">
               <UserPlus size={16} />
               Add User
             </button>

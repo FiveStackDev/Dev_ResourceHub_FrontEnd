@@ -7,22 +7,26 @@ export function useAdminDashboardData() {
   return useQuery({
     queryKey: ['adminDashboardData'],
     queryFn: async () => {
-      const [statsRes, resourcesRes, mealRes, resourceAllocRes] =
+      const [statsRes, mealRes, resourceAllocRes] =
         await Promise.all([
-          axios.get(`${BASE_URLS.dashboardAdmin}/stats`, { headers: { ...getAuthHeader() } }),
-          axios.get(`${BASE_URLS.dashboardAdmin}/resources`, { headers: { ...getAuthHeader() } }),
-          axios.get(`${BASE_URLS.dashboardAdmin}/mealdistribution`, { headers: { ...getAuthHeader() } }),
-          axios.get(`${BASE_URLS.dashboardAdmin}/resourceallocation`, { headers: { ...getAuthHeader() } }),
+          axios.get(`${BASE_URLS.dashboardAdmin}/stats`, {
+            headers: { ...getAuthHeader() },
+          }),
+          axios.get(`${BASE_URLS.dashboardAdmin}/mealdistribution`, {
+            headers: { ...getAuthHeader() },
+          }),
+          axios.get(`${BASE_URLS.dashboardAdmin}/resourceallocation`, {
+            headers: { ...getAuthHeader() },
+          }),
         ]);
       return {
         stats: statsRes.data,
-        resources: resourcesRes.data,
         mealData: mealRes.data,
         resourceData: resourceAllocRes.data,
       };
     },
     staleTime: 1000 * 60, // 1 minute
     retry: 2,
-    refetchInterval: 2000, // Refetch every 5 seconds
+    refetchInterval: 5000, // Refetch every 5 seconds
   });
 }

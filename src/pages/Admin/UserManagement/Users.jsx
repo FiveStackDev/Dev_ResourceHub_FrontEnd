@@ -27,7 +27,8 @@ export const Users = () => {
 
   const apiRequest = async (url, method, body = null) => {
     // Try both 'authToken' and 'token' for compatibility
-    const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+    const token =
+      localStorage.getItem('authToken') || localStorage.getItem('token');
     const options = {
       method,
       headers: {
