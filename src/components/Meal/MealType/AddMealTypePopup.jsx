@@ -174,15 +174,22 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
       onClose={handleClose} 
       maxWidth="sm" 
       fullWidth
+      maxHeight="90vh"
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
           backgroundColor: 'rgba(0, 0, 0, 0.6)'
         }
       }}
+      PaperProps={{
+        style: {
+          maxHeight: '90vh',
+          overflow: 'hidden'
+        }
+      }}
     >
-      <div className="mealtime-popup-container">
-        <div className="mealtime-popup-header">
+      <div className="mealtime-popup-container" style={{ maxHeight: '85vh', overflow: 'auto', padding: '20px' }}>
+        <div className="mealtime-popup-header" style={{ marginBottom: '16px', paddingBottom: '12px' }}>
           <div>
             {/* Popup title */}
             <h2 className="mealtime-title">{title}</h2>
@@ -197,23 +204,24 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
 
                   {/* Show image preview if available */}
           {mealImageUrl && (
-            <div className="mealtime-image-preview">
-              <Typography variant="h6">Preview:</Typography>
+            <div className="mealtime-image-preview" style={{ marginBottom: '12px' }}>
+              <Typography variant="body2" sx={{ marginBottom: 0.5 }}>Preview:</Typography>
               <img
                 src={mealImageUrl}
                 alt="Meal Type Preview"
                 className="mealtime-preview-img"
                 style={{
                   maxWidth: '100%',
-                  maxHeight: '300px',
+                  maxHeight: '120px',
                   objectFit: 'cover',
+                  borderRadius: '6px'
                 }}
               />
             </div>
           )}
 
-        <div className="mealtime-form">
-          <div className="mealtime-input-group">
+        <div className="mealtime-form" style={{ marginBottom: '16px' }}>
+          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
             <label className="mealtime-label">Meal Type Image</label>
             {/* File input for image upload */}
             <Input
@@ -224,7 +232,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
             />
           </div>
 
-          <div className="mealtime-input-group">
+          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
             <label className="mealtime-label">Meal Type Name</label>
             {/* Text input for meal name */}
             <Input
@@ -237,7 +245,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
             />
           </div>
 
-          <div className="mealtime-input-group">
+          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
             <label className="mealtime-label">Select Meal Times</label>
             <Autocomplete
               multiple
@@ -268,6 +276,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
                 <TextField
                   {...params}
                   variant="outlined"
+                  size="small"
                   placeholder="Search and select meal times"
                   sx={{
                     '& .MuiOutlinedInput-root': {
@@ -289,11 +298,11 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
               sx={{ marginTop: 1 }}
             />
             {selectedMealTimes.length > 0 && (
-              <Box sx={{ marginTop: 2 }}>
+              <Box sx={{ marginTop: 1.5 }}>
                 <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
                   Selected Meal Times ({selectedMealTimes.length}):
                 </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
                   {selectedMealTimes.map((time) => (
                     <Chip
                       key={time.mealtime_id}

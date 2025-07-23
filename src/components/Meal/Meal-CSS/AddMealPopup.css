@@ -120,7 +120,7 @@
 }
 
 .mealtime-form {
-  margin-bottom: 32px;
+  margin-bottom: 0px;
 }
 
 .mealtime-input-group {
@@ -131,13 +131,13 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--popup-text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: block;
   letter-spacing: 0.025em;
 }
 
 .mealtime-input {
-  padding: 16px;
+  padding: 7px 20px;
   border: 2px solid var(--popup-input-border);
   border-radius: 12px;
   width: 100%;
@@ -180,19 +180,23 @@
 }
 
 .mealtime-image-preview {
-  margin-top: 20px;
-  padding: 20px;
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
   background: var(--popup-preview-bg);
   border-radius: 12px;
   border: 2px solid var(--popup-preview-border);
+  width: 50%;
 }
 
 .mealtime-preview-img {
-  width: 150px;
+  width: 200px;
   height: 150px;
   object-fit: cover;
  margin: auto;
   border-radius: 12px;
+  margin-bottom: 10px;
   box-shadow: 0px 8px 24px var(--popup-shadow);
   transition: all 0.3s ease;
 }
@@ -206,8 +210,8 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 32px;
-  padding-top: 20px;
+  margin-top: 15px;
+  padding-top: 10px;
   border-top: 2px solid var(--popup-border-color);
 }
 
@@ -424,7 +428,7 @@
 .mealtime-chips-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 20px;
 }
 
 /* Custom chip styling for light/dark theme compatibility */
