@@ -56,15 +56,39 @@ function OrgVerificationPopup({ onClose, email, code }) {
           }
         );
 
-        toast.success('Verification successful!');
+        toast.success('Verification successful!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          style: { zIndex: 9999 }
+        });
         onClose(); // Close the popup after successful verification
       } catch (error) {
         console.error('There was an error verifying the email!', error);
-        toast.error('Verification failed. Please try again.');
+        toast.error('Verification failed. Please try again.', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          style: { zIndex: 9999 }
+        });
       }
     } else {
       // Show error if code does not match
-      toast.error('Invalid verification code. Please try again.');
+      toast.error('Invalid verification code. Please try again.', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: { zIndex: 9999 }
+      });
     }
   };
 
