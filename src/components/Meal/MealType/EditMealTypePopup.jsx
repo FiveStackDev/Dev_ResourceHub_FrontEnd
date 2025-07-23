@@ -44,9 +44,19 @@ function EditPopup({
   useEffect(() => {
     if (open) {
       fetchMealTimes();
-      setSelectedMealTimes(existingMealTimes || []);
     }
-  }, [open, existingMealTimes]);
+  }, [open]);
+
+  // Set existing meal times after available meal times are fetched
+  useEffect(() => {
+    if (availableMealTimes.length > 0 && existingMealTimes.length > 0) {
+      // Filter available meal times to get the existing ones
+      const existingMealTimeObjects = availableMealTimes.filter(time => 
+        existingMealTimes.includes(time.mealtime_id)
+      );
+      setSelectedMealTimes(existingMealTimeObjects);
+    }
+  }, [availableMealTimes, existingMealTimes]);
 
   // Fetch meal times from API
   const fetchMealTimes = async () => {

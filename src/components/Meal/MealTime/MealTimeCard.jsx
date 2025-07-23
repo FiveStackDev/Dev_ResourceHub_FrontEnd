@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import ModeEditTwoToneIcon from '@mui/icons-material/ModeEditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography
+} from '@mui/material';
+import {
+  ModeEditTwoTone as ModeEditTwoToneIcon,
+  DeleteTwoTone as DeleteTwoToneIcon
+} from '@mui/icons-material';
 import EditPopup from './EditMealTimePopup';
 import DeletePopup from './DeleteMealTimePopup';
 import '../Meal-CSS/Mealcard.css';
@@ -16,9 +20,8 @@ import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
-import { getMealTypesForMealTime } from '../shared/mockRelationshipData'; // Import mock data helper
 
-function MealCard({ mealId, name, image, onDelete }) {
+function MealCard({ mealId, name, image, onDelete, mealtype_ids = [] }) {
   // State to control edit popup visibility
   const [openEdit, setOpenEdit] = React.useState(false);
   // State to control delete popup visibility
@@ -139,7 +142,7 @@ function MealCard({ mealId, name, image, onDelete }) {
         setMealName={setMealName}
         setMealImage={setMealImage}
         mealId={mealId}
-        existingMealTypes={getMealTypesForMealTime(mealId)} // Pass existing meal types
+        existingMealTypes={mealtype_ids} // Pass existing meal type IDs from API
       />
 
       {/* Delete confirmation popup */}

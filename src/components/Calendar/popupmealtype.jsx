@@ -7,7 +7,7 @@ import { useThemeStyles } from '../../hooks/useThemeStyles';
 import MealTypeSelect from './MealTypeSelect';
 import './CalendarComponents.css';
 
-function Popupmealtype({ open, handleClose, onAddEvent }) {
+function Popupmealtype({ open, handleClose, onAddEvent, mealtype_ids = [] }) {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
   
@@ -43,7 +43,7 @@ function Popupmealtype({ open, handleClose, onAddEvent }) {
         </div>
 
         <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
-          <MealTypeSelect onSelect={onAddEvent} />
+          <MealTypeSelect onSelect={onAddEvent} mealtype_ids={mealtype_ids} />
         </div>
       </div>
     </Modal>

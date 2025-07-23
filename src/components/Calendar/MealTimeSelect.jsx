@@ -59,6 +59,7 @@ export default function MealTimeSelect({
             id={mealtime.mealtime_id}
             name={mealtime.mealtime_name}
             image={mealtime.mealtime_image_url || '/default-mealtime.png'} // Fallback image if none is provided
+            mealtype_ids={mealtime.mealtype_ids || []} // Pass meal type IDs from API
             onSelect={(mealTypeId, mealTypeName) =>
               onAddEvent(
                 mealtime.mealtime_id,

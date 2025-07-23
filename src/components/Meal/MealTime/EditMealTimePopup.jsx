@@ -44,9 +44,19 @@ function EditPopup({
   useEffect(() => {
     if (open) {
       fetchMealTypes();
-      setSelectedMealTypes(existingMealTypes || []);
     }
-  }, [open, existingMealTypes]);
+  }, [open]);
+
+  // Set existing meal types after available meal types are fetched
+  useEffect(() => {
+    if (availableMealTypes.length > 0 && existingMealTypes.length > 0) {
+      // Filter available meal types to get the existing ones
+      const existingMealTypeObjects = availableMealTypes.filter(type => 
+        existingMealTypes.includes(type.mealtype_id)
+      );
+      setSelectedMealTypes(existingMealTypeObjects);
+    }
+  }, [availableMealTypes, existingMealTypes]);
 
   // Fetch meal types from API
   const fetchMealTypes = async () => {

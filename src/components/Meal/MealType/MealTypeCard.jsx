@@ -17,9 +17,8 @@ import { getAuthHeader } from '../../../utils/authHeader';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
-import { getMealTimesForMealType } from '../shared/mockRelationshipData'; // Import mock data helper
 
-function MealCard({ mealId, name, image, onEdit, onDelete }) {
+function MealCard({ mealId, name, image, onEdit, onDelete, mealtime_ids = [] }) {
   // States to control edit/delete dialogs and error messages
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -148,7 +147,7 @@ function MealCard({ mealId, name, image, onEdit, onDelete }) {
         setMealName={setMealName}
         setMealImage={setMealImage}
         mealId={mealId}
-        existingMealTimes={getMealTimesForMealType(mealId)} // Pass existing meal times
+        existingMealTimes={mealtime_ids} // Pass existing meal time IDs from API
       />
 
       {/* Delete confirmation popup */}
