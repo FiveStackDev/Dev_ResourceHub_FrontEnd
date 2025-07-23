@@ -9,8 +9,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { Plus, Search } from 'lucide-react';
-import { MaintenanceTable } from '../../../components/Maintenance/MaintenanceTable.jsx';
-import { AddMaintenancePopup } from '../../../components/Maintenance/AddMaintenancePopup.jsx';
+import { MaintenanceTable } from '../../../components/Maintenance/Admin';
+import { AddMaintenancePopup } from '../../../components/Maintenance/User';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';

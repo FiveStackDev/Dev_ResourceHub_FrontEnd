@@ -1,5 +1,5 @@
 import React from 'react';
-import MaintenenHomeCard from '../../../components/Maintenance/MaintenanceHomeCard';
+import { MaintenanceHomeCard } from '../../../components/Maintenance/shared';
 import AdminLayout from '../../../layouts/Admin/AdminLayout';
 import '../../css/MaintenanceHome.css';
 
@@ -9,34 +9,34 @@ function Maintenen() {
       <div className="min-h-screen space-y-6 p-6">
         <h1 className="text-2xl font-semibold">Maintenance Categories</h1>
         <div className="maintenen grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          <MaintenenHomeCard
+          <MaintenanceHomeCard
             name="Tech Support"
             image="/Maintenance/TechSupport.png"
             route={'../admin-maintenanceDetails'}
           />
 
-          <MaintenenHomeCard
+          <MaintenanceHomeCard
             name="General Maintenance"
             image="/Maintenance/genaralmaintanance.png"
             route={'../admin-maintenanceDetails'}
           />
 
-          <MaintenenHomeCard
+          <MaintenanceHomeCard
             name="Cleaning and Hygiene"
             image="/Maintenance/hand.png"
             route={'../admin-maintenanceDetails'}
           />
-          <MaintenenHomeCard
+          <MaintenanceHomeCard
             name="Furniture and Fixtures"
             image="/Maintenance/FeernituresAndPictures.png"
             route={'../admin-maintenanceDetails'}
           />
-          <MaintenenHomeCard
+          <MaintenanceHomeCard
             name="Safety and Security"
             image="/Maintenance/officer.png"
             route={'../admin-maintenanceDetails'}
           />
-          <MaintenenHomeCard
+          <MaintenanceHomeCard
             name="Lighting and Power"
             image="/Maintenance/bulb.png"
             route={'../admin-maintenanceDetails'}

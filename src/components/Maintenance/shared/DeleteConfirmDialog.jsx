@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { AlertTriangle, Trash2, X } from 'lucide-react';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import './MaintenanceDialog.css';
 
 export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {

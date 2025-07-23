@@ -2,9 +2,9 @@
 import { useState, useEffect } from 'react';
 import { Button, TextField, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@mui/material';
 import { Plus, Search } from 'lucide-react';
-import { AddMaintenancePopup } from '../../../components/Maintenance/AddMaintenancePopup';
+import { AddMaintenancePopup } from '../../../components/Maintenance/User';
 import { ToastContainer, toast } from 'react-toastify';
-import { MaintenanceTableUser } from '../../../components/Maintenance/MaintenanceTableUser';
+import { MaintenanceTableUser } from '../../../components/Maintenance/User';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import UserLayout from '../../../layouts/User/UserLayout';

@@ -1,4 +1,4 @@
-import { getAuthHeader } from '../../utils/authHeader';
+import { getAuthHeader } from '../../../utils/authHeader';
 import { useState } from 'react';
 import {
   Table,
@@ -22,11 +22,11 @@ import {
 import { alpha } from '@mui/material/styles';
 import { Pencil, Trash2, SendHorizontal, Send, X } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
-import { DeleteConfirmDialog } from './DeleteConfirmDialog.jsx';
+import { DeleteConfirmDialog } from '../shared/DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BASE_URLS } from '../../services/api/config.js';
-import './MaintenanceDialog.css';
+import { BASE_URLS } from '../../../services/api/config.js';
+import '../shared/MaintenanceDialog.css';
 
 const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
   return (

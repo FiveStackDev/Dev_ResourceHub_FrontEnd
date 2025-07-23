@@ -11,14 +11,16 @@ import {
   InputLabel,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { X, Edit, Settings } from 'lucide-react';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
-import './MaintenanceDialog.css';
+import { X, Wrench, Plus } from 'lucide-react';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import '../shared/MaintenanceDialog.css';
 
-export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
+export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
+  const [name, setName] = useState('');
+  const [priorityLevel, setPriorityLevel] = useState('Low');
   const [description, setDescription] = useState('');
-  const [priorityLevel, setPriorityLevel] = useState('');
-  const [status, setStatus] = useState('');
+  const [nameError, setNameError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
@@ -28,46 +30,39 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
     updateCSSVariables();
   }, [updateCSSVariables]);
 
-  useEffect(() => {
-    if (maintenance) {
-      setDescription(maintenance.description || '');
-      setPriorityLevel(maintenance.priorityLevel || '');
-      setStatus(maintenance.status || '');
-    }
-  }, [maintenance]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!description.trim()) {
+    setNameError(!name.trim());
+    setDescriptionError(!description.trim());
+
+    if (!name.trim() || !description.trim()) {
       return;
     }
-    onSave({ ...maintenance, description, priorityLevel, status });
+
+    onAdd({ name, priorityLevel, description });
+    // Clear form after successful submission
+    setName('');
+    setPriorityLevel('Low');
+    setDescription('');
+    setNameError(false);
+    setDescriptionError(false);
     onClose();
   };
 
-  const getPriorityClass = (priority) => {
-    switch (priority?.toLowerCase()) {
-      case 'low': return 'priority-low';
-      case 'medium': return 'priority-medium';
-      case 'high': return 'priority-high';
-      default: return '';
-    }
-  };
-
-  const getStatusClass = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'pending': return 'status-pending';
-      case 'in progress': return 'status-in-progress';
-      case 'completed': return 'status-completed';
-      case 'rejected': return 'status-rejected';
-      default: return '';
-    }
+  const handleClose = () => {
+    // Clear form when closing
+    setName('');
+    setPriorityLevel('Low');
+    setDescription('');
+    setNameError(false);
+    setDescriptionError(false);
+    onClose();
   };
 
   return (
     <Dialog 
       open={open} 
-      onClose={onClose} 
+      onClose={handleClose} 
       maxWidth="sm" 
       fullWidth
       BackdropProps={{
@@ -87,14 +82,14 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
         <div className="maintenance-popup-header">
           <div className="maintenance-popup-header-content">
             <div className="maintenance-popup-header-icon">
-              <Settings size={24} color="#f59e0b" />
+              <Wrench size={24} color="#f59e0b" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Edit Maintenance</h2>
-              <p className="maintenance-popup-subtitle">Update maintenance request details</p>
+              <h2 className="maintenance-popup-title">Add Maintenance</h2>
+              <p className="maintenance-popup-subtitle">Create a new maintenance request</p>
             </div>
           </div>
-          <button onClick={onClose} className="maintenance-popup-close-btn">
+          <button onClick={handleClose} className="maintenance-popup-close-btn">
             <X size={20} />
           </button>
         </div>
@@ -106,18 +101,10 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                 <TextField
                   fullWidth
                   label="Name"
-                  value={maintenance?.name || ''}
-                  disabled
-                  className="maintenance-popup-textfield"
-                />
-              </div>
-              
-              <div className="maintenance-popup-input-group">
-                <TextField
-                  fullWidth
-                  label="Request Date"
-                  value={maintenance?.submitted_date || ''}
-                  disabled
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  error={nameError}
+                  helperText={nameError ? 'Please enter a name' : ''}
                   className="maintenance-popup-textfield"
                 />
               </div>
@@ -130,12 +117,11 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                     label="Priority Level"
                     onChange={(e) => setPriorityLevel(e.target.value)}
                   >
-                    <MenuItem value="Low">🟡 Low </MenuItem>
+                     <MenuItem value="Low">🟡 Low </MenuItem>
                     <MenuItem value="Medium">🟠 Medium </MenuItem>
                     <MenuItem value="High">🔴 High </MenuItem>
                   </Select>
                 </FormControl>
- 
               </div>
               
               <div className="maintenance-popup-input-group">
@@ -146,25 +132,10 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                   rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  error={descriptionError}
+                  helperText={descriptionError ? 'Please enter a description' : ''}
                   className="maintenance-popup-textfield"
                 />
-              </div>
-              
-              <div className="maintenance-popup-input-group">
-                <FormControl fullWidth className="maintenance-popup-select">
-                  <InputLabel>Status</InputLabel>
-                  <Select
-                    value={status}
-                    label="Status"
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <MenuItem value="Pending">Pending</MenuItem>
-                    <MenuItem value="In Progress">In Progress</MenuItem>
-                    <MenuItem value="Completed">Completed</MenuItem>
-                    <MenuItem value="Rejected">Rejected</MenuItem>
-                  </Select>
-                </FormControl>
-
               </div>
             </div>
           </div>
@@ -172,7 +143,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
           <div className="maintenance-popup-actions">
             <button 
               type="button" 
-              onClick={onClose} 
+              onClick={handleClose} 
               className="maintenance-popup-cancel-btn"
             >
               Cancel
@@ -181,8 +152,8 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
               type="submit" 
               className="maintenance-popup-submit-btn"
             >
-              <Edit size={16} />
-              Save Changes
+              <Plus size={16} />
+              Add Maintenance
             </button>
           </div>
         </form>
