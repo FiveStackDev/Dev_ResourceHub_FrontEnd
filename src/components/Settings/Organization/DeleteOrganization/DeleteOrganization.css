@@ -60,7 +60,7 @@
   padding: 2rem;
   max-height: calc(90vh - 120px);
   overflow-y: auto;
-  background: var(--settings-popup-bg, #ffffff);
+  background: var(--settings-popup-bg-primary, #ffffff);
 }
 
 .warning-banner {
@@ -87,8 +87,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  background: var(--settings-step-bg, var(--settings-card-bg, #f8fafc));
-  border: 2px solid var(--settings-step-border, var(--settings-card-border, #e2e8f0));
+  background: var(--settings-card-bg-secondary, #f8fafc);
+  border: 2px solid var(--settings-card-border, #e2e8f0);
   border-radius: 10px;
   flex: 1;
   min-width: 200px;
@@ -148,7 +148,7 @@
 }
 
 .current-step {
-  background: var(--settings-card-bg, #ffffff);
+  background: var(--settings-card-bg-primary, #ffffff);
   border: 2px solid var(--settings-card-border, #e2e8f0);
   border-radius: 12px;
   padding: 2rem;
@@ -294,15 +294,15 @@
 }
 
 .step-button.secondary {
-  background: var(--settings-secondary-bg, #f8fafc);
-  color: var(--settings-popup-text-secondary, #64748b);
-  border-color: var(--settings-input-border, #e2e8f0);
+  background: var(--settings-button-secondary-bg, #f8fafc);
+  color: var(--settings-button-secondary-text, #64748b);
+  border-color: var(--settings-button-secondary-border, #e2e8f0);
 }
 
 .step-button.secondary:hover {
-  background: var(--settings-button-hover, #f1f5f9);
-  color: var(--settings-popup-text-primary, #1e293b);
-  border-color: var(--settings-accent-primary, #3b82f6);
+  background: var(--settings-button-secondary-hover-bg, #f1f5f9);
+  color: var(--settings-button-secondary-hover-text, #1e293b);
+  border-color: var(--settings-button-secondary-hover-border, #3b82f6);
 }
 
 .step-button.danger {

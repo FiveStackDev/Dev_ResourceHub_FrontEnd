@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, Trash2, Shield, Check, X } from 'lucide-react';
-import { Dialog } from '@mui/material';
+import { Dialog, Stepper, Step, StepLabel, Box } from '@mui/material';
 import { useThemeStyles } from '../../../../hooks/useThemeStyles';
 import { useThemeContext } from '../../../../theme/ThemeProvider';
 import ConsequencesStep from './ConsequencesStep';
@@ -41,26 +41,24 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
   console.log('Rendering popup - isOpen is true');
 
   const steps = [
-    {
-      title: 'Consequences Warning',
-      description: 'Understand what will be deleted',
-      component: ConsequencesStep
-    },
-    {
-      title: 'Organization Name',
-      description: 'Confirm organization name',
-      component: NameConfirmationStep
-    },
-    {
-      title: 'Password Verification',
-      description: 'Verify your password',
-      component: PasswordVerificationStep
-    },
-    {
-      title: 'Email Verification',
-      description: 'Enter verification code',
-      component: EmailVerificationStep
-    }
+    'Consequences Warning',
+    'Organization Name',
+    'Password Verification', 
+    'Email Verification'
+  ];
+
+  const stepComponents = [
+    ConsequencesStep,
+    NameConfirmationStep,
+    PasswordVerificationStep,
+    EmailVerificationStep
+  ];
+
+  const stepDescriptions = [
+    'Understand what will be deleted',
+    'Confirm organization name',
+    'Verify your password',
+    'Enter verification code'
   ];
 
   const handleStepComplete = (stepIndex, data) => {
@@ -91,7 +89,7 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
     resetProcess();
   };
 
-  const CurrentStepComponent = steps[currentStep].component;
+  const CurrentStepComponent = stepComponents[currentStep];
 
   // Theme-aware colors
   const themeColors = {
@@ -184,41 +182,67 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
             <span>This action cannot be undone. Please proceed with extreme caution.</span>
           </div>
 
-          <div className="steps-progress" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-            {steps.map((step, index) => (
-              <div key={index} className={`step-indicator ${index === currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                padding: '1rem',
-                background: index === currentStep ? 'rgba(59, 130, 246, 0.05)' : (index < currentStep ? 'rgba(16, 185, 129, 0.05)' : themeColors.cardBg),
-                border: index === currentStep ? '2px solid #3b82f6' : (index < currentStep ? '2px solid #059669' : '2px solid #e2e8f0'),
-                borderRadius: '10px',
-                flex: 1,
-                minWidth: '200px'
-              }}>
-                <div className="step-number" style={{
-                  width: '28px',
-                  height: '28px',
-                  borderRadius: '50%',
-                  background: index === currentStep ? '#3b82f6' : (index < currentStep ? '#059669' : '#e2e8f0'),
-                  color: index >= currentStep && index !== currentStep ? '#64748b' : 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+          <Box sx={{ width: '100%', marginBottom: '2rem' }}>
+            <Stepper 
+              activeStep={currentStep} 
+              alternativeLabel
+              sx={{
+                '& .MuiStepLabel-root': {
+                  color: mode === 'dark' ? themeColors.textSecondary : '#64748b',
+                },
+                '& .MuiStepLabel-label': {
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                },
+                '& .MuiStepLabel-label.Mui-active': {
+                  color: mode === 'dark' ? '#60a5fa' : '#3b82f6',
                   fontWeight: 600,
-                  fontSize: '0.9rem'
-                }}>
-                  {index < currentStep ? <Check size={14} /> : index + 1}
-                </div>
-                <div className="step-info">
-                  <span className="step-title" style={{ color: themeColors.textPrimary, fontWeight: 600, fontSize: '0.95rem' }}>{step.title}</span>
-                  <br />
-                  <span className="step-description" style={{ color: themeColors.textSecondary, fontSize: '0.85rem' }}>{step.description}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+                },
+                '& .MuiStepLabel-label.Mui-completed': {
+                  color: mode === 'dark' ? '#34d399' : '#059669',
+                  fontWeight: 600,
+                },
+                '& .MuiStepIcon-root': {
+                  color: mode === 'dark' ? '#4b5563' : '#e2e8f0',
+                  fontSize: '1.5rem',
+                },
+                '& .MuiStepIcon-root.Mui-active': {
+                  color: mode === 'dark' ? '#60a5fa' : '#3b82f6',
+                },
+                '& .MuiStepIcon-root.Mui-completed': {
+                  color: mode === 'dark' ? '#34d399' : '#059669',
+                },
+                '& .MuiStepConnector-line': {
+                  borderColor: mode === 'dark' ? '#4b5563' : '#e2e8f0',
+                },
+                '& .MuiStepConnector-root.Mui-active .MuiStepConnector-line': {
+                  borderColor: mode === 'dark' ? '#60a5fa' : '#3b82f6',
+                },
+                '& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line': {
+                  borderColor: mode === 'dark' ? '#34d399' : '#059669',
+                }
+              }}
+            >
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel
+                    optional={
+                      <span style={{ 
+                        fontSize: '0.75rem', 
+                        color: themeColors.textSecondary,
+                        display: 'block',
+                        marginTop: '4px'
+                      }}>
+                        {stepDescriptions[index]}
+                      </span>
+                    }
+                  >
+                    {label}
+                  </StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
 
           <div className="current-step" style={{
             background: themeColors.cardBg,
