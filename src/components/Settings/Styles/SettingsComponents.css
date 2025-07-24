@@ -993,3 +993,88 @@ input[type="file"]:hover {
     border-width: 2px;
   }
 }
+
+/* Form Section Styles for Organization Settings */
+.form-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--settings-popup-bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--settings-card-border);
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--settings-card-text-primary);
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--settings-accent-primary);
+}
+
+.form-section .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-section .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--settings-accent-primary), var(--settings-accent-secondary));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Enhanced form input styles for better organization */
+.form-section .form-input {
+  transition: all 0.3s ease;
+}
+
+.form-section .form-input:focus {
+  border-color: var(--settings-accent-primary);
+  box-shadow: 0 0 0 3px rgba(var(--settings-accent-primary-rgb, 59, 130, 246), 0.1);
+}
+
+.form-section textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-section input[type="number"].form-input,
+.form-section input[type="tel"].form-input,
+.form-section input[type="url"].form-input {
+  font-family: inherit;
+}
+
+/* Character count styling */
+.form-section small {
+  display: block;
+  margin-top: 0.25rem;
+  text-align: right;
+}

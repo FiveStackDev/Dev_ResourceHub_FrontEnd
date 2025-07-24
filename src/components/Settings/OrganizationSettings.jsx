@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Building, MapPin, Mail, Save } from 'lucide-react';
+import { Building, MapPin, Mail, Save, Globe, Phone, Calendar, Info } from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
 import { useUser, decodeToken } from '../../contexts/UserContext';
@@ -14,7 +14,16 @@ import './Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
   // State to store form data
-  const [formData, setFormData] = useState({ org_name: '', org_logo: '', org_address: '',org_email:'' });
+  const [formData, setFormData] = useState({ 
+    org_name: '', 
+    org_logo: '', 
+    org_address: '',
+    org_email: '',
+    org_about: '',
+    org_website: '',
+    org_phone: '',
+    org_founded: ''
+  });
   const [openVerifyPopup, setOpenVerifyPopup] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState('');
   const [code, setCode] = useState('');
@@ -77,6 +86,10 @@ const OrganizationSection = () => {
          org_logo: organization.org_logo || '',
          org_address: organization.org_address || '',
           org_email: organization.org_email || '',
+          org_about: organization.org_about || '',
+          org_website: organization.org_website || '',
+          org_phone: organization.org_phone || '',
+          org_founded: organization.org_founded || ''
         });
       } catch (err) {
         setError(err.response?.data?.message || err.message);
@@ -93,8 +106,12 @@ const OrganizationSection = () => {
     let key = name;
     if (name === 'name') key = 'org_name';
     if (name === 'picture') key = 'org_logo';
-    if (name === 'bio') key = 'org_address';
+    if (name === 'address') key = 'org_address';
     if (name === 'email') key = 'org_email';
+    if (name === 'about') key = 'org_about';
+    if (name === 'website') key = 'org_website';
+    if (name === 'phone') key = 'org_phone';
+    if (name === 'founded') key = 'org_founded';
     setFormData({ ...formData, [key]: value });
   };
 
@@ -147,9 +164,17 @@ const OrganizationSection = () => {
     e.preventDefault();
 
     // Validate form inputs
-    if (!formData.org_name.trim()) return toast.error('Name is required');
-    if (formData.org_address.length > 150)
-      return toast.error('Bio cannot exceed 150 characters');
+    if (!formData.org_name.trim()) return toast.error('Organization name is required');
+    if (formData.org_address.length > 255)
+      return toast.error('Address cannot exceed 255 characters');
+    if (formData.org_about.length > 500)
+      return toast.error('About section cannot exceed 500 characters');
+    if (formData.org_website && !formData.org_website.match(/^https?:\/\/.+/)) 
+      return toast.error('Website must be a valid URL (include http:// or https://)');
+    if (formData.org_phone && !formData.org_phone.match(/^[\+]?[0-9\s\-\(\)]+$/)) 
+      return toast.error('Please enter a valid phone number');
+    if (formData.org_founded && (isNaN(formData.org_founded) || formData.org_founded < 1800 || formData.org_founded > new Date().getFullYear())) 
+      return toast.error('Please enter a valid founding year');
 
     // Trigger confirmation dialog
     setConfirmationDialog({
@@ -171,6 +196,10 @@ const OrganizationSection = () => {
               org_name: formData.org_name,
               org_logo: imageUrl || formData.org_logo,
               org_address: formData.org_address,
+              org_about: formData.org_about,
+              org_website: formData.org_website,
+              org_phone: formData.org_phone,
+              org_founded: formData.org_founded
             },
             {
               headers: {
@@ -275,37 +304,126 @@ const OrganizationSection = () => {
         />
       </div>
       <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-group">
-          <label>
-            <Building size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
-            Organization Name
-          </label>
-          <input
-            className="form-input"
-            type="text"
-            name="name"
-            value={formData.org_name}
-            onChange={handleChange}
-            placeholder="Enter organization name"
-            required
-          />
+        {/* Basic Information Section */}
+        <div className="form-section">
+          <h3 className="section-title">
+            <Building size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Basic Information
+          </h3>
+          
+          <div className="form-group">
+            <label>
+              <Building size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              Organization Name *
+            </label>
+            <input
+              className="form-input"
+              type="text"
+              name="name"
+              value={formData.org_name}
+              onChange={handleChange}
+              placeholder="Enter organization name"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>
+              <Info size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              About Organization
+            </label>
+            <textarea
+              className="form-input"
+              name="about"
+              value={formData.org_about}
+              onChange={handleChange}
+              rows="4"
+              placeholder="Tell us about your organization..."
+              maxLength="500"
+            />
+            <small style={{ color: 'var(--settings-popup-text-secondary)', fontSize: '0.85rem' }}>
+              {formData.org_about.length}/500 characters
+            </small>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <Calendar size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              Founded Year
+            </label>
+            <input
+              className="form-input"
+              type="number"
+              name="founded"
+              value={formData.org_founded}
+              onChange={handleChange}
+              placeholder="e.g., 2020"
+              min="1800"
+              max={new Date().getFullYear()}
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label>
-            <MapPin size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
-            Organization Address
-          </label>
-          <textarea
-            name="bio"
-            value={formData.org_address}
-            onChange={handleChange}
-            rows="4"
-            placeholder="Enter organization address..."
-          />
+
+        {/* Contact Information Section */}
+        <div className="form-section">
+          <h3 className="section-title">
+            <Mail size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            Contact Information
+          </h3>
+
+          <div className="form-group">
+            <label>
+              <MapPin size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              Organization Address
+            </label>
+            <textarea
+              className="form-input"
+              name="address"
+              value={formData.org_address}
+              onChange={handleChange}
+              rows="3"
+              placeholder="Enter complete address..."
+              maxLength="255"
+            />
+            <small style={{ color: 'var(--settings-popup-text-secondary)', fontSize: '0.85rem' }}>
+              {formData.org_address.length}/255 characters
+            </small>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <Phone size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              Phone Number
+            </label>
+            <input
+              className="form-input"
+              type="tel"
+              name="phone"
+              value={formData.org_phone}
+              onChange={handleChange}
+              placeholder="e.g., +1 (555) 123-4567"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>
+              <Globe size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              Website URL
+            </label>
+            <input
+              className="form-input"
+              type="url"
+              name="website"
+              value={formData.org_website}
+              onChange={handleChange}
+              placeholder="https://www.yourcompany.com"
+            />
+          </div>
         </div>
-        <button type="submit" disabled={uploading}>
+
+        <button type="submit" disabled={uploading} className="submit-button">
           <Save size={18} />
-          {uploading ? 'Uploading...' : 'Save Organization'}
+          {uploading ? 'Uploading...' : 'Save Organization Profile'}
         </button>
       </form>
       
