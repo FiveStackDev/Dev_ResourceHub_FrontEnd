@@ -1,31 +1,18 @@
 /* Delete Organization Popup Styles */
-.delete-organization-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 1rem;
-  animation: fadeIn 0.3s ease;
+/* Backdrop styling for Material-UI Dialog */
+.delete-organization-backdrop {
+  backdrop-filter: blur(8px) !important;
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
-.delete-organization-popup {
-  background: var(--settings-popup-bg, #ffffff);
-  border: 2px solid var(--settings-danger-color, #dc2626);
+.delete-organization-inner {
+  background: var(--settings-popup-bg-primary, #ffffff);
   border-radius: 16px;
-  width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.3s ease;
-  position: relative;
+  max-height: 85vh;
+  box-shadow: 0 25px 50px -12px var(--settings-popup-shadow, rgba(0, 0, 0, 0.3));
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow-y: auto;
+  outline: none;
 }
 
 .delete-popup-header {

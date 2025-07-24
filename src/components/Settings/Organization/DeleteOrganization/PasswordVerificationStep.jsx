@@ -47,22 +47,21 @@ const PasswordVerificationStep = ({ orgData, onComplete, onBack, canGoBack, step
     setError('');
 
     try {
-      const { userId, orgId } = getUserInfo();
-      
-      if (!userId || !orgId) {
-        throw new Error('User or Organization ID not found. Please log in again.');
-      }
-
+    
       // Call the backend endpoint to verify password and send email
       const verificationCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       
+      const requestData = {
+        email: orgData.org_email,
+        code: verificationCode,
+        password: password
+      };
+
+      console.log('Sending delete verification request:', { ...requestData, password: '[HIDDEN]' });
+      
       const response = await axios.post(
         `${BASE_URLS.orgsettings}/deleteverification`,
-        {
-          email: orgData.org_email,
-          userId: userId,
-          code: verificationCode
-        },
+        requestData,
         {
           headers: {
             ...getAuthHeader(),
@@ -84,7 +83,20 @@ const PasswordVerificationStep = ({ orgData, onComplete, onBack, canGoBack, step
       }, 1500);
 
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Password verification failed';
+      console.error('Delete verification error:', err);
+      console.error('Error response data:', err.response?.data);
+      console.error('Error response status:', err.response?.status);
+      
+      let errorMessage = 'Password verification failed';
+      
+      if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
       setError(errorMessage);
       toast.error(`Verification failed: ${errorMessage}`);
     } finally {

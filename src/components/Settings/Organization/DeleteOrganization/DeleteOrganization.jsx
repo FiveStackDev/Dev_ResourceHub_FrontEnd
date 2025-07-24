@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, Trash2, Shield, Check, X } from 'lucide-react';
+import { Dialog } from '@mui/material';
 import { useThemeStyles } from '../../../../hooks/useThemeStyles';
 import { useThemeContext } from '../../../../theme/ThemeProvider';
 import ConsequencesStep from './ConsequencesStep';
@@ -24,17 +25,20 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
     updateCSSVariables();
   }, [updateCSSVariables]);
 
-  // Apply theme class to body when popup is open
-  React.useEffect(() => {
-    if (isOpen) {
-      document.body.setAttribute('data-theme', mode);
-    }
-  }, [isOpen, mode]);
-
   // Debug logging
   React.useEffect(() => {
     console.log('DeleteOrganization rendered - isOpen:', isOpen, 'orgData:', orgData, 'theme:', mode);
+    if (isOpen) {
+      console.log('POPUP SHOULD BE VISIBLE NOW!');
+    }
   }, [isOpen, orgData, mode]);
+
+  if (!isOpen) {
+    console.log('Popup not open, returning null');
+    return null;
+  }
+
+  console.log('Rendering popup - isOpen is true');
 
   const steps = [
     {
@@ -89,8 +93,6 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
 
   const CurrentStepComponent = steps[currentStep].component;
 
-  if (!isOpen) return null;
-
   // Theme-aware colors
   const themeColors = {
     background: mode === 'dark' ? '#1f2937' : '#ffffff',
@@ -104,40 +106,42 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
   };
 
   return (
-    <div 
-      className="delete-organization-overlay"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: themeColors.overlayBg,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 9999
+    <Dialog
+      open={isOpen}
+      onClose={handleClose}
+      maxWidth="md"
+      fullWidth
+      aria-labelledby="delete-organization-popup-title"
+      aria-describedby="delete-organization-popup-description"
+      BackdropProps={{
+        className: 'delete-organization-backdrop',
+        style: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(4px)'
+        }
+      }}
+      PaperProps={{
+        style: {
+          borderRadius: '16px',
+          border: '2px solid #dc2626',
+          maxWidth: '900px',
+          overflow: 'visible',
+          background: themeColors.background
+        }
       }}
     >
-      <div 
-        className="delete-organization-popup"
-        style={{
-          background: themeColors.background,
-          border: '2px solid #dc2626',
-          borderRadius: '16px',
-          width: '90%',
-          maxWidth: '900px',
-          maxHeight: '90vh',
-          overflow: 'hidden',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
-        }}
-      >
+      <div className="delete-organization-inner">
         <div className="delete-popup-header" style={{
-          background: mode === 'dark' ? 'rgba(220, 38, 38, 0.1)' : 'rgba(220, 38, 38, 0.02)'
+          background: mode === 'dark' ? 'rgba(220, 38, 38, 0.1)' : 'rgba(220, 38, 38, 0.02)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '1.5rem 2rem',
+          borderBottom: '2px solid #f87171'
         }}>
-          <div className="delete-popup-title">
+          <div className="delete-popup-title" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <AlertTriangle size={24} style={{ color: '#dc2626' }} />
-            <h2 style={{ margin: 0, color: '#dc2626', fontSize: '1.5rem', fontWeight: 700 }}>Delete Organization</h2>
+            <h2 id="delete-organization-popup-title" style={{ margin: 0, color: '#dc2626', fontSize: '1.5rem', fontWeight: 700 }}>Delete Organization</h2>
           </div>
           <button
             className="delete-popup-close"
@@ -159,7 +163,12 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="delete-popup-content" style={{ padding: '2rem', background: themeColors.background }}>
+        <div className="delete-popup-content" style={{ 
+          padding: '2rem',
+          background: themeColors.background,
+          maxHeight: 'calc(90vh - 120px)',
+          overflowY: 'auto'
+        }}>
           <div className="warning-banner" style={{
             display: 'flex',
             alignItems: 'center',
@@ -175,15 +184,37 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
             <span>This action cannot be undone. Please proceed with extreme caution.</span>
           </div>
 
-          <div className="steps-progress">
+          <div className="steps-progress" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
             {steps.map((step, index) => (
-              <div key={index} className={`step-indicator ${index === currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`}>
-                <div className="step-number">
+              <div key={index} className={`step-indicator ${index === currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                padding: '1rem',
+                background: index === currentStep ? 'rgba(59, 130, 246, 0.05)' : (index < currentStep ? 'rgba(16, 185, 129, 0.05)' : themeColors.cardBg),
+                border: index === currentStep ? '2px solid #3b82f6' : (index < currentStep ? '2px solid #059669' : '2px solid #e2e8f0'),
+                borderRadius: '10px',
+                flex: 1,
+                minWidth: '200px'
+              }}>
+                <div className="step-number" style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  background: index === currentStep ? '#3b82f6' : (index < currentStep ? '#059669' : '#e2e8f0'),
+                  color: index >= currentStep && index !== currentStep ? '#64748b' : 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 600,
+                  fontSize: '0.9rem'
+                }}>
                   {index < currentStep ? <Check size={14} /> : index + 1}
                 </div>
                 <div className="step-info">
-                  <span className="step-title" style={{ color: themeColors.textPrimary }}>{step.title}</span>
-                  <span className="step-description" style={{ color: themeColors.textSecondary }}>{step.description}</span>
+                  <span className="step-title" style={{ color: themeColors.textPrimary, fontWeight: 600, fontSize: '0.95rem' }}>{step.title}</span>
+                  <br />
+                  <span className="step-description" style={{ color: themeColors.textSecondary, fontSize: '0.85rem' }}>{step.description}</span>
                 </div>
               </div>
             ))}
@@ -207,7 +238,7 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Dialog>
   );
 };
 
