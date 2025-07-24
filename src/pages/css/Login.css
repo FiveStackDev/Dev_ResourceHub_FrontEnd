@@ -2,6 +2,7 @@
   display: flex;
   height: 100vh;
   background: linear-gradient(to right, #0b1120 50%, #1f1147 100%);
+  color: white;
 }
 
 .login-page .login-left {
@@ -20,6 +21,7 @@
   margin-top: 20px;
   font-size: 90px;
   font-weight: bold;
+  color: white;
 }
 
 .login-page .login-right {
@@ -49,6 +51,7 @@
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 20px;
+  color: white;
 }
 
 .login-page .login-form input::placeholder {
@@ -64,6 +67,7 @@
   display: flex;
   margin-top: 20px;
   margin-bottom: 10px;
+  color: white;
 }
 
 .login-page .form-options a {
@@ -75,10 +79,185 @@ button[type='submit'] {
   padding: 10px;
   background-color: #4f9ef8;
   border-radius: 7px;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .form-options {
   margin-bottom: 10px;
+  color: white;
+}
+
+.login-page .form-options p {
+  color: white;
+}
+
+.error-message {
+  color: #ff4d4f;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Material-UI TextField styling for login/register pages */
+.login-page .MuiTextField-root .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.login-page .MuiTextField-root .MuiInputLabel-root.Mui-focused {
+  color: #4f9ef8 !important;
+}
+
+.login-page .MuiFormControl-root .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.login-page .MuiFormControl-root .MuiInputLabel-root.Mui-focused {
+  color: #4f9ef8 !important;
+}
+
+.login-page .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.login-page .MuiInputLabel-root.Mui-focused {
+  color: #4f9ef8 !important;
+}
+
+.login-page .MuiInputLabel-shrink {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.login-page .MuiFormLabel-root {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.login-page .MuiFormLabel-root.Mui-focused {
+  color: #4f9ef8 !important;
+}
+
+.login-page .MuiOutlinedInput-root {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page .MuiOutlinedInput-root input {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page .MuiOutlinedInput-root .MuiOutlinedInput-input {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page .MuiFormControl-root .MuiOutlinedInput-root {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page .MuiFormControl-root .MuiOutlinedInput-root input {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.login-page .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.login-page .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #4f9ef8 !important;
+}
+
+/* Additional styling for password fields and auto-fill */
+.login-page input {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page input:-webkit-autofill,
+.login-page input:-webkit-autofill:hover,
+.login-page input:-webkit-autofill:focus,
+.login-page input:-webkit-autofill:active {
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+.login-page input[type="password"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page input[type="email"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page input[type="text"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page input::placeholder {
+  color: #aaa !important;
+  opacity: 1 !important;
+}
+
+.login-page .MuiInputBase-input::placeholder {
+  color: #aaa !important;
+  opacity: 1 !important;
+}
+
+.login-page .MuiOutlinedInput-input::placeholder {
+  color: #aaa !important;
+  opacity: 1 !important;
+}
+
+/* Force override for all Material-UI inputs */
+.login-page .MuiInputBase-root {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+.login-page .MuiInputBase-input {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: transparent !important;
+}
+
+/* Password visibility toggle icon styling */
+.login-page .MuiIconButton-root {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.login-page .MuiIconButton-root:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.login-page .MuiInputAdornment-root .MuiIconButton-root {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.login-page .MuiInputAdornment-root .MuiIconButton-root:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.login-page .MuiSvgIcon-root {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 @media (max-width: 900px) {
