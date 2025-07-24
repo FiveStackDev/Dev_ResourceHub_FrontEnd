@@ -10,9 +10,9 @@ import {
 } from 'lucide-react';
 import AdminLayout from '../../layouts/Admin/AdminLayout';
 import { StatCard } from '../../components/Dashboard/Admin/StatCard';
-import { MealDistributionChart } from '../../components/Dashboard/Admin/MealDistributionChart';
-import { MealTypeDistribution } from '../../components/Dashboard/Admin/MealTypeDistribution';
-import { ResourceAllocation } from '../../components/Dashboard/Admin/ResourceAllocation';
+import { DistributionChart } from '../../components/Dashboard/Admin/DistributionChart';
+import { ChartMeal } from '../../components/Dashboard/Admin/ChartMeal';
+import { ChartResources } from '../../components/Dashboard/Admin/ChartResources';
 import { useAdminDashboardData } from '../../query/adminDashboardQueries';
 import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 
@@ -76,15 +76,14 @@ const AdminDashboard = () => {
     );
   }
 
-  const { stats, resources, mealData, resourceData } = data;
-  // Optionally, you can add a date picker and pass date to MealTypeDistribution
-  // For now, it defaults to today if not provided
+  const { stats, resources } = data;
 
   return (
     <AdminLayout>
       <div className="min-h-screen p-6 space-y-6">
         {/* Heading */}
         <h1 className="text-2xl font-semibold">Dashboard</h1>
+        
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
@@ -103,13 +102,13 @@ const AdminDashboard = () => {
         {/* Optimized Charts Row with 1:3:1 ratio */}
         <div className="grid items-stretch grid-cols-1 gap-6 lg:grid-cols-5">
           <div className="flex flex-col h-full lg:col-span-1">
-            <ResourceAllocation data={resourceData} />
+            <ChartResources />
           </div>
           <div className="flex flex-col h-full lg:col-span-3">
-            <MealDistributionChart data={mealData} />
+            <DistributionChart />
           </div>
           <div className="flex flex-col h-full lg:col-span-1">
-            <MealTypeDistribution />
+            <ChartMeal />
           </div>
         </div>
         <QuickActions actions={customUserActions} />

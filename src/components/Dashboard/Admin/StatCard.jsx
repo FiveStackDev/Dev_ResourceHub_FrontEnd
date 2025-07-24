@@ -40,10 +40,10 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
           color: theme.palette.text.primary,
           boxShadow: theme.shadows[1],
         }}
-        className="rounded-lg p-6 cursor-pointer transition-all"
+        className="rounded-lg p-4 cursor-pointer transition-all"
         onClick={() => setIsPopupOpen(true)}
       >
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-1">
           <h3
             style={{ color: theme.palette.text.secondary }}
             className="text-sm font-medium flex items-center gap-2"
@@ -56,7 +56,7 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
           </h3>
           {icon}
         </div>
-        <p style={{ color: getCardTextColor() }} className="text-3xl font-bold">
+        <p style={{ color: getCardTextColor() }} className="text-2xl font-bold">
           {value}
         </p>
       </div>
