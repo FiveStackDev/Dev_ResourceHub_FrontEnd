@@ -15,14 +15,11 @@ import {
   FormControl,
   InputLabel,
   TextField,
-  Checkbox,
-  TablePagination,
   Tooltip,
   useTheme,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import { Trash2 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from 'react-toastify';
@@ -40,7 +37,7 @@ const statusOptions = [
 ];
 const priorityOptions = ['All', 'Low', 'Medium', 'High'];
 
-const MaintenanceTable = ({ onDeleteMaintenances }) => {
+const MaintenanceTable = () => {
   const theme = useTheme();
   const [Maintenance, setmaintenance] = useState([]);
   const [statusFilter, setStatusFilter] = useState('All');
@@ -55,61 +52,13 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
   });
 
   // Enhanced table state
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('maintenance_id');
-
-  // Selection functions
-  const getCurrentPageMaintenanceIds = () => {
-    return sortedMaintenance
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .map((maintenance) => maintenance.maintenance_id);
-  };
-
-  const handleSelectAll = (event) => {
-    const currentPageMaintenanceIds = getCurrentPageMaintenanceIds();
-    if (event.target.checked) {
-      const newSelected = [...new Set([...selected, ...currentPageMaintenanceIds])];
-      setSelected(newSelected);
-    } else {
-      setSelected(selected.filter(id => !currentPageMaintenanceIds.includes(id)));
-    }
-  };
-
-  const handleSelect = (maintenanceId) => {
-    const selectedIndex = selected.indexOf(maintenanceId);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = [...selected, maintenanceId];
-    } else {
-      newSelected = selected.filter((id) => id !== maintenanceId);
-    }
-    setSelected(newSelected);
-  };
 
   const handleSort = (column) => {
     const isAsc = sortColumn === column && sortDirection === 'asc';
     setSortDirection(isAsc ? 'desc' : 'asc');
     setSortColumn(column);
-  };
-
-  const handleDeleteSelected = () => {
-    if (onDeleteMaintenances && selected.length > 0) {
-      onDeleteMaintenances(selected);
-      setSelected([]);
-    }
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
@@ -163,18 +112,147 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
   // Function to download the table as PDF
   const handleDownloadPDF = () => {
     try {
-      const element = document.getElementById('maintenance-table'); // Get the content to convert to PDF
+      // Create a temporary container for PDF content
+      const pdfContainer = document.createElement('div');
+      pdfContainer.style.padding = '20px';
+      pdfContainer.style.fontFamily = 'Arial, sans-serif';
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#000000';
+      
+      // Create header with title and date
+      const header = document.createElement('div');
+      header.style.textAlign = 'center';
+      header.style.marginBottom = '30px';
+      header.innerHTML = `
+        <h1 style="color: #333; margin-bottom: 10px; font-size: 24px;">Maintenance Report</h1>
+        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })}</p>
+        <hr style="margin: 20px 0; border: 1px solid #ddd;">
+      `;
+      pdfContainer.appendChild(header);
+
+      // Add filters information if any are applied
+      if (statusFilter !== 'All' || priorityFilter !== 'All' || startDate || endDate) {
+        const filtersDiv = document.createElement('div');
+        filtersDiv.style.marginBottom = '20px';
+        filtersDiv.style.padding = '15px';
+        filtersDiv.style.backgroundColor = '#f8f9fa';
+        filtersDiv.style.borderRadius = '5px';
+        filtersDiv.style.border = '1px solid #dee2e6';
+        filtersDiv.style.color = '#000000';
+        
+        let filtersText = '<strong style="color: #000000;">Applied Filters:</strong><br>';
+        if (statusFilter !== 'All') filtersText += `<span style="color: #333;">Status: ${statusFilter}</span><br>`;
+        if (priorityFilter !== 'All') filtersText += `<span style="color: #333;">Priority: ${priorityFilter}</span><br>`;
+        if (startDate && endDate) filtersText += `<span style="color: #333;">Date Range: ${startDate} to ${endDate}</span>`;
+        
+        filtersDiv.innerHTML = filtersText;
+        pdfContainer.appendChild(filtersDiv);
+      }
+
+      // Clone the table and style it for PDF
+      const tableElement = document.getElementById('maintenance-table');
+      const clonedTable = tableElement.cloneNode(true);
+      
+      // Style the cloned table for better PDF appearance
+      clonedTable.style.width = '100%';
+      clonedTable.style.borderCollapse = 'collapse';
+      clonedTable.style.marginTop = '20px';
+      clonedTable.style.backgroundColor = '#ffffff';
+      
+      // Style table cells with light theme colors
+      const cells = clonedTable.querySelectorAll('td, th');
+      cells.forEach(cell => {
+        cell.style.border = '1px solid #dee2e6';
+        cell.style.padding = '8px';
+        cell.style.fontSize = '12px';
+        cell.style.textAlign = 'left';
+        cell.style.backgroundColor = '#ffffff';
+        cell.style.color = '#000000';
+      });
+      
+      // Style header cells with light theme
+      const headerCells = clonedTable.querySelectorAll('th');
+      headerCells.forEach(cell => {
+        cell.style.backgroundColor = '#f8f9fa';
+        cell.style.fontWeight = 'bold';
+        cell.style.color = '#000000';
+        cell.style.borderBottom = '2px solid #dee2e6';
+      });
+
+      // Remove sort icons from the cloned table
+      const sortIcons = clonedTable.querySelectorAll('.MuiSvgIcon-root');
+      sortIcons.forEach(icon => icon.remove());
+
+      pdfContainer.appendChild(clonedTable);
+
+      // Force light theme styles for PDF
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#000000';
+      
+      // Add filters information if any are applied
+      if (statusFilter !== 'All' || priorityFilter !== 'All' || startDate || endDate) {
+        const filtersInfo = document.createElement('div');
+        filtersInfo.style.marginBottom = '20px';
+        filtersInfo.style.padding = '15px';
+        filtersInfo.style.backgroundColor = '#f8f9fa';
+        filtersInfo.style.borderRadius = '5px';
+        filtersInfo.style.border = '1px solid #dee2e6';
+        
+        let filterText = '<h3 style="margin: 0 0 10px 0; color: #333; font-size: 16px;">Applied Filters:</h3>';
+        if (statusFilter !== 'All') filterText += `<p style="margin: 2px 0; color: #555;">Status: ${statusFilter}</p>`;
+        if (priorityFilter !== 'All') filterText += `<p style="margin: 2px 0; color: #555;">Priority: ${priorityFilter}</p>`;
+        if (startDate && endDate) filterText += `<p style="margin: 2px 0; color: #555;">Date Range: ${startDate} to ${endDate}</p>`;
+        
+        filtersInfo.innerHTML = filterText;
+        pdfContainer.appendChild(filtersInfo);
+      }
+
+      // Add footer with summary
+      const footer = document.createElement('div');
+      footer.style.marginTop = '30px';
+      footer.style.padding = '15px';
+      footer.style.backgroundColor = '#f8f9fa';
+      footer.style.borderRadius = '5px';
+      footer.style.border = '1px solid #dee2e6';
+      footer.innerHTML = `
+        <p style="margin: 0; font-size: 14px; color: #000;"><strong>Total Maintenance Requests: ${sortedMaintenance.length}</strong></p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Report generated from Resource Hub System</p>
+      `;
+      pdfContainer.appendChild(footer);
+
+      // Temporarily add to document
+      document.body.appendChild(pdfContainer);
+
       const options = {
-        filename: 'maintenances.pdf', // Set the filename of the PDF
-        image: { type: 'jpeg', quality: 0.98 }, // Set image quality
-        html2canvas: { scale: 2 }, // Set the scale for the canvas
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, // Set PDF size and orientation
+        filename: `maintenance_report_${new Date().toISOString().split('T')[0]}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          allowTaint: true
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape'
+        },
+        margin: [10, 10, 10, 10]
       };
-      html2pdf().from(element).set(options).save(); // Convert and download the PDF
-      toast.success('maintenances report downloaded successfully!');
+
+      html2pdf().from(pdfContainer).set(options).save().then(() => {
+        // Remove temporary container
+        document.body.removeChild(pdfContainer);
+        toast.success('Maintenance report downloaded successfully!');
+      });
     } catch (error) {
-      console.error('Error downloading maintenances report:', error);
-      toast.error('Failed to download maintenances report.');
+      console.error('Error downloading maintenance report:', error);
+      toast.error('Failed to download maintenance report.');
     }
   };
 
@@ -207,15 +285,8 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
     return 0;
   });
 
-  const currentPageMaintenance = sortedMaintenance.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
-
-  const currentPageMaintenanceIds = getCurrentPageMaintenanceIds();
-  const isAllCurrentPageSelected = currentPageMaintenanceIds.length > 0 && 
-    currentPageMaintenanceIds.every(id => selected.includes(id));
-  const isSomeCurrentPageSelected = currentPageMaintenanceIds.some(id => selected.includes(id));
+  // Display all maintenance instead of paginated
+  const currentPageMaintenance = sortedMaintenance;
 
   const isPopupOpen = openSchedulePopup || confirmDialog.open;
   return (
@@ -281,36 +352,6 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
             sx={{ minWidth: 140 }}
           />
 
-          {selected.length > 0 && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                px: 2,
-                py: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.12),
-                borderRadius: 1,
-                border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-              }}
-            >
-              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                {selected.length} selected
-              </span>
-              <Tooltip title="Delete selected maintenance requests">
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="error"
-                  onClick={handleDeleteSelected}
-                  sx={{ minWidth: 'auto', px: 1 }}
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </Tooltip>
-            </Box>
-          )}
-
           <Button
             variant="contained"
             color="primary"
@@ -333,9 +374,6 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell >
-                  
-                </TableCell>
                 <TableCell 
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('maintenance_id')}
@@ -408,7 +446,7 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
             <TableBody>
               {currentPageMaintenance.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} align="center">
+                  <TableCell colSpan={7} align="center">
                     No data available.
                   </TableCell>
                 </TableRow>
@@ -417,11 +455,7 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
                   <TableRow 
                     key={maintenance.maintenance_id}
                     hover
-                    selected={selected.includes(maintenance.maintenance_id)}
                   >
-                    <TableCell >
-                      
-                    </TableCell>
                     <TableCell>{maintenance.maintenance_id}</TableCell>
                     <TableCell>{maintenance.user_id}</TableCell>
                     <TableCell>{maintenance.username}</TableCell>
@@ -436,16 +470,21 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
               )}
             </TableBody>
           </Table>
-          <TablePagination
-            component="div"
-            count={sortedMaintenance.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 25, 50]}
-          />
         </TableContainer>
+        
+        {/* Summary Section */}
+        <Box sx={{ mt: 2, p: 2,borderRadius: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 'bold' }}>
+              Total Maintenance Requests: {sortedMaintenance.length}
+            </span>
+            {(statusFilter !== 'All' || priorityFilter !== 'All' || startDate || endDate) && (
+              <span style={{ fontSize: '0.875rem', color: '#666' }}>
+                Filtered from {Maintenance.length} total requests
+              </span>
+            )}
+          </Box>
+        </Box>
       </div>
       {/* Popups rendered as before */}
       {openSchedulePopup && (

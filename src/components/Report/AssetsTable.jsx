@@ -18,20 +18,17 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Checkbox,
-  TablePagination,
   Tooltip,
   useTheme,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import { Trash2 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from 'react-toastify';
 
 // Component to display assets table
-const AssetsTable = ({ onDeleteAssets }) => {
+const AssetsTable = () => {
   const theme = useTheme();
   const [Assets, setassets] = useState([]);
   // Removed date range filter
@@ -45,61 +42,13 @@ const AssetsTable = ({ onDeleteAssets }) => {
   });
 
   // Enhanced table state
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('asset_name');
-
-  // Selection functions
-  const getCurrentPageAssetIds = () => {
-    return sortedAssets
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .map((asset) => asset.asset_id);
-  };
-
-  const handleSelectAll = (event) => {
-    const currentPageAssetIds = getCurrentPageAssetIds();
-    if (event.target.checked) {
-      const newSelected = [...new Set([...selected, ...currentPageAssetIds])];
-      setSelected(newSelected);
-    } else {
-      setSelected(selected.filter(id => !currentPageAssetIds.includes(id)));
-    }
-  };
-
-  const handleSelect = (assetId) => {
-    const selectedIndex = selected.indexOf(assetId);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = [...selected, assetId];
-    } else {
-      newSelected = selected.filter((id) => id !== assetId);
-    }
-    setSelected(newSelected);
-  };
 
   const handleSort = (column) => {
     const isAsc = sortColumn === column && sortDirection === 'asc';
     setSortDirection(isAsc ? 'desc' : 'asc');
     setSortColumn(column);
-  };
-
-  const handleDeleteSelected = () => {
-    if (onDeleteAssets && selected.length > 0) {
-      onDeleteAssets(selected);
-      setSelected([]);
-    }
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
@@ -152,15 +101,114 @@ const AssetsTable = ({ onDeleteAssets }) => {
   // Function to download the table as PDF
   const handleDownloadPDF = () => {
     try {
-      const element = document.getElementById('asset-table'); // Get the content to convert to PDF
+      // Create a temporary container for PDF content
+      const pdfContainer = document.createElement('div');
+      pdfContainer.style.padding = '20px';
+      pdfContainer.style.fontFamily = 'Arial, sans-serif';
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#000000';
+      
+      // Create header with title and date
+      const header = document.createElement('div');
+      header.style.textAlign = 'center';
+      header.style.marginBottom = '30px';
+      header.innerHTML = `
+        <h1 style="color: #333; margin-bottom: 10px; font-size: 24px;">Assets Report</h1>
+        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })}</p>
+        <hr style="margin: 20px 0; border: 1px solid #ddd;">
+      `;
+      pdfContainer.appendChild(header);
+
+      // Add filters information if any are applied
+      if (categoryFilter !== 'All' || conditionFilter !== 'All') {
+        const filtersDiv = document.createElement('div');
+        filtersDiv.style.marginBottom = '20px';
+        filtersDiv.style.padding = '10px';
+        filtersDiv.style.backgroundColor = '#f5f5f5';
+        filtersDiv.style.borderRadius = '5px';
+        
+        let filtersText = '<strong>Applied Filters:</strong> ';
+        if (categoryFilter !== 'All') filtersText += `Category: ${categoryFilter} `;
+        if (conditionFilter !== 'All') filtersText += `Condition: ${conditionFilter}`;
+        
+        filtersDiv.innerHTML = filtersText;
+        pdfContainer.appendChild(filtersDiv);
+      }
+
+      // Clone the table and style it for PDF
+      const tableElement = document.getElementById('asset-table');
+      const clonedTable = tableElement.cloneNode(true);
+      
+      // Style the cloned table for better PDF appearance
+      clonedTable.style.width = '100%';
+      clonedTable.style.borderCollapse = 'collapse';
+      clonedTable.style.marginTop = '20px';
+      
+      // Style table cells
+      const cells = clonedTable.querySelectorAll('td, th');
+      cells.forEach(cell => {
+        cell.style.border = '1px solid #ddd';
+        cell.style.padding = '8px';
+        cell.style.fontSize = '12px';
+        cell.style.textAlign = 'left';
+      });
+      
+      // Style header cells
+      const headerCells = clonedTable.querySelectorAll('th');
+      headerCells.forEach(cell => {
+        cell.style.backgroundColor = '#f8f9fa';
+        cell.style.fontWeight = 'bold';
+        cell.style.color = '#333';
+      });
+
+      // Remove sort icons from the cloned table
+      const sortIcons = clonedTable.querySelectorAll('.MuiSvgIcon-root');
+      sortIcons.forEach(icon => icon.remove());
+
+      pdfContainer.appendChild(clonedTable);
+
+      // Add footer with summary
+      const footer = document.createElement('div');
+      footer.style.marginTop = '30px';
+      footer.style.padding = '15px';
+      footer.style.backgroundColor = '#f8f9fa';
+      footer.style.borderRadius = '5px';
+      footer.innerHTML = `
+        <p style="margin: 0; font-size: 14px;"><strong>Total Assets: ${sortedAssets.length}</strong></p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Report generated from Resource Hub System</p>
+      `;
+      pdfContainer.appendChild(footer);
+
+      // Temporarily add to document
+      document.body.appendChild(pdfContainer);
+
       const options = {
-        filename: 'assets.pdf', // Set the filename of the PDF
-        image: { type: 'jpeg', quality: 0.98 }, // Set image quality
-        html2canvas: { scale: 2 }, // Set the scale for the canvas
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, // Set PDF size and orientation
+        filename: `assets_report_${new Date().toISOString().split('T')[0]}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          allowTaint: true
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape' // Changed to landscape for better table viewing
+        },
+        margin: [10, 10, 10, 10]
       };
-      html2pdf().from(element).set(options).save(); // Convert and download the PDF
-      toast.success('Assets report downloaded successfully!');
+
+      html2pdf().from(pdfContainer).set(options).save().then(() => {
+        // Remove temporary container
+        document.body.removeChild(pdfContainer);
+        toast.success('Assets report downloaded successfully!');
+      });
     } catch (error) {
       console.error('Error downloading assets report:', error);
       toast.error('Failed to download assets report.');
@@ -199,15 +247,8 @@ const AssetsTable = ({ onDeleteAssets }) => {
     return 0;
   });
 
-  const currentPageAssets = sortedAssets.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
-
-  const currentPageAssetIds = getCurrentPageAssetIds();
-  const isAllCurrentPageSelected = currentPageAssetIds.length > 0 && 
-    currentPageAssetIds.every(id => selected.includes(id));
-  const isSomeCurrentPageSelected = currentPageAssetIds.some(id => selected.includes(id));
+  // Display all assets instead of paginated
+  const currentPageAssets = sortedAssets;
 
   if (!Array.isArray(sortedAssets) || sortedAssets.length === 0) {
     const isPopupOpen = openSchedulePopup || confirmDialog.open;
@@ -249,9 +290,7 @@ const AssetsTable = ({ onDeleteAssets }) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>
-                    <Checkbox disabled />
-                  </TableCell>
+                  <TableCell>Asset ID</TableCell>
                   <TableCell>Asset Name</TableCell>
                   <TableCell>Category</TableCell>
                   <TableCell>Quantity</TableCell>
@@ -378,36 +417,6 @@ const AssetsTable = ({ onDeleteAssets }) => {
             </Select>
           </FormControl>
           
-          {selected.length > 0 && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                px: 2,
-                py: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.12),
-                borderRadius: 1,
-                border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-              }}
-            >
-              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                {selected.length} selected
-              </span>
-              <Tooltip title="Delete selected assets">
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="error"
-                  onClick={handleDeleteSelected}
-                  sx={{ minWidth: 'auto', px: 1 }}
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </Tooltip>
-            </Box>
-          )}
-
           <Button
             variant="contained"
             color="primary"
@@ -429,9 +438,6 @@ const AssetsTable = ({ onDeleteAssets }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  
-                </TableCell>
                 <TableCell 
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('asset_id')}
@@ -516,11 +522,7 @@ const AssetsTable = ({ onDeleteAssets }) => {
                 <TableRow 
                   key={asset.asset_id}
                   hover
-                  selected={selected.includes(asset.asset_id)}
                 >
-                  <TableCell >
-                    
-                  </TableCell>
                   <TableCell>{asset.asset_id}</TableCell>
                   <TableCell>{asset.asset_name}</TableCell>
                   <TableCell>{asset.category}</TableCell>
@@ -534,16 +536,21 @@ const AssetsTable = ({ onDeleteAssets }) => {
               ))}
             </TableBody>
           </Table>
-          <TablePagination
-            component="div"
-            count={sortedAssets.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 25, 50]}
-          />
         </TableContainer>
+        
+        {/* Summary Section */}
+        <Box sx={{ mt: 2, p: 2,borderRadius: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 'bold' }}>
+              Total Assets: {sortedAssets.length}
+            </span>
+            {(categoryFilter !== 'All' || conditionFilter !== 'All') && (
+              <span style={{ fontSize: '0.875rem', color: '#666' }}>
+                Filtered from {Assets.length} total assets
+              </span>
+            )}
+          </Box>
+        </Box>
       </div>
       {/* Popups rendered as before */}
       {openSchedulePopup && (

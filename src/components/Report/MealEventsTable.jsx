@@ -15,21 +15,18 @@ import {
   Box,
   InputLabel,
   TextField,
-  Checkbox,
-  TablePagination,
   Tooltip,
   useTheme,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
-import { Trash2 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from 'react-toastify';
 import SchedulePopup from './SchedulePopup';
 import { decodeToken } from '../../contexts/UserContext';
 
-const MealEventsTable = ({ onDeleteMealEvents }) => {
+const MealEventsTable = () => {
   const theme = useTheme();
   const [mealEvents, setMealEvents] = useState(['']);
   const [filteredEvents, setFilteredEvents] = useState(['']);
@@ -50,61 +47,13 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
   });
 
   // Enhanced table state
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('meal_request_date');
-
-  // Selection functions
-  const getCurrentPageMealEventIds = () => {
-    return sortedEvents
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .map((event, index) => `${event.user_id}_${event.meal_request_date}_${index}`); // Create unique ID
-  };
-
-  const handleSelectAll = (event) => {
-    const currentPageMealEventIds = getCurrentPageMealEventIds();
-    if (event.target.checked) {
-      const newSelected = [...new Set([...selected, ...currentPageMealEventIds])];
-      setSelected(newSelected);
-    } else {
-      setSelected(selected.filter(id => !currentPageMealEventIds.includes(id)));
-    }
-  };
-
-  const handleSelect = (eventId) => {
-    const selectedIndex = selected.indexOf(eventId);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = [...selected, eventId];
-    } else {
-      newSelected = selected.filter((id) => id !== eventId);
-    }
-    setSelected(newSelected);
-  };
 
   const handleSort = (column) => {
     const isAsc = sortColumn === column && sortDirection === 'asc';
     setSortDirection(isAsc ? 'desc' : 'asc');
     setSortColumn(column);
-  };
-
-  const handleDeleteSelected = () => {
-    if (onDeleteMealEvents && selected.length > 0) {
-      onDeleteMealEvents(selected);
-      setSelected([]);
-    }
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   // Handle frequency selection from SchedulePopup
@@ -257,28 +206,135 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
     return 0;
   });
 
-  const currentPageEvents = sortedEvents.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  );
-
-  const currentPageMealEventIds = getCurrentPageMealEventIds();
-  const isAllCurrentPageSelected = currentPageMealEventIds.length > 0 && 
-    currentPageMealEventIds.every(id => selected.includes(id));
-  const isSomeCurrentPageSelected = currentPageMealEventIds.some(id => selected.includes(id));
+  // Display all events instead of paginated
+  const currentPageEvents = sortedEvents;
 
   const handleDownloadPDF = () => {
     try {
-      const element = document.getElementById('meal-events-table');
+      // Create a temporary container for PDF content
+      const pdfContainer = document.createElement('div');
+      pdfContainer.style.padding = '20px';
+      pdfContainer.style.fontFamily = 'Arial, sans-serif';
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#000000';
+      
+      // Create header with title and date
+      const header = document.createElement('div');
+      header.style.textAlign = 'center';
+      header.style.marginBottom = '30px';
+      header.innerHTML = `
+        <h1 style="color: #333; margin-bottom: 10px; font-size: 24px;">Meal Events Report</h1>
+        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })}</p>
+        <hr style="margin: 20px 0; border: 1px solid #ddd;">
+      `;
+      pdfContainer.appendChild(header);
+
+      // Add filters information if any are applied
+      if (selectedMealTime || selectedMealType || selectedMonth || selectedYear || startDate || endDate) {
+        const filtersDiv = document.createElement('div');
+        filtersDiv.style.marginBottom = '20px';
+        filtersDiv.style.padding = '15px';
+        filtersDiv.style.backgroundColor = '#f8f9fa';
+        filtersDiv.style.borderRadius = '5px';
+        filtersDiv.style.border = '1px solid #dee2e6';
+        filtersDiv.style.color = '#000000';
+        
+        let filtersText = '<strong style="color: #000000;">Applied Filters:</strong><br>';
+        if (selectedMealTime) {
+          const mealTime = mealTimes.find(time => time.id == selectedMealTime);
+          filtersText += `<span style="color: #333;">Meal Time: ${mealTime ? mealTime.name : selectedMealTime}</span><br>`;
+        }
+        if (selectedMealType) {
+          const mealType = mealTypes.find(type => type.id == selectedMealType);
+          filtersText += `<span style="color: #333;">Meal Type: ${mealType ? mealType.name : selectedMealType}</span><br>`;
+        }
+        if (selectedYear) filtersText += `<span style="color: #333;">Year: ${selectedYear}</span><br>`;
+        if (selectedMonth) filtersText += `<span style="color: #333;">Month: ${new Date(0, selectedMonth - 1).toLocaleString('default', { month: 'long' })}</span><br>`;
+        if (startDate && endDate) filtersText += `<span style="color: #333;">Date Range: ${startDate} to ${endDate}</span>`;
+        
+        filtersDiv.innerHTML = filtersText;
+        pdfContainer.appendChild(filtersDiv);
+      }
+
+      // Clone the table and style it for PDF
+      const tableElement = document.getElementById('meal-events-table');
+      const clonedTable = tableElement.cloneNode(true);
+      
+      // Style the cloned table for better PDF appearance
+      clonedTable.style.width = '100%';
+      clonedTable.style.borderCollapse = 'collapse';
+      clonedTable.style.marginTop = '20px';
+      clonedTable.style.backgroundColor = '#ffffff';
+      
+      // Style table cells with light theme colors
+      const cells = clonedTable.querySelectorAll('td, th');
+      cells.forEach(cell => {
+        cell.style.border = '1px solid #dee2e6';
+        cell.style.padding = '8px';
+        cell.style.fontSize = '12px';
+        cell.style.textAlign = 'left';
+        cell.style.backgroundColor = '#ffffff';
+        cell.style.color = '#000000';
+      });
+      
+      // Style header cells with light theme
+      const headerCells = clonedTable.querySelectorAll('th');
+      headerCells.forEach(cell => {
+        cell.style.backgroundColor = '#f8f9fa';
+        cell.style.fontWeight = 'bold';
+        cell.style.color = '#000000';
+        cell.style.borderBottom = '2px solid #dee2e6';
+      });
+
+      // Remove sort icons from the cloned table
+      const sortIcons = clonedTable.querySelectorAll('.MuiSvgIcon-root');
+      sortIcons.forEach(icon => icon.remove());
+
+      pdfContainer.appendChild(clonedTable);
+
+      // Add footer with summary
+      const footer = document.createElement('div');
+      footer.style.marginTop = '30px';
+      footer.style.padding = '15px';
+      footer.style.backgroundColor = '#f8f9fa';
+      footer.style.borderRadius = '5px';
+      footer.style.border = '1px solid #dee2e6';
+      footer.innerHTML = `
+        <p style="margin: 0; font-size: 14px; color: #000000;"><strong>Total Meal Events: ${sortedEvents.length}</strong></p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Report generated from Resource Hub System</p>
+      `;
+      pdfContainer.appendChild(footer);
+
+      // Temporarily add to document
+      document.body.appendChild(pdfContainer);
+
       const options = {
-        margin: 1,
-        filename: 'MealEventsReport.pdf',
+        filename: `meal_events_report_${new Date().toISOString().split('T')[0]}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          allowTaint: true
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'landscape'
+        },
+        margin: [10, 10, 10, 10]
       };
-      html2pdf().from(element).set(options).save();
-      toast.success('Meal events report downloaded successfully!');
+
+      html2pdf().from(pdfContainer).set(options).save().then(() => {
+        // Remove temporary container
+        document.body.removeChild(pdfContainer);
+        toast.success('Meal events report downloaded successfully!');
+      });
     } catch (error) {
       console.error('Error downloading meal events report:', error);
       toast.error('Failed to download meal events report.');
@@ -393,36 +449,6 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
             />
           </Box>
 
-          {selected.length > 0 && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-                px: 2,
-                py: 1,
-                backgroundColor: alpha(theme.palette.primary.main, 0.12),
-                borderRadius: 1,
-                border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-              }}
-            >
-              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                {selected.length} selected
-              </span>
-              <Tooltip title="Delete selected meal events">
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="error"
-                  onClick={handleDeleteSelected}
-                  sx={{ minWidth: 'auto', px: 1 }}
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </Tooltip>
-            </Box>
-          )}
-
           {/* Download PDF Button */}
           <Button
             variant="contained"
@@ -445,9 +471,6 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  
-                </TableCell>
                 <TableCell 
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('mealtime_name')}
@@ -512,11 +535,7 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
                   <TableRow 
                     key={eventId}
                     hover
-                    selected={selected.includes(eventId)}
                   >
-                    <TableCell>
-                      
-                    </TableCell>
                     <TableCell>{mealEvent.mealtime_name}</TableCell>
                     <TableCell>{mealEvent.mealtype_name}</TableCell>
                     <TableCell>{mealEvent.username}</TableCell>
@@ -527,16 +546,21 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
               })}
             </TableBody>
           </Table>
-          <TablePagination
-            component="div"
-            count={sortedEvents.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 25, 50]}
-          />
         </TableContainer>
+        
+        {/* Summary Section */}
+        <Box sx={{ mt: 2, p: 2, borderRadius: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 'bold' }}>
+              Total Meal Events: {sortedEvents.length}
+            </span>
+            {(selectedMealTime || selectedMealType || selectedMonth || selectedYear || startDate || endDate) && (
+              <span style={{ fontSize: '0.875rem', color: '#666' }}>
+                Filtered from {mealEvents.length} total events
+              </span>
+            )}
+          </Box>
+        </Box>
       </div>
       {/* Popups rendered as before */}
       {openSchedulePopup && (
