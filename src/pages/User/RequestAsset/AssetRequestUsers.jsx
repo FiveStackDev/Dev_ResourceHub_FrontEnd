@@ -170,7 +170,7 @@ const AssetRequestUsers = () => {
 
   return (
     <UserLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Asset Requests</h1>
 
         <div className="search-filter-section flex items-center justify-between gap-4 mt-4">
