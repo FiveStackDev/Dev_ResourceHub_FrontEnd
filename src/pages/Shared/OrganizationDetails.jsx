@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Building, MapPin, Mail, Image } from 'lucide-react';
-import { BASE_URLS } from '../services/api/config';
-import { getAuthHeader } from '../utils/authHeader';
-import { useUser, decodeToken } from '../contexts/UserContext';
-import { useThemeStyles } from '../hooks/useThemeStyles';
-import AdminLayout from '../layouts/Admin/AdminLayout';
-import UserLayout from '../layouts/User/UserLayout';
-import styles from './css/OrganizationDetails.module.css';
+import { BASE_URLS } from './../../services/api/config';
+import { getAuthHeader } from './../../utils/authHeader';
+import { useUser, decodeToken } from './../../contexts/UserContext';
+import { useThemeStyles } from './../../hooks/useThemeStyles';
+import AdminLayout from './../../layouts/Admin/AdminLayout';
+import UserLayout from './../../layouts/User/UserLayout';
+import styles from '../css/OrganizationDetails.module.css';
 
 const OrganizationDetails = () => {
   // State to store organization data

@@ -1,14 +1,14 @@
-import { getAuthHeader } from '../utils/authHeader';
+import { getAuthHeader } from './../../utils/authHeader';
 
 import React, { useState, useEffect } from 'react';
-import { NotificationCard } from '../components/Notification/NotificationCard';
-import NotificationPopup from '../components/Notification/NotificationPopup';
-import { markNotificationRead, deleteNotification } from '../utils/notificationApi';
-import AdminLayout from '../layouts/Admin/AdminLayout';
-import UserLayout from '../layouts/User/UserLayout'; // Adjust path as needed
-import { BASE_URLS } from '../services/api/config';
+import { NotificationCard } from './../../components/Notification/NotificationCard';
+import NotificationPopup from './../../components/Notification/NotificationPopup';
+import { markNotificationRead, deleteNotification } from './../../utils/notificationApi';
+import AdminLayout from './../../layouts/Admin/AdminLayout';
+import UserLayout from './../../layouts/User/UserLayout'; // Adjust path as needed
+import { BASE_URLS } from './../../services/api/config';
 import { toast, ToastContainer } from 'react-toastify';
-import { useUser } from '../contexts/UserContext';
+import { useUser } from './../../contexts/UserContext';
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);

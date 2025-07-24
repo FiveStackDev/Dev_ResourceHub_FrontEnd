@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './css/Login.css';
+import '../css/Login.css';
 import { toast } from 'react-toastify';
 import {
   TextField,
@@ -11,7 +11,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { BASE_URLS } from '../services/api/config';
+import { BASE_URLS } from './../../services/api/config';
 
 function Register() {
   const [credentials, setCredentials] = useState({

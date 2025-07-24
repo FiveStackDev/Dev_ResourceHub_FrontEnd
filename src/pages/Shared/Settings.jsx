@@ -1,14 +1,13 @@
 
 import React, { useState } from 'react';
-import ProfileSection from '../components/Settings/ProfileSettings';
-import AccountSection from '../components/Settings/AccountSettings';
-import OrganizationSection from '../components/Settings/OrganizationSettings';
-import AdminLayout from '../layouts/Admin/AdminLayout';
-import UserLayout from '../layouts/User/UserLayout';
+import ProfileSection from './../../components/Settings/ProfileSettings';
+import AccountSection from './../../components/Settings/AccountSettings';
+import OrganizationSection from './../../components/Settings/OrganizationSettings';
+import AdminLayout from './../../layouts/Admin/AdminLayout';
+import UserLayout from './../../layouts/User/UserLayout';
 import { Tabs, Tab, Box, Paper, Typography, Card, CardContent, Stack } from '@mui/material';
-import { useUser } from '../contexts/UserContext';
-
-import AppearanceSettings from '../components/Settings/AppearanceSettings';
+import { useUser } from './../../contexts/UserContext';
+import AppearanceSettings from './../../components/Settings/AppearanceSettings';
 
 const Settings = () => {
   // Get the user's role from context

@@ -11,9 +11,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Auth Pages
-import Login from './pages/Login';
-import ForgotPassword from './pages/ForgotPassword';
-import Register from './pages/Register';
+import Login from './pages/Auth/Login';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import Register from './pages/Auth/Register';
 
 // Admin Pages
 import AdminDashboard from './pages/Admin/DashboardAdmin';
@@ -39,9 +39,9 @@ import MealCalender from './pages/User/MealRequest/MealCalander';
 import MaintenanceDetailsUser from './pages/User/Maintenance/MaintenanceDetailsUser';
 
 // Shared Pages
-import Notification from './pages/Notification';
-import Settings from './pages/Settings';
-import OrganizationDetails from './pages/OrganizationDetails';
+import Notification from './pages/Shared/Notification';
+import Settings from './pages/Shared/Settings';
+import OrganizationDetails from './pages/Shared/OrganizationDetails';
 
 
 // Components

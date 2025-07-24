@@ -8,9 +8,9 @@ function base64UrlDecode(str) {
 }
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import './css/Login.css';
-import { useUser } from '../contexts/UserContext';
-import { BASE_URLS } from '../services/api/config';
+import '../css/Login.css';
+import { useUser } from './../../contexts/UserContext';
+import { BASE_URLS } from './../../services/api/config';
 import {
   TextField,
   FormControl,
