@@ -48,11 +48,15 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
     const currentPageUserIds = getCurrentPageUserIds();
     if (event.target.checked) {
       // Add only current page users to selection, plus any already selected from other pages
-      const newSelected = Array.from(new Set([...selected, ...currentPageUserIds]));
+      const newSelected = Array.from(
+        new Set([...selected, ...currentPageUserIds]),
+      );
       setSelected(newSelected);
     } else {
       // Remove only current page users from selection
-      const newSelected = selected.filter((id) => !currentPageUserIds.includes(id));
+      const newSelected = selected.filter(
+        (id) => !currentPageUserIds.includes(id),
+      );
       setSelected(newSelected);
     }
   };
@@ -124,11 +128,17 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                   <Checkbox
                     checked={
                       getCurrentPageUserIds().length > 0 &&
-                      getCurrentPageUserIds().every((id) => selected.includes(id))
+                      getCurrentPageUserIds().every((id) =>
+                        selected.includes(id),
+                      )
                     }
                     indeterminate={
-                      getCurrentPageUserIds().some((id) => selected.includes(id)) &&
-                      !getCurrentPageUserIds().every((id) => selected.includes(id))
+                      getCurrentPageUserIds().some((id) =>
+                        selected.includes(id),
+                      ) &&
+                      !getCurrentPageUserIds().every((id) =>
+                        selected.includes(id),
+                      )
                     }
                     onChange={handleSelectAll}
                   />

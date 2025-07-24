@@ -24,15 +24,13 @@ function AddMealTime() {
   // Handle deletion of a meal time
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.mealtime}/details/${mealId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       if (response.ok) {
         await fetchMealTimes(); // Refresh list on success
       } else {
@@ -46,15 +44,12 @@ function AddMealTime() {
   // Fetch all meal times from API
   const fetchMealTimes = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URLS.mealtime}/details`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.mealtime}/details`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch meal times');
       }
@@ -72,7 +67,7 @@ function AddMealTime() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Meal times</h1>
 
         {/* Button to open the add meal time popup */}

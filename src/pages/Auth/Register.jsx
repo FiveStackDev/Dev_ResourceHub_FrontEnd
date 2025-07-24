@@ -89,7 +89,7 @@ function Register() {
         });
       } else {
         const errorData = await response.json();
-        setErrorMessage( 'Failed to register');
+        setErrorMessage('Failed to register');
       }
     } catch (err) {
       setErrorMessage('An error occurred. Please try again later.');

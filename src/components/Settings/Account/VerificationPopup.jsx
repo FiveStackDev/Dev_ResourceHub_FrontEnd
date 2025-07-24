@@ -43,7 +43,7 @@ function VerificationPopup({ onClose, email, code }) {
             headers: {
               ...getAuthHeader(),
             },
-          }
+          },
         );
 
         toast.success('Verification successful!');
@@ -67,13 +67,13 @@ function VerificationPopup({ onClose, email, code }) {
       aria-labelledby="verification-popup-title"
       aria-describedby="verification-popup-description"
       BackdropProps={{
-        className: 'verify-popup-backdrop'
+        className: 'verify-popup-backdrop',
       }}
       PaperProps={{
         style: {
           borderRadius: '20px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="verify-inner">
@@ -82,9 +82,11 @@ function VerificationPopup({ onClose, email, code }) {
             <Shield className="shield-icon" />
           </div>
           <h1 className="verify-title">Email Verification</h1>
-          <p className="verify-subtitle">Verify your email address to secure your account</p>
+          <p className="verify-subtitle">
+            Verify your email address to secure your account
+          </p>
         </div>
-        
+
         <form className="verify-form" onSubmit={handleSubmit}>
           <div className="verify-email-info">
             <Mail className="mail-icon" />
@@ -119,7 +121,11 @@ function VerificationPopup({ onClose, email, code }) {
               <Check className="btn-icon" />
               Verify Email
             </button>
-            <button type="button" className="verify-cancel-btn" onClick={onClose}>
+            <button
+              type="button"
+              className="verify-cancel-btn"
+              onClick={onClose}
+            >
               <X className="btn-icon" />
               Cancel
             </button>

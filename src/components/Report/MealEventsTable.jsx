@@ -36,7 +36,10 @@ const MealEventsTable = () => {
   const [endDate, setEndDate] = useState('');
   const [openSchedulePopup, setOpenSchedulePopup] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
-  const [confirmDialog, setConfirmDialog] = useState({ open: false, frequency: '' });
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    frequency: '',
+  });
 
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
@@ -58,7 +61,11 @@ const MealEventsTable = () => {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ user_id: userId, report_name: 'meal', frequency: selectedFrequency }),
+        body: JSON.stringify({
+          user_id: userId,
+          report_name: 'meal',
+          frequency: selectedFrequency,
+        }),
       });
       if (!res.ok) throw new Error('Failed to schedule report');
       toast.success('Meal report scheduled successfully!');
@@ -132,19 +139,18 @@ const MealEventsTable = () => {
       filtered = filtered.filter((event) => {
         const eventDate = new Date(event.meal_request_date);
         return (
-          eventDate >= new Date(startDate) &&
-          eventDate <= new Date(endDate)
+          eventDate >= new Date(startDate) && eventDate <= new Date(endDate)
         );
       });
     } else {
       if (selectedMealTime) {
         filtered = filtered.filter(
-          (event) => String(event.mealtime_id) === String(selectedMealTime)
+          (event) => String(event.mealtime_id) === String(selectedMealTime),
         );
       }
       if (selectedMealType) {
         filtered = filtered.filter(
-          (event) => String(event.mealtype_id) === String(selectedMealType)
+          (event) => String(event.mealtype_id) === String(selectedMealType),
         );
       }
       if (selectedMonth) {
@@ -159,11 +165,18 @@ const MealEventsTable = () => {
           return eventYear === parseInt(selectedYear, 10);
         });
       }
-
     }
 
     setFilteredEvents(filtered);
-  }, [selectedMealTime, selectedMealType, selectedMonth, selectedYear,startDate, endDate, mealEvents]);
+  }, [
+    selectedMealTime,
+    selectedMealType,
+    selectedMonth,
+    selectedYear,
+    startDate,
+    endDate,
+    mealEvents,
+  ]);
 
   const handleDownloadPDF = () => {
     try {
@@ -238,8 +251,10 @@ const MealEventsTable = () => {
                 new Set(
                   mealEvents
                     .filter((event) => event && event.meal_request_date)
-                    .map((event) => new Date(event.meal_request_date).getFullYear())
-                )
+                    .map((event) =>
+                      new Date(event.meal_request_date).getFullYear(),
+                    ),
+                ),
               )
                 .sort((a, b) => b - a)
                 .map((year) => (
@@ -341,12 +356,53 @@ const MealEventsTable = () => {
         />
       )}
       {confirmDialog.open && (
-        <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', bgcolor: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Box sx={{ bgcolor: 'background.paper', p: 4, borderRadius: 2, minWidth: 300 }}>
-            <p>Are you sure you want to schedule the Meal report as <b>{confirmDialog.frequency}</b>?</p>
-            <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'flex-end' }}>
-              <Button variant="contained" color="primary" onClick={handleConfirmSchedule}>Confirm</Button>
-              <Button variant="outlined" onClick={() => setConfirmDialog({ open: false, frequency: '' })}>Cancel</Button>
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            bgcolor: 'rgba(0,0,0,0.3)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              p: 4,
+              borderRadius: 2,
+              minWidth: 300,
+            }}
+          >
+            <p>
+              Are you sure you want to schedule the Meal report as{' '}
+              <b>{confirmDialog.frequency}</b>?
+            </p>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                mt: 2,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleConfirmSchedule}
+              >
+                Confirm
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setConfirmDialog({ open: false, frequency: '' })}
+              >
+                Cancel
+              </Button>
             </Box>
           </Box>
         </Box>

@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Dialog, Input, Button, Typography, Autocomplete, TextField, Chip, Box } from '@mui/material';
+import {
+  Dialog,
+  Input,
+  Button,
+  Typography,
+  Autocomplete,
+  TextField,
+  Chip,
+  Box,
+} from '@mui/material';
 import { X } from 'lucide-react';
 import '../Meal-CSS/AddMealPopup.css';
 import { BASE_URLS } from '../../../services/api/config';
@@ -22,10 +31,10 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   const [availableMealTimes, setAvailableMealTimes] = useState([]);
   // State for loading meal times
   const [loadingMealTimes, setLoadingMealTimes] = useState(false);
-  
+
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -48,11 +57,11 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
           ...getAuthHeader(),
         },
       });
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch meal times: ${response.status}`);
       }
-      
+
       const data = await response.json();
       setAvailableMealTimes(data);
     } catch (error) {
@@ -97,17 +106,17 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
     setUploading(true);
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+    formData.append(
+      'upload_preset',
+      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+    );
     formData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
     try {
-      const response = await fetch(
-        import.meta.env.VITE_CLOUDINARY_API_URL,
-        {
-          method: 'POST',
-          body: formData,
-        },
-      );
+      const response = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
+        method: 'POST',
+        body: formData,
+      });
 
       const data = await response.json();
       setUploading(false);
@@ -127,7 +136,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
       toast.error('Please provide a meal type name.');
       return;
     }
-    
+
     if (!imageFile) {
       toast.error('Please select an image.');
       return;
@@ -148,7 +157,7 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
         body: JSON.stringify({
           mealtype_name: mealName,
           mealtype_image_url: imageUrl,
-          mealtime_ids: selectedMealTimes.map(time => time.mealtime_id), // Send selected meal time IDs
+          mealtime_ids: selectedMealTimes.map((time) => time.mealtime_id), // Send selected meal time IDs
         }),
       });
 
@@ -169,27 +178,33 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={handleClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="sm"
       fullWidth
       maxHeight="90vh"
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           maxHeight: '90vh',
-          overflow: 'hidden'
-        }
+          overflow: 'hidden',
+        },
       }}
     >
-      <div className="mealtime-popup-container" style={{ maxHeight: '85vh', overflow: 'auto', padding: '20px' }}>
-        <div className="mealtime-popup-header" style={{ marginBottom: '16px', paddingBottom: '12px' }}>
+      <div
+        className="mealtime-popup-container"
+        style={{ maxHeight: '85vh', overflow: 'auto', padding: '20px' }}
+      >
+        <div
+          className="mealtime-popup-header"
+          style={{ marginBottom: '16px', paddingBottom: '12px' }}
+        >
           <div>
             {/* Popup title */}
             <h2 className="mealtime-title">{title}</h2>
@@ -202,26 +217,34 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
           </button>
         </div>
 
-                  {/* Show image preview if available */}
-          {mealImageUrl && (
-            <div className="mealtime-image-preview" style={{ marginBottom: '12px' }}>
-              <Typography variant="body2" sx={{ marginBottom: 0.5 }}>Preview:</Typography>
-              <img
-                src={mealImageUrl}
-                alt="Meal Type Preview"
-                className="mealtime-preview-img"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '120px',
-                  objectFit: 'cover',
-                  borderRadius: '6px'
-                }}
-              />
-            </div>
-          )}
+        {/* Show image preview if available */}
+        {mealImageUrl && (
+          <div
+            className="mealtime-image-preview"
+            style={{ marginBottom: '12px' }}
+          >
+            <Typography variant="body2" sx={{ marginBottom: 0.5 }}>
+              Preview:
+            </Typography>
+            <img
+              src={mealImageUrl}
+              alt="Meal Type Preview"
+              className="mealtime-preview-img"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '120px',
+                objectFit: 'cover',
+                borderRadius: '6px',
+              }}
+            />
+          </div>
+        )}
 
         <div className="mealtime-form" style={{ marginBottom: '16px' }}>
-          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
+          <div
+            className="mealtime-input-group"
+            style={{ marginBottom: '16px' }}
+          >
             <label className="mealtime-label">Meal Type Image</label>
             {/* File input for image upload */}
             <Input
@@ -232,7 +255,10 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
             />
           </div>
 
-          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
+          <div
+            className="mealtime-input-group"
+            style={{ marginBottom: '16px' }}
+          >
             <label className="mealtime-label">Meal Type Name</label>
             {/* Text input for meal name */}
             <Input
@@ -245,7 +271,10 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
             />
           </div>
 
-          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
+          <div
+            className="mealtime-input-group"
+            style={{ marginBottom: '16px' }}
+          >
             <label className="mealtime-label">Select Meal Times</label>
             <Autocomplete
               multiple
@@ -299,7 +328,11 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
             />
             {selectedMealTimes.length > 0 && (
               <Box sx={{ marginTop: 1.5 }}>
-                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ marginBottom: 1 }}
+                >
                   Selected Meal Times ({selectedMealTimes.length}):
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
@@ -308,7 +341,11 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
                       key={time.mealtime_id}
                       label={time.mealtime_name}
                       onDelete={() => {
-                        setSelectedMealTimes(selectedMealTimes.filter(t => t.mealtime_id !== time.mealtime_id));
+                        setSelectedMealTimes(
+                          selectedMealTimes.filter(
+                            (t) => t.mealtime_id !== time.mealtime_id,
+                          ),
+                        );
                       }}
                       color="primary"
                       variant="filled"

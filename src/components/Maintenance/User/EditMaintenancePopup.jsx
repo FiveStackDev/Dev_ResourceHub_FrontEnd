@@ -11,7 +11,12 @@ import { X, Edit, Wrench } from 'lucide-react';
 import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import '../shared/MaintenanceDialog.css';
 
-export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => {
+export const EditMaintenancePopup = ({
+  open,
+  onClose,
+  maintenance,
+  onSave,
+}) => {
   const [name, setName] = useState('');
   const [priorityLevel, setPriorityLevel] = useState('Low');
   const [description, setDescription] = useState('');
@@ -20,7 +25,7 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -43,13 +48,13 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
       return;
     }
 
-    onSave({ 
-      ...maintenance, 
-      name, 
-      priorityLevel, 
-      description 
+    onSave({
+      ...maintenance,
+      name,
+      priorityLevel,
+      description,
     });
-    
+
     // Clear form after successful submission
     setName('');
     setPriorityLevel('Low');
@@ -72,22 +77,22 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
   if (!maintenance) return null;
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={handleClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="maintenance-popup-container">
@@ -98,7 +103,9 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
             </div>
             <div>
               <h2 className="maintenance-popup-title">Edit Maintenance</h2>
-              <p className="maintenance-popup-subtitle">Update your maintenance request</p>
+              <p className="maintenance-popup-subtitle">
+                Update your maintenance request
+              </p>
             </div>
           </div>
           <button onClick={handleClose} className="maintenance-popup-close-btn">
@@ -120,7 +127,7 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
                   className="maintenance-popup-textfield"
                 />
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Priority Level</InputLabel>
@@ -135,7 +142,7 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
                   </Select>
                 </FormControl>
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
@@ -145,7 +152,9 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   error={descriptionError}
-                  helperText={descriptionError ? 'Please enter a description' : ''}
+                  helperText={
+                    descriptionError ? 'Please enter a description' : ''
+                  }
                   className="maintenance-popup-textfield"
                 />
               </div>
@@ -153,17 +162,14 @@ export const EditMaintenancePopup = ({ open, onClose, maintenance, onSave }) => 
           </div>
 
           <div className="maintenance-popup-actions">
-            <button 
-              type="button" 
-              onClick={handleClose} 
+            <button
+              type="button"
+              onClick={handleClose}
               className="maintenance-popup-cancel-btn"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              className="maintenance-popup-submit-btn"
-            >
+            <button type="submit" className="maintenance-popup-submit-btn">
               <Edit size={16} />
               Update Maintenance
             </button>

@@ -11,7 +11,7 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -26,7 +26,7 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
   }, [asset]);
 
   const handleSave = () => {
-    if (!quantity ) {
+    if (!quantity) {
       alert('Please fill in all required fields');
       return;
     }
@@ -53,8 +53,8 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="asset-popup-container">
@@ -65,7 +65,9 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="asset-popup-title">Edit Asset Request</h2>
-              <p className="asset-popup-subtitle">Update your asset request details</p>
+              <p className="asset-popup-subtitle">
+                Update your asset request details
+              </p>
             </div>
           </div>
         </div>
@@ -73,34 +75,40 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
         <div style={{ overflowY: 'auto', maxHeight: 'calc(80vh - 200px)' }}>
           <div className="asset-form-group">
             <label className="asset-form-label">Asset Name</label>
-            <div style={{ 
-              padding: '12px 16px', 
-              border: '2px solid var(--asset-input-border)', 
-              borderRadius: '8px',
-              backgroundColor: 'var(--asset-input-bg)',
-              color: 'var(--asset-popup-text-secondary)',
-              fontSize: '14px'
-            }}>
+            <div
+              style={{
+                padding: '12px 16px',
+                border: '2px solid var(--asset-input-border)',
+                borderRadius: '8px',
+                backgroundColor: 'var(--asset-input-bg)',
+                color: 'var(--asset-popup-text-secondary)',
+                fontSize: '14px',
+              }}
+            >
               {asset.asset_name}
             </div>
           </div>
 
           <div className="asset-form-group">
             <label className="asset-form-label">Category</label>
-            <div style={{ 
-              padding: '12px 16px', 
-              border: '2px solid var(--asset-input-border)', 
-              borderRadius: '8px',
-              backgroundColor: 'var(--asset-input-bg)',
-              color: 'var(--asset-popup-text-secondary)',
-              fontSize: '14px'
-            }}>
+            <div
+              style={{
+                padding: '12px 16px',
+                border: '2px solid var(--asset-input-border)',
+                borderRadius: '8px',
+                backgroundColor: 'var(--asset-input-bg)',
+                color: 'var(--asset-popup-text-secondary)',
+                fontSize: '14px',
+              }}
+            >
               {asset.category}
             </div>
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="quantity" className="asset-form-label">Quantity</label>
+            <label htmlFor="quantity" className="asset-form-label">
+              Quantity
+            </label>
             <input
               id="quantity"
               type="number"
@@ -123,7 +131,10 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
 
           <div className="asset-form-group">
             <label htmlFor="handoverDate" className="asset-form-label">
-              <Calendar size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <Calendar
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Handover Date
             </label>
             <input
@@ -135,14 +146,19 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
               className="asset-form-input"
             />
           </div>
-
         </div>
 
         <div className="asset-button-group">
-          <button className="asset-button asset-button-cancel" onClick={onClose}>
+          <button
+            className="asset-button asset-button-cancel"
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="asset-button asset-button-primary" onClick={handleSave}>
+          <button
+            className="asset-button asset-button-primary"
+            onClick={handleSave}
+          >
             <Edit size={16} />
             Update Request
           </button>

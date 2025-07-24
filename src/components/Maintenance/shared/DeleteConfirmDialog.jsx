@@ -13,29 +13,29 @@ import './MaintenanceDialog.css';
 export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
   }, [updateCSSVariables]);
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="maintenance-delete-container">
@@ -46,7 +46,9 @@ export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {
             </div>
             <div>
               <h2 className="maintenance-delete-title">Confirm Deletion</h2>
-              <p className="maintenance-delete-subtitle">This action cannot be undone</p>
+              <p className="maintenance-delete-subtitle">
+                This action cannot be undone
+              </p>
             </div>
           </div>
           <button onClick={onClose} className="maintenance-popup-close-btn">
@@ -57,8 +59,9 @@ export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {
         <div className="maintenance-delete-content">
           <div className="maintenance-delete-warning-box">
             <p className="maintenance-delete-warning-text">
-              Are you sure you want to delete this maintenance request? 
-              This will permanently remove it from the system and cannot be recovered.
+              Are you sure you want to delete this maintenance request? This
+              will permanently remove it from the system and cannot be
+              recovered.
             </p>
           </div>
         </div>
@@ -67,7 +70,10 @@ export const DeleteConfirmDialog = ({ open, onClose, onConfirm }) => {
           <button onClick={onClose} className="maintenance-delete-cancel-btn">
             Cancel
           </button>
-          <button onClick={onConfirm} className="maintenance-delete-confirm-btn">
+          <button
+            onClick={onConfirm}
+            className="maintenance-delete-confirm-btn"
+          >
             <Trash2 size={16} />
             Delete Maintenance
           </button>

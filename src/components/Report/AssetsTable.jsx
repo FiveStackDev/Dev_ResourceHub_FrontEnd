@@ -2,7 +2,7 @@ import { getAuthHeader } from '../../utils/authHeader';
 import React, { useEffect, useState } from 'react';
 import SchedulePopup from './SchedulePopup';
 import { decodeToken } from '../../contexts/UserContext';
-import{
+import {
   Chip,
   Table,
   TableBody,
@@ -31,7 +31,10 @@ const AssetsTable = () => {
   const [conditionFilter, setConditionFilter] = useState('All');
   const [openSchedulePopup, setOpenSchedulePopup] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
-  const [confirmDialog, setConfirmDialog] = useState({ open: false, frequency: '' });
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    frequency: '',
+  });
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
     setSelectedFrequency(frequency);
@@ -52,7 +55,11 @@ const AssetsTable = () => {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ user_id: userId, report_name: 'asset', frequency: selectedFrequency }),
+        body: JSON.stringify({
+          user_id: userId,
+          report_name: 'asset',
+          frequency: selectedFrequency,
+        }),
       });
       if (!res.ok) throw new Error('Failed to schedule report');
       toast.success('Asset report scheduled successfully!');
@@ -94,15 +101,22 @@ const AssetsTable = () => {
     }
   };
 
-
   // Get unique categories and condition types for filters
-  const categoryOptions = ['All', ...Array.from(new Set(Assets.map(a => a.category).filter(Boolean)))];
-  const conditionOptions = ['All', ...Array.from(new Set(Assets.map(a => a.condition_type).filter(Boolean)))];
+  const categoryOptions = [
+    'All',
+    ...Array.from(new Set(Assets.map((a) => a.category).filter(Boolean))),
+  ];
+  const conditionOptions = [
+    'All',
+    ...Array.from(new Set(Assets.map((a) => a.condition_type).filter(Boolean))),
+  ];
 
   // Filtered data by category and condition type only
   const filteredAssets = Assets.filter((asset) => {
-    const categoryMatch = categoryFilter === 'All' || asset.category === categoryFilter;
-    const conditionMatch = conditionFilter === 'All' || asset.condition_type === conditionFilter;
+    const categoryMatch =
+      categoryFilter === 'All' || asset.category === categoryFilter;
+    const conditionMatch =
+      conditionFilter === 'All' || asset.condition_type === conditionFilter;
     return categoryMatch && conditionMatch;
   });
 
@@ -117,11 +131,13 @@ const AssetsTable = () => {
               <InputLabel>Category</InputLabel>
               <Select
                 value={categoryFilter}
-                onChange={e => setCategoryFilter(e.target.value)}
+                onChange={(e) => setCategoryFilter(e.target.value)}
                 label="Category"
               >
-                {categoryOptions.map(option => (
-                  <MenuItem key={option} value={option}>{option}</MenuItem>
+                {categoryOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -129,11 +145,13 @@ const AssetsTable = () => {
               <InputLabel>Condition</InputLabel>
               <Select
                 value={conditionFilter}
-                onChange={e => setConditionFilter(e.target.value)}
+                onChange={(e) => setConditionFilter(e.target.value)}
                 label="Condition"
               >
-                {conditionOptions.map(option => (
-                  <MenuItem key={option} value={option}>{option}</MenuItem>
+                {conditionOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -166,12 +184,55 @@ const AssetsTable = () => {
           />
         )}
         {confirmDialog.open && (
-          <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', bgcolor: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Box sx={{ bgcolor: 'background.paper', p: 4, borderRadius: 2, minWidth: 300 }}>
-              <p>Are you sure you want to schedule the Asset report as <b>{confirmDialog.frequency}</b>?</p>
-              <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'flex-end' }}>
-                <Button variant="contained" color="primary" onClick={handleConfirmSchedule}>Confirm</Button>
-                <Button variant="outlined" onClick={() => setConfirmDialog({ open: false, frequency: '' })}>Cancel</Button>
+          <Box
+            sx={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              bgcolor: 'rgba(0,0,0,0.3)',
+              zIndex: 2000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                bgcolor: 'background.paper',
+                p: 4,
+                borderRadius: 2,
+                minWidth: 300,
+              }}
+            >
+              <p>
+                Are you sure you want to schedule the Asset report as{' '}
+                <b>{confirmDialog.frequency}</b>?
+              </p>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 2,
+                  mt: 2,
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleConfirmSchedule}
+                >
+                  Confirm
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    setConfirmDialog({ open: false, frequency: '' })
+                  }
+                >
+                  Cancel
+                </Button>
               </Box>
             </Box>
           </Box>
@@ -199,11 +260,13 @@ const AssetsTable = () => {
             <InputLabel>Category</InputLabel>
             <Select
               value={categoryFilter}
-              onChange={e => setCategoryFilter(e.target.value)}
+              onChange={(e) => setCategoryFilter(e.target.value)}
               label="Category"
             >
-              {categoryOptions.map(option => (
-                <MenuItem key={option} value={option}>{option}</MenuItem>
+              {categoryOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -211,11 +274,13 @@ const AssetsTable = () => {
             <InputLabel>Condition</InputLabel>
             <Select
               value={conditionFilter}
-              onChange={e => setConditionFilter(e.target.value)}
+              onChange={(e) => setConditionFilter(e.target.value)}
               label="Condition"
             >
-              {conditionOptions.map(option => (
-                <MenuItem key={option} value={option}>{option}</MenuItem>
+              {conditionOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -278,12 +343,53 @@ const AssetsTable = () => {
         />
       )}
       {confirmDialog.open && (
-        <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', bgcolor: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Box sx={{ bgcolor: 'background.paper', p: 4, borderRadius: 2, minWidth: 300 }}>
-            <p>Are you sure you want to schedule the Asset report as <b>{confirmDialog.frequency}</b>?</p>
-            <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'flex-end' }}>
-              <Button variant="contained" color="primary" onClick={handleConfirmSchedule}>Confirm</Button>
-              <Button variant="outlined" onClick={() => setConfirmDialog({ open: false, frequency: '' })}>Cancel</Button>
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            bgcolor: 'rgba(0,0,0,0.3)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              p: 4,
+              borderRadius: 2,
+              minWidth: 300,
+            }}
+          >
+            <p>
+              Are you sure you want to schedule the Asset report as{' '}
+              <b>{confirmDialog.frequency}</b>?
+            </p>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                mt: 2,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleConfirmSchedule}
+              >
+                Confirm
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setConfirmDialog({ open: false, frequency: '' })}
+              >
+                Cancel
+              </Button>
             </Box>
           </Box>
         </Box>

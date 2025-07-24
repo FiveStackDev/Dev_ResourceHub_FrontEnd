@@ -24,7 +24,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -60,22 +60,22 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={handleClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="maintenance-popup-container">
@@ -86,7 +86,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
             </div>
             <div>
               <h2 className="maintenance-popup-title">Add Maintenance</h2>
-              <p className="maintenance-popup-subtitle">Create a new maintenance request</p>
+              <p className="maintenance-popup-subtitle">
+                Create a new maintenance request
+              </p>
             </div>
           </div>
           <button onClick={handleClose} className="maintenance-popup-close-btn">
@@ -108,7 +110,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                   className="maintenance-popup-textfield"
                 />
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Priority Level</InputLabel>
@@ -117,13 +119,13 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                     label="Priority Level"
                     onChange={(e) => setPriorityLevel(e.target.value)}
                   >
-                     <MenuItem value="Low">🟡 Low </MenuItem>
+                    <MenuItem value="Low">🟡 Low </MenuItem>
                     <MenuItem value="Medium">🟠 Medium </MenuItem>
                     <MenuItem value="High">🔴 High </MenuItem>
                   </Select>
                 </FormControl>
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
@@ -133,7 +135,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   error={descriptionError}
-                  helperText={descriptionError ? 'Please enter a description' : ''}
+                  helperText={
+                    descriptionError ? 'Please enter a description' : ''
+                  }
                   className="maintenance-popup-textfield"
                 />
               </div>
@@ -141,17 +145,14 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
           </div>
 
           <div className="maintenance-popup-actions">
-            <button 
-              type="button" 
-              onClick={handleClose} 
+            <button
+              type="button"
+              onClick={handleClose}
               className="maintenance-popup-cancel-btn"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              className="maintenance-popup-submit-btn"
-            >
+            <button type="submit" className="maintenance-popup-submit-btn">
               <Plus size={16} />
               Add Maintenance
             </button>

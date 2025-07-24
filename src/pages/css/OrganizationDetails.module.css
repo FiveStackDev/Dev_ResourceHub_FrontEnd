@@ -12,7 +12,7 @@
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 
+  box-shadow:
     0 10px 30px var(--settings-card-shadow, rgba(0, 0, 0, 0.1)),
     0 1px 8px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
 }
@@ -21,7 +21,6 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-
 }
 
 .headerIcon {
@@ -64,7 +63,7 @@
   background: var(--settings-card-bg-primary, #ffffff);
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 
+  box-shadow:
     0 4px 20px var(--settings-card-shadow, rgba(0, 0, 0, 0.08)),
     0 1px 3px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
   border: 1px solid var(--settings-card-border, #e5e7eb);
@@ -87,7 +86,7 @@
   border-radius: 20px;
   object-fit: cover;
   border: 4px solid var(--settings-accent-primary, #3b82f6);
-  box-shadow: 
+  box-shadow:
     0 12px 40px var(--settings-card-shadow, rgba(0, 0, 0, 0.1)),
     0 4px 12px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
   transition: transform 0.3s ease;
@@ -101,15 +100,17 @@
   width: 160px;
   height: 160px;
   border-radius: 20px;
-  background: linear-gradient(135deg, 
-    var(--settings-accent-primary, #3b82f6) 0%, 
-    var(--settings-accent-secondary, #2563eb) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--settings-accent-primary, #3b82f6) 0%,
+    var(--settings-accent-secondary, #2563eb) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   border: 4px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
+  box-shadow:
     0 12px 40px var(--settings-card-shadow, rgba(0, 0, 0, 0.1)),
     0 4px 12px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
 }
@@ -147,9 +148,11 @@
   color: var(--settings-card-text-primary, #1f2937);
   margin: 0;
   line-height: 1.1;
-  background: linear-gradient(135deg, 
-    var(--settings-accent-primary, #3b82f6) 0%, 
-    var(--settings-accent-secondary, #2563eb) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--settings-accent-primary, #3b82f6) 0%,
+    var(--settings-accent-secondary, #2563eb) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -178,7 +181,7 @@
   background: var(--settings-card-bg-primary, #ffffff);
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 
+  box-shadow:
     0 4px 20px var(--settings-card-shadow, rgba(0, 0, 0, 0.08)),
     0 1px 3px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
   border: 1px solid var(--settings-card-border, #e5e7eb);
@@ -215,7 +218,7 @@
   background: var(--settings-card-bg-primary, #ffffff);
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 
+  box-shadow:
     0 4px 20px var(--settings-card-shadow, rgba(0, 0, 0, 0.08)),
     0 1px 3px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
   border: 1px solid var(--settings-card-border, #e5e7eb);
@@ -264,9 +267,11 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, 
-    var(--settings-accent-primary, #3b82f6) 0%, 
-    var(--settings-accent-secondary, #2563eb) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--settings-accent-primary, #3b82f6) 0%,
+    var(--settings-accent-secondary, #2563eb) 100%
+  );
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -274,7 +279,7 @@
 
 .contactCard:hover {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 12px 30px var(--settings-card-shadow, rgba(0, 0, 0, 0.15)),
     0 4px 12px var(--settings-card-shadow, rgba(0, 0, 0, 0.1));
   background: var(--settings-card-bg-primary, #ffffff);
@@ -287,9 +292,11 @@
 .contactIcon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, 
-    var(--settings-accent-primary, #3b82f6) 0%, 
-    var(--settings-accent-secondary, #2563eb) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--settings-accent-primary, #3b82f6) 0%,
+    var(--settings-accent-secondary, #2563eb) 100%
+  );
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -336,7 +343,7 @@
   background: var(--settings-card-bg-primary, #ffffff);
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 
+  box-shadow:
     0 4px 20px var(--settings-card-shadow, rgba(0, 0, 0, 0.08)),
     0 1px 3px var(--settings-card-shadow, rgba(0, 0, 0, 0.05));
   border: 1px solid var(--settings-card-border, #e5e7eb);
@@ -373,8 +380,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Responsive Design */
@@ -383,11 +395,11 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .organizationInfo {
     align-items: center;
   }
-  
+
   .quickStats {
     justify-content: center;
   }
@@ -397,44 +409,44 @@
   .container {
     padding: 1rem;
   }
-  
+
   .pageHeader {
     padding: 1.5rem;
   }
-  
+
   .headerContent {
     flex-direction: column;
     text-align: center;
     gap: 1rem;
   }
-  
+
   .headerIcon {
     width: 56px;
     height: 56px;
   }
-  
+
   .headerText h1 {
     font-size: 2rem;
   }
-  
+
   .organizationLogo,
   .logoPlaceholder {
     width: 120px;
     height: 120px;
   }
-  
+
   .organizationName {
     font-size: 2rem;
   }
-  
+
   .contactCards {
     grid-template-columns: 1fr;
   }
-  
+
   .mainContent {
     gap: 1.5rem;
   }
-  
+
   .identitySection,
   .aboutSection,
   .contactGrid {
@@ -446,21 +458,21 @@
   .headerText h1 {
     font-size: 1.75rem;
   }
-  
+
   .organizationName {
     font-size: 1.75rem;
   }
-  
+
   .quickStats {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .contactCard {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .contactIcon {
     align-self: center;
   }

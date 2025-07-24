@@ -10,7 +10,13 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { useTheme, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {
+  useTheme,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import axios from 'axios';
 import { getAuthHeader } from '../../../utils/authHeader';
 import { BASE_URLS } from '../../../services/api/config';
@@ -46,7 +52,7 @@ export const DistributionChart = () => {
   const generateLabels = () => {
     const labels = [];
     const baseDate = new Date(selectedDate);
-    
+
     // Generate 7 days: 6 days before selected date + selected date
     for (let i = 6; i >= 0; i--) {
       const date = new Date(baseDate);
@@ -57,12 +63,12 @@ export const DistributionChart = () => {
         labels.push(getDayShortName(date));
       }
     }
-    
+
     // Add next day
     const nextDay = new Date(baseDate);
     nextDay.setDate(baseDate.getDate() + 1);
     labels.push(getDayShortName(nextDay) + ' (Next Day)');
-    
+
     return labels;
   };
 
@@ -71,7 +77,7 @@ export const DistributionChart = () => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         let endpoint = '';
         switch (filterType) {
@@ -91,7 +97,7 @@ export const DistributionChart = () => {
         const response = await axios.get(endpoint, {
           headers: { ...getAuthHeader() },
         });
-        
+
         setData(response.data);
       } catch (err) {
         setError(err.message || 'Failed to fetch data');
@@ -156,25 +162,42 @@ export const DistributionChart = () => {
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
-          title: function(tooltipItems) {
+          title: function (tooltipItems) {
             const label = tooltipItems[0].label;
-            const typeText = filterType === 'meals' ? 'Meal Requests' : 
-                           filterType === 'assets' ? 'Asset Requests' : 'Service Requests';
+            const typeText =
+              filterType === 'meals'
+                ? 'Meal Requests'
+                : filterType === 'assets'
+                  ? 'Asset Requests'
+                  : 'Service Requests';
             return `${typeText} - ${label}`;
           },
-          label: function(context) {
+          label: function (context) {
             const label = context.dataset.label || '';
             const value = context.parsed.y;
-            const unit = filterType === 'meals' ? 'meal' : filterType === 'assets' ? 'asset' : 'service';
+            const unit =
+              filterType === 'meals'
+                ? 'meal'
+                : filterType === 'assets'
+                  ? 'asset'
+                  : 'service';
             return `${label}: ${value} ${unit}${value !== 1 ? 's' : ''}`;
           },
-          footer: function(tooltipItems) {
-            const total = tooltipItems.reduce((sum, item) => sum + item.parsed.y, 0);
-            const unit = filterType === 'meals' ? 'meal' : filterType === 'assets' ? 'asset' : 'service';
+          footer: function (tooltipItems) {
+            const total = tooltipItems.reduce(
+              (sum, item) => sum + item.parsed.y,
+              0,
+            );
+            const unit =
+              filterType === 'meals'
+                ? 'meal'
+                : filterType === 'assets'
+                  ? 'asset'
+                  : 'service';
             return `Total: ${total} ${unit}${total !== 1 ? 's' : ''} on this day`;
-          }
-        }
-      }
+          },
+        },
+      },
     },
     scales: {
       y: {
@@ -191,16 +214,20 @@ export const DistributionChart = () => {
         },
         title: {
           display: true,
-          text: filterType === 'meals' ? 'Number of Meals' : 
-                filterType === 'assets' ? 'Asset Requests' : 'Service Requests'
-        }
+          text:
+            filterType === 'meals'
+              ? 'Number of Meals'
+              : filterType === 'assets'
+                ? 'Asset Requests'
+                : 'Service Requests',
+        },
       },
       x: {
         title: {
           display: true,
-          text: 'Date Range (7 days)'
-        }
-      }
+          text: 'Date Range (7 days)',
+        },
+      },
     },
   };
 
@@ -280,7 +307,7 @@ export const DistributionChart = () => {
             {getChartDescription()}
           </p>
         </div>
-        
+
         {/* Filter Controls */}
         <div className="flex gap-3">
           <FormControl size="small" style={{ minWidth: 120 }}>
@@ -299,7 +326,7 @@ export const DistributionChart = () => {
               <MenuItem value="services">Services</MenuItem>
             </Select>
           </FormControl>
-          
+
           <input
             type="date"
             value={selectedDate}
@@ -313,16 +340,22 @@ export const DistributionChart = () => {
           />
         </div>
       </div>
-      
+
       {/* Chart */}
       <div className="mt-4">
         <Line options={options} data={chartData} />
       </div>
-      
+
       {/* Data Insights */}
       {data.datasets && data.datasets.length > 0 && (
-        <div className="pt-4 mt-4 border-t" style={{ borderColor: theme.palette.divider }}>
-          <h4 className="mb-2 text-sm font-medium" style={{ color: theme.palette.text.primary }}>
+        <div
+          className="pt-4 mt-4 border-t"
+          style={{ borderColor: theme.palette.divider }}
+        >
+          <h4
+            className="mb-2 text-sm font-medium"
+            style={{ color: theme.palette.text.primary }}
+          >
             Weekly Insights
           </h4>
           <div className="grid grid-cols-1 gap-4 text-xs md:grid-cols-3">
@@ -331,17 +364,20 @@ export const DistributionChart = () => {
               const average = (total / dataset.data.length).toFixed(1);
               const peak = Math.max(...dataset.data);
               const peakDay = data.labels[dataset.data.indexOf(peak)];
-              
+
               return (
                 <div
                   key={index}
                   className="p-2 rounded"
-                  style={{ 
+                  style={{
                     background: theme.palette.background.default,
-                    border: `1px solid ${theme.palette.divider}`
+                    border: `1px solid ${theme.palette.divider}`,
                   }}
                 >
-                  <div className="mb-1 font-medium" style={{ color: dataset.borderColor }}>
+                  <div
+                    className="mb-1 font-medium"
+                    style={{ color: dataset.borderColor }}
+                  >
                     {dataset.label}
                   </div>
                   <div style={{ color: theme.palette.text.secondary }}>

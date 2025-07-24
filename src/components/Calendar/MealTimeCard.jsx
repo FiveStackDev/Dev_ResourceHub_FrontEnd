@@ -5,12 +5,19 @@ import { useThemeStyles } from '../../hooks/useThemeStyles';
 import Popupmealtype from './popupmealtype';
 import './CalendarComponents.css';
 
-const MealTimeCard = ({ name, image, onSelect, isDisabled, id, mealtype_ids = [] }) => {
+const MealTimeCard = ({
+  name,
+  image,
+  onSelect,
+  isDisabled,
+  id,
+  mealtype_ids = [],
+}) => {
   const [popupOpen, setPopupOpen] = React.useState(false);
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -40,11 +47,11 @@ const MealTimeCard = ({ name, image, onSelect, isDisabled, id, mealtype_ids = []
             onClick={handleClick}
             disabled={isDisabled}
             style={{
-              background: isDisabled 
-                ? 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)' 
+              background: isDisabled
+                ? 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)'
                 : 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.1) 100%)',
               color: isDisabled ? '#9ca3af' : '#3b82f6',
-              border: isDisabled ? '2px solid #d1d5db' : '2px solid #3b82f6'
+              border: isDisabled ? '2px solid #d1d5db' : '2px solid #3b82f6',
             }}
           >
             <Calendar size={16} />

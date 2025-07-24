@@ -12,7 +12,7 @@ export default function MealTypeSelect({ onSelect, mealtype_ids = [] }) {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -24,25 +24,25 @@ export default function MealTypeSelect({ onSelect, mealtype_ids = [] }) {
 
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URLS.mealtype}/details`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.mealtype}/details`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       if (!response.ok) {
         throw new Error(`Failed to fetch meal types: ${response.status}`);
       }
       const data = await response.json();
-      
+
       // Filter meal types based on mealtype_ids if provided
-      const filteredMealTypes = mealtype_ids.length > 0 
-        ? data.filter(mealType => mealtype_ids.includes(mealType.mealtype_id))
-        : data;
-      
+      const filteredMealTypes =
+        mealtype_ids.length > 0
+          ? data.filter((mealType) =>
+              mealtype_ids.includes(mealType.mealtype_id),
+            )
+          : data;
+
       setMealTypes(filteredMealTypes); // Store filtered meal types
     } catch (error) {
       console.error('Error fetching meal types:', error);

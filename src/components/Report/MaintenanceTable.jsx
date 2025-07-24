@@ -31,12 +31,7 @@ const statusOptions = [
   'Completed',
   'Rejected',
 ];
-const priorityOptions = [
-  'All',
-  'Low',
-  'Medium',
-  'High',
-];
+const priorityOptions = ['All', 'Low', 'Medium', 'High'];
 
 const MaintenanceTable = () => {
   const [Maintenance, setmaintenance] = useState([]);
@@ -46,7 +41,10 @@ const MaintenanceTable = () => {
   const [endDate, setEndDate] = useState('');
   const [openSchedulePopup, setOpenSchedulePopup] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
-  const [confirmDialog, setConfirmDialog] = useState({ open: false, frequency: '' });
+  const [confirmDialog, setConfirmDialog] = useState({
+    open: false,
+    frequency: '',
+  });
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
     setSelectedFrequency(frequency);
@@ -68,7 +66,11 @@ const MaintenanceTable = () => {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ user_id: userId, report_name: 'maintenance', frequency: selectedFrequency }),
+        body: JSON.stringify({
+          user_id: userId,
+          report_name: 'maintenance',
+          frequency: selectedFrequency,
+        }),
       });
       if (!res.ok) throw new Error('Failed to schedule report');
       toast.success('Maintenance report scheduled successfully!');
@@ -112,8 +114,10 @@ const MaintenanceTable = () => {
 
   // Filtered data
   const filteredMaintenance = Maintenance.filter((maintenance) => {
-    const statusMatch = statusFilter === 'All' || maintenance.status === statusFilter;
-    const priorityMatch = priorityFilter === 'All' || maintenance.priorityLevel === priorityFilter;
+    const statusMatch =
+      statusFilter === 'All' || maintenance.status === statusFilter;
+    const priorityMatch =
+      priorityFilter === 'All' || maintenance.priorityLevel === priorityFilter;
     let dateMatch = true;
     if (startDate && endDate && maintenance.submitted_date) {
       const submitted = new Date(maintenance.submitted_date);
@@ -129,7 +133,14 @@ const MaintenanceTable = () => {
     <div style={{ position: 'relative' }}>
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <div style={{ display: 'flex', gap: 16, marginBottom: 20, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 16,
+            marginBottom: 20,
+            flexWrap: 'wrap',
+          }}
+        >
           {/* Status Filter */}
           <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Status</InputLabel>
@@ -245,12 +256,53 @@ const MaintenanceTable = () => {
         />
       )}
       {confirmDialog.open && (
-        <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', bgcolor: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Box sx={{ bgcolor: 'background.paper', p: 4, borderRadius: 2, minWidth: 300 }}>
-            <p>Are you sure you want to schedule the Maintenance report as <b>{confirmDialog.frequency}</b>?</p>
-            <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'flex-end' }}>
-              <Button variant="contained" color="primary" onClick={handleConfirmSchedule}>Confirm</Button>
-              <Button variant="outlined" onClick={() => setConfirmDialog({ open: false, frequency: '' })}>Cancel</Button>
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            bgcolor: 'rgba(0,0,0,0.3)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              p: 4,
+              borderRadius: 2,
+              minWidth: 300,
+            }}
+          >
+            <p>
+              Are you sure you want to schedule the Maintenance report as{' '}
+              <b>{confirmDialog.frequency}</b>?
+            </p>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                mt: 2,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleConfirmSchedule}
+              >
+                Confirm
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setConfirmDialog({ open: false, frequency: '' })}
+              >
+                Cancel
+              </Button>
             </Box>
           </Box>
         </Box>

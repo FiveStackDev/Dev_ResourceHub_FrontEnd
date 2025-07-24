@@ -16,7 +16,11 @@ import {
 import { alpha } from '@mui/material/styles';
 import { Edit, Trash2 } from 'lucide-react';
 
-export const MaintenanceTableUser = ({ maintenance, onEditMaintenance, onDeleteMaintenance }) => {
+export const MaintenanceTableUser = ({
+  maintenance,
+  onEditMaintenance,
+  onDeleteMaintenance,
+}) => {
   const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -143,14 +147,17 @@ export const MaintenanceTableUser = ({ maintenance, onEditMaintenance, onDeleteM
                         borderBottom: `1px solid ${theme.palette.divider}`,
                       }}
                     >
-                      <TableCell> <div className="flex items-center gap-3">
-                        <img
-                          src={item.profilePicture}
-                          alt={item.username}
-                          className="w-8 h-8 rounded-full"
-                        />
-                        {item.username}
-                      </div></TableCell>
+                      <TableCell>
+                        {' '}
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={item.profilePicture}
+                            alt={item.username}
+                            className="w-8 h-8 rounded-full"
+                          />
+                          {item.username}
+                        </div>
+                      </TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell>
                         <Chip
@@ -179,36 +186,40 @@ export const MaintenanceTableUser = ({ maintenance, onEditMaintenance, onDeleteM
                         />
                       </TableCell>
                       <TableCell align="center">
-                        
-                          <div className="flex justify-end gap-2">
-                            {(item.status === 'Pending') && (
-                              <Tooltip title="Edit Maintenance">
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                  size="small"
-                                  startIcon={<Edit size={18} />}
-                                  onClick={() => onEditMaintenance && onEditMaintenance(item)}
-                                >
-                                  Edit
-                                </Button>
-                              </Tooltip>
-                            )}
-                            {(item.status === 'Pending' || item.status === 'Rejected') && (
+                        <div className="flex justify-end gap-2">
+                          {item.status === 'Pending' && (
+                            <Tooltip title="Edit Maintenance">
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                startIcon={<Edit size={18} />}
+                                onClick={() =>
+                                  onEditMaintenance && onEditMaintenance(item)
+                                }
+                              >
+                                Edit
+                              </Button>
+                            </Tooltip>
+                          )}
+                          {(item.status === 'Pending' ||
+                            item.status === 'Rejected') && (
                             <Tooltip title="Delete Maintenance">
                               <Button
                                 variant="outlined"
                                 color="error"
                                 size="small"
                                 startIcon={<Trash2 size={18} />}
-                                onClick={() => onDeleteMaintenance && onDeleteMaintenance(item)}
+                                onClick={() =>
+                                  onDeleteMaintenance &&
+                                  onDeleteMaintenance(item)
+                                }
                               >
                                 Delete
                               </Button>
                             </Tooltip>
-                            )}
-                          </div>
-
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

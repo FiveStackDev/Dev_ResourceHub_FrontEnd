@@ -3,7 +3,10 @@ import { getAuthHeader } from './../../utils/authHeader';
 import React, { useState, useEffect } from 'react';
 import { NotificationCard } from './../../components/Notification/NotificationCard';
 import NotificationPopup from './../../components/Notification/NotificationPopup';
-import { markNotificationRead, deleteNotification } from './../../utils/notificationApi';
+import {
+  markNotificationRead,
+  deleteNotification,
+} from './../../utils/notificationApi';
 import AdminLayout from './../../layouts/Admin/AdminLayout';
 import UserLayout from './../../layouts/User/UserLayout'; // Adjust path as needed
 import { BASE_URLS } from './../../services/api/config';
@@ -20,15 +23,12 @@ function Notification() {
   // Fetch notifications from the API
   const fetchNotifications = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URLS.notification}/notification`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.notification}/notification`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       if (!response.ok) {
         throw new Error(`Failed to fetch notifications: ${response.status}`);
       }
@@ -100,7 +100,6 @@ function Notification() {
     setCurrentPage(pageNumber);
   };
 
-
   // Get user role from context
   const { userData } = useUser();
   const userRole = userData.role;
@@ -112,7 +111,11 @@ function Notification() {
         <h2 className="text-xl font-bold mb-6">Notifications</h2>
         <div className="space-y-4">
           {paginatedNotifications.map((notification, index) => (
-            <div key={index} onClick={() => handleOpenPopup(notification)} style={{ cursor: 'pointer' }}>
+            <div
+              key={index}
+              onClick={() => handleOpenPopup(notification)}
+              style={{ cursor: 'pointer' }}
+            >
               <NotificationCard notification={notification} />
             </div>
           ))}

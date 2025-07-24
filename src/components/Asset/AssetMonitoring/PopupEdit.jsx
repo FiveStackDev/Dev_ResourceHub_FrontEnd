@@ -12,7 +12,7 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -53,8 +53,8 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
       aria-labelledby="edit-asset-modal-title"
       aria-describedby="edit-asset-modal-description"
@@ -67,7 +67,9 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="asset-popup-title">Edit Asset Details</h2>
-              <p className="asset-popup-subtitle">Update asset information and status</p>
+              <p className="asset-popup-subtitle">
+                Update asset information and status
+              </p>
             </div>
           </div>
         </div>
@@ -75,34 +77,40 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
         <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
           <div className="asset-form-group">
             <label className="asset-form-label">Asset Name</label>
-            <div style={{ 
-              padding: '12px 16px', 
-              border: '2px solid var(--asset-input-border)', 
-              borderRadius: '8px',
-              backgroundColor: 'var(--asset-input-bg)',
-              color: 'var(--asset-popup-text-secondary)',
-              fontSize: '14px'
-            }}>
+            <div
+              style={{
+                padding: '12px 16px',
+                border: '2px solid var(--asset-input-border)',
+                borderRadius: '8px',
+                backgroundColor: 'var(--asset-input-bg)',
+                color: 'var(--asset-popup-text-secondary)',
+                fontSize: '14px',
+              }}
+            >
               {asset.asset_name}
             </div>
           </div>
 
           <div className="asset-form-group">
             <label className="asset-form-label">Category</label>
-            <div style={{ 
-              padding: '12px 16px', 
-              border: '2px solid var(--asset-input-border)', 
-              borderRadius: '8px',
-              backgroundColor: 'var(--asset-input-bg)',
-              color: 'var(--asset-popup-text-secondary)',
-              fontSize: '14px'
-            }}>
+            <div
+              style={{
+                padding: '12px 16px',
+                border: '2px solid var(--asset-input-border)',
+                borderRadius: '8px',
+                backgroundColor: 'var(--asset-input-bg)',
+                color: 'var(--asset-popup-text-secondary)',
+                fontSize: '14px',
+              }}
+            >
               {asset.category}
             </div>
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="quantity" className="asset-form-label">Quantity</label>
+            <label htmlFor="quantity" className="asset-form-label">
+              Quantity
+            </label>
             <input
               id="quantity"
               type="number"
@@ -113,7 +121,9 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="status" className="asset-form-label">Status</label>
+            <label htmlFor="status" className="asset-form-label">
+              Status
+            </label>
             <select
               id="status"
               value={status}
@@ -129,7 +139,10 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
 
           <div className="asset-form-group">
             <label htmlFor="handoverDate" className="asset-form-label">
-              <Calendar size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <Calendar
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Handover Date
             </label>
             <input
@@ -153,10 +166,16 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
         </div>
 
         <div className="asset-button-group">
-          <button className="asset-button asset-button-cancel" onClick={handleClose}>
+          <button
+            className="asset-button asset-button-cancel"
+            onClick={handleClose}
+          >
             Cancel
           </button>
-          <button className="asset-button asset-button-primary" onClick={handleSaveClick}>
+          <button
+            className="asset-button asset-button-primary"
+            onClick={handleSaveClick}
+          >
             <Edit size={16} />
             Save Changes
           </button>

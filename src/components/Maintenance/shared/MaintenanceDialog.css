@@ -27,7 +27,7 @@
 }
 
 /* Theme variables for dark mode */
-[data-mui-color-scheme="dark"] {
+[data-mui-color-scheme='dark'] {
   --maintenance-popup-bg-primary: #1e1e2f;
   --maintenance-popup-bg-secondary: #252537;
   --maintenance-popup-text-primary: #ffffff;
@@ -57,7 +57,11 @@
   padding: 32px;
   border-radius: 16px;
   box-shadow: 0px 20px 40px var(--maintenance-popup-shadow);
-  background: linear-gradient(135deg, var(--maintenance-popup-bg-primary) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-popup-bg-primary) 0%,
+    var(--maintenance-popup-bg-secondary) 100%
+  );
   position: relative;
   overflow: hidden;
 }
@@ -167,16 +171,22 @@
   transition: all 0.3s ease;
 }
 
-.maintenance-popup-textfield .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+.maintenance-popup-textfield
+  .MuiOutlinedInput-root
+  .MuiOutlinedInput-notchedOutline {
   border: 2px solid var(--maintenance-popup-input-border);
   transition: all 0.3s ease;
 }
 
-.maintenance-popup-textfield .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.maintenance-popup-textfield
+  .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
   border-color: var(--maintenance-popup-input-border-hover);
 }
 
-.maintenance-popup-textfield .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.maintenance-popup-textfield
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
   border-color: #f59e0b;
   box-shadow: 0 0 0 3px var(--maintenance-popup-input-focus-shadow);
 }
@@ -211,16 +221,22 @@
   transition: all 0.3s ease;
 }
 
-.maintenance-popup-select .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+.maintenance-popup-select
+  .MuiOutlinedInput-root
+  .MuiOutlinedInput-notchedOutline {
   border: 2px solid var(--maintenance-popup-select-border);
   transition: all 0.3s ease;
 }
 
-.maintenance-popup-select .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.maintenance-popup-select
+  .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
   border-color: var(--maintenance-popup-input-border-hover);
 }
 
-.maintenance-popup-select .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.maintenance-popup-select
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
   border-color: #f59e0b;
   box-shadow: 0 0 0 3px var(--maintenance-popup-input-focus-shadow);
 }
@@ -239,10 +255,13 @@
   color: #f59e0b;
 }
 
-
 /* Error message styling */
 .maintenance-popup-error-message {
-  background: linear-gradient(135deg, var(--maintenance-delete-error-bg-primary) 0%, var(--maintenance-delete-error-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-delete-error-bg-primary) 0%,
+    var(--maintenance-delete-error-bg-secondary) 100%
+  );
   border: 2px solid var(--maintenance-delete-error-border);
   border-radius: 8px;
   padding: 12px 16px;
@@ -281,13 +300,21 @@
 }
 
 .maintenance-popup-cancel-btn {
-  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-popup-button-cancel-bg) 0%,
+    var(--maintenance-popup-bg-secondary) 100%
+  );
   color: var(--maintenance-popup-button-cancel-text);
   border: 2px solid var(--maintenance-popup-button-cancel-border);
 }
 
 .maintenance-popup-cancel-btn:hover {
-  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg-hover) 0%, var(--maintenance-popup-button-cancel-border) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-popup-button-cancel-bg-hover) 0%,
+    var(--maintenance-popup-button-cancel-border) 100%
+  );
   color: var(--maintenance-popup-text-secondary);
   border-color: var(--maintenance-popup-input-border-hover);
   transform: translateY(-2px);
@@ -295,7 +322,6 @@
 }
 
 .maintenance-popup-submit-btn {
- 
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
@@ -318,7 +344,11 @@
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0px 20px 40px var(--maintenance-popup-shadow);
-  background: linear-gradient(135deg, var(--maintenance-popup-bg-primary) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-popup-bg-primary) 0%,
+    var(--maintenance-popup-bg-secondary) 100%
+  );
   position: relative;
   overflow: hidden;
 }
@@ -380,7 +410,11 @@
 
 .maintenance-delete-warning-box {
   padding: 20px;
-  background: linear-gradient(135deg, var(--maintenance-delete-warning-bg-primary) 0%, var(--maintenance-delete-warning-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-delete-warning-bg-primary) 0%,
+    var(--maintenance-delete-warning-bg-secondary) 100%
+  );
   border-radius: 12px;
   border: 2px solid var(--maintenance-delete-warning-border);
   margin-bottom: 16px;
@@ -409,7 +443,11 @@
   flex: 1;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg) 0%, var(--maintenance-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-popup-button-cancel-bg) 0%,
+    var(--maintenance-popup-bg-secondary) 100%
+  );
   color: var(--maintenance-popup-button-cancel-text);
   border: 2px solid var(--maintenance-popup-button-cancel-border);
   display: flex;
@@ -419,7 +457,11 @@
 }
 
 .maintenance-delete-cancel-btn:hover {
-  background: linear-gradient(135deg, var(--maintenance-popup-button-cancel-bg-hover) 0%, var(--maintenance-popup-button-cancel-border) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--maintenance-popup-button-cancel-bg-hover) 0%,
+    var(--maintenance-popup-button-cancel-border) 100%
+  );
   color: var(--maintenance-popup-text-secondary);
   border-color: var(--maintenance-popup-input-border-hover);
   transform: translateY(-2px);
@@ -468,8 +510,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Status styling */
@@ -511,18 +557,18 @@
   .maintenance-delete-container {
     padding: 24px 20px;
   }
-  
+
   .maintenance-popup-title,
   .maintenance-delete-title {
     font-size: 1.5rem;
   }
-  
+
   .maintenance-popup-actions,
   .maintenance-delete-actions {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .maintenance-popup-cancel-btn,
   .maintenance-popup-submit-btn,
   .maintenance-delete-cancel-btn,

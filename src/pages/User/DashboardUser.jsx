@@ -83,16 +83,16 @@ const DashboardUser = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {stats.map((stat, idx) => (
-          <StatCard
-            key={idx}
-            title={stat.title}
-            value={stat.value}
-            icon={iconMap[stat.icon] || <BoxIcon />}
-            chartData={{
-              labels: stat.monthLabels || [],
-              data: stat.monthlyData || [],
-            }}
-          />
+            <StatCard
+              key={idx}
+              title={stat.title}
+              value={stat.value}
+              icon={iconMap[stat.icon] || <BoxIcon />}
+              chartData={{
+                labels: stat.monthLabels || [],
+                data: stat.monthlyData || [],
+              }}
+            />
           ))}
         </div>
         {/* Recent Activities */}

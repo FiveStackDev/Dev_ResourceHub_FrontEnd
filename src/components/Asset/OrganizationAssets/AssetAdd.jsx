@@ -18,7 +18,7 @@ function AssetAdd({ open, onClose, onAdd }) {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -90,8 +90,8 @@ function AssetAdd({ open, onClose, onAdd }) {
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="asset-popup-container">
@@ -102,7 +102,9 @@ function AssetAdd({ open, onClose, onAdd }) {
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="asset-popup-title">Add New Asset</h2>
-              <p className="asset-popup-subtitle">Create a new asset entry for your organization</p>
+              <p className="asset-popup-subtitle">
+                Create a new asset entry for your organization
+              </p>
             </div>
           </div>
         </div>
@@ -110,7 +112,10 @@ function AssetAdd({ open, onClose, onAdd }) {
         <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
           <div className="asset-form-group">
             <label htmlFor="name" className="asset-form-label">
-              <Package size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <Package
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Asset Name
             </label>
             <input
@@ -125,7 +130,9 @@ function AssetAdd({ open, onClose, onAdd }) {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="category" className="asset-form-label">Category</label>
+            <label htmlFor="category" className="asset-form-label">
+              Category
+            </label>
             <select
               id="category"
               name="category"
@@ -137,14 +144,18 @@ function AssetAdd({ open, onClose, onAdd }) {
               <option value="Electronics & IT">Electronics & IT</option>
               <option value="Office Supplies">Office Supplies</option>
               <option value="Furniture">Furniture</option>
-              <option value="Electrical Appliances">Electrical Appliances</option>
+              <option value="Electrical Appliances">
+                Electrical Appliances
+              </option>
               <option value="Machinery & Tools">Machinery & Tools</option>
               <option value="Miscellaneous">Miscellaneous</option>
             </select>
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="quantity" className="asset-form-label">Quantity</label>
+            <label htmlFor="quantity" className="asset-form-label">
+              Quantity
+            </label>
             <input
               id="quantity"
               type="number"
@@ -158,7 +169,9 @@ function AssetAdd({ open, onClose, onAdd }) {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="condition" className="asset-form-label">Condition</label>
+            <label htmlFor="condition" className="asset-form-label">
+              Condition
+            </label>
             <select
               id="condition"
               name="condition"
@@ -173,7 +186,9 @@ function AssetAdd({ open, onClose, onAdd }) {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="location" className="asset-form-label">Location</label>
+            <label htmlFor="location" className="asset-form-label">
+              Location
+            </label>
             <input
               id="location"
               type="text"
@@ -188,10 +203,16 @@ function AssetAdd({ open, onClose, onAdd }) {
         </div>
 
         <div className="asset-button-group">
-          <button className="asset-button asset-button-cancel" onClick={onClose}>
+          <button
+            className="asset-button asset-button-cancel"
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="asset-button asset-button-primary" onClick={handleAddAsset}>
+          <button
+            className="asset-button asset-button-primary"
+            onClick={handleAddAsset}
+          >
             <Plus size={16} />
             Add Asset
           </button>

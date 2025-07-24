@@ -33,7 +33,7 @@ function RequestButton({ open, onClose, onRequest }) {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -117,8 +117,8 @@ function RequestButton({ open, onClose, onRequest }) {
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="asset-popup-container">
@@ -129,14 +129,14 @@ function RequestButton({ open, onClose, onRequest }) {
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="asset-popup-title">Request an Asset</h2>
-              <p className="asset-popup-subtitle">Submit a request for organizational assets</p>
+              <p className="asset-popup-subtitle">
+                Submit a request for organizational assets
+              </p>
             </div>
           </div>
         </div>
 
         <div style={{ overflowY: 'auto', maxHeight: 'calc(80vh - 200px)' }}>
-
-
           <div className="asset-form-group">
             <label className="asset-form-label">Asset Name</label>
             <AssetSearch
@@ -149,7 +149,9 @@ function RequestButton({ open, onClose, onRequest }) {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="quantity" className="asset-form-label">Quantity</label>
+            <label htmlFor="quantity" className="asset-form-label">
+              Quantity
+            </label>
             <input
               id="quantity"
               type="number"
@@ -174,14 +176,20 @@ function RequestButton({ open, onClose, onRequest }) {
               color="primary"
             />
             <span className="asset-switch-label">
-              <ToggleLeft size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <ToggleLeft
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Asset Returning
             </span>
           </div>
 
           <div className="asset-form-group">
             <label htmlFor="handoverDate" className="asset-form-label">
-              <Calendar size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <Calendar
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Handover Date
             </label>
             <input
@@ -197,10 +205,16 @@ function RequestButton({ open, onClose, onRequest }) {
         </div>
 
         <div className="asset-button-group">
-          <button className="asset-button asset-button-cancel" onClick={onClose}>
+          <button
+            className="asset-button asset-button-cancel"
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="asset-button asset-button-primary" onClick={handleRequestAsset}>
+          <button
+            className="asset-button asset-button-primary"
+            onClick={handleRequestAsset}
+          >
             <Send size={16} />
             Submit Request
           </button>

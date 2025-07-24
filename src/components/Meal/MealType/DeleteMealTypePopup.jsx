@@ -15,10 +15,10 @@ function DeletePopup({ open, onClose, onDelete, mealId, mealName }) {
   // State to track any error messages during deletion
   const [error, setError] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -59,22 +59,22 @@ function DeletePopup({ open, onClose, onDelete, mealId, mealName }) {
   };
 
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={handleClose}
       maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="delete-popup-container">
@@ -89,8 +89,8 @@ function DeletePopup({ open, onClose, onDelete, mealId, mealName }) {
               <p className="delete-subtitle">This action cannot be undone</p>
             </div>
           </div>
-          <button 
-            onClick={handleClose} 
+          <button
+            onClick={handleClose}
             className="delete-close-btn"
             disabled={isDeleting}
           >
@@ -102,8 +102,9 @@ function DeletePopup({ open, onClose, onDelete, mealId, mealName }) {
         <DialogContent className="delete-content">
           <div className="delete-warning-box">
             <Typography variant="body1" className="delete-warning-text">
-              Are you sure you want to delete <span className="delete-meal-name">"{mealName}"</span>? 
-              This will permanently remove it from the system.
+              Are you sure you want to delete{' '}
+              <span className="delete-meal-name">"{mealName}"</span>? This will
+              permanently remove it from the system.
             </Typography>
           </div>
 

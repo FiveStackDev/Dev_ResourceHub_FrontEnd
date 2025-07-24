@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -28,7 +27,6 @@ function MealCalendar() {
     fetchEvents(); // Fetch existing meal events on mount
   }, []);
 
-
   // Get user id from context
   const { userData } = useUser();
   // Fallback: decode token directly if userData.id is undefined
@@ -47,7 +45,7 @@ function MealCalendar() {
       if (!userId) return;
       const response = await axios.get(
         `${BASE_URLS.calendar}/mealevents/${userId}`,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       const formattedEvents = response.data.map((event) => ({
         id: event.requestedmeal_id,
@@ -86,7 +84,7 @@ function MealCalendar() {
     mealTimeId,
     mealTypeId,
     mealTimeName,
-    mealTypeName
+    mealTypeName,
   ) => {
     try {
       if (!userId) throw new Error('User ID not found');
@@ -99,7 +97,7 @@ function MealCalendar() {
           submitted_date: today,
           meal_request_date: selectedDate,
         },
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
 
       if (response.status !== 200 && response.status !== 201) {
@@ -136,10 +134,9 @@ function MealCalendar() {
       return;
     }
     try {
-      await axios.delete(
-        `${BASE_URLS.calendar}/mealevents/${eventId}`,
-        { headers: { ...getAuthHeader() } }
-      );
+      await axios.delete(`${BASE_URLS.calendar}/mealevents/${eventId}`, {
+        headers: { ...getAuthHeader() },
+      });
       setDeletePopupOpen(false);
       await fetchEvents(); // Refresh calendar after deletion
       toast.success('Event deleted successfully!');
@@ -161,7 +158,7 @@ function MealCalendar() {
   const isMealSelected = (mealTimeId) => {
     return eventData.some(
       (event) =>
-        event.start === selectedDate && event.meal_time_id === mealTimeId
+        event.start === selectedDate && event.meal_time_id === mealTimeId,
     );
   };
 
@@ -200,9 +197,7 @@ function MealCalendar() {
         <DeletePopup
           open={deletePopupOpen}
           handleClose={() => setDeletePopupOpen(false)}
-          onDelete={() =>
-            selectedEvent && handleDeleteEvent(selectedEvent.id)
-          }
+          onDelete={() => selectedEvent && handleDeleteEvent(selectedEvent.id)}
           eventTitle={selectedEvent ? selectedEvent.title : ''}
         />
       </div>

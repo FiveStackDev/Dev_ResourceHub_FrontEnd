@@ -14,15 +14,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { userData, refreshUserData, loading } = useUser();
   const location = useLocation();
 
-
   // Refresh user data on mount to ensure we have the latest
   useEffect(() => {
     refreshUserData();
     // eslint-disable-next-line
   }, []);
-
-
-
 
   // Check if user is authenticated by presence of userData and token
   const token = localStorage.getItem('token');
@@ -30,7 +26,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (loading) {
     // Optionally, show a spinner or null while loading
-    return <div style={{textAlign: 'center', marginTop: '2rem'}}>Loading...</div>;
+    return (
+      <div style={{ textAlign: 'center', marginTop: '2rem' }}>Loading...</div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -65,6 +63,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       replace
     />
   );
-}
+};
 
 export default ProtectedRoute;

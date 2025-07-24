@@ -3,7 +3,14 @@ import { getAuthHeader } from '../../../utils/authHeader';
 import React, { useState, useEffect } from 'react';
 import MonitorTable from '../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import { Search } from 'lucide-react';
 import RequestButton from '../../../components/Asset/AssetRequestingUser/RequestButton';
 import EditAssetRequestPopup from '../../../components/Asset/AssetRequestingUser/EditAssetRequestPopup';
@@ -55,7 +62,7 @@ const AssetRequestUsers = () => {
             'Content-Type': 'application/json',
             ...getAuthHeader(),
           },
-        }
+        },
       );
       const data = await response.json();
       // Ensure assets is always an array
@@ -121,7 +128,7 @@ const AssetRequestUsers = () => {
             ...getAuthHeader(),
           },
           body: JSON.stringify(updatedAsset),
-        }
+        },
       );
 
       if (!response.ok) throw new Error('Failed to update asset request');
@@ -146,7 +153,7 @@ const AssetRequestUsers = () => {
             'Content-Type': 'application/json',
             ...getAuthHeader(),
           },
-        }
+        },
       );
 
       if (!response.ok) throw new Error('Failed to delete asset request');
@@ -207,8 +214,8 @@ const AssetRequestUsers = () => {
         </div>
 
         <div className="mt-6">
-          <MonitorTable 
-            assets={filteredAssets} 
+          <MonitorTable
+            assets={filteredAssets}
             onEditAsset={handleEditAsset}
             onDeleteAsset={handleDeleteAsset}
           />

@@ -14,25 +14,31 @@ export async function getUnreadCount() {
 }
 
 export async function markNotificationRead(notification_id) {
-  const response = await fetch(`${BASE_URLS.notification}/markread/${notification_id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      ...getAuthHeader(),
+  const response = await fetch(
+    `${BASE_URLS.notification}/markread/${notification_id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
     },
-  });
+  );
   if (!response.ok) throw new Error('Failed to mark notification as read');
   return await response.json();
 }
 
 export async function deleteNotification(notification_id) {
-  const response = await fetch(`${BASE_URLS.notification}/deleteNotification/${notification_id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      ...getAuthHeader(),
+  const response = await fetch(
+    `${BASE_URLS.notification}/deleteNotification/${notification_id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
     },
-  });
+  );
   if (!response.ok) throw new Error('Failed to delete notification');
   return await response.json();
 }

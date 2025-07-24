@@ -56,7 +56,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const theme = useMemo(() => getTheme(mode), [mode]);
 
-  const contextValue = useMemo(() => ({ mode, toggleMode, setMode: setModeDirectly }), [mode]);
+  const contextValue = useMemo(
+    () => ({ mode, toggleMode, setMode: setModeDirectly }),
+    [mode],
+  );
 
   return (
     <ThemeContext.Provider value={contextValue}>

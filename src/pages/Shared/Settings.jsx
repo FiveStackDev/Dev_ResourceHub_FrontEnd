@@ -1,11 +1,19 @@
-
 import React, { useState } from 'react';
 import ProfileSection from './../../components/Settings/Profile/ProfileSettings';
 import AccountSection from './../../components/Settings/Account/AccountSettings';
 import OrganizationSection from './../../components/Settings/Organization/OrganizationSettings';
 import AdminLayout from './../../layouts/Admin/AdminLayout';
 import UserLayout from './../../layouts/User/UserLayout';
-import { Tabs, Tab, Box, Paper, Typography, Card, CardContent, Stack } from '@mui/material';
+import {
+  Tabs,
+  Tab,
+  Box,
+  Paper,
+  Typography,
+  Card,
+  CardContent,
+  Stack,
+} from '@mui/material';
 import { useUser } from './../../contexts/UserContext';
 import AppearanceSettings from './../../components/Settings/Appearance/AppearanceSettings';
 import { Navigate } from 'react-router-dom';
@@ -15,7 +23,6 @@ const Settings = () => {
   const { userData } = useUser();
   const userRole = userData.role;
 
-
   // State to track which tab is active (0 = Profile, 1 = Account, 2 = Organization, 3 = Theme)
   const [tab, setTab] = useState(0);
 
@@ -23,8 +30,6 @@ const Settings = () => {
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
-
-
 
   // Common content for both Admin and User layouts
   const renderContent = (
@@ -35,7 +40,7 @@ const Settings = () => {
       <Tabs value={tab} onChange={handleTabChange} centered sx={{ mb: 3 }}>
         <Tab label="Profile" />
         <Tab label="Account" />
-        {(userRole === 'SuperAdmin') && <Tab label="Organization" />}
+        {userRole === 'SuperAdmin' && <Tab label="Organization" />}
         <Tab label="Theme" />
       </Tabs>
 
@@ -43,8 +48,10 @@ const Settings = () => {
       <Box>
         {tab === 0 && <ProfileSection />}
         {tab === 1 && <AccountSection />}
-        {tab === 2 && (userRole === 'SuperAdmin') && <OrganizationSection />}
-        {((tab === 2 && userRole !== 'SuperAdmin') || (tab === 3)) ? <AppearanceSettings /> : null}
+        {tab === 2 && userRole === 'SuperAdmin' && <OrganizationSection />}
+        {(tab === 2 && userRole !== 'SuperAdmin') || tab === 3 ? (
+          <AppearanceSettings />
+        ) : null}
       </Box>
     </Paper>
   );

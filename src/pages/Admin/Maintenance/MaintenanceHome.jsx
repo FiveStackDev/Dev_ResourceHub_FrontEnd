@@ -6,7 +6,7 @@ import '../../css/MaintenanceHome.css';
 function Maintenen() {
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Maintenance Categories</h1>
         <div className="maintenen grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           <MaintenanceHomeCard

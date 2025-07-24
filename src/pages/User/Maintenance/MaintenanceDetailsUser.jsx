@@ -1,8 +1,19 @@
-
 import { useState, useEffect } from 'react';
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@mui/material';
+import {
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  CircularProgress,
+} from '@mui/material';
 import { Plus, Search } from 'lucide-react';
-import { AddMaintenancePopup, EditMaintenancePopup, DeleteMaintenancePopup } from '../../../components/Maintenance/User';
+import {
+  AddMaintenancePopup,
+  EditMaintenancePopup,
+  DeleteMaintenancePopup,
+} from '../../../components/Maintenance/User';
 import { ToastContainer, toast } from 'react-toastify';
 import { MaintenanceTableUser } from '../../../components/Maintenance/User';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +34,7 @@ const MaintenanceDetailsUser = () => {
   const [filterType, setFilterType] = useState('All');
   const [loading, setLoading] = useState(true);
 
-    const { userData } = useUser();
+  const { userData } = useUser();
   // Fallback: decode token directly if userData.id is undefined
   let userId = userData.id;
   if (!userId) {
@@ -38,7 +49,7 @@ const MaintenanceDetailsUser = () => {
     try {
       const response = await axios.get(
         `${BASE_URLS.maintenance}/details/${userId}`,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       setMaintenance(response.data);
     } catch (error) {
@@ -52,8 +63,6 @@ const MaintenanceDetailsUser = () => {
   useEffect(() => {
     fetchMaintenanceData();
   }, []);
-
-
 
   const handleAddMaintenance = async (newMaintenance) => {
     try {
@@ -72,7 +81,7 @@ const MaintenanceDetailsUser = () => {
       const response = await axios.post(
         `${BASE_URLS.maintenance}/add`,
         payload,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
@@ -98,7 +107,7 @@ const MaintenanceDetailsUser = () => {
       const response = await axios.put(
         `${BASE_URLS.maintenance}/details/${updatedMaintenance.maintenance_id}`,
         updatedMaintenance,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
@@ -114,7 +123,7 @@ const MaintenanceDetailsUser = () => {
     try {
       await axios.delete(
         `${BASE_URLS.maintenance}/details/${maintenance.maintenance_id}`,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       toast.success('Maintenance deleted successfully!');
       fetchMaintenanceData();
@@ -182,8 +191,8 @@ const MaintenanceDetailsUser = () => {
             <CircularProgress />
           </div>
         ) : (
-          <MaintenanceTableUser 
-            maintenance={filteredMaintenance} 
+          <MaintenanceTableUser
+            maintenance={filteredMaintenance}
             onEditMaintenance={handleEditMaintenance}
             onDeleteMaintenance={handleDeleteMaintenance}
           />

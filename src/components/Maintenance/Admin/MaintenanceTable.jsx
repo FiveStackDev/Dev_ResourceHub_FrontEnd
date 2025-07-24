@@ -30,22 +30,22 @@ import '../shared/MaintenanceDialog.css';
 
 const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="maintenance-popup-container">
@@ -56,7 +56,9 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
             </div>
             <div>
               <h2 className="maintenance-popup-title">Confirm Notification</h2>
-              <p className="maintenance-popup-subtitle">Send maintenance notification to user</p>
+              <p className="maintenance-popup-subtitle">
+                Send maintenance notification to user
+              </p>
             </div>
           </div>
           <button onClick={onClose} className="maintenance-popup-close-btn">
@@ -67,8 +69,8 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
         <div className="maintenance-popup-content">
           <div className="maintenance-delete-warning-box">
             <p className="maintenance-delete-warning-text">
-              Are you sure you want to send this notification? 
-              The user will be notified about their maintenance request status.
+              Are you sure you want to send this notification? The user will be
+              notified about their maintenance request status.
             </p>
           </div>
         </div>
@@ -181,20 +183,25 @@ export const MaintenanceTable = ({
   // Function to call sendMaintenanceNotification endpoint
   const handleSendNotification = async (maintenanceItem) => {
     try {
-      const response = await fetch(`${BASE_URLS.notification}/sendMaintenanceNotification`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeader(),
+      const response = await fetch(
+        `${BASE_URLS.notification}/sendMaintenanceNotification`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify({
+            type: 'maintenance',
+            reference_id: maintenanceItem.maintenance_id,
+            title: maintenanceItem.title || 'Maintenance Notification',
+            message:
+              maintenanceItem.description ||
+              'A new maintenance notification has been sent.',
+            priority: maintenanceItem.priorityLevel || 'General',
+          }),
         },
-        body: JSON.stringify({
-          type: 'maintenance',
-          reference_id: maintenanceItem.maintenance_id,
-          title: maintenanceItem.title || 'Maintenance Notification',
-          message: maintenanceItem.description || 'A new maintenance notification has been sent.',
-          priority: maintenanceItem.priorityLevel || 'General',
-        }),
-      });
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -204,15 +211,18 @@ export const MaintenanceTable = ({
       }
 
       const result = await response.json();
-      toast.success(result.message || 'Maintenance notification sent to all users!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: 'colored',
-      });
+      toast.success(
+        result.message || 'Maintenance notification sent to all users!',
+        {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: 'colored',
+        },
+      );
     } catch (error) {
       console.error('Error sending maintenance notification:', error);
       toast.error(`Failed to send notification: ${error.message}`, {
