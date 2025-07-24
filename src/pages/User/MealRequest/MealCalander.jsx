@@ -164,7 +164,7 @@ function MealCalendar() {
 
   return (
     <UserLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Meal Calendar</h1>
 
         {/* FullCalendar setup */}

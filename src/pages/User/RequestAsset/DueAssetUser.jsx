@@ -122,7 +122,7 @@ const DueAssetUser = () => {
 
   return (
     <UserLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <h2 className="text-2xl font-semibold">
           Due Assets {filterCategory !== 'All' && `: ${filterCategory}`}
         </h2>
