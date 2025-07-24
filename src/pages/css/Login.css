@@ -190,9 +190,9 @@ button[type='submit'] {
 .login-page input:-webkit-autofill:focus,
 .login-page input:-webkit-autofill:active {
   -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
-  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-  background-color: transparent !important;
-  background: transparent !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(24, 29, 73, 0.5) inset !important;
+  background-color: rgba(79, 158, 248, 0.1) !important;
+  background: rgba(79, 158, 248, 0.1) !important;
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
