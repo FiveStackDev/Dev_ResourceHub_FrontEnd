@@ -93,7 +93,7 @@ const AssetMonitoringAdmin = () => {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">
           Due Assets {filterCategory !== 'All' && `: ${filterCategory}`}
         </h1>

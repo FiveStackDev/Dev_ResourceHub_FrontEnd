@@ -175,7 +175,7 @@ export const Users = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="space-y-3 p-2">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold">User Management</h1>
         </div>

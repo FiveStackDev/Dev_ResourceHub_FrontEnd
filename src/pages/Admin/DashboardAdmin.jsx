@@ -80,12 +80,12 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen p-6 space-y-6">
+      <div className="min-h-screen p-2 space-y-3">
         {/* Heading */}
         <h1 className="text-2xl font-semibold">Dashboard</h1>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
           ))}
         </div>
         {/* Optimized Charts Row with 1:3:1 ratio */}
-        <div className="grid items-stretch grid-cols-1 gap-6 lg:grid-cols-5">
+        <div className="grid items-stretch grid-cols-1 gap-3 lg:grid-cols-5">
           <div className="flex flex-col h-full lg:col-span-1">
             <ChartResources />
           </div>

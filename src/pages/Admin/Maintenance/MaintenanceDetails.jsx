@@ -133,7 +133,7 @@ const MaintenanceDetails = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Maintenance</h1>
 
         <div

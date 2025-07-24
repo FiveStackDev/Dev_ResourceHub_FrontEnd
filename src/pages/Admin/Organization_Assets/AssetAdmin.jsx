@@ -86,7 +86,7 @@ function AssetAdmin() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-6 p-6">
+      <div className="min-h-screen space-y-3 p-2">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold">Assets</h1>
         </div>
