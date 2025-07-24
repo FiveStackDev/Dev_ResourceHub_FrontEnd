@@ -141,8 +141,8 @@ const MonitorTable = ({
         className="relative"
         elevation={theme.palette.mode === 'dark' ? 2 : 1}
       >
-        <TableContainer>
-          <Table>
+        <TableContainer sx={{ minWidth: 1200 }}>
+          <Table sx={{ tableLayout: 'fixed', width: '100%' }}>
             <TableHead>
               <TableRow
                 sx={{
@@ -156,32 +156,20 @@ const MonitorTable = ({
                   },
                 }}
               >
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={
-                      getCurrentPageAssetIds().length > 0 &&
-                      getCurrentPageAssetIds().every((id) =>
-                        selected.includes(id),
-                      )
-                    }
-                    indeterminate={
-                      getCurrentPageAssetIds().some((id) =>
-                        selected.includes(id),
-                      ) &&
-                      !getCurrentPageAssetIds().every((id) =>
-                        selected.includes(id),
-                      )
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
+                <TableCell
+                  padding="checkbox"
+                  sx={{ width: 56, minWidth: 56, maxWidth: 56 }}
+                />
                 <TableCell
                   onClick={() => handleSort('username')}
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
+                    width: 180,
+                    minWidth: 180,
+                    maxWidth: 180,
                   }}
-                  align="center"
+                  align="left"
                 >
                   User
                   {sortColumn === 'username' && (
@@ -199,8 +187,11 @@ const MonitorTable = ({
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
+                    width: 120,
+                    minWidth: 120,
+                    maxWidth: 120,
                   }}
-                  align="center"
+                  align="left"
                 >
                   Asset ID
                   {sortColumn === 'asset_id' && (
@@ -218,8 +209,11 @@ const MonitorTable = ({
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
+                    width: 180,
+                    minWidth: 180,
+                    maxWidth: 180,
                   }}
-                  align="center"
+                  align="left"
                 >
                   Asset
                   {sortColumn === 'asset_name' && (
@@ -233,18 +227,31 @@ const MonitorTable = ({
                   )}
                 </TableCell>
                 {showHandoverColumns && (
-                  <TableCell align="center">Handover Date</TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ width: 140, minWidth: 140, maxWidth: 140 }}
+                  >
+                    Handover Date
+                  </TableCell>
                 )}
                 {showHandoverColumns && (
-                  <TableCell align="center">Days Remaining</TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ width: 140, minWidth: 140, maxWidth: 140 }}
+                  >
+                    Days Remaining
+                  </TableCell>
                 )}
                 <TableCell
                   onClick={() => handleSort('status')}
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
+                    width: 120,
+                    minWidth: 120,
+                    maxWidth: 120,
                   }}
-                  align="center"
+                  align="left"
                 >
                   Status
                   {sortColumn === 'status' && (
@@ -262,8 +269,11 @@ const MonitorTable = ({
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
+                    width: 120,
+                    minWidth: 120,
+                    maxWidth: 120,
                   }}
-                  align="center"
+                  align="left"
                 >
                   Category
                   {sortColumn === 'category' && (
@@ -277,7 +287,13 @@ const MonitorTable = ({
                   )}
                 </TableCell>
                 {customColumns.map((col, index) => (
-                  <TableCell key={`head-${index}`}>{col.label}</TableCell>
+                  <TableCell
+                    key={`head-${index}`}
+                    sx={{ width: 120, minWidth: 120, maxWidth: 120 }}
+                    align="left"
+                  >
+                    {col.label}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -323,8 +339,9 @@ const MonitorTable = ({
                       }}
                       onClick={() => handleRowClick(asset)}
                     >
-                      <TableCell 
+                      <TableCell
                         padding="checkbox"
+                        sx={{ width: 56, minWidth: 56, maxWidth: 56 }}
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Checkbox
@@ -332,7 +349,10 @@ const MonitorTable = ({
                           onChange={() => handleSelect(asset.requestedasset_id)}
                         />
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell
+                        align="left"
+                        sx={{ width: 180, minWidth: 180, maxWidth: 180 }}
+                      >
                         <div className="flex items-center gap-3">
                           <Avatar
                             src={
@@ -344,15 +364,23 @@ const MonitorTable = ({
                           {asset.username}
                         </div>
                       </TableCell>
-                      <TableCell align="center">{asset.asset_id}</TableCell>
-                      <TableCell align="center">{asset.asset_name}</TableCell>
+                      <TableCell align="left" sx={{ width: 120, minWidth: 120, maxWidth: 120 }}>
+                        {asset.asset_id}
+                      </TableCell>
+                      <TableCell align="left" sx={{ width: 180, minWidth: 180, maxWidth: 180 }}>
+                        {asset.asset_name}
+                      </TableCell>
                       {showHandoverColumns && (
-                        <TableCell align="center">{handoverDate}</TableCell>
+                        <TableCell align="left" sx={{ width: 140, minWidth: 140, maxWidth: 140 }}>
+                          {handoverDate}
+                        </TableCell>
                       )}
                       {showHandoverColumns && (
-                        <TableCell align="center">{remainingDays}</TableCell>
+                        <TableCell align="left" sx={{ width: 140, minWidth: 140, maxWidth: 140 }}>
+                          {remainingDays}
+                        </TableCell>
                       )}
-                      <TableCell align="center">
+                      <TableCell align="left" sx={{ width: 120, minWidth: 120, maxWidth: 120 }}>
                         <Chip
                           label={status}
                           size="small"
@@ -365,9 +393,15 @@ const MonitorTable = ({
                           }}
                         />
                       </TableCell>
-                      <TableCell align="center">{asset.category}</TableCell>
+                      <TableCell align="left" sx={{ width: 120, minWidth: 120, maxWidth: 120 }}>
+                        {asset.category}
+                      </TableCell>
                       {customColumns.map((col, index) => (
-                        <TableCell key={`row-${index}`}>
+                        <TableCell
+                          key={`row-${index}`}
+                          sx={{ width: 120, minWidth: 120, maxWidth: 120 }}
+                          align="left"
+                        >
                           {col.render(asset)}
                         </TableCell>
                       ))}
