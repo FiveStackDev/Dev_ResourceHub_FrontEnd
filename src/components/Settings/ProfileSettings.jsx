@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { User, Upload, Camera, FileText, Save } from 'lucide-react';
+import { User, FileText, Save } from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
 import { useUser, decodeToken } from '../../contexts/UserContext';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
 import ConfirmationDialog from './ConfirmationDialog';
+import ImageUpload from './ImageUpload';
 import './Styles/SettingsComponents.css';
 
 const ProfileSection = () => {
@@ -79,12 +80,14 @@ const ProfileSection = () => {
 
 
    // Handle file selection and create preview URL
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = (file, url = null) => {
     if (file) {
       setImageFile(file);
       const fileURL = URL.createObjectURL(file); // Preview image
       setFormData({ ...formData, picture: fileURL });
+    } else if (url) {
+      setImageFile(null);
+      setFormData({ ...formData, picture: url });
     }
   };
 
@@ -199,13 +202,13 @@ const ProfileSection = () => {
         <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: '0 0 16px 0' }}>
           Customize your profile information and appearance
         </p>
-        {formData.picture && (
-          <img
-            src={formData.picture}
-            alt="Profile"
-            onError={() => toast.error('Invalid image URL')}
-          />
-        )}
+        <ImageUpload
+          currentImage={formData.picture}
+          onImageChange={handleImageChange}
+          uploading={uploading}
+          isProfile={true}
+          alt="Profile Picture"
+        />
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
@@ -221,32 +224,6 @@ const ProfileSection = () => {
             onChange={handleChange}
             placeholder="Enter your display name"
             required
-          />
-        </div>
-        <div className="form-group">
-          <label>
-            <Camera size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
-            Profile Picture
-          </label>
-          <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Upload size={16} style={{ color: 'var(--settings-accent-primary)' }} />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ flex: 1 }}
-            />
-          </div>
-          <label style={{ fontSize: '14px', color: 'var(--settings-popup-text-secondary)' }}>
-            Or enter logo URL directly:
-          </label>
-          <input
-            className="form-input"
-            type="url"
-            name="picture"
-            value={formData.picture}
-            onChange={handleChange}
-            placeholder="https://example.com/logo.jpg"
           />
         </div>
         <div className="form-group">

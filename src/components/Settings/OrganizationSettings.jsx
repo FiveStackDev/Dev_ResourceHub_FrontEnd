@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Building, Upload, MapPin, Mail, Save, Image } from 'lucide-react';
+import { Building, MapPin, Mail, Save } from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
 import { useUser, decodeToken } from '../../contexts/UserContext';
 import { useThemeStyles } from '../../hooks/useThemeStyles';
 import VerificationPopup from './OrgVerificationPopup';
 import ConfirmationDialog from './ConfirmationDialog';
+import ImageUpload from './ImageUpload';
 import './Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
@@ -98,12 +99,14 @@ const OrganizationSection = () => {
   };
 
   // Handle file selection and create preview URL
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = (file, url = null) => {
     if (file) {
       setImageFile(file);
       const fileURL = URL.createObjectURL(file); // Preview image
       setFormData({ ...formData, org_logo: fileURL });
+    } else if (url) {
+      setImageFile(null);
+      setFormData({ ...formData, org_logo: url });
     }
   };
 
@@ -263,26 +266,13 @@ const OrganizationSection = () => {
         <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: '0 0 16px 0' }}>
           Manage your organization profile and information
         </p>
-        {formData.org_logo && (
-          <div style={{ marginTop: '10px' }}>
-            <img
-              src={formData.org_logo}
-              alt="Organization Logo"
-              style={{
-                maxWidth: '150px',
-                maxHeight: '150px',
-                objectFit: 'cover',
-                border: '4px solid var(--settings-accent-primary)',
-                borderRadius: '16px',
-                boxShadow: '0 8px 32px rgba(147, 51, 234, 0.2)',
-              }}
-              onError={(e) => { 
-                e.target.style.display = 'none'; 
-                toast.error('Invalid image URL or failed to load image'); 
-              }}
-            />
-          </div>
-        )}
+        <ImageUpload
+          currentImage={formData.org_logo}
+          onImageChange={handleImageChange}
+          uploading={uploading}
+          isProfile={false}
+          alt="Organization Logo"
+        />
       </div>
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
@@ -298,32 +288,6 @@ const OrganizationSection = () => {
             onChange={handleChange}
             placeholder="Enter organization name"
             required
-          />
-        </div>
-        <div className="form-group">
-          <label>
-            <Image size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
-            Organization Logo
-          </label>
-          <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Upload size={16} style={{ color: 'var(--settings-accent-primary)' }} />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ flex: 1 }}
-            />
-          </div>
-          <label style={{ fontSize: '14px', color: 'var(--settings-popup-text-secondary)' }}>
-            Or enter logo URL directly:
-          </label>
-          <input
-            className="form-input"
-            type="url"
-            name="picture"
-            value={formData.org_logo}
-            onChange={handleChange}
-            placeholder="https://example.com/logo.jpg"
           />
         </div>
         <div className="form-group">
