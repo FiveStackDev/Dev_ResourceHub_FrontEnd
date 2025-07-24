@@ -24,15 +24,13 @@ function AddMealType() {
   // Delete meal type by ID
   const handleDelete = async (mealId) => {
     try {
-      const response = await fetch(`${BASE_URLS.mealtype}/details/${mealId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.mealtype}/details/${mealId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       if (response.ok) {
         await fetchMealTypes(); // Refresh data after deletion
       } else {
@@ -46,15 +44,12 @@ function AddMealType() {
   // Fetch all meal types from the backend
   const fetchMealTypes = async () => {
     try {
-      const response = await fetch(
-        `${BASE_URLS.mealtype}/details`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.mealtype}/details`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch meal types');
       }

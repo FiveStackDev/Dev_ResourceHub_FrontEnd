@@ -20,7 +20,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -101,8 +101,8 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="asset-popup-container">
@@ -113,7 +113,9 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="asset-popup-title">Edit Asset</h2>
-              <p className="asset-popup-subtitle">Update asset information and availability</p>
+              <p className="asset-popup-subtitle">
+                Update asset information and availability
+              </p>
             </div>
           </div>
         </div>
@@ -121,7 +123,10 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
         <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
           <div className="asset-form-group">
             <label htmlFor="name" className="asset-form-label">
-              <Package size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <Package
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Asset Name
             </label>
             <input
@@ -135,7 +140,9 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="category" className="asset-form-label">Category</label>
+            <label htmlFor="category" className="asset-form-label">
+              Category
+            </label>
             <select
               id="category"
               name="category"
@@ -146,14 +153,18 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
               <option value="Electronics & IT">Electronics & IT</option>
               <option value="Office Supplies">Office Supplies</option>
               <option value="Furniture">Furniture</option>
-              <option value="Electrical Appliances">Electrical Appliances</option>
+              <option value="Electrical Appliances">
+                Electrical Appliances
+              </option>
               <option value="Machinery & Tools">Machinery & Tools</option>
               <option value="Miscellaneous">Miscellaneous</option>
             </select>
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="quantity" className="asset-form-label">Quantity</label>
+            <label htmlFor="quantity" className="asset-form-label">
+              Quantity
+            </label>
             <input
               id="quantity"
               type="number"
@@ -165,7 +176,9 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           </div>
 
           <div className="asset-form-group">
-            <label htmlFor="condition" className="asset-form-label">Condition</label>
+            <label htmlFor="condition" className="asset-form-label">
+              Condition
+            </label>
             <select
               id="condition"
               name="condition"
@@ -190,14 +203,20 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
               color="primary"
             />
             <span className="asset-switch-label">
-              <ToggleLeft size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <ToggleLeft
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Available for Request
             </span>
           </div>
 
           <div className="asset-form-group">
             <label htmlFor="location" className="asset-form-label">
-              <MapPin size={16} style={{ display: 'inline', marginRight: '8px' }} />
+              <MapPin
+                size={16}
+                style={{ display: 'inline', marginRight: '8px' }}
+              />
               Location
             </label>
             <input
@@ -212,10 +231,16 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
         </div>
 
         <div className="asset-button-group">
-          <button className="asset-button asset-button-cancel" onClick={onClose}>
+          <button
+            className="asset-button asset-button-cancel"
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="asset-button asset-button-primary" onClick={handleUpdate}>
+          <button
+            className="asset-button asset-button-primary"
+            onClick={handleUpdate}
+          >
             <Edit size={16} />
             Update Asset
           </button>

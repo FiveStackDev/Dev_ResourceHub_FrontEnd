@@ -7,17 +7,18 @@ export function useAdminDashboardData() {
   return useQuery({
     queryKey: ['adminDashboardData'],
     queryFn: async () => {
-      const [statsRes, resourceAllocRes, mostRequestedAssetRes] = await Promise.all([
-        axios.get(`${BASE_URLS.dashboardAdmin}/stats`, {
-          headers: { ...getAuthHeader() },
-        }),
-        axios.get(`${BASE_URLS.dashboardAdmin}/resourceallocation`, {
-          headers: { ...getAuthHeader() },
-        }),
-        axios.get(`${BASE_URLS.dashboardAdmin}/mostrequestedasset`, {
-          headers: { ...getAuthHeader() },
-        }),
-      ]);
+      const [statsRes, resourceAllocRes, mostRequestedAssetRes] =
+        await Promise.all([
+          axios.get(`${BASE_URLS.dashboardAdmin}/stats`, {
+            headers: { ...getAuthHeader() },
+          }),
+          axios.get(`${BASE_URLS.dashboardAdmin}/resourceallocation`, {
+            headers: { ...getAuthHeader() },
+          }),
+          axios.get(`${BASE_URLS.dashboardAdmin}/mostrequestedasset`, {
+            headers: { ...getAuthHeader() },
+          }),
+        ]);
       return {
         stats: statsRes.data,
         resourceData: resourceAllocRes.data,

@@ -1,8 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Building, MapPin, Mail, Save, Globe, Phone, Calendar, Info } from 'lucide-react';
+import {
+  Building,
+  MapPin,
+  Mail,
+  Save,
+  Globe,
+  Phone,
+  Calendar,
+  Info,
+} from 'lucide-react';
 import { BASE_URLS } from '../../services/api/config';
 import { getAuthHeader } from '../../utils/authHeader';
 import { useUser, decodeToken } from '../../contexts/UserContext';
@@ -14,15 +22,15 @@ import './Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
   // State to store form data
-  const [formData, setFormData] = useState({ 
-    org_name: '', 
-    org_logo: '', 
+  const [formData, setFormData] = useState({
+    org_name: '',
+    org_logo: '',
     org_address: '',
     org_email: '',
     org_about: '',
     org_website: '',
     org_phone: '',
-    org_founded: ''
+    org_founded: '',
   });
   const [openVerifyPopup, setOpenVerifyPopup] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState('');
@@ -56,7 +64,12 @@ const OrganizationSection = () => {
     const decoded = decodeToken();
     userId = decoded?.id;
     orgId = decoded?.org_id;
-    console.log('ProfileSettings fallback decoded userId:', userId, 'orgId:', orgId);
+    console.log(
+      'ProfileSettings fallback decoded userId:',
+      userId,
+      'orgId:',
+      orgId,
+    );
   } else {
     const decoded = decodeToken();
     orgId = decoded?.org_id;
@@ -78,18 +91,18 @@ const OrganizationSection = () => {
             headers: {
               ...getAuthHeader(),
             },
-          }
+          },
         );
         const [organization] = data;
         setFormData({
-         org_name: organization.org_name || '',
-         org_logo: organization.org_logo || '',
-         org_address: organization.org_address || '',
+          org_name: organization.org_name || '',
+          org_logo: organization.org_logo || '',
+          org_address: organization.org_address || '',
           org_email: organization.org_email || '',
           org_about: organization.org_about || '',
           org_website: organization.org_website || '',
           org_phone: organization.org_phone || '',
-          org_founded: organization.org_founded || ''
+          org_founded: organization.org_founded || '',
         });
       } catch (err) {
         setError(err.response?.data?.message || err.message);
@@ -136,17 +149,20 @@ const OrganizationSection = () => {
     setUploading(true);
     const formData_upload = new FormData();
     formData_upload.append('file', imageFile);
-    formData_upload.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-    formData_upload.append('cloud_name', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
+    formData_upload.append(
+      'upload_preset',
+      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+    );
+    formData_upload.append(
+      'cloud_name',
+      import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+    );
 
     try {
-      const response = await fetch(
-        import.meta.env.VITE_CLOUDINARY_API_URL,
-        {
-          method: 'POST',
-          body: formData_upload,
-        },
-      );
+      const response = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
+        method: 'POST',
+        body: formData_upload,
+      });
 
       const data = await response.json();
       setUploading(false);
@@ -164,16 +180,27 @@ const OrganizationSection = () => {
     e.preventDefault();
 
     // Validate form inputs
-    if (!formData.org_name.trim()) return toast.error('Organization name is required');
+    if (!formData.org_name.trim())
+      return toast.error('Organization name is required');
     if (formData.org_address.length > 255)
       return toast.error('Address cannot exceed 255 characters');
     if (formData.org_about.length > 500)
       return toast.error('About section cannot exceed 500 characters');
-    if (formData.org_website && !formData.org_website.match(/^https?:\/\/.+/)) 
-      return toast.error('Website must be a valid URL (include http:// or https://)');
-    if (formData.org_phone && !formData.org_phone.match(/^[\+]?[0-9\s\-\(\)]+$/)) 
+    if (formData.org_website && !formData.org_website.match(/^https?:\/\/.+/))
+      return toast.error(
+        'Website must be a valid URL (include http:// or https://)',
+      );
+    if (
+      formData.org_phone &&
+      !formData.org_phone.match(/^[\+]?[0-9\s\-\(\)]+$/)
+    )
       return toast.error('Please enter a valid phone number');
-    if (formData.org_founded && (isNaN(formData.org_founded) || formData.org_founded < 1800 || formData.org_founded > new Date().getFullYear())) 
+    if (
+      formData.org_founded &&
+      (isNaN(formData.org_founded) ||
+        formData.org_founded < 1800 ||
+        formData.org_founded > new Date().getFullYear())
+    )
       return toast.error('Please enter a valid founding year');
 
     // Trigger confirmation dialog
@@ -184,11 +211,11 @@ const OrganizationSection = () => {
         try {
           // Use fallback userId (from context or decoded token)
           if (!userId) throw new Error('User ID not found');
-          
+
           // Upload image if file is selected
           const imageUrl = await uploadImageToCloudinary();
           if (imageFile && !imageUrl) return; // Stop if upload failed
-          
+
           // Send profile update request
           await axios.put(
             `${BASE_URLS.orgsettings}/profile/${orgId}`,
@@ -199,23 +226,23 @@ const OrganizationSection = () => {
               org_about: formData.org_about,
               org_website: formData.org_website,
               org_phone: formData.org_phone,
-              org_founded: formData.org_founded
+              org_founded: formData.org_founded,
             },
             {
               headers: {
                 ...getAuthHeader(),
               },
-            }
+            },
           );
-          
+
           // Update formData with the uploaded URL
           if (imageUrl) {
-            setFormData(prev => ({ ...prev, org_logo: imageUrl }));
+            setFormData((prev) => ({ ...prev, org_logo: imageUrl }));
           }
-          
+
           // Clear file selection after successful upload
           setImageFile(null);
-          
+
           toast.success('Organization Profile updated successfully!');
           // Close dialog after successful update
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
@@ -233,13 +260,13 @@ const OrganizationSection = () => {
       <div className="error">
         <p>Error: {error}</p>
         <a href="/login">
-          <button style={{marginTop: '1rem'}}>Go to Login</button>
+          <button style={{ marginTop: '1rem' }}>Go to Login</button>
         </a>
       </div>
     );
   }
 
-   // Handle email update and trigger verification popup
+  // Handle email update and trigger verification popup
   const handleEmailSubmit = async (email) => {
     try {
       // Use the same userId logic as other functions
@@ -255,7 +282,7 @@ const OrganizationSection = () => {
           headers: {
             ...getAuthHeader(),
           },
-        }
+        },
       );
       const existingEmail = data[0]?.org_email;
       if (email === existingEmail) {
@@ -277,7 +304,7 @@ const OrganizationSection = () => {
           headers: {
             ...getAuthHeader(),
           },
-        }
+        },
       );
       toast.success(`Verification code sent to ${email} successfully!`);
     } catch (error) {
@@ -290,9 +317,21 @@ const OrganizationSection = () => {
   return (
     <div className="profile-section">
       <div className="header">
-        <Building size={32} style={{ marginBottom: '16px', color: 'var(--settings-accent-primary)' }} />
+        <Building
+          size={32}
+          style={{
+            marginBottom: '16px',
+            color: 'var(--settings-accent-primary)',
+          }}
+        />
         <h2>Organization Settings</h2>
-        <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: '0 0 16px 0' }}>
+        <p
+          style={{
+            color: 'var(--settings-popup-text-secondary)',
+            textAlign: 'center',
+            margin: '0 0 16px 0',
+          }}
+        >
           Manage your organization profile and information
         </p>
         <ImageUpload
@@ -307,13 +346,23 @@ const OrganizationSection = () => {
         {/* Basic Information Section */}
         <div className="form-section">
           <h3 className="section-title">
-            <Building size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Building
+              size={20}
+              style={{ marginRight: '8px', verticalAlign: 'middle' }}
+            />
             Basic Information
           </h3>
-          
+
           <div className="form-group">
             <label>
-              <Building size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              <Building
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
               Organization Name *
             </label>
             <input
@@ -329,7 +378,14 @@ const OrganizationSection = () => {
 
           <div className="form-group">
             <label>
-              <Info size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              <Info
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
               About Organization
             </label>
             <textarea
@@ -341,14 +397,26 @@ const OrganizationSection = () => {
               placeholder="Tell us about your organization..."
               maxLength="500"
             />
-            <small style={{ color: 'var(--settings-popup-text-secondary)', fontSize: '0.85rem' }}>
+            <small
+              style={{
+                color: 'var(--settings-popup-text-secondary)',
+                fontSize: '0.85rem',
+              }}
+            >
               {formData.org_about.length}/500 characters
             </small>
           </div>
 
           <div className="form-group">
             <label>
-              <Calendar size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              <Calendar
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
               Founded Year
             </label>
             <input
@@ -367,13 +435,23 @@ const OrganizationSection = () => {
         {/* Contact Information Section */}
         <div className="form-section">
           <h3 className="section-title">
-            <Mail size={20} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <Mail
+              size={20}
+              style={{ marginRight: '8px', verticalAlign: 'middle' }}
+            />
             Contact Information
           </h3>
 
           <div className="form-group">
             <label>
-              <MapPin size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              <MapPin
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
               Organization Address
             </label>
             <textarea
@@ -385,14 +463,26 @@ const OrganizationSection = () => {
               placeholder="Enter complete address..."
               maxLength="255"
             />
-            <small style={{ color: 'var(--settings-popup-text-secondary)', fontSize: '0.85rem' }}>
+            <small
+              style={{
+                color: 'var(--settings-popup-text-secondary)',
+                fontSize: '0.85rem',
+              }}
+            >
               {formData.org_address.length}/255 characters
             </small>
           </div>
 
           <div className="form-group">
             <label>
-              <Phone size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              <Phone
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
               Phone Number
             </label>
             <input
@@ -407,7 +497,14 @@ const OrganizationSection = () => {
 
           <div className="form-group">
             <label>
-              <Globe size={18} style={{ marginRight: '8px', verticalAlign: 'middle', display: 'inline' }} />
+              <Globe
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
               Website URL
             </label>
             <input
@@ -426,12 +523,19 @@ const OrganizationSection = () => {
           {uploading ? 'Uploading...' : 'Save Organization Profile'}
         </button>
       </form>
-      
+
       <hr />
-      
+
       <div className="form-group" style={{ marginTop: '24px' }}>
         <label>
-          <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
+          <Mail
+            size={18}
+            style={{
+              marginRight: '8px',
+              verticalAlign: 'middle',
+              display: 'inline',
+            }}
+          />
           Organization Email
         </label>
         <input
@@ -451,8 +555,7 @@ const OrganizationSection = () => {
         </button>
       </div>
 
-
-        {openVerifyPopup && (
+      {openVerifyPopup && (
         <VerificationPopup
           onClose={() => setOpenVerifyPopup(false)}
           email={selectedEmail}

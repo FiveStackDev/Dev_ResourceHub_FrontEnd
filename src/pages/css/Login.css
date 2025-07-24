@@ -30,9 +30,9 @@
   justify-content: center;
   align-items: center;
 }
-.submitbtn{
+.submitbtn {
   display: block;
-  margin: auto  ;
+  margin: auto;
 }
 .login-page .login-form {
   width: 90%;
@@ -175,7 +175,9 @@ button[type='submit'] {
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-.login-page .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.login-page
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
   border-color: #4f9ef8 !important;
 }
 
@@ -196,17 +198,17 @@ button[type='submit'] {
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
-.login-page input[type="password"] {
+.login-page input[type='password'] {
   color: rgba(255, 255, 255, 0.9) !important;
   background-color: transparent !important;
 }
 
-.login-page input[type="email"] {
+.login-page input[type='email'] {
   color: rgba(255, 255, 255, 0.9) !important;
   background-color: transparent !important;
 }
 
-.login-page input[type="text"] {
+.login-page input[type='text'] {
   color: rgba(255, 255, 255, 0.9) !important;
   background-color: transparent !important;
 }

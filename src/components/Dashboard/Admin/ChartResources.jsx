@@ -45,19 +45,25 @@ export const ChartResources = ({ date }) => {
 
   useEffect(() => {
     setLoading(true);
-    
+
     // Fetch both resource allocation and most requested assets, plus asset details
     Promise.all([
-      axios.get(`${BASE_URLS.dashboardAdmin}/resourceallocation?date=${selectedDate}`, {
-        headers: { ...getAuthHeader() },
-      }),
-      axios.get(`${BASE_URLS.dashboardAdmin}/mostrequestedasset?date=${selectedDate}`, {
-        headers: { ...getAuthHeader() },
-      }),
+      axios.get(
+        `${BASE_URLS.dashboardAdmin}/resourceallocation?date=${selectedDate}`,
+        {
+          headers: { ...getAuthHeader() },
+        },
+      ),
+      axios.get(
+        `${BASE_URLS.dashboardAdmin}/mostrequestedasset?date=${selectedDate}`,
+        {
+          headers: { ...getAuthHeader() },
+        },
+      ),
       // Fetch all assets to get names by category
       axios.get(`${BASE_URLS.asset}/details`, {
         headers: { ...getAuthHeader() },
-      })
+      }),
     ])
       .then(([resourceRes, topAssetsRes, allAssetsRes]) => {
         setData(resourceRes.data);
@@ -155,14 +161,27 @@ export const ChartResources = ({ date }) => {
         style={{ minHeight: 180 }}
       >
         <div className="mb-4 text-4xl">📦</div>
-        <div className="mb-2 text-sm font-medium" style={{ color: theme.palette.text.primary }}>
+        <div
+          className="mb-2 text-sm font-medium"
+          style={{ color: theme.palette.text.primary }}
+        >
           No resource data available
         </div>
-        <div className="mb-4 text-xs" style={{ color: theme.palette.text.secondary }}>
-          No available resources for the selected date. Try selecting a different date or check if assets have been configured for your organization.
+        <div
+          className="mb-4 text-xs"
+          style={{ color: theme.palette.text.secondary }}
+        >
+          No available resources for the selected date. Try selecting a
+          different date or check if assets have been configured for your
+          organization.
         </div>
-        <div className="space-y-1 text-xs" style={{ color: theme.palette.text.secondary }}>
-          <div>💡 <strong>Tips:</strong></div>
+        <div
+          className="space-y-1 text-xs"
+          style={{ color: theme.palette.text.secondary }}
+        >
+          <div>
+            💡 <strong>Tips:</strong>
+          </div>
           <div>• Check if assets are configured</div>
           <div>• Verify resource categories are set up</div>
           <div>• Try selecting a different date</div>
@@ -172,14 +191,17 @@ export const ChartResources = ({ date }) => {
   } else {
     // Group asset names by category
     const assetNamesByCategory = {};
-    
+
     if (assetDetails && assetDetails.length > 0) {
-      assetDetails.forEach(asset => {
+      assetDetails.forEach((asset) => {
         const category = asset.category;
         if (!assetNamesByCategory[category]) {
           assetNamesByCategory[category] = [];
         }
-        if (asset.asset_name && !assetNamesByCategory[category].includes(asset.asset_name)) {
+        if (
+          asset.asset_name &&
+          !assetNamesByCategory[category].includes(asset.asset_name)
+        ) {
           assetNamesByCategory[category].push(asset.asset_name);
         }
       });
@@ -192,7 +214,7 @@ export const ChartResources = ({ date }) => {
       aspectRatio: 1.2,
       plugins: {
         legend: {
-          display: false // We'll create a custom legend
+          display: false, // We'll create a custom legend
         },
         tooltip: {
           callbacks: {
@@ -202,38 +224,46 @@ export const ChartResources = ({ date }) => {
               return `${categoryName}: ${count} available assets`;
             },
             title: function (tooltipItems) {
-              const selectedDateFormatted = new Date(selectedDate).toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+              const selectedDateFormatted = new Date(
+                selectedDate,
+              ).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
               });
               return `Available Resources - ${selectedDateFormatted}`;
             },
             afterLabel: function (tooltipItem) {
-              const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
+              const total = tooltipItem.dataset.data.reduce(
+                (sum, value) => sum + value,
+                0,
+              );
               const percentage = ((tooltipItem.raw / total) * 100).toFixed(1);
-              
+
               // Get asset names for this category from the data
               const categoryName = tooltipItem.label;
               const assetNames = assetNamesByCategory[categoryName];
-              
+
               const lines = [`${percentage}% of total available resources`];
-              
+
               if (assetNames && assetNames.length > 0) {
                 lines.push(''); // Empty line for spacing
                 lines.push('Available Assets:');
-                assetNames.forEach(assetName => {
+                assetNames.forEach((assetName) => {
                   lines.push(`• ${assetName}`);
                 });
               }
-              
+
               return lines;
             },
-            footer: function(tooltipItems) {
-              const total = tooltipItems[0].dataset.data.reduce((sum, value) => sum + value, 0);
+            footer: function (tooltipItems) {
+              const total = tooltipItems[0].dataset.data.reduce(
+                (sum, value) => sum + value,
+                0,
+              );
               return `Total Resources: ${total}`;
-            }
+            },
           },
           backgroundColor: 'rgba(255, 255, 255, 0.95)',
           titleColor: '#1f2937',
@@ -249,20 +279,20 @@ export const ChartResources = ({ date }) => {
           padding: 14,
           titleFont: {
             size: 13,
-            weight: 'bold'
+            weight: 'bold',
           },
           bodyFont: {
-            size: 11
+            size: 11,
           },
           footerFont: {
-            size: 10
+            size: 10,
           },
           usePointStyle: true,
           position: 'average',
           yAlign: 'bottom',
           xAlign: 'center',
           caretPadding: 8,
-          caretSize: 6
+          caretSize: 6,
         },
       },
       interaction: {
@@ -270,7 +300,8 @@ export const ChartResources = ({ date }) => {
         mode: 'index',
       },
       onHover: (event, elements) => {
-        event.native.target.style.cursor = elements.length > 0 ? 'pointer' : 'default';
+        event.native.target.style.cursor =
+          elements.length > 0 ? 'pointer' : 'default';
       },
     };
 
@@ -282,14 +313,16 @@ export const ChartResources = ({ date }) => {
           backgroundColor: COLORS,
           borderWidth: 2,
           borderColor: '#fff',
-          hoverBackgroundColor: COLORS.map(color => color.replace('rgb', 'rgba').replace(')', ', 0.8)')),
+          hoverBackgroundColor: COLORS.map((color) =>
+            color.replace('rgb', 'rgba').replace(')', ', 0.8)'),
+          ),
           hoverBorderWidth: 3,
           hoverBorderColor: '#fff',
           hoverOffset: 10,
         },
       ],
     };
-    
+
     chartContent = (
       <div style={{ width: '100%', maxWidth: '220px', height: 'auto' }}>
         <div style={{ width: '100%', height: '180px', position: 'relative' }}>
@@ -343,20 +376,20 @@ export const ChartResources = ({ date }) => {
         Available Assets for the selected date
       </p>
       <div className="flex justify-center w-full mb-4">
-        <div 
+        <div
           className="px-4 py-2 text-lg font-medium rounded-lg"
-          style={{ 
+          style={{
             color: theme.palette.text.primary,
             background: theme.palette.background.default,
             border: `1px solid ${theme.palette.divider}`,
-            boxShadow: theme.shadows[1]
+            boxShadow: theme.shadows[1],
           }}
         >
-          {new Date(selectedDate).toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+          {new Date(selectedDate).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
           })}
         </div>
       </div>
@@ -373,10 +406,13 @@ export const ChartResources = ({ date }) => {
           }}
         />
       </div>
-      
+
       {/* Most Requested Assets Section */}
       {mostRequestedAssets && (
-        <div className="w-full pt-4 mt-4 border-t" style={{ borderColor: theme.palette.divider }}>
+        <div
+          className="w-full pt-4 mt-4 border-t"
+          style={{ borderColor: theme.palette.divider }}
+        >
           <h3
             className="mb-3 text-sm font-medium text-center"
             style={{ color: theme.palette.text.primary }}
@@ -414,34 +450,44 @@ export const ChartResources = ({ date }) => {
                       className="text-xs"
                       style={{ color: theme.palette.text.secondary }}
                     >
-                      {asset.request_count} {asset.request_count === 1 ? 'request' : 'requests'}
+                      {asset.request_count}{' '}
+                      {asset.request_count === 1 ? 'request' : 'requests'}
                     </span>
                   </div>
                 ))}
               </div>
-              
+
               {/* Summary for top assets */}
-              <div 
+              <div
                 className="p-2 text-xs text-center rounded"
-                style={{ 
+                style={{
                   background: theme.palette.background.default,
                   color: theme.palette.text.secondary,
-                  border: `1px solid ${theme.palette.divider}`
+                  border: `1px solid ${theme.palette.divider}`,
                 }}
               >
-                💡 Top {Math.min(mostRequestedAssets.length, 3)} resource types represent{' '}
-                {((mostRequestedAssets.slice(0, 3).reduce((sum, asset) => sum + asset.request_count, 0) / 
-                   (mostRequestedAssets.reduce((sum, asset) => sum + asset.request_count, 0) || 1)) * 100).toFixed(1)}%{' '}
-                of today's requests
+                💡 Top {Math.min(mostRequestedAssets.length, 3)} resource types
+                represent{' '}
+                {(
+                  (mostRequestedAssets
+                    .slice(0, 3)
+                    .reduce((sum, asset) => sum + asset.request_count, 0) /
+                    (mostRequestedAssets.reduce(
+                      (sum, asset) => sum + asset.request_count,
+                      0,
+                    ) || 1)) *
+                  100
+                ).toFixed(1)}
+                % of today's requests
               </div>
             </>
           ) : (
             <div
               className="p-4 text-xs text-center rounded-lg"
-              style={{ 
+              style={{
                 color: theme.palette.text.secondary,
                 background: theme.palette.background.default,
-                border: `1px dashed ${theme.palette.divider}`
+                border: `1px dashed ${theme.palette.divider}`,
               }}
             >
               No asset requests found for this date

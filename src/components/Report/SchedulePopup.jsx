@@ -7,7 +7,7 @@ import './ReportPopup.css';
 function SchedulePopup({ onClose, table, onFrequencySelect }) {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -18,20 +18,20 @@ function SchedulePopup({ onClose, table, onFrequencySelect }) {
       id: 'Weekly',
       title: 'Weekly',
       description: 'Generate every week',
-      icon: Calendar
+      icon: Calendar,
     },
     {
       id: 'Bi-Weekly',
-      title: 'Bi-Weekly', 
+      title: 'Bi-Weekly',
       description: 'Generate every two weeks',
-      icon: Clock
+      icon: Clock,
     },
     {
       id: 'Monthly',
       title: 'Monthly',
       description: 'Generate every month',
-      icon: BarChart3
-    }
+      icon: BarChart3,
+    },
   ];
 
   const handleFrequencySelect = (frequency) => {
@@ -47,7 +47,7 @@ function SchedulePopup({ onClose, table, onFrequencySelect }) {
       aria-labelledby="schedule-popup-title"
       aria-describedby="schedule-popup-description"
       BackdropProps={{
-        className: 'report-popup-backdrop'
+        className: 'report-popup-backdrop',
       }}
     >
       <Box className="report-popup-container">
@@ -85,7 +85,9 @@ function SchedulePopup({ onClose, table, onFrequencySelect }) {
                     <IconComponent size={20} color="white" />
                   </div>
                   <h3 className="report-frequency-title">{option.title}</h3>
-                  <p className="report-frequency-description">{option.description}</p>
+                  <p className="report-frequency-description">
+                    {option.description}
+                  </p>
                 </div>
               );
             })}

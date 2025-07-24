@@ -29,7 +29,7 @@ const options = {
   aspectRatio: 1.0,
   plugins: {
     legend: {
-      display: false // We'll create a custom legend
+      display: false, // We'll create a custom legend
     },
     tooltip: {
       callbacks: {
@@ -41,30 +41,38 @@ const options = {
           return 'Meal Time Distribution';
         },
         afterLabel: function (tooltipItem) {
-          const total = tooltipItem.dataset.data.reduce((sum, value) => sum + value, 0);
+          const total = tooltipItem.dataset.data.reduce(
+            (sum, value) => sum + value,
+            0,
+          );
           const percentage = ((tooltipItem.raw / total) * 100).toFixed(1);
-          
+
           // Get meal types for this meal time from the dataset
           const mealTimeIndex = tooltipItem.dataIndex;
           const dataset = tooltipItem.dataset;
-          
+
           const lines = [`${percentage}% of total meal orders`];
-          
+
           if (dataset.mealTypesData && dataset.mealTypesData[mealTimeIndex]) {
             const mealTypes = dataset.mealTypesData[mealTimeIndex];
             lines.push(''); // Empty line for spacing
             lines.push('Meal Types:');
-            mealTypes.forEach(mt => {
-              lines.push(`• ${mt.type}: ${mt.count} ${mt.count === 1 ? 'order' : 'orders'}`);
+            mealTypes.forEach((mt) => {
+              lines.push(
+                `• ${mt.type}: ${mt.count} ${mt.count === 1 ? 'order' : 'orders'}`,
+              );
             });
           }
-          
+
           return lines;
         },
-        footer: function(tooltipItems) {
-          const total = tooltipItems[0].dataset.data.reduce((sum, value) => sum + value, 0);
+        footer: function (tooltipItems) {
+          const total = tooltipItems[0].dataset.data.reduce(
+            (sum, value) => sum + value,
+            0,
+          );
           return `Total Orders: ${total}`;
-        }
+        },
       },
       backgroundColor: 'rgba(255, 255, 255, 0.95)',
       titleColor: '#1f2937',
@@ -80,20 +88,20 @@ const options = {
       padding: 14,
       titleFont: {
         size: 13,
-        weight: 'bold'
+        weight: 'bold',
       },
       bodyFont: {
-        size: 11
+        size: 11,
       },
       footerFont: {
-        size: 10
+        size: 10,
       },
       usePointStyle: true,
       position: 'average',
       yAlign: 'bottom',
       xAlign: 'center',
       caretPadding: 8,
-      caretSize: 6
+      caretSize: 6,
     },
   },
   interaction: {
@@ -101,7 +109,8 @@ const options = {
     mode: 'index',
   },
   onHover: (event, elements) => {
-    event.native.target.style.cursor = elements.length > 0 ? 'pointer' : 'default';
+    event.native.target.style.cursor =
+      elements.length > 0 ? 'pointer' : 'default';
   },
 };
 
@@ -125,15 +134,21 @@ export const ChartMeal = ({ date }) => {
 
   useEffect(() => {
     setLoading(true);
-    
+
     // Fetch both meal type distribution and most requested meal types
     Promise.all([
-      axios.get(`${BASE_URLS.dashboardAdmin}/mealtypedist?date=${selectedDate}`, {
-        headers: { ...getAuthHeader() },
-      }),
-      axios.get(`${BASE_URLS.dashboardAdmin}/mostrequestedmealtypes?date=${selectedDate}`, {
-        headers: { ...getAuthHeader() },
-      })
+      axios.get(
+        `${BASE_URLS.dashboardAdmin}/mealtypedist?date=${selectedDate}`,
+        {
+          headers: { ...getAuthHeader() },
+        },
+      ),
+      axios.get(
+        `${BASE_URLS.dashboardAdmin}/mostrequestedmealtypes?date=${selectedDate}`,
+        {
+          headers: { ...getAuthHeader() },
+        },
+      ),
     ])
       .then(([mealDistRes, topMealTypesRes]) => {
         setData(mealDistRes.data);
@@ -231,14 +246,26 @@ export const ChartMeal = ({ date }) => {
         style={{ minHeight: 180 }}
       >
         <div className="mb-4 text-4xl">🍽️</div>
-        <div className="mb-2 text-sm font-medium" style={{ color: theme.palette.text.primary }}>
+        <div
+          className="mb-2 text-sm font-medium"
+          style={{ color: theme.palette.text.primary }}
+        >
           No meal data available
         </div>
-        <div className="mb-4 text-xs" style={{ color: theme.palette.text.secondary }}>
-          No meal time data for the selected date. Try selecting a different date or check if meal times have been configured.
+        <div
+          className="mb-4 text-xs"
+          style={{ color: theme.palette.text.secondary }}
+        >
+          No meal time data for the selected date. Try selecting a different
+          date or check if meal times have been configured.
         </div>
-        <div className="space-y-1 text-xs" style={{ color: theme.palette.text.secondary }}>
-          <div>💡 <strong>Tips:</strong></div>
+        <div
+          className="space-y-1 text-xs"
+          style={{ color: theme.palette.text.secondary }}
+        >
+          <div>
+            💡 <strong>Tips:</strong>
+          </div>
           <div>• Check if meal types are configured</div>
           <div>• Verify meal time slots are set up</div>
           <div>• Try selecting a different date</div>
@@ -249,55 +276,71 @@ export const ChartMeal = ({ date }) => {
     // Since we only have meal types, create meal time simulation
     // Group meal types into simulated meal times
     const mealTimeMapping = {
-      'Breakfast': ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
-      'Lunch': ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
-      'Dinner': ['Vegetarian', 'Non-Vegetarian', 'Vegan']
+      Breakfast: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
+      Lunch: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
+      Dinner: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
     };
-    
+
     // For now, we'll distribute meal types across three meal times
     const totalMealTypes = data.data.length;
     const mealTimes = ['Breakfast', 'Lunch', 'Dinner'];
-    
+
     // Create meal time distribution by dividing meal types equally
-    const mealTimeData = mealTimes.map((mealTime, index) => {
-      const startIndex = Math.floor((totalMealTypes / 3) * index);
-      const endIndex = Math.floor((totalMealTypes / 3) * (index + 1));
-      const mealTypesForTime = data.data.slice(startIndex, endIndex);
-      
-      const totalCount = mealTypesForTime.reduce((sum, item) => sum + item.count, 0);
-      const mealTypes = mealTypesForTime.map(item => ({
-        type: item.mealtype,
-        count: item.count
-      }));
-      
-      return {
-        mealTime,
-        totalCount,
-        mealTypes
-      };
-    }).filter(item => item.totalCount > 0); // Only include meal times with data
-    
+    const mealTimeData = mealTimes
+      .map((mealTime, index) => {
+        const startIndex = Math.floor((totalMealTypes / 3) * index);
+        const endIndex = Math.floor((totalMealTypes / 3) * (index + 1));
+        const mealTypesForTime = data.data.slice(startIndex, endIndex);
+
+        const totalCount = mealTypesForTime.reduce(
+          (sum, item) => sum + item.count,
+          0,
+        );
+        const mealTypes = mealTypesForTime.map((item) => ({
+          type: item.mealtype,
+          count: item.count,
+        }));
+
+        return {
+          mealTime,
+          totalCount,
+          mealTypes,
+        };
+      })
+      .filter((item) => item.totalCount > 0); // Only include meal times with data
+
     const chartData = {
-      labels: mealTimeData.map(item => `${item.mealTime} (${item.totalCount})`),
+      labels: mealTimeData.map(
+        (item) => `${item.mealTime} (${item.totalCount})`,
+      ),
       datasets: [
         {
-          data: mealTimeData.map(item => item.totalCount),
-          mealTypesData: mealTimeData.map(item => item.mealTypes), // Store meal types for tooltips
+          data: mealTimeData.map((item) => item.totalCount),
+          mealTypesData: mealTimeData.map((item) => item.mealTypes), // Store meal types for tooltips
           backgroundColor: COLORS.slice(0, mealTimeData.length),
           borderWidth: 2,
           borderColor: '#fff',
-          hoverBackgroundColor: COLORS.slice(0, mealTimeData.length).map(color => 
-            color.replace('rgb', 'rgba').replace(')', ', 0.8)')),
+          hoverBackgroundColor: COLORS.slice(0, mealTimeData.length).map(
+            (color) => color.replace('rgb', 'rgba').replace(')', ', 0.8)'),
+          ),
           hoverBorderWidth: 3,
           hoverBorderColor: '#fff',
           hoverOffset: 10,
         },
       ],
     };
-    
+
     chartContent = (
       <div className="flex flex-col items-center w-full">
-        <div style={{ width: '280px', height: '220px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div
+          style={{
+            width: '280px',
+            height: '220px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Doughnut data={chartData} options={options} />
         </div>
         {/* Custom Legend */}
@@ -348,25 +391,25 @@ export const ChartMeal = ({ date }) => {
         Requested meal for the selected date
       </p>
       <div className="flex justify-center w-full mb-4">
-        <div 
+        <div
           className="px-4 py-2 text-lg font-medium rounded-lg"
-          style={{ 
+          style={{
             color: theme.palette.text.primary,
             background: theme.palette.background.default,
             border: `1px solid ${theme.palette.divider}`,
-            boxShadow: theme.shadows[1]
+            boxShadow: theme.shadows[1],
           }}
         >
-          {new Date(selectedDate).toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+          {new Date(selectedDate).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
           })}
         </div>
       </div>
       {chartContent}
-      
+
       <div className="flex justify-center w-full mt-6">
         <input
           type="date"
@@ -379,10 +422,13 @@ export const ChartMeal = ({ date }) => {
           }}
         />
       </div>
-      
+
       {/* Most Requested Meal Types Section */}
       {topMealTypes && (
-        <div className="w-full pt-4 mt-4 border-t" style={{ borderColor: theme.palette.divider }}>
+        <div
+          className="w-full pt-4 mt-4 border-t"
+          style={{ borderColor: theme.palette.divider }}
+        >
           <h3
             className="mb-3 text-sm font-medium text-center"
             style={{ color: theme.palette.text.primary }}
@@ -419,29 +465,36 @@ export const ChartMeal = ({ date }) => {
                   </div>
                 ))}
               </div>
-              
+
               {/* Summary for top meal types */}
-              <div 
+              <div
                 className="p-2 text-xs text-center rounded"
-                style={{ 
+                style={{
                   background: theme.palette.background.default,
                   color: theme.palette.text.secondary,
-                  border: `1px solid ${theme.palette.divider}`
+                  border: `1px solid ${theme.palette.divider}`,
                 }}
               >
                 💡 Top {topMealTypes.data.length} meal types represent{' '}
-                {((topMealTypes.data.reduce((sum, item) => sum + item.count, 0) / 
-                   (data?.data?.reduce((sum, item) => sum + item.count, 0) || 1)) * 100).toFixed(1)}%{' '}
-                of today's orders
+                {(
+                  (topMealTypes.data.reduce(
+                    (sum, item) => sum + item.count,
+                    0,
+                  ) /
+                    (data?.data?.reduce((sum, item) => sum + item.count, 0) ||
+                      1)) *
+                  100
+                ).toFixed(1)}
+                % of today's orders
               </div>
             </>
           ) : (
             <div
               className="p-4 text-xs text-center rounded-lg"
-              style={{ 
+              style={{
                 color: theme.palette.text.secondary,
                 background: theme.palette.background.default,
-                border: `1px dashed ${theme.palette.divider}`
+                border: `1px dashed ${theme.palette.divider}`,
               }}
             >
               {topMealTypes.message || 'No meal requests found for this date'}

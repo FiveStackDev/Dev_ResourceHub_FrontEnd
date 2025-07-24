@@ -6,11 +6,11 @@ import {
   CardContent,
   CardMedia,
   Button,
-  Typography
+  Typography,
 } from '@mui/material';
 import {
   ModeEditTwoTone as ModeEditTwoToneIcon,
-  DeleteTwoTone as DeleteTwoToneIcon
+  DeleteTwoTone as DeleteTwoToneIcon,
 } from '@mui/icons-material';
 import EditPopup from './EditMealTimePopup';
 import DeletePopup from './DeleteMealTimePopup';
@@ -32,10 +32,10 @@ function MealCard({ mealId, name, image, onDelete, mealtype_ids = [] }) {
   const [mealImage, setMealImage] = React.useState(image);
   // State to hold error messages
   const [error, setError] = React.useState(null);
-  
+
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -74,10 +74,10 @@ function MealCard({ mealId, name, image, onDelete, mealtype_ids = [] }) {
           'Content-Type': 'application/json',
           ...getAuthHeader(),
         },
-        body: JSON.stringify({ 
-          mealtime_name: name, 
+        body: JSON.stringify({
+          mealtime_name: name,
           mealtime_image_url: image,
-          mealtype_ids: selectedMealTypeIds || [] // Include selected meal type IDs
+          mealtype_ids: selectedMealTypeIds || [], // Include selected meal type IDs
         }),
       });
 
@@ -113,20 +113,35 @@ function MealCard({ mealId, name, image, onDelete, mealtype_ids = [] }) {
     <div>
       <Card className="mealtime-card">
         {/* Display meal image */}
-        <CardMedia className="mealtime-card-media" image={mealImage} title={mealName} />
+        <CardMedia
+          className="mealtime-card-media"
+          image={mealImage}
+          title={mealName}
+        />
         <CardContent className="mealtime-card-content">
           {/* Display meal name */}
-          <Typography gutterBottom variant="h5" component="div">{mealName}</Typography>
+          <Typography gutterBottom variant="h5" component="div">
+            {mealName}
+          </Typography>
           {/* Display error message if any */}
           {error && <Typography color="error">{error}</Typography>}
         </CardContent>
         <CardActions className="mealtime-card-actions">
           {/* Button to open edit popup */}
-          <Button variant="outlined" className="mealtime-card-button" onClick={handleEditClickOpen}>
+          <Button
+            variant="outlined"
+            className="mealtime-card-button"
+            onClick={handleEditClickOpen}
+          >
             Edit <ModeEditTwoToneIcon />
           </Button>
           {/* Button to open delete popup */}
-          <Button variant="outlined" color="error" className="mealtime-card-button" onClick={handleDeleteClickOpen}>
+          <Button
+            variant="outlined"
+            color="error"
+            className="mealtime-card-button"
+            onClick={handleDeleteClickOpen}
+          >
             Delete <DeleteTwoToneIcon />
           </Button>
         </CardActions>

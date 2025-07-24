@@ -44,7 +44,9 @@ function ForgotPasswordVerificationPopup({ onClose, email, code, onVerified }) {
             <Shield className="shield-icon" />
           </div>
           <h1 className="verify-title">Forgot Password Verification</h1>
-          <p className="verify-subtitle">Enter the code sent to your email to continue</p>
+          <p className="verify-subtitle">
+            Enter the code sent to your email to continue
+          </p>
         </div>
         <form className="verify-form" onSubmit={handleSubmit}>
           <div className="verify-email-info">
@@ -76,7 +78,11 @@ function ForgotPasswordVerificationPopup({ onClose, email, code, onVerified }) {
               <Check className="btn-icon" />
               Verify Code
             </button>
-            <button type="button" className="verify-cancel-btn" onClick={onClose}>
+            <button
+              type="button"
+              className="verify-cancel-btn"
+              onClick={onClose}
+            >
               <X className="btn-icon" />
               Cancel
             </button>

@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import * as React from 'react';
-import { Dialog, Input, Button, Typography, Autocomplete, TextField, Chip, Box } from '@mui/material';
+import {
+  Dialog,
+  Input,
+  Button,
+  Typography,
+  Autocomplete,
+  TextField,
+  Chip,
+  Box,
+} from '@mui/material';
 import { X } from 'lucide-react';
 import { toast } from 'react-toastify';
 import '../Meal-CSS/AddMealPopup.css';
@@ -31,10 +40,10 @@ function EditPopup({
   const [availableMealTypes, setAvailableMealTypes] = useState([]);
   // State for loading meal types
   const [loadingMealTypes, setLoadingMealTypes] = useState(false);
-  
+
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -51,8 +60,8 @@ function EditPopup({
   useEffect(() => {
     if (availableMealTypes.length > 0 && existingMealTypes.length > 0) {
       // Filter available meal types to get the existing ones
-      const existingMealTypeObjects = availableMealTypes.filter(type => 
-        existingMealTypes.includes(type.mealtype_id)
+      const existingMealTypeObjects = availableMealTypes.filter((type) =>
+        existingMealTypes.includes(type.mealtype_id),
       );
       setSelectedMealTypes(existingMealTypeObjects);
     }
@@ -68,11 +77,11 @@ function EditPopup({
           ...getAuthHeader(),
         },
       });
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch meal types: ${response.status}`);
       }
-      
+
       const data = await response.json();
       setAvailableMealTypes(data);
     } catch (error) {
@@ -102,17 +111,17 @@ function EditPopup({
     setUploading(true);
     const formData = new FormData();
     formData.append('file', imageFile);
-    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+    formData.append(
+      'upload_preset',
+      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+    );
     formData.append('cloud_name', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
     try {
-      const response = await fetch(
-        import.meta.env.VITE_CLOUDINARY_API_URL,
-        {
-          method: 'POST',
-          body: formData,
-        },
-      );
+      const response = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
+        method: 'POST',
+        body: formData,
+      });
 
       const data = await response.json();
       setUploading(false);
@@ -145,7 +154,12 @@ function EditPopup({
       }
     }
 
-    onSave(mealId, mealName, finalImageUrl, selectedMealTypes.map(type => type.mealtype_id));
+    onSave(
+      mealId,
+      mealName,
+      finalImageUrl,
+      selectedMealTypes.map((type) => type.mealtype_id),
+    );
   };
 
   // Update preview when mealImage prop changes
@@ -153,27 +167,33 @@ function EditPopup({
     setPreviewUrl(mealImage || '');
   }, [mealImage]);
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
       fullWidth
       maxHeight="90vh"
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           maxHeight: '90vh',
-          overflow: 'hidden'
-        }
+          overflow: 'hidden',
+        },
       }}
     >
-      <div className="mealtime-popup-container" style={{ maxHeight: '85vh', overflow: 'auto', padding: '20px' }}>
-        <div className="mealtime-popup-header" style={{ marginBottom: '16px', paddingBottom: '12px' }}>
+      <div
+        className="mealtime-popup-container"
+        style={{ maxHeight: '85vh', overflow: 'auto', padding: '20px' }}
+      >
+        <div
+          className="mealtime-popup-header"
+          style={{ marginBottom: '16px', paddingBottom: '12px' }}
+        >
           <div>
             <h2 className="mealtime-title">Edit Meal Time</h2>
             <p className="mealtime-subtitle">Update meal time information</p>
@@ -184,26 +204,34 @@ function EditPopup({
           </button>
         </div>
 
-          {/* Show image preview if available */}
-          {previewUrl && (
-            <div className="mealtime-image-preview" style={{ marginBottom: '12px' }}>
-              <Typography variant="body2" sx={{ marginBottom: 0.5 }}>Preview:</Typography>
-              <img
-                src={previewUrl}
-                alt="Meal Time Preview"
-                className="mealtime-preview-img"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '120px',
-                  objectFit: 'cover',
-                  borderRadius: '6px'
-                }}
-              />
-            </div>
-          )}
+        {/* Show image preview if available */}
+        {previewUrl && (
+          <div
+            className="mealtime-image-preview"
+            style={{ marginBottom: '12px' }}
+          >
+            <Typography variant="body2" sx={{ marginBottom: 0.5 }}>
+              Preview:
+            </Typography>
+            <img
+              src={previewUrl}
+              alt="Meal Time Preview"
+              className="mealtime-preview-img"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '120px',
+                objectFit: 'cover',
+                borderRadius: '6px',
+              }}
+            />
+          </div>
+        )}
 
         <div className="mealtime-form" style={{ marginBottom: '16px' }}>
-          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
+          <div
+            className="mealtime-input-group"
+            style={{ marginBottom: '16px' }}
+          >
             <label className="mealtime-label">Meal Time Image</label>
             {/* File input for image upload */}
             <Input
@@ -214,7 +242,10 @@ function EditPopup({
             />
           </div>
 
-          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
+          <div
+            className="mealtime-input-group"
+            style={{ marginBottom: '16px' }}
+          >
             <label className="mealtime-label">Meal Time Name</label>
             <Input
               type="text"
@@ -226,7 +257,10 @@ function EditPopup({
             />
           </div>
 
-          <div className="mealtime-input-group" style={{ marginBottom: '16px' }}>
+          <div
+            className="mealtime-input-group"
+            style={{ marginBottom: '16px' }}
+          >
             <label className="mealtime-label">Select Meal Types</label>
             <Autocomplete
               multiple
@@ -279,7 +313,11 @@ function EditPopup({
             />
             {selectedMealTypes.length > 0 && (
               <Box sx={{ marginTop: 1.5 }}>
-                <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ marginBottom: 1 }}
+                >
                   Selected Meal Types ({selectedMealTypes.length}):
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
@@ -288,7 +326,11 @@ function EditPopup({
                       key={type.mealtype_id}
                       label={type.mealtype_name}
                       onDelete={() => {
-                        setSelectedMealTypes(selectedMealTypes.filter(t => t.mealtype_id !== type.mealtype_id));
+                        setSelectedMealTypes(
+                          selectedMealTypes.filter(
+                            (t) => t.mealtype_id !== type.mealtype_id,
+                          ),
+                        );
                       }}
                       color="primary"
                       variant="filled"

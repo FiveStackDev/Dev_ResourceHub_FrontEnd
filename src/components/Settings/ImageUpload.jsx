@@ -3,12 +3,12 @@ import { createPortal } from 'react-dom';
 import { Camera, Upload, Eye, Edit, X, Image } from 'lucide-react';
 import { toast } from 'react-toastify';
 
-const ImageUpload = ({ 
-  currentImage, 
-  onImageChange, 
-  uploading, 
+const ImageUpload = ({
+  currentImage,
+  onImageChange,
+  uploading,
   isProfile = true,
-  alt = "Image" 
+  alt = 'Image',
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState('view'); // 'view' or 'edit'
@@ -70,13 +70,13 @@ const ImageUpload = ({
         toast.error('Please select a valid image file');
         return;
       }
-      
+
       // Validate file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
         toast.error('Image size should be less than 5MB');
         return;
       }
-      
+
       onImageChange(file);
       closeModal();
     }
@@ -112,10 +112,11 @@ const ImageUpload = ({
       {/* Debug info */}
       {process.env.NODE_ENV === 'development' && (
         <div style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
-          Modal State: {showModal ? 'OPEN' : 'CLOSED'} | Mode: {modalMode} | Image: {currentImage ? 'YES' : 'NO'}
+          Modal State: {showModal ? 'OPEN' : 'CLOSED'} | Mode: {modalMode} |
+          Image: {currentImage ? 'YES' : 'NO'}
         </div>
       )}
-      
+
       <div className="image-upload-container">
         <div className="image-display">
           {currentImage ? (
@@ -124,13 +125,13 @@ const ImageUpload = ({
                 src={currentImage}
                 alt={alt}
                 className={`uploaded-image ${isProfile ? 'profile-image' : 'org-image'}`}
-                onError={(e) => { 
-                  e.target.style.display = 'none'; 
-                  toast.error('Failed to load image'); 
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  toast.error('Failed to load image');
                 }}
               />
               <div className="image-overlay">
-                <button 
+                <button
                   type="button"
                   className="image-action-btn view-btn"
                   onClick={() => openModal('view')}
@@ -138,7 +139,7 @@ const ImageUpload = ({
                 >
                   <Eye size={16} />
                 </button>
-                <button 
+                <button
                   type="button"
                   className="image-action-btn edit-btn"
                   onClick={() => openModal('edit')}
@@ -149,10 +150,16 @@ const ImageUpload = ({
               </div>
             </div>
           ) : (
-            <div className="image-placeholder" onClick={() => openModal('edit')}>
+            <div
+              className="image-placeholder"
+              onClick={() => openModal('edit')}
+            >
               <div className="placeholder-content">
                 <Image size={40} />
-                <p>Click to add {isProfile ? 'profile picture' : 'organization logo'}</p>
+                <p>
+                  Click to add{' '}
+                  {isProfile ? 'profile picture' : 'organization logo'}
+                </p>
               </div>
             </div>
           )}
@@ -160,119 +167,142 @@ const ImageUpload = ({
       </div>
 
       {/* Render modals using portal */}
-      {portalContainer && showModal && modalMode === 'view' && createPortal(
-        <div className="image-view-overlay" onClick={closeModal}>
-          <div className="image-view-container" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="image-view-close"
-              onClick={closeModal}
-              title="Close"
+      {portalContainer &&
+        showModal &&
+        modalMode === 'view' &&
+        createPortal(
+          <div className="image-view-overlay" onClick={closeModal}>
+            <div
+              className="image-view-container"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={24} />
-            </button>
-            <img src={currentImage} alt={alt} className="full-view-image" />
-          </div>
-        </div>,
-        portalContainer
-      )}
-
-      {portalContainer && showModal && modalMode === 'edit' && createPortal(
-        <div className="professional-modal-overlay" onClick={closeModal}>
-          <div className="professional-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="professional-modal-header">
-              <div className="header-content">
-                <div className="header-icon">
-                  <Edit size={24} />
-                </div>
-                <div className="header-text">
-                  <h3>Update {isProfile ? 'Profile Picture' : 'Organization Logo'}</h3>
-                  <p>Choose a new image or enter an image URL</p>
-                </div>
-              </div>
-              <button 
-                className="professional-close-btn"
+              <button
+                className="image-view-close"
                 onClick={closeModal}
+                title="Close"
               >
-                <X size={20} />
+                <X size={24} />
               </button>
+              <img src={currentImage} alt={alt} className="full-view-image" />
             </div>
-            
-            <div className="professional-modal-content">
-              {currentImage && (
-                <div className="current-image-section">
-                  <label className="section-label">Current Image</label>
-                  <div className="current-image-preview">
-                    <img src={currentImage} alt={alt} className="preview-image" />
+          </div>,
+          portalContainer,
+        )}
+
+      {portalContainer &&
+        showModal &&
+        modalMode === 'edit' &&
+        createPortal(
+          <div className="professional-modal-overlay" onClick={closeModal}>
+            <div
+              className="professional-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="professional-modal-header">
+                <div className="header-content">
+                  <div className="header-icon">
+                    <Edit size={24} />
+                  </div>
+                  <div className="header-text">
+                    <h3>
+                      Update{' '}
+                      {isProfile ? 'Profile Picture' : 'Organization Logo'}
+                    </h3>
+                    <p>Choose a new image or enter an image URL</p>
                   </div>
                 </div>
-              )}
-              
-              <div className="upload-section">
-                <label className="section-label">Upload New Image</label>
-                <div className="upload-methods">
-                  <div className="upload-method">
-                    <label className="professional-file-upload">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        style={{ display: 'none' }}
+                <button className="professional-close-btn" onClick={closeModal}>
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="professional-modal-content">
+                {currentImage && (
+                  <div className="current-image-section">
+                    <label className="section-label">Current Image</label>
+                    <div className="current-image-preview">
+                      <img
+                        src={currentImage}
+                        alt={alt}
+                        className="preview-image"
                       />
-                      <div className="upload-icon">
-                        <Upload size={20} />
-                      </div>
-                      <div className="upload-text">
-                        <span className="upload-title">Choose from Device</span>
-                        <span className="upload-subtitle">PNG, JPG, GIF up to 5MB</span>
-                      </div>
-                    </label>
+                    </div>
                   </div>
-                  
-                  <div className="method-divider">
-                    <span>or</span>
-                  </div>
-                  
-                  <div className="upload-method">
-                    <label className="section-sublabel">Image URL</label>
-                    <div className="url-input-section">
-                      <input
-                        type="url"
-                        placeholder="https://example.com/image.jpg"
-                        value={urlInput}
-                        onChange={(e) => setUrlInput(e.target.value)}
-                        className="professional-url-input"
-                      />
-                      <button 
-                        type="button"
-                        className="professional-btn-primary"
-                        onClick={handleUrlSubmit}
-                        disabled={!urlInput || urlInput === currentImage}
-                      >
-                        Use URL
-                      </button>
+                )}
+
+                <div className="upload-section">
+                  <label className="section-label">Upload New Image</label>
+                  <div className="upload-methods">
+                    <div className="upload-method">
+                      <label className="professional-file-upload">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          style={{ display: 'none' }}
+                        />
+                        <div className="upload-icon">
+                          <Upload size={20} />
+                        </div>
+                        <div className="upload-text">
+                          <span className="upload-title">
+                            Choose from Device
+                          </span>
+                          <span className="upload-subtitle">
+                            PNG, JPG, GIF up to 5MB
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+
+                    <div className="method-divider">
+                      <span>or</span>
+                    </div>
+
+                    <div className="upload-method">
+                      <label className="section-sublabel">Image URL</label>
+                      <div className="url-input-section">
+                        <input
+                          type="url"
+                          placeholder="https://example.com/image.jpg"
+                          value={urlInput}
+                          onChange={(e) => setUrlInput(e.target.value)}
+                          className="professional-url-input"
+                        />
+                        <button
+                          type="button"
+                          className="professional-btn-primary"
+                          onClick={handleUrlSubmit}
+                          disabled={!urlInput || urlInput === currentImage}
+                        >
+                          Use URL
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>,
-        portalContainer
-      )}
+          </div>,
+          portalContainer,
+        )}
 
       {/* Fallback: Simple alert for debugging */}
       {showModal && !portalContainer && (
-        <div style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
-          padding: '20px',
-          border: '2px solid red',
-          zIndex: 99999
-        }}>
-          Modal Debug: Mode={modalMode}, Container={portalContainer ? 'Ready' : 'Not Ready'}
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'white',
+            padding: '20px',
+            border: '2px solid red',
+            zIndex: 99999,
+          }}
+        >
+          Modal Debug: Mode={modalMode}, Container=
+          {portalContainer ? 'Ready' : 'Not Ready'}
           <button onClick={closeModal}>Close</button>
         </div>
       )}

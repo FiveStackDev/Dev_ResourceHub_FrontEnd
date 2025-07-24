@@ -35,15 +35,12 @@ const AssetMonitoringAdmin = () => {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch(
-        `${BASE_URLS.assetRequest}/dueassets`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URLS.assetRequest}/dueassets`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+      });
       const data = await response.json();
       setAssets(data);
     };

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -61,7 +60,7 @@ const ProfileSection = () => {
             headers: {
               ...getAuthHeader(),
             },
-          }
+          },
         );
         const [profile] = data;
         setFormData({
@@ -78,8 +77,7 @@ const ProfileSection = () => {
     fetchUserData();
   }, [userId]);
 
-
-   // Handle file selection and create preview URL
+  // Handle file selection and create preview URL
   const handleImageChange = (file, url = null) => {
     if (file) {
       setImageFile(file);
@@ -91,37 +89,39 @@ const ProfileSection = () => {
     }
   };
 
-    // Upload selected image to Cloudinary and return URL
+  // Upload selected image to Cloudinary and return URL
   const uploadImageToCloudinary = async () => {
     if (!imageFile) {
       return formData.picture; // Return existing URL if no new file
     }
-       setUploading(true);
-        const formData_upload = new FormData();
-        formData_upload.append('file', imageFile);
-        formData_upload.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-        formData_upload.append('cloud_name', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
-    
-        try {
-          const response = await fetch(
-            import.meta.env.VITE_CLOUDINARY_API_URL,
-            {
-              method: 'POST',
-              body: formData_upload,
-            },
-          );
-    
-          const data = await response.json();
-          setUploading(false);
-          return data.secure_url; // Return uploaded image URL
-        } catch (error) {
-          console.error('Upload failed:', error);
-          setUploading(false);
-          toast.error('Image upload failed. Please try again.');
-          return null;
-        }
-      };
+    setUploading(true);
+    const formData_upload = new FormData();
+    formData_upload.append('file', imageFile);
+    formData_upload.append(
+      'upload_preset',
+      import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+    );
+    formData_upload.append(
+      'cloud_name',
+      import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+    );
 
+    try {
+      const response = await fetch(import.meta.env.VITE_CLOUDINARY_API_URL, {
+        method: 'POST',
+        body: formData_upload,
+      });
+
+      const data = await response.json();
+      setUploading(false);
+      return data.secure_url; // Return uploaded image URL
+    } catch (error) {
+      console.error('Upload failed:', error);
+      setUploading(false);
+      toast.error('Image upload failed. Please try again.');
+      return null;
+    }
+  };
 
   // Handle changes in form inputs
   const handleChange = (e) =>
@@ -144,11 +144,11 @@ const ProfileSection = () => {
         try {
           // Use fallback userId (from context or decoded token)
           if (!userId) throw new Error('User ID not found');
-          
+
           // Upload image if file is selected
           const imageUrl = await uploadImageToCloudinary();
           if (imageFile && !imageUrl) return; // Stop if upload failed
-          
+
           // Send profile update request
           await axios.put(
             `${BASE_URLS.settings}/profile/${userId}`,
@@ -161,17 +161,17 @@ const ProfileSection = () => {
               headers: {
                 ...getAuthHeader(),
               },
-            }
+            },
           );
 
           // Update formData with the uploaded URL
           if (imageUrl) {
-            setFormData(prev => ({ ...prev, picture: imageUrl }));
+            setFormData((prev) => ({ ...prev, picture: imageUrl }));
           }
-          
+
           // Clear file selection after successful upload
           setImageFile(null);
-          
+
           toast.success('Profile updated successfully!');
           // Close dialog after successful update
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
@@ -189,7 +189,7 @@ const ProfileSection = () => {
       <div className="error">
         <p>Error: {error}</p>
         <a href="/login">
-          <button style={{marginTop: '1rem'}}>Go to Login</button>
+          <button style={{ marginTop: '1rem' }}>Go to Login</button>
         </a>
       </div>
     );
@@ -199,7 +199,13 @@ const ProfileSection = () => {
     <div className="profile-section">
       <div className="header">
         <h2>Profile Settings</h2>
-        <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: '0 0 16px 0' }}>
+        <p
+          style={{
+            color: 'var(--settings-popup-text-secondary)',
+            textAlign: 'center',
+            margin: '0 0 16px 0',
+          }}
+        >
           Customize your profile information and appearance
         </p>
         <ImageUpload
@@ -213,7 +219,14 @@ const ProfileSection = () => {
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group">
           <label>
-            <User size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
+            <User
+              size={18}
+              style={{
+                marginRight: '8px',
+                verticalAlign: 'middle',
+                display: 'inline',
+              }}
+            />
             Display Name
           </label>
           <input
@@ -228,7 +241,14 @@ const ProfileSection = () => {
         </div>
         <div className="form-group">
           <label>
-            <FileText size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
+            <FileText
+              size={18}
+              style={{
+                marginRight: '8px',
+                verticalAlign: 'middle',
+                display: 'inline',
+              }}
+            />
             Bio
           </label>
           <textarea
@@ -239,13 +259,15 @@ const ProfileSection = () => {
             placeholder="Tell us about yourself..."
             maxLength={150}
           />
-          <small style={{ 
-            color: 'var(--settings-popup-text-secondary)', 
-            fontSize: '13px', 
-            textAlign: 'right', 
-            display: 'block',
-            marginTop: '4px'
-          }}>
+          <small
+            style={{
+              color: 'var(--settings-popup-text-secondary)',
+              fontSize: '13px',
+              textAlign: 'right',
+              display: 'block',
+              marginTop: '4px',
+            }}
+          >
             {formData.bio.length}/150 characters
           </small>
         </div>

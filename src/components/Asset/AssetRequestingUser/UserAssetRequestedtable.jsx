@@ -141,7 +141,7 @@ const MonitorTable = ({
                 ))}
                 <TableCell>
                   <div className="flex justify-end gap-2">
-                    {(asset.status === 'Pending') && (
+                    {asset.status === 'Pending' && (
                       <Tooltip title="Edit Asset Request">
                         <Button
                           variant="outlined"
@@ -155,7 +155,8 @@ const MonitorTable = ({
                       </Tooltip>
                     )}
 
-                    {(asset.status === 'Rejected' || asset.status === 'Pending') && (
+                    {(asset.status === 'Rejected' ||
+                      asset.status === 'Pending') && (
                       <Tooltip title="Delete Asset Request">
                         <Button
                           variant="outlined"

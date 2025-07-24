@@ -5,7 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
-    Divider,
+  Divider,
   Collapse,
 } from '@mui/material';
 import {
@@ -16,7 +16,7 @@ import {
   People as UsersIcon,
   Description as ReportIcon,
   Settings as SettingsIcon,
-    Business as BusinessIcon,
+  Business as BusinessIcon,
   ExpandLess,
   ExpandMore,
 } from '@mui/icons-material';
@@ -80,7 +80,7 @@ const AdminSidebar = () => {
     setOpenMenus((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-   const sidebarFooter = (
+  const sidebarFooter = (
     <List>
       <ListItemButton component={Link} to="/organization">
         <ListItemIcon sx={{ minWidth: 40 }}>

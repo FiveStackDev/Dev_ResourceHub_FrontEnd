@@ -36,7 +36,11 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--settings-accent-primary, #3b82f6), var(--settings-accent-secondary, #2563eb));
+  background: linear-gradient(
+    135deg,
+    var(--settings-accent-primary, #3b82f6),
+    var(--settings-accent-secondary, #2563eb)
+  );
   margin: 0 auto 24px;
   box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
 }
@@ -170,7 +174,11 @@
   font-size: 16px;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, var(--settings-accent-primary), var(--settings-accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--settings-accent-primary),
+    var(--settings-accent-secondary)
+  );
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -307,6 +315,6 @@
   --settings-accent-secondary: #c084fc;
 }
 
-[data-mui-color-scheme="dark"] {
+[data-mui-color-scheme='dark'] {
   --settings-accent-secondary: #a855f7;
 }

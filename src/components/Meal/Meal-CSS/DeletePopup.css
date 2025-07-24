@@ -22,7 +22,7 @@
 }
 
 /* Theme variables for dark mode */
-[data-mui-color-scheme="dark"] {
+[data-mui-color-scheme='dark'] {
   --delete-popup-bg-primary: #1e1e2f;
   --delete-popup-bg-secondary: #252537;
   --delete-popup-text-primary: #ffffff;
@@ -46,7 +46,11 @@
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0px 20px 40px var(--delete-popup-shadow);
-  background: linear-gradient(135deg, var(--delete-popup-bg-primary) 0%, var(--delete-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--delete-popup-bg-primary) 0%,
+    var(--delete-popup-bg-secondary) 100%
+  );
   position: relative;
   overflow: hidden;
 }
@@ -136,7 +140,11 @@
 
 .delete-warning-box {
   padding: 20px;
-  background: linear-gradient(135deg, var(--delete-warning-bg-primary) 0%, var(--delete-warning-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--delete-warning-bg-primary) 0%,
+    var(--delete-warning-bg-secondary) 100%
+  );
   border-radius: 12px;
   border: 2px solid var(--delete-warning-border);
   margin-bottom: 16px;
@@ -157,7 +165,11 @@
 }
 
 .delete-error-message {
-  background: linear-gradient(135deg, var(--delete-error-bg-primary) 0%, var(--delete-error-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--delete-error-bg-primary) 0%,
+    var(--delete-error-bg-secondary) 100%
+  );
   border: 2px solid var(--delete-error-border);
   border-radius: 8px;
   padding: 12px 16px;
@@ -181,7 +193,11 @@
   border-radius: 8px;
   font-weight: 600;
   text-transform: none;
-  background: linear-gradient(135deg, var(--delete-cancel-bg-primary) 0%, var(--delete-cancel-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--delete-cancel-bg-primary) 0%,
+    var(--delete-cancel-bg-secondary) 100%
+  );
   color: var(--delete-cancel-text);
   border: 2px solid var(--delete-cancel-border);
   transition: all 0.3s ease;
@@ -189,7 +205,11 @@
 }
 
 .delete-cancel-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--delete-cancel-hover-bg) 0%, var(--delete-cancel-border) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--delete-cancel-hover-bg) 0%,
+    var(--delete-cancel-border) 100%
+  );
   color: var(--delete-cancel-hover-text);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px var(--delete-popup-shadow);
@@ -238,8 +258,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -247,16 +271,16 @@
   .delete-popup-container {
     padding: 20px;
   }
-  
+
   .delete-title {
     font-size: 1.25rem;
   }
-  
+
   .delete-actions {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .delete-cancel-btn,
   .delete-confirm-btn {
     width: 100%;

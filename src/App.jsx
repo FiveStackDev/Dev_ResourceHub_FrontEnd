@@ -43,7 +43,6 @@ import Notification from './pages/Shared/Notification';
 import Settings from './pages/Shared/Settings';
 import OrganizationDetails from './pages/Shared/OrganizationDetails';
 
-
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
 import React from 'react';
@@ -216,12 +215,11 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-          
 
               {/* Shared Routes */}
               <Route path="/notifications" element={<Notification />} />
               <Route path="/settings" element={<Settings />} />
-              <Route path="/organization" element={<OrganizationDetails />}/>
+              <Route path="/organization" element={<OrganizationDetails />} />
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>

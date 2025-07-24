@@ -22,7 +22,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -47,40 +47,49 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
 
   const getPriorityClass = (priority) => {
     switch (priority?.toLowerCase()) {
-      case 'low': return 'priority-low';
-      case 'medium': return 'priority-medium';
-      case 'high': return 'priority-high';
-      default: return '';
+      case 'low':
+        return 'priority-low';
+      case 'medium':
+        return 'priority-medium';
+      case 'high':
+        return 'priority-high';
+      default:
+        return '';
     }
   };
 
   const getStatusClass = (status) => {
     switch (status?.toLowerCase()) {
-      case 'pending': return 'status-pending';
-      case 'in progress': return 'status-in-progress';
-      case 'completed': return 'status-completed';
-      case 'rejected': return 'status-rejected';
-      default: return '';
+      case 'pending':
+        return 'status-pending';
+      case 'in progress':
+        return 'status-in-progress';
+      case 'completed':
+        return 'status-completed';
+      case 'rejected':
+        return 'status-rejected';
+      default:
+        return '';
     }
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="sm" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
       fullWidth
       BackdropProps={{
         style: {
           backdropFilter: 'blur(8px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.6)'
-        }
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        },
       }}
       PaperProps={{
         style: {
           borderRadius: '16px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="maintenance-popup-container">
@@ -91,7 +100,9 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
             </div>
             <div>
               <h2 className="maintenance-popup-title">Edit Maintenance</h2>
-              <p className="maintenance-popup-subtitle">Update maintenance request details</p>
+              <p className="maintenance-popup-subtitle">
+                Update maintenance request details
+              </p>
             </div>
           </div>
           <button onClick={onClose} className="maintenance-popup-close-btn">
@@ -111,7 +122,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                   className="maintenance-popup-textfield"
                 />
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
@@ -121,7 +132,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                   className="maintenance-popup-textfield"
                 />
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Priority Level</InputLabel>
@@ -135,9 +146,8 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                     <MenuItem value="High">🔴 High </MenuItem>
                   </Select>
                 </FormControl>
- 
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
@@ -149,7 +159,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                   className="maintenance-popup-textfield"
                 />
               </div>
-              
+
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Status</InputLabel>
@@ -164,23 +174,19 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                     <MenuItem value="Rejected">Rejected</MenuItem>
                   </Select>
                 </FormControl>
-
               </div>
             </div>
           </div>
 
           <div className="maintenance-popup-actions">
-            <button 
-              type="button" 
-              onClick={onClose} 
+            <button
+              type="button"
+              onClick={onClose}
               className="maintenance-popup-cancel-btn"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              className="maintenance-popup-submit-btn"
-            >
+            <button type="submit" className="maintenance-popup-submit-btn">
               <Edit size={16} />
               Save Changes
             </button>

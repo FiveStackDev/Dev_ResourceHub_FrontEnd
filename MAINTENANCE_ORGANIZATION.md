@@ -1,6 +1,7 @@
 # Maintenance Components Organization
 
 ## Overview
+
 The maintenance components have been reorganized into a more structured hierarchy based on user roles and functionality.
 
 ## New Structure
@@ -29,14 +30,17 @@ src/components/Maintenance/
 ## Component Categories
 
 ### Admin Components
+
 - **MaintenanceTable.jsx**: Full-featured table with edit, delete, and notification capabilities
 - **EditMaintenancePopup.jsx**: Modal for editing maintenance requests with status updates
 
-### User Components  
+### User Components
+
 - **AddMaintenancePopup.jsx**: Modal for users to create new maintenance requests
 - **MaintenanceTableUser.jsx**: Read-only table view for users to see their requests
 
 ### Shared Components
+
 - **DeleteConfirmDialog.jsx**: Reusable confirmation dialog for delete operations
 - **MaintenanceHomeCard.jsx**: Card component for maintenance category navigation
 - **MaintenanceNotificationCard.jsx**: Component for displaying maintenance notifications
@@ -47,6 +51,7 @@ src/components/Maintenance/
 ## Updated Import Paths
 
 ### Before:
+
 ```javascript
 import { MaintenanceTable } from '../../../components/Maintenance/MaintenanceTable.jsx';
 import { AddMaintenancePopup } from '../../../components/Maintenance/AddMaintenancePopup.jsx';
@@ -54,6 +59,7 @@ import MaintenenHomeCard from '../../../components/Maintenance/MaintenanceHomeCa
 ```
 
 ### After (using index exports):
+
 ```javascript
 import { MaintenanceTable } from '../../../components/Maintenance/Admin';
 import { AddMaintenancePopup } from '../../../components/Maintenance/User';
@@ -61,6 +67,7 @@ import { MaintenanceHomeCard } from '../../../components/Maintenance/shared';
 ```
 
 ### Alternative (direct imports):
+
 ```javascript
 import { MaintenanceTable } from '../../../components/Maintenance/Admin/MaintenanceTable.jsx';
 import { AddMaintenancePopup } from '../../../components/Maintenance/User/AddMaintenancePopup.jsx';
@@ -70,6 +77,7 @@ import { MaintenanceHomeCard } from '../../../components/Maintenance/shared/Main
 ## Files Updated
 
 ### Components Moved:
+
 - `MaintenanceTable.jsx` → `Admin/MaintenanceTable.jsx`
 - `EditMaintenancePopup.jsx` → `Admin/EditMaintenancePopup.jsx`
 - `AddMaintenancePopup.jsx` → `User/AddMaintenancePopup.jsx`
@@ -82,6 +90,7 @@ import { MaintenanceHomeCard } from '../../../components/Maintenance/shared/Main
 - `MaintenancePopup.css` → `shared/MaintenancePopup.css`
 
 ### Import Paths Updated:
+
 - `src/pages/User/Maintenance/MaintenanceDetailsUser.jsx`
 - `src/pages/Admin/Maintenance/MaintenanceHome.jsx`
 - `src/pages/Admin/Maintenance/MaintenanceDetails.jsx`
@@ -91,9 +100,10 @@ import { MaintenanceHomeCard } from '../../../components/Maintenance/shared/Main
 - `src/components/Maintenance/shared/DeleteConfirmDialog.jsx`
 
 ### Index Files Created:
+
 - `src/components/Maintenance/index.js` - Main exports
 - `src/components/Maintenance/Admin/index.js` - Admin component exports
-- `src/components/Maintenance/User/index.js` - User component exports  
+- `src/components/Maintenance/User/index.js` - User component exports
 - `src/components/Maintenance/shared/index.js` - Shared component exports
 
 ## Benefits

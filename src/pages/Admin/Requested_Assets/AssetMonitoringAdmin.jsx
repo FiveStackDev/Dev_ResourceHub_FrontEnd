@@ -30,15 +30,12 @@ const AssetMonitoringAdmin = () => {
   ];
 
   const fetchAssets = async () => {
-    const response = await fetch(
-      `${BASE_URLS.assetRequest}/details`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeader(),
-        },
-      }
-    );
+    const response = await fetch(`${BASE_URLS.assetRequest}/details`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeader(),
+      },
+    });
     const data = await response.json();
     setAssets(data);
   };
@@ -72,22 +69,26 @@ const AssetMonitoringAdmin = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        
+
         // Check for quantity-related errors
-        if (errorText.includes('INSUFFICIENT_QUANTITY_3819') || 
-            errorText.includes('CONSTRAINT_VIOLATION_3819') ||
-            errorText.includes('Not enough quantity available')) {
-          toast.error('Cannot approve request: Not enough quantity available in inventory');
+        if (
+          errorText.includes('INSUFFICIENT_QUANTITY_3819') ||
+          errorText.includes('CONSTRAINT_VIOLATION_3819') ||
+          errorText.includes('Not enough quantity available')
+        ) {
+          toast.error(
+            'Cannot approve request: Not enough quantity available in inventory',
+          );
           return;
         }
-        
+
         throw new Error(errorText || 'Failed to update asset');
       }
 
       await response.json();
 
       // Send notification to user if status is approved or rejected
-      if (["Accepted", "Rejected"].includes(updatedAsset.status)) {
+      if (['Accepted', 'Rejected'].includes(updatedAsset.status)) {
         try {
           await sendAssetNotification({
             user_id: updatedAsset.user_id,
@@ -109,13 +110,17 @@ const AssetMonitoringAdmin = () => {
       fetchAssets();
     } catch (error) {
       console.error('Error updating asset:', error);
-      
+
       // Check for specific error messages in the error object
       const errorMessage = error.message || error.toString();
-      if (errorMessage.includes('INSUFFICIENT_QUANTITY_3819') || 
-          errorMessage.includes('CONSTRAINT_VIOLATION_3819') ||
-          errorMessage.includes('Not enough quantity available')) {
-        toast.error('Cannot approve request: Not enough quantity available in inventory');
+      if (
+        errorMessage.includes('INSUFFICIENT_QUANTITY_3819') ||
+        errorMessage.includes('CONSTRAINT_VIOLATION_3819') ||
+        errorMessage.includes('Not enough quantity available')
+      ) {
+        toast.error(
+          'Cannot approve request: Not enough quantity available in inventory',
+        );
       } else {
         toast.error(`Error updating asset: ${errorMessage}`);
       }

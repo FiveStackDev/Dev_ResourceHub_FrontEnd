@@ -48,7 +48,6 @@ const UserContext = createContext<UserContextType>({
 
 export const useUser = () => useContext(UserContext);
 
-
 // Helper to decode base64url (JWT) payloads
 function base64UrlDecode(str: string) {
   str = str.replace(/-/g, '+').replace(/_/g, '/');
@@ -76,7 +75,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-
   // User data state
   const [userData, setUserData] = useState<UserData>(defaultUser);
   const [loading, setLoading] = useState(true);
@@ -96,7 +94,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   }, [localStorage.getItem('token')]);
 
-
   // Optionally, fetch extra info from API if needed
   const fetchUserData = useCallback(async () => {
     setLoading(true);
@@ -115,7 +112,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
       const [profile] = response.data;
       setUserData((prev) => ({
@@ -133,7 +130,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-
   const refreshUserData = useCallback(() => {
     fetchUserData();
   }, [fetchUserData]);
@@ -143,7 +139,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [refreshUserData]);
 
   const isUserAdmin = useMemo(
-    () => userData.role?.toLowerCase() === 'admin' || userData.role?.toLowerCase() === 'superadmin',
+    () =>
+      userData.role?.toLowerCase() === 'admin' ||
+      userData.role?.toLowerCase() === 'superadmin',
     [userData.role],
   );
 
@@ -157,26 +155,28 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     if (location.pathname.startsWith('/admin')) {
       return true;
     }
-    
+
     // If user is admin/superadmin and on a shared route, they're still in admin view
     // unless they explicitly navigated to a user route
-    if ((userData.role === 'Admin' || userData.role === 'SuperAdmin')) {
+    if (userData.role === 'Admin' || userData.role === 'SuperAdmin') {
       const sharedRoutes = ['/settings', '/notifications', '/organization'];
-      const isOnSharedRoute = sharedRoutes.some(route => location.pathname.startsWith(route));
+      const isOnSharedRoute = sharedRoutes.some((route) =>
+        location.pathname.startsWith(route),
+      );
       const isOnUserRoute = location.pathname.startsWith('/user');
-      
+
       if (isOnSharedRoute && !isOnUserRoute) {
         return true;
       }
-      
+
       if (isOnUserRoute) {
         return false;
       }
-      
+
       // Default to admin view for admins on other routes
       return true;
     }
-    
+
     return false;
   }, [location.pathname, userData.role]);
 
@@ -200,7 +200,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
       isAdminView,
       loading,
     }),
-    [isUserAdmin, isSuperAdmin, toggleAdminMode, userData, refreshUserData, isAdminView, loading],
+    [
+      isUserAdmin,
+      isSuperAdmin,
+      toggleAdminMode,
+      userData,
+      refreshUserData,
+      isAdminView,
+      loading,
+    ],
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

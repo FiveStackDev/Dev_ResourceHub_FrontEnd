@@ -7,7 +7,7 @@ import './CalendarComponents.css';
 function MealTypeCard({ id, name, image, onSelect }) {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();

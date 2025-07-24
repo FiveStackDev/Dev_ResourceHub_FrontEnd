@@ -10,7 +10,7 @@ import './CalendarComponents.css';
 function Popupmealtype({ open, handleClose, onAddEvent, mealtype_ids = [] }) {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -34,7 +34,9 @@ function Popupmealtype({ open, handleClose, onAddEvent, mealtype_ids = [] }) {
             </div>
             <div style={{ flex: 1 }}>
               <h2 className="calendar-popup-title">Choose Meal Type</h2>
-              <p className="calendar-popup-subtitle">Select your preferred meal option</p>
+              <p className="calendar-popup-subtitle">
+                Select your preferred meal option
+              </p>
             </div>
           </div>
           <button onClick={handleClose} className="calendar-popup-close-btn">

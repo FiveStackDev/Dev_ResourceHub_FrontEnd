@@ -30,32 +30,29 @@ function Login() {
   const location = useLocation();
   const { refreshUserData } = useUser();
 
-
-
-
-useEffect(() => {
-  // Only redirect if on the login page and token is present
-  const token = localStorage.getItem('token');
-  if (
-    token &&
-    (location.pathname === '/' || location.pathname === '/login')
-  ) {
-    try {
-      const payload = token.split('.')[1];
-      if (!payload) throw new Error('Malformed token');
-      const decoded = JSON.parse(base64UrlDecode(payload));
-      // console.log('Decoded token:', decoded); // Remove or comment out for production
-      const role = decoded.role?.toLowerCase();
-      if (role === 'admin' || role === 'superadmin') {
-        navigate('/admin-dashboardadmin', { replace: true });
-      } else {
-        navigate('/user-dashboarduser', { replace: true });
+  useEffect(() => {
+    // Only redirect if on the login page and token is present
+    const token = localStorage.getItem('token');
+    if (
+      token &&
+      (location.pathname === '/' || location.pathname === '/login')
+    ) {
+      try {
+        const payload = token.split('.')[1];
+        if (!payload) throw new Error('Malformed token');
+        const decoded = JSON.parse(base64UrlDecode(payload));
+        // console.log('Decoded token:', decoded); // Remove or comment out for production
+        const role = decoded.role?.toLowerCase();
+        if (role === 'admin' || role === 'superadmin') {
+          navigate('/admin-dashboardadmin', { replace: true });
+        } else {
+          navigate('/user-dashboarduser', { replace: true });
+        }
+      } catch (e) {
+        console.error('Invalid token:', e);
       }
-    } catch (e) {
-      console.error('Invalid token:', e);
     }
-  }
-}, [navigate, location.pathname]);
+  }, [navigate, location.pathname]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -76,7 +73,6 @@ useEffect(() => {
       }
 
       localStorage.setItem('token', data.token);
-
 
       // Decode and log token details for debugging and navigate
       try {
@@ -122,7 +118,11 @@ useEffect(() => {
       <div className="login-right">
         <form onSubmit={handleLogin} className="login-form">
           <h2>Sign In</h2>
-          {errorMessage && <div className="error-message" style={{ color: 'red' }}>{errorMessage}</div>}
+          {errorMessage && (
+            <div className="error-message" style={{ color: 'red' }}>
+              {errorMessage}
+            </div>
+          )}
 
           {/* Email Field */}
           <TextField
@@ -169,24 +169,21 @@ useEffect(() => {
 
           <div className="form-options">
             <label>
-              <Link to="/forgot-password">
-                Forgot Password?
-              </Link>
+              <Link to="/forgot-password">Forgot Password?</Link>
             </label>
           </div>
 
-
-
-          <button className='submitbtn' type="submit" disabled={isLoading}>
+          <button className="submitbtn" type="submit" disabled={isLoading}>
             {isLoading ? 'Signing In...' : 'SIGN IN'}
           </button>
 
           <div className="form-options">
             <label>
-              <p>Don't have an account ? <Link to="/register"> Register</Link></p>
+              <p>
+                Don't have an account ? <Link to="/register"> Register</Link>
+              </p>
             </label>
           </div>
-
         </form>
       </div>
     </div>

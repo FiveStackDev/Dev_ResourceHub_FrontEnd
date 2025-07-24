@@ -88,17 +88,17 @@ const MonitorTable = ({
                 ? asset.status
                 : 'Pending';
               const statusStyle = getStatusColor(status, theme);
-                          // Conditionally handle `is_returning` and other fields
-            const isReturning = asset.is_returning
-              ? 'Returning'
-              : 'Not Returning';
-            const handoverDate = asset.is_returning
-              ? asset.handover_date
-              : 'No Return';
-            const remainingDays =
-              asset.is_returning && asset.status === 'Accepted'
-                ? asset.remaining_days
-                : 'N/A';
+              // Conditionally handle `is_returning` and other fields
+              const isReturning = asset.is_returning
+                ? 'Returning'
+                : 'Not Returning';
+              const handoverDate = asset.is_returning
+                ? asset.handover_date
+                : 'No Return';
+              const remainingDays =
+                asset.is_returning && asset.status === 'Accepted'
+                  ? asset.remaining_days
+                  : 'N/A';
 
               return (
                 <TableRow
@@ -120,8 +120,12 @@ const MonitorTable = ({
                   </TableCell>
                   <TableCell align="center">{asset.asset_id}</TableCell>
                   <TableCell align="center">{asset.asset_name}</TableCell>
-                {showHandoverColumns && <TableCell align='center'>{handoverDate}</TableCell>}
-                {showHandoverColumns && <TableCell align='center'>{remainingDays}</TableCell>}
+                  {showHandoverColumns && (
+                    <TableCell align="center">{handoverDate}</TableCell>
+                  )}
+                  {showHandoverColumns && (
+                    <TableCell align="center">{remainingDays}</TableCell>
+                  )}
                   <TableCell align="center">
                     <Chip
                       label={status}

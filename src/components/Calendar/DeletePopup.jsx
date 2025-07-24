@@ -11,7 +11,7 @@ import './CalendarComponents.css';
 function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
-  
+
   // Update CSS variables when theme changes
   useEffect(() => {
     updateCSSVariables();
@@ -35,7 +35,9 @@ function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
             </div>
             <div>
               <h2 className="calendar-delete-title">Delete Event</h2>
-              <p className="calendar-delete-subtitle">This action cannot be undone</p>
+              <p className="calendar-delete-subtitle">
+                This action cannot be undone
+              </p>
             </div>
           </div>
           <button onClick={handleClose} className="calendar-popup-close-btn">
@@ -45,25 +47,23 @@ function DeletePopup({ open, handleClose, onDelete, eventTitle }) {
 
         <div className="calendar-delete-content">
           <div className="calendar-delete-warning-box">
-            <Typography className="calendar-delete-warning-text" variant="body1">
+            <Typography
+              className="calendar-delete-warning-text"
+              variant="body1"
+            >
               Are you sure you want to delete the event:
               <br />
-              <span className="calendar-delete-event-name">"{eventTitle}"</span>?
+              <span className="calendar-delete-event-name">"{eventTitle}"</span>
+              ?
             </Typography>
           </div>
         </div>
 
         <div className="calendar-delete-actions">
-          <button 
-            onClick={handleClose} 
-            className="calendar-delete-cancel-btn"
-          >
+          <button onClick={handleClose} className="calendar-delete-cancel-btn">
             Cancel
           </button>
-          <button 
-            onClick={onDelete} 
-            className="calendar-delete-confirm-btn"
-          >
+          <button onClick={onDelete} className="calendar-delete-confirm-btn">
             <Trash2 size={16} />
             Delete Event
           </button>

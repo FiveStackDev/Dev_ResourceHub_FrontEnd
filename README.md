@@ -27,8 +27,9 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 ## ✨ Features
 
 ### 👨‍💼 Admin Features
+
 - **Dashboard:** Comprehensive overview of organizational statistics and activities
-- **Meal Management:** 
+- **Meal Management:**
   - Configure meal types (breakfast, lunch, dinner)
   - Set meal times and availability
   - Monitor meal requests and analytics
@@ -45,8 +46,9 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 - **System Settings:** Configure application-wide settings
 
 ### 👤 User Features
+
 - **Personal Dashboard:** View personalized statistics and upcoming activities
-- **Meal Requests:** 
+- **Meal Requests:**
   - Interactive calendar interface for meal requests
   - View meal schedules and availability
 - **Asset Requests:** Submit and track asset requests
@@ -55,6 +57,7 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 - **Profile Settings:** Manage personal information and preferences
 
 ### 🔒 Common Features
+
 - **Role-Based Access Control:** Secure, permission-based interface differentiation
 - **Responsive Design:** Optimized for desktop and mobile devices
 - **Theme Support:** Light and dark mode options
@@ -64,6 +67,7 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - **Framework:** React 18.3.1 with TypeScript 5.5.3
 - **Build Tool:** Vite (Lightning-fast development and build)
 - **UI Framework:** Material-UI (MUI) 5.14.16
@@ -71,11 +75,13 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 - **Routing:** React Router DOM 7.5.2
 
 ### State Management & Data Fetching
+
 - **API Client:** Axios 1.9.0
 - **Data Fetching:** TanStack React Query 5.74.7
 - **Context Management:** React Context API
 
 ### UI Components & Libraries
+
 - **Calendar:** FullCalendar 6.1.17 (with React integration)
 - **Charts:** Chart.js 4.4.0 + react-chartjs-2 5.2.0, Recharts 2.15.3
 - **Icons:** MUI Icons, Lucide React 0.344.0
@@ -83,6 +89,7 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 - **PDF Generation:** html2pdf.js 0.10.3
 
 ### Development Tools
+
 - **Linting:** ESLint 9.9.1 with TypeScript support
 - **Formatting:** Prettier 3.5.3
 - **CSS Processing:** PostCSS 8.4.35, Autoprefixer 10.4.18
@@ -92,7 +99,7 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 ```
 Resource_Hub-Frontend/
 ├── public/                         # Static assets
-│   ├── *.png                      # Application images and logos  
+│   ├── *.png                      # Application images and logos
 │   ├── Asset/                     # Asset category icons
 │   ├── Maintenance/               # Maintenance-related images
 │   └── Report/                    # Report category icons
@@ -190,11 +197,13 @@ cd Resource_Hub-Frontend
 ### 2. Install Dependencies
 
 Using npm:
+
 ```bash
 npm install
 ```
 
 Or using yarn:
+
 ```bash
 yarn install
 ```
@@ -224,6 +233,7 @@ npm run dev
 ```
 
 Or with yarn:
+
 ```bash
 yarn dev
 ```
@@ -250,13 +260,13 @@ npm run preview
 
 ## 📜 Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build the application for production |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint` | Run ESLint to check code quality |
-| `npm run format` | Format code using Prettier |
+| Script            | Description                              |
+| ----------------- | ---------------------------------------- |
+| `npm run dev`     | Start development server with hot reload |
+| `npm run build`   | Build the application for production     |
+| `npm run preview` | Preview the production build locally     |
+| `npm run lint`    | Run ESLint to check code quality         |
+| `npm run format`  | Format code using Prettier               |
 
 ## 🔌 API Integration
 
@@ -304,6 +314,7 @@ We welcome contributions to the Resource Hub project! Please follow these guidel
 ### Issue Reporting
 
 When reporting issues, please include:
+
 - Clear description of the problem
 - Steps to reproduce the issue
 - Expected vs actual behavior
@@ -317,14 +328,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👥 Team
 
 **FiveStackDev Team**
+
 - Frontend Development
-- Backend Integration  
+- Backend Integration
 - UI/UX Design
 - Testing & Quality Assurance
 
 ## 📞 Support
 
 For support and questions:
+
 - Create an issue on GitHub
 - Contact the development team
 - Check the documentation for common solutions

@@ -4,7 +4,6 @@ import { getUnreadCount } from '../../utils/notificationApi';
 import { useUser, decodeToken } from '../../contexts/UserContext';
 
 const AdminHeader = () => {
-
   // Get user context and decode token
   const { user } = useUser();
   const decoded = decodeToken() || {};

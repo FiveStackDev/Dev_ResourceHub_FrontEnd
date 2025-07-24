@@ -22,13 +22,13 @@ const ConfirmationDialog = ({ message, onConfirm, onCancel }) => {
       aria-labelledby="confirmation-dialog-title"
       aria-describedby="confirmation-dialog-description"
       BackdropProps={{
-        className: 'confirmation-popup-backdrop'
+        className: 'confirmation-popup-backdrop',
       }}
       PaperProps={{
         style: {
           borderRadius: '20px',
-          overflow: 'visible'
-        }
+          overflow: 'visible',
+        },
       }}
     >
       <div className="confirmation-dialog">

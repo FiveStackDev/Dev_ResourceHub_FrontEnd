@@ -8,7 +8,7 @@
   --notification-popup-border-color: #f1f5f9;
   --notification-popup-shadow: rgba(0, 0, 0, 0.15);
 }
-[data-mui-color-scheme="dark"] {
+[data-mui-color-scheme='dark'] {
   --notification-popup-bg-primary: #1e1e2f;
   --notification-popup-bg-secondary: #252537;
   --notification-popup-text-primary: #ffffff;
@@ -22,5 +22,9 @@
   padding: 32px;
   border-radius: 16px;
   box-shadow: 0px 20px 40px var(--notification-popup-shadow);
-  background: linear-gradient(135deg, var(--notification-popup-bg-primary) 0%, var(--notification-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--notification-popup-bg-primary) 0%,
+    var(--notification-popup-bg-secondary) 100%
+  );
 }

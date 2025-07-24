@@ -6,7 +6,6 @@ import { useUser, decodeToken } from '../../contexts/UserContext';
 import { getAuthHeader } from '../../utils/authHeader';
 import { BASE_URLS } from '../../services/api/config';
 
-
 const UserHeader = () => {
   // Get user context and decode token
   const { user } = useUser();

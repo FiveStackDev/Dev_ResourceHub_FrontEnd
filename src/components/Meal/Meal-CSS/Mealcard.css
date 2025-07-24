@@ -24,7 +24,7 @@
 }
 
 /* Theme variables for dark mode */
-[data-mui-color-scheme="dark"] {
+[data-mui-color-scheme='dark'] {
   --card-bg-primary: #1e1e2f;
   --card-bg-secondary: #252537;
   --card-text-primary: #ffffff;
@@ -55,7 +55,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, var(--card-bg-primary) 0%, var(--card-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--card-bg-primary) 0%,
+    var(--card-bg-secondary) 100%
+  );
   border-radius: 16px;
   box-shadow: 0 8px 24px var(--card-shadow);
   transition: all 0.3s ease;

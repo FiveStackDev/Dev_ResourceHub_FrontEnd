@@ -1,30 +1,36 @@
 # Meal Management System - Updated Features
 
 ## Overview
+
 The meal management system has been enhanced with new autocomplete and multi-selection capabilities for creating and editing meal times and meal types with many-to-many relationships.
 
 ## New Features
 
 ### 1. Multi-Selection Autocomplete
+
 - **Meal Time Management**: When adding/editing meal times, users can now select multiple meal types using a searchable autocomplete input
 - **Meal Type Management**: When adding/editing meal types, users can now select multiple meal times using a searchable autocomplete input
 
 ### 2. Material UI Chips
+
 - Selected items are displayed as deletable Material UI Chips below the autocomplete
 - Users can remove chips to deselect items
 - Chips have consistent styling with hover effects and theme support
 
 ### 3. Form Validation
+
 - Required field validation before submission
 - Image upload validation
 - User-friendly error messages with toast notifications
 
 ### 4. API Integration
+
 - Form submissions send selected IDs as arrays in the request body
 - For meal times: `{ mealtimeId, mealtypeIds: [] }`
 - For meal types: `{ mealtypeId, mealtimeIds: [] }`
 
 ### 5. Responsive Design
+
 - UI is responsive and works well on different screen sizes
 - Chips container adapts to smaller screens
 - Consistent Material UI theming
@@ -34,32 +40,38 @@ The meal management system has been enhanced with new autocomplete and multi-sel
 ### Components Updated
 
 #### AddMealTimePopup.jsx
+
 - Added autocomplete for meal type selection
 - Multi-selection with Material UI Chips
 - Form validation and error handling
 - API integration for posting meal time with associated meal types
 
 #### EditMealTimePopup.jsx
+
 - Similar functionality to Add popup but pre-loads existing relationships
 - Updates existing meal time with new meal type associations
 
 #### AddMealTypePopup.jsx
+
 - Added autocomplete for meal time selection
 - Multi-selection with Material UI Chips
 - Form validation and error handling
 - API integration for posting meal type with associated meal times
 
 #### EditMealTypePopup.jsx
+
 - Similar functionality to Add popup but pre-loads existing relationships
 - Updates existing meal type with new meal time associations
 
 #### MealTimeCard.jsx & MealTypeCard.jsx
+
 - Updated to pass existing relationships to edit popups
 - Enhanced error handling and user feedback
 
 ### New Files Created
 
 #### mockRelationshipData.js
+
 - Contains mock data for demonstration purposes
 - Includes helper functions for getting relationships
 - Comments showing how to implement real API calls for relationships
@@ -67,6 +79,7 @@ The meal management system has been enhanced with new autocomplete and multi-sel
 ### CSS Enhancements
 
 #### AddMealPopup.css
+
 - Added styles for autocomplete components
 - Chip styling with hover effects
 - Theme-aware design for light/dark modes
@@ -75,6 +88,7 @@ The meal management system has been enhanced with new autocomplete and multi-sel
 ## Usage Examples
 
 ### Adding a New Meal Time
+
 1. Click "New Meal Time" button
 2. Upload an image
 3. Enter meal time name (e.g., "Breakfast")
@@ -84,6 +98,7 @@ The meal management system has been enhanced with new autocomplete and multi-sel
 7. Submit the form
 
 ### Editing an Existing Meal Time
+
 1. Click "Edit" on a meal time card
 2. Existing meal types are pre-loaded as selected chips
 3. Modify name, image, or meal type selections as needed
@@ -94,6 +109,7 @@ The meal management system has been enhanced with new autocomplete and multi-sel
 The frontend expects the backend to support these endpoints:
 
 ### For Adding/Updating Meal Times
+
 ```javascript
 POST /mealtime/add
 PUT /mealtime/details/{id}
@@ -107,6 +123,7 @@ Request Body:
 ```
 
 ### For Adding/Updating Meal Types
+
 ```javascript
 POST /mealtype/add
 PUT /mealtype/details/{id}
@@ -120,9 +137,10 @@ Request Body:
 ```
 
 ### For Fetching Existing Relationships (Recommended)
+
 ```javascript
-GET /mealtime/details/{id}/mealtypes // Get meal types for a meal time
-GET /mealtype/details/{id}/mealtimes // Get meal times for a meal type
+GET / mealtime / details / { id } / mealtypes; // Get meal types for a meal time
+GET / mealtype / details / { id } / mealtimes; // Get meal times for a meal type
 ```
 
 ## Future Enhancements

@@ -14,7 +14,11 @@
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 450px;
-  background: linear-gradient(135deg, var(--report-popup-bg-primary) 0%, var(--report-popup-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--report-popup-bg-primary) 0%,
+    var(--report-popup-bg-secondary) 100%
+  );
   border-radius: 20px;
   box-shadow: 0px 25px 50px -12px var(--report-popup-shadow);
   padding: 0;
@@ -31,7 +35,11 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--report-popup-accent-primary) 0%, var(--report-popup-accent-secondary) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--report-popup-accent-primary) 0%,
+    var(--report-popup-accent-secondary) 100%
+  );
   border-radius: 20px 20px 0 0;
 }
 
@@ -45,7 +53,11 @@
 .report-popup-header-icon {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, var(--report-popup-accent-primary), var(--report-popup-accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--report-popup-accent-primary),
+    var(--report-popup-accent-secondary)
+  );
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -122,7 +134,12 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.1),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -159,7 +176,11 @@
 .report-frequency-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--report-popup-accent-primary), var(--report-popup-accent-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--report-popup-accent-primary),
+    var(--report-popup-accent-secondary)
+  );
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -191,27 +212,27 @@
     max-width: none;
     margin: 20px;
   }
-  
+
   .report-popup-header {
     padding: 24px 20px 20px 20px;
   }
-  
+
   .report-popup-content {
     padding: 0 20px 24px 20px;
   }
-  
+
   .report-popup-title {
     font-size: 20px;
   }
-  
+
   .report-popup-subtitle {
     font-size: 14px;
   }
-  
+
   .report-frequency-card {
     padding: 16px;
   }
-  
+
   .report-frequency-title {
     font-size: 16px;
   }

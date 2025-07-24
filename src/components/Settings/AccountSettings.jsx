@@ -74,7 +74,7 @@ const AccountSection = () => {
             headers: {
               ...getAuthHeader(),
             },
-          }
+          },
         );
         const [profile] = data;
         setFormData((prev) => ({
@@ -124,7 +124,7 @@ const AccountSection = () => {
           headers: {
             ...getAuthHeader(),
           },
-        }
+        },
       );
       const existingPhone = data[0]?.phone_number;
       if (formData.phone === existingPhone) {
@@ -142,7 +142,7 @@ const AccountSection = () => {
               headers: {
                 ...getAuthHeader(),
               },
-            }
+            },
           );
           toast.success('Phone updated successfully!');
           setConfirmationDialog({ open: false, message: '', onConfirm: null });
@@ -169,7 +169,7 @@ const AccountSection = () => {
           headers: {
             ...getAuthHeader(),
           },
-        }
+        },
       );
       const existingEmail = data[0]?.email;
       if (email === existingEmail) {
@@ -191,7 +191,7 @@ const AccountSection = () => {
           headers: {
             ...getAuthHeader(),
           },
-        }
+        },
       );
       toast.success(`Verification code sent to ${email} successfully!`);
     } catch (error) {
@@ -233,7 +233,7 @@ const AccountSection = () => {
               headers: {
                 ...getAuthHeader(),
               },
-            }
+            },
           );
           toast.success('Password updated successfully!');
           setFormData((prev) => ({
@@ -275,16 +275,29 @@ const AccountSection = () => {
       <div className="header">
         <User className="section-icon" size={32} />
         <h2>Account Settings</h2>
-        <p style={{ color: 'var(--settings-popup-text-secondary)', textAlign: 'center', margin: 0 }}>
+        <p
+          style={{
+            color: 'var(--settings-popup-text-secondary)',
+            textAlign: 'center',
+            margin: 0,
+          }}
+        >
           Manage your account information and security
         </p>
       </div>
-      
+
       <div className="form-container">
         {/* Phone update form */}
         <form onSubmit={handlePhoneSubmit} className="form-group">
           <label>
-            <Phone size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
+            <Phone
+              size={18}
+              style={{
+                marginRight: '8px',
+                verticalAlign: 'middle',
+                display: 'inline',
+              }}
+            />
             Phone Number
           </label>
           <input
@@ -304,7 +317,14 @@ const AccountSection = () => {
         {/* Email update section */}
         <div className="form-group">
           <label>
-            <Mail size={18} style={{ marginRight: '8px', verticalAlign: 'middle',display:'inline' }} />
+            <Mail
+              size={18}
+              style={{
+                marginRight: '8px',
+                verticalAlign: 'middle',
+                display: 'inline',
+              }}
+            />
             Email Address
           </label>
           <input
@@ -328,10 +348,13 @@ const AccountSection = () => {
         <form onSubmit={handlePasswordSubmit}>
           <div className="form-group-password">
             <div className="password-header">
-              <Lock size={24} style={{ color: 'var(--settings-accent-primary)' }} />
+              <Lock
+                size={24}
+                style={{ color: 'var(--settings-accent-primary)' }}
+              />
               <h3>Change Password</h3>
             </div>
-            
+
             {/* Current password */}
             <div className="password-input-group">
               <label className="password-input-label">Current Password</label>
@@ -349,7 +372,11 @@ const AccountSection = () => {
                   className="password-toggle-btn"
                   onClick={handleClickShowCurrentPassword}
                 >
-                  {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showCurrentPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
                 </button>
               </div>
             </div>
@@ -378,7 +405,9 @@ const AccountSection = () => {
 
             {/* Confirm password */}
             <div className="password-input-group">
-              <label className="password-input-label">Confirm New Password</label>
+              <label className="password-input-label">
+                Confirm New Password
+              </label>
               <div className="password-input-container">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -393,7 +422,11 @@ const AccountSection = () => {
                   className="password-toggle-btn"
                   onClick={handleClickShowConfirmPassword}
                 >
-                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
                 </button>
               </div>
             </div>

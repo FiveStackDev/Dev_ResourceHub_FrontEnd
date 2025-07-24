@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Building, MapPin, Mail, Image, Info, Globe, Phone, Users, Calendar, Award } from 'lucide-react';
+import {
+  Building,
+  MapPin,
+  Mail,
+  Image,
+  Info,
+  Globe,
+  Phone,
+  Users,
+  Calendar,
+  Award,
+} from 'lucide-react';
 import { BASE_URLS } from './../../services/api/config';
 import { getAuthHeader } from './../../utils/authHeader';
 import { useUser, decodeToken } from './../../contexts/UserContext';
@@ -22,7 +33,7 @@ const OrganizationDetails = () => {
     org_phone: '',
     org_founded: '',
   });
-  
+
   // Loading and error states for async data fetching
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +55,12 @@ const OrganizationDetails = () => {
     const decoded = decodeToken();
     userId = decoded?.id;
     orgId = decoded?.org_id;
-    console.log('OrganizationDetails fallback decoded userId:', userId, 'orgId:', orgId);
+    console.log(
+      'OrganizationDetails fallback decoded userId:',
+      userId,
+      'orgId:',
+      orgId,
+    );
   } else {
     const decoded = decodeToken();
     orgId = decoded?.org_id;
@@ -60,26 +76,28 @@ const OrganizationDetails = () => {
           setLoading(false);
           return;
         }
-        
+
         const { data } = await axios.get(
           `${BASE_URLS.orgsettings}/details/${orgId}`,
           {
             headers: {
               ...getAuthHeader(),
             },
-          }
+          },
         );
-        
+
         const [organization] = data;
         setOrganizationData({
           org_name: organization.org_name || '',
           org_logo: organization.org_logo || '',
           org_address: organization.org_address || '',
           org_email: organization.org_email || '',
-          org_about: organization.org_about || 'We are committed to excellence and innovation in everything we do. Our organization strives to provide the best services and create value for our stakeholders.',
+          org_about:
+            organization.org_about ||
+            'We are committed to excellence and innovation in everything we do. Our organization strives to provide the best services and create value for our stakeholders.',
           org_website: organization.org_website || '',
           org_phone: organization.org_phone || '',
-          org_founded: organization.org_founded || ''
+          org_founded: organization.org_founded || '',
         });
       } catch (err) {
         setError(err.response?.data?.message || err.message);
@@ -87,7 +105,7 @@ const OrganizationDetails = () => {
         setLoading(false);
       }
     };
-    
+
     fetchOrganizationData();
   }, [userId, orgId]);
 
@@ -121,8 +139,8 @@ const OrganizationDetails = () => {
                   src={organizationData.org_logo}
                   alt="Organization Logo"
                   className={styles.organizationLogo}
-                  onError={(e) => { 
-                    e.target.style.display = 'none'; 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
                   }}
                 />
               ) : (
@@ -170,7 +188,7 @@ const OrganizationDetails = () => {
             <h3>Contact Information</h3>
             <p>Get in touch with us through these channels</p>
           </div>
-          
+
           <div className={styles.contactCards}>
             <div className={styles.contactCard}>
               <div className={styles.contactIcon}>
@@ -189,7 +207,9 @@ const OrganizationDetails = () => {
               </div>
               <div className={styles.contactInfo}>
                 <h4>Phone Number</h4>
-                <p>{organizationData.org_phone || 'No phone number available'}</p>
+                <p>
+                  {organizationData.org_phone || 'No phone number available'}
+                </p>
                 <span className={styles.contactType}>Direct Line</span>
               </div>
             </div>
@@ -227,14 +247,16 @@ const OrganizationDetails = () => {
               Active & Verified
             </div>
           </div>
-          
+
           <div className={styles.infoCard}>
             <h4>Last Updated</h4>
-            <p>{new Date().toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}</p>
+            <p>
+              {new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
           </div>
         </div>
       </div>
@@ -273,7 +295,7 @@ const OrganizationDetails = () => {
               <div className="error">
                 <p>Error: {error}</p>
                 <a href="/login">
-                  <button style={{marginTop: '1rem'}}>Go to Login</button>
+                  <button style={{ marginTop: '1rem' }}>Go to Login</button>
                 </a>
               </div>
             </div>
@@ -284,7 +306,7 @@ const OrganizationDetails = () => {
               <div className="error">
                 <p>Error: {error}</p>
                 <a href="/login">
-                  <button style={{marginTop: '1rem'}}>Go to Login</button>
+                  <button style={{ marginTop: '1rem' }}>Go to Login</button>
                 </a>
               </div>
             </div>

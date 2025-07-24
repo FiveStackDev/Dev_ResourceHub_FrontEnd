@@ -72,9 +72,9 @@ function AssetAdmin() {
 
   const handleDeleteAsset = async (id) => {
     try {
-      await axios.delete(`${BASE_URLS.asset}/details/${id}`,
-        { headers: { ...getAuthHeader() } }
-      );
+      await axios.delete(`${BASE_URLS.asset}/details/${id}`, {
+        headers: { ...getAuthHeader() },
+      });
       setAssets((prevAssets) => prevAssets.filter((asset) => asset.id !== id));
       setDeleteOpen(false);
       setSelectedAsset(null);

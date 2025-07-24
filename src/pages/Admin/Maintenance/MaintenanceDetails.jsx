@@ -20,7 +20,6 @@ import { getAuthHeader } from '../../../utils/authHeader';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
 
-
 const MaintenanceDetails = () => {
   const [maintenance, setMaintenance] = useState([]);
   const [isAddMaintenanceOpen, setIsAddMaintenanceOpen] = useState(false);
@@ -30,10 +29,9 @@ const MaintenanceDetails = () => {
 
   const fetchMaintenanceData = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URLS.maintenance}/details`,
-        { headers: { ...getAuthHeader() } }
-      );
+      const response = await axios.get(`${BASE_URLS.maintenance}/details`, {
+        headers: { ...getAuthHeader() },
+      });
       setMaintenance(response.data);
     } catch (error) {
       console.error('Failed to fetch maintenance data:', error);
@@ -43,7 +41,7 @@ const MaintenanceDetails = () => {
     }
   };
 
- useEffect(() => {
+  useEffect(() => {
     fetchMaintenanceData();
   }, []);
 
@@ -57,7 +55,7 @@ const MaintenanceDetails = () => {
   } else {
     console.log('MaintenanceDetailsUser userId:', userId);
   }
-   const handleAddMaintenance = async (newMaintenance) => {
+  const handleAddMaintenance = async (newMaintenance) => {
     try {
       if (!userId) {
         toast.error('User ID not found. Please login again.');
@@ -74,7 +72,7 @@ const MaintenanceDetails = () => {
       const response = await axios.post(
         `${BASE_URLS.maintenance}/add`,
         payload,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
@@ -87,10 +85,9 @@ const MaintenanceDetails = () => {
 
   const handleDeleteMaintenance = async (maintenanceId) => {
     try {
-      await axios.delete(
-        `${BASE_URLS.maintenance}/details/${maintenanceId}`,
-        { headers: { ...getAuthHeader() } }
-      );
+      await axios.delete(`${BASE_URLS.maintenance}/details/${maintenanceId}`, {
+        headers: { ...getAuthHeader() },
+      });
       toast.success('Maintenance deleted successfully!');
       fetchMaintenanceData();
     } catch (error) {
@@ -113,7 +110,7 @@ const MaintenanceDetails = () => {
       const response = await axios.put(
         `${BASE_URLS.maintenance}/details/${editedMaintenance.maintenance_id}`,
         editedMaintenance,
-        { headers: { ...getAuthHeader() } }
+        { headers: { ...getAuthHeader() } },
       );
       toast.success(response.data.message);
       fetchMaintenanceData();
@@ -127,7 +124,7 @@ const MaintenanceDetails = () => {
   };
 
   const filteredMaintenance = maintenance.filter((item) => {
-    const searchMatch = item.username 
+    const searchMatch = item.username
       .toLowerCase()
       .includes(searchText.toLowerCase());
     const typeMatch = filterType === 'All' || item.priorityLevel === filterType;

@@ -83,7 +83,7 @@ const AdminDashboard = () => {
       <div className="min-h-screen p-6 space-y-6">
         {/* Heading */}
         <h1 className="text-2xl font-semibold">Dashboard</h1>
-        
+
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
