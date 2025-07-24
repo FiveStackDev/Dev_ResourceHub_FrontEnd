@@ -88,7 +88,7 @@ const MaintenanceDetails = () => {
   const handleDeleteMaintenance = async (maintenanceId) => {
     try {
       await axios.delete(
-        `http://localhost:9090/maintenance/details/${maintenanceId}`,
+        `${BASE_URLS.maintenance}/details/${maintenanceId}`,
         { headers: { ...getAuthHeader() } }
       );
       toast.success('Maintenance deleted successfully!');
