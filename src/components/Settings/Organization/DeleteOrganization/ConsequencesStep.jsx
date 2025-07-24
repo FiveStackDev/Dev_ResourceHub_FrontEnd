@@ -69,7 +69,7 @@ const ConsequencesStep = ({ onComplete, stepData }) => {
             This Action is PERMANENT and IRREVERSIBLE
           </h3>
           <p style={{ 
-            color: 'var(--settings-danger-text-secondary)', 
+            color: 'red', 
             margin: '0',
             fontSize: '1rem',
             lineHeight: '1.5'
