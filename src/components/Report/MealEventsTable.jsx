@@ -15,14 +15,22 @@ import {
   Box,
   InputLabel,
   TextField,
+  Checkbox,
+  TablePagination,
+  Tooltip,
+  useTheme,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
+import { Trash2 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from 'react-toastify';
 import SchedulePopup from './SchedulePopup';
 import { decodeToken } from '../../contexts/UserContext';
 
-const MealEventsTable = () => {
+const MealEventsTable = ({ onDeleteMealEvents }) => {
+  const theme = useTheme();
   const [mealEvents, setMealEvents] = useState(['']);
   const [filteredEvents, setFilteredEvents] = useState(['']);
   const [mealTimes, setMealTimes] = useState(['']);
@@ -40,6 +48,64 @@ const MealEventsTable = () => {
     open: false,
     frequency: '',
   });
+
+  // Enhanced table state
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortColumn, setSortColumn] = useState('meal_request_date');
+
+  // Selection functions
+  const getCurrentPageMealEventIds = () => {
+    return sortedEvents
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((event, index) => `${event.user_id}_${event.meal_request_date}_${index}`); // Create unique ID
+  };
+
+  const handleSelectAll = (event) => {
+    const currentPageMealEventIds = getCurrentPageMealEventIds();
+    if (event.target.checked) {
+      const newSelected = [...new Set([...selected, ...currentPageMealEventIds])];
+      setSelected(newSelected);
+    } else {
+      setSelected(selected.filter(id => !currentPageMealEventIds.includes(id)));
+    }
+  };
+
+  const handleSelect = (eventId) => {
+    const selectedIndex = selected.indexOf(eventId);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, eventId];
+    } else {
+      newSelected = selected.filter((id) => id !== eventId);
+    }
+    setSelected(newSelected);
+  };
+
+  const handleSort = (column) => {
+    const isAsc = sortColumn === column && sortDirection === 'asc';
+    setSortDirection(isAsc ? 'desc' : 'asc');
+    setSortColumn(column);
+  };
+
+  const handleDeleteSelected = () => {
+    if (onDeleteMealEvents && selected.length > 0) {
+      onDeleteMealEvents(selected);
+      setSelected([]);
+    }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
@@ -178,6 +244,29 @@ const MealEventsTable = () => {
     mealEvents,
   ]);
 
+  // Sorted events
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
+    let aValue = a[sortColumn];
+    let bValue = b[sortColumn];
+    
+    if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+    if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+    
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const currentPageEvents = sortedEvents.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  const currentPageMealEventIds = getCurrentPageMealEventIds();
+  const isAllCurrentPageSelected = currentPageMealEventIds.length > 0 && 
+    currentPageMealEventIds.every(id => selected.includes(id));
+  const isSomeCurrentPageSelected = currentPageMealEventIds.some(id => selected.includes(id));
+
   const handleDownloadPDF = () => {
     try {
       const element = document.getElementById('meal-events-table');
@@ -202,7 +291,7 @@ const MealEventsTable = () => {
     <Box position="relative">
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap', alignItems: 'center' }}>
           {/* Meal Time Filter */}
           <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Meal Time</InputLabel>
@@ -304,6 +393,36 @@ const MealEventsTable = () => {
             />
           </Box>
 
+          {selected.length > 0 && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 1,
+                backgroundColor: alpha(theme.palette.primary.main, 0.12),
+                borderRadius: 1,
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+              }}
+            >
+              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                {selected.length} selected
+              </span>
+              <Tooltip title="Delete selected meal events">
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={handleDeleteSelected}
+                  sx={{ minWidth: 'auto', px: 1 }}
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </Tooltip>
+            </Box>
+          )}
+
           {/* Download PDF Button */}
           <Button
             variant="contained"
@@ -326,25 +445,104 @@ const MealEventsTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Meal Time</TableCell>
-                <TableCell>Meal Type</TableCell>
-                <TableCell>User Name</TableCell>
-                <TableCell>Submitted Date</TableCell>
-                <TableCell>Meal Request Date</TableCell>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    indeterminate={isSomeCurrentPageSelected && !isAllCurrentPageSelected}
+                    checked={isAllCurrentPageSelected}
+                    onChange={handleSelectAll}
+                  />
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('mealtime_name')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Meal Time
+                    {sortColumn === 'mealtime_name' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('mealtype_name')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Meal Type
+                    {sortColumn === 'mealtype_name' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('username')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    User Name
+                    {sortColumn === 'username' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('submitted_date')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Submitted Date
+                    {sortColumn === 'submitted_date' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('meal_request_date')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Meal Request Date
+                    {sortColumn === 'meal_request_date' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredEvents.map((mealEvent, index) => (
-                <TableRow key={index}>
-                  <TableCell>{mealEvent.mealtime_name}</TableCell>
-                  <TableCell>{mealEvent.mealtype_name}</TableCell>
-                  <TableCell>{mealEvent.username}</TableCell>
-                  <TableCell>{mealEvent.submitted_date}</TableCell>
-                  <TableCell>{mealEvent.meal_request_date}</TableCell>
-                </TableRow>
-              ))}
+              {currentPageEvents.map((mealEvent, index) => {
+                const eventId = `${mealEvent.user_id}_${mealEvent.meal_request_date}_${index}`;
+                return (
+                  <TableRow 
+                    key={eventId}
+                    hover
+                    selected={selected.includes(eventId)}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selected.includes(eventId)}
+                        onChange={() => handleSelect(eventId)}
+                      />
+                    </TableCell>
+                    <TableCell>{mealEvent.mealtime_name}</TableCell>
+                    <TableCell>{mealEvent.mealtype_name}</TableCell>
+                    <TableCell>{mealEvent.username}</TableCell>
+                    <TableCell>{mealEvent.submitted_date}</TableCell>
+                    <TableCell>{mealEvent.meal_request_date}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
+          <TablePagination
+            component="div"
+            count={sortedEvents.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 25, 50]}
+          />
         </TableContainer>
       </div>
       {/* Popups rendered as before */}

@@ -18,13 +18,21 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Checkbox,
+  TablePagination,
+  Tooltip,
+  useTheme,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
+import { Trash2 } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { BASE_URLS } from '../../services/api/config';
 import { toast } from 'react-toastify';
 
-// Component to display meal events table
-const AssetsTable = () => {
+// Component to display assets table
+const AssetsTable = ({ onDeleteAssets }) => {
+  const theme = useTheme();
   const [Assets, setassets] = useState([]);
   // Removed date range filter
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -35,6 +43,64 @@ const AssetsTable = () => {
     open: false,
     frequency: '',
   });
+
+  // Enhanced table state
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortColumn, setSortColumn] = useState('asset_name');
+
+  // Selection functions
+  const getCurrentPageAssetIds = () => {
+    return sortedAssets
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((asset) => asset.asset_id);
+  };
+
+  const handleSelectAll = (event) => {
+    const currentPageAssetIds = getCurrentPageAssetIds();
+    if (event.target.checked) {
+      const newSelected = [...new Set([...selected, ...currentPageAssetIds])];
+      setSelected(newSelected);
+    } else {
+      setSelected(selected.filter(id => !currentPageAssetIds.includes(id)));
+    }
+  };
+
+  const handleSelect = (assetId) => {
+    const selectedIndex = selected.indexOf(assetId);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, assetId];
+    } else {
+      newSelected = selected.filter((id) => id !== assetId);
+    }
+    setSelected(newSelected);
+  };
+
+  const handleSort = (column) => {
+    const isAsc = sortColumn === column && sortDirection === 'asc';
+    setSortDirection(isAsc ? 'desc' : 'asc');
+    setSortColumn(column);
+  };
+
+  const handleDeleteSelected = () => {
+    if (onDeleteAssets && selected.length > 0) {
+      onDeleteAssets(selected);
+      setSelected([]);
+    }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   // Handle frequency selection from SchedulePopup
   const handleFrequencySelect = (frequency) => {
     setSelectedFrequency(frequency);
@@ -120,7 +186,30 @@ const AssetsTable = () => {
     return categoryMatch && conditionMatch;
   });
 
-  if (!Array.isArray(filteredAssets) || filteredAssets.length === 0) {
+  // Sorted assets
+  const sortedAssets = [...filteredAssets].sort((a, b) => {
+    let aValue = a[sortColumn];
+    let bValue = b[sortColumn];
+    
+    if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+    if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+    
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const currentPageAssets = sortedAssets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  const currentPageAssetIds = getCurrentPageAssetIds();
+  const isAllCurrentPageSelected = currentPageAssetIds.length > 0 && 
+    currentPageAssetIds.every(id => selected.includes(id));
+  const isSomeCurrentPageSelected = currentPageAssetIds.some(id => selected.includes(id));
+
+  if (!Array.isArray(sortedAssets) || sortedAssets.length === 0) {
     const isPopupOpen = openSchedulePopup || confirmDialog.open;
     return (
       <Box position="relative">
@@ -160,16 +249,20 @@ const AssetsTable = () => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>
+                    <Checkbox disabled />
+                  </TableCell>
                   <TableCell>Asset Name</TableCell>
                   <TableCell>Category</TableCell>
                   <TableCell>Quantity</TableCell>
                   <TableCell>Condition Type</TableCell>
                   <TableCell>Location</TableCell>
+                  <TableCell>Availability</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={5}>No data available.</TableCell>
+                  <TableCell colSpan={7}>No data available.</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -255,7 +348,7 @@ const AssetsTable = () => {
     <Box position="relative">
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap', alignItems: 'center' }}>
           <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Category</InputLabel>
             <Select
@@ -284,6 +377,37 @@ const AssetsTable = () => {
               ))}
             </Select>
           </FormControl>
+          
+          {selected.length > 0 && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 1,
+                backgroundColor: alpha(theme.palette.primary.main, 0.12),
+                borderRadius: 1,
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+              }}
+            >
+              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                {selected.length} selected
+              </span>
+              <Tooltip title="Delete selected assets">
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={handleDeleteSelected}
+                  sx={{ minWidth: 'auto', px: 1 }}
+                >
+                  <Trash2 size={16} />
+                </Button>
+              </Tooltip>
+            </Box>
+          )}
+
           <Button
             variant="contained"
             color="primary"
@@ -305,33 +429,127 @@ const AssetsTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Asset ID</TableCell>
-                <TableCell>Asset Name</TableCell>
-                <TableCell>Category</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Condition Type</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Availability</TableCell>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    indeterminate={isSomeCurrentPageSelected && !isAllCurrentPageSelected}
+                    checked={isAllCurrentPageSelected}
+                    onChange={handleSelectAll}
+                  />
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('asset_id')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Asset ID
+                    {sortColumn === 'asset_id' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('asset_name')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Asset Name
+                    {sortColumn === 'asset_name' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('category')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Category
+                    {sortColumn === 'category' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('quantity')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Quantity
+                    {sortColumn === 'quantity' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('condition_type')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Condition Type
+                    {sortColumn === 'condition_type' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('location')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Location
+                    {sortColumn === 'location' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
+                <TableCell 
+                  sx={{ cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => handleSort('is_available')}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Availability
+                    {sortColumn === 'is_available' && (
+                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
+                    )}
+                  </Box>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredAssets &&
-                filteredAssets.map((Assets, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{Assets.asset_id}</TableCell>
-                    <TableCell>{Assets.asset_name}</TableCell>
-                    <TableCell>{Assets.category}</TableCell>
-                    <TableCell>{Assets.quantity}</TableCell>
-                    <TableCell>{Assets.condition_type}</TableCell>
-                    <TableCell>{Assets.location}</TableCell>
-                    <TableCell>
-                      {' '}
-                      {Assets.is_available ? 'Available' : 'Not Available'}
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {currentPageAssets.map((asset, index) => (
+                <TableRow 
+                  key={asset.asset_id}
+                  hover
+                  selected={selected.includes(asset.asset_id)}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selected.includes(asset.asset_id)}
+                      onChange={() => handleSelect(asset.asset_id)}
+                    />
+                  </TableCell>
+                  <TableCell>{asset.asset_id}</TableCell>
+                  <TableCell>{asset.asset_name}</TableCell>
+                  <TableCell>{asset.category}</TableCell>
+                  <TableCell>{asset.quantity}</TableCell>
+                  <TableCell>{asset.condition_type}</TableCell>
+                  <TableCell>{asset.location}</TableCell>
+                  <TableCell>
+                    {asset.is_available ? 'Available' : 'Not Available'}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
+          <TablePagination
+            component="div"
+            count={sortedAssets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 25, 50]}
+          />
         </TableContainer>
       </div>
       {/* Popups rendered as before */}
