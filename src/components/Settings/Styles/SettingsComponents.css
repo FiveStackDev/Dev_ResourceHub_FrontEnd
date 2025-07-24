@@ -1120,3 +1120,70 @@ input[type='file']:hover {
   margin-top: 0.25rem;
   text-align: right;
 }
+
+/* Delete Organization Specific CSS Variables */
+:root {
+  /* Danger colors */
+  --settings-danger-color: #dc2626;
+  --settings-danger-hover: #b91c1c;
+  --settings-danger-bg: rgba(239, 68, 68, 0.05);
+  --settings-danger-border: #f87171;
+  --settings-danger-text: #dc2626;
+  --settings-danger-text-secondary: #991b1b;
+  --settings-danger-alpha: rgba(220, 38, 38, 0.1);
+  --settings-danger-header-bg: rgba(220, 38, 38, 0.02);
+  --settings-danger-icon-bg: rgba(220, 38, 38, 0.1);
+  
+  /* Warning colors */
+  --settings-warning-bg: rgba(245, 158, 11, 0.05);
+  --settings-warning-border: #f59e0b;
+  --settings-warning-text: #d97706;
+  
+  /* Success colors */
+  --settings-success-color: #059669;
+  --settings-success-bg: rgba(16, 185, 129, 0.05);
+  --settings-success-text: #059669;
+  --settings-success-alpha: rgba(5, 150, 105, 0.1);
+  
+  /* Step indicator colors */
+  --settings-step-bg: var(--settings-card-bg);
+  --settings-step-border: var(--settings-card-border);
+  --settings-step-active-bg: rgba(59, 130, 246, 0.05);
+  --settings-step-completed-bg: rgba(5, 150, 105, 0.05);
+  --settings-step-number-bg: #e2e8f0;
+  --settings-step-number-text: #64748b;
+  
+  /* Additional theme variables */
+  --settings-accent-primary-hover: #2563eb;
+  --settings-accent-primary-alpha: rgba(59, 130, 246, 0.1);
+  --settings-secondary-bg: #f8fafc;
+  --settings-button-hover: #f1f5f9;
+}
+
+/* Dark theme overrides for delete organization */
+[data-theme="dark"] {
+  /* Danger colors for dark theme */
+  --settings-danger-bg: rgba(220, 38, 38, 0.1);
+  --settings-danger-text: #f87171;
+  --settings-danger-text-secondary: #fca5a5;
+  --settings-danger-header-bg: rgba(220, 38, 38, 0.05);
+  --settings-danger-icon-bg: rgba(220, 38, 38, 0.15);
+  
+  /* Warning colors for dark theme */
+  --settings-warning-bg: rgba(245, 158, 11, 0.1);
+  --settings-warning-text: #fbbf24;
+  
+  /* Success colors for dark theme */
+  --settings-success-bg: rgba(16, 185, 129, 0.1);
+  --settings-success-text: #34d399;
+  
+  /* Step indicator colors for dark theme */
+  --settings-step-number-bg: #374151;
+  --settings-step-number-text: #9ca3af;
+  --settings-step-active-bg: rgba(59, 130, 246, 0.1);
+  --settings-step-completed-bg: rgba(16, 185, 129, 0.1);
+  
+  /* Additional dark theme variables */
+  --settings-secondary-bg: #374151;
+  --settings-button-hover: #4b5563;
+}

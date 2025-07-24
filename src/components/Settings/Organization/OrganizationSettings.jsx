@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import {
-  Building,
-  MapPin,
-  Mail,
-  Save,
-  Globe,
-  Phone,
-  Calendar,
-  Info,
-} from 'lucide-react';
-import { BASE_URLS } from '../../services/api/config';
-import { getAuthHeader } from '../../utils/authHeader';
-import { useUser, decodeToken } from '../../contexts/UserContext';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
+import { Building, MapPin, Mail, Save, Globe, Phone, Calendar, Info } from 'lucide-react';
+import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
+import { useUser, decodeToken } from '../../../contexts/UserContext';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import VerificationPopup from './OrgVerificationPopup';
-import ConfirmationDialog from './ConfirmationDialog';
-import ImageUpload from './ImageUpload';
-import './Styles/SettingsComponents.css';
+import ConfirmationDialog from '../Shared/ConfirmationDialog';
+import ImageUpload from '../Profile/ImageUpload';
+import DeleteOrganization, { DeleteOrganizationTrigger } from './DeleteOrganization';
+import '../Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
   // State to store form data
@@ -41,6 +33,8 @@ const OrganizationSection = () => {
   // Loading and error states for async data fetching
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // State for delete organization popup
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
   // State for confirmation dialog visibility and actions
   const [confirmationDialog, setConfirmationDialog] = useState({
@@ -572,6 +566,27 @@ const OrganizationSection = () => {
           }
         />
       )}
+
+      {/* Delete Organization Section - Danger Zone */}
+      <DeleteOrganizationTrigger 
+        orgData={formData} 
+        onOpenDelete={() => {
+          console.log('Opening delete popup, current state:', isDeletePopupOpen);
+          setIsDeletePopupOpen(true);
+          console.log('Delete popup state set to true');
+        }}
+      />
+
+      {/* Delete Organization Popup */}
+      {console.log('Rendering DeleteOrganization with isOpen:', isDeletePopupOpen)}
+      <DeleteOrganization 
+        orgData={formData} 
+        isOpen={isDeletePopupOpen}
+        onClose={() => {
+          console.log('Closing delete popup');
+          setIsDeletePopupOpen(false);
+        }}
+      />
     </div>
   );
 };

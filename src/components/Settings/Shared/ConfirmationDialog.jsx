@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dialog } from '@mui/material';
 import { AlertTriangle, Check, X } from 'lucide-react';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
-import './Styles/ConfirmationDialog.css';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import '../Styles/ConfirmationDialog.css';
 
 // A reusable confirmation dialog component
 const ConfirmationDialog = ({ message, onConfirm, onCancel }) => {

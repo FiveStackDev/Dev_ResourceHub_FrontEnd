@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { User, FileText, Save } from 'lucide-react';
-import { BASE_URLS } from '../../services/api/config';
-import { getAuthHeader } from '../../utils/authHeader';
-import { useUser, decodeToken } from '../../contexts/UserContext';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
-import ConfirmationDialog from './ConfirmationDialog';
+import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
+import { useUser, decodeToken } from '../../../contexts/UserContext';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import ConfirmationDialog from '../Shared/ConfirmationDialog';
 import ImageUpload from './ImageUpload';
-import './Styles/SettingsComponents.css';
+import '../Styles/SettingsComponents.css';
 
 const ProfileSection = () => {
   // State to store form data

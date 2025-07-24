@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Eye, EyeOff, User, Mail, Lock, Phone, Save } from 'lucide-react';
-import { BASE_URLS } from '../../services/api/config';
-import { getAuthHeader } from '../../utils/authHeader';
-import { useUser, decodeToken } from '../../contexts/UserContext';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
+import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
+import { useUser, decodeToken } from '../../../contexts/UserContext';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import VerificationPopup from './VerificationPopup';
-import ConfirmationDialog from './ConfirmationDialog';
-import './Styles/SettingsComponents.css';
+import ConfirmationDialog from '../Shared/ConfirmationDialog';
+import '../Styles/SettingsComponents.css';
 
 const AccountSection = () => {
   // Form data state and UI state
