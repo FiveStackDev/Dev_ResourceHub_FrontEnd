@@ -123,6 +123,7 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
               <option value="Pending">Pending</option>
               <option value="Accepted">Accepted</option>
               <option value="Rejected">Rejected</option>
+              <option value="Handovered">Handovered</option>
             </select>
           </div>
 
