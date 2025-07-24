@@ -8,6 +8,7 @@ import UserLayout from './../../layouts/User/UserLayout';
 import { Tabs, Tab, Box, Paper, Typography, Card, CardContent, Stack } from '@mui/material';
 import { useUser } from './../../contexts/UserContext';
 import AppearanceSettings from './../../components/Settings/AppearanceSettings';
+import { Navigate } from 'react-router-dom';
 
 const Settings = () => {
   // Get the user's role from context
@@ -49,6 +50,10 @@ const Settings = () => {
   );
 
   // Layout conditional rendering based on role
+  if (!userRole) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <>
       {userRole === 'Admin' || userRole === 'SuperAdmin' ? (
