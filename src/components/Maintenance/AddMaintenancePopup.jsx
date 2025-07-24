@@ -15,6 +15,7 @@ import { useState } from "react";
 export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
   const [name, setName] = useState("");
   const [priorityLevel, setPriorityLevel] = useState("Low");
+  const [Category, setCategory] = useState("Tech Support");
   const [description, setDescription] = useState("");
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -49,6 +50,21 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               error={nameError}
               helperText={nameError ? "Please enter a name" : ""}
             />
+            <FormControl fullWidth>
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={Category}
+                label="Category"
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <MenuItem value="Tech Support">Tech Support</MenuItem>
+                <MenuItem value="General Maintenance">General Maintenance</MenuItem>
+                <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene</MenuItem>
+                <MenuItem value="Furniture and Fixtures">Furniture and Fixtures</MenuItem>
+                <MenuItem value="Safety and Security">Safety and Security</MenuItem>
+                <MenuItem value="Lighting and power">Lighting and power</MenuItem>
+              </Select>
+            </FormControl>
             <FormControl fullWidth>
               <InputLabel>Priority Level</InputLabel>
               <Select
