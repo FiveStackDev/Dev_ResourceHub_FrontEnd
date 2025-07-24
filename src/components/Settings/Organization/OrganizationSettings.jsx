@@ -1,16 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Building, MapPin, Mail, Save, Globe, Phone, Calendar, Info } from 'lucide-react';
-import { BASE_URLS } from '../../services/api/config';
-import { getAuthHeader } from '../../utils/authHeader';
-import { useUser, decodeToken } from '../../contexts/UserContext';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
+import { BASE_URLS } from '../../../services/api/config';
+import { getAuthHeader } from '../../../utils/authHeader';
+import { useUser, decodeToken } from '../../../contexts/UserContext';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import VerificationPopup from './OrgVerificationPopup';
-import ConfirmationDialog from './ConfirmationDialog';
-import ImageUpload from './ImageUpload';
-import './Styles/SettingsComponents.css';
+import ConfirmationDialog from '../Shared/ConfirmationDialog';
+import ImageUpload from '../Profile/ImageUpload';
+import '../Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
   // State to store form data

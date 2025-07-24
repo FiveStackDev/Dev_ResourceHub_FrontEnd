@@ -1,20 +1,27 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Dialog } from '@mui/material';
 import { Shield, Mail, Check, X } from 'lucide-react';
-import { getAuthHeader } from '../../utils/authHeader';
-import { decodeToken, useUser } from '../../contexts/UserContext';
-import { BASE_URLS } from '../../services/api/config';
-import { useThemeStyles } from '../../hooks/useThemeStyles';
-import './Styles/VerifyPopup.css';
+import { getAuthHeader } from '../../../utils/authHeader';
+import { decodeToken, useUser } from '../../../contexts/UserContext';
+import { BASE_URLS } from '../../../services/api/config';
+import { useThemeStyles } from '../../../hooks/useThemeStyles';
+import '../Styles/VerifyPopup.css';
 
-function VerificationPopup({ onClose, email, code }) {
+function OrgVerificationPopup({ onClose, email, code }) {
   // Local state to hold the user-entered verification code
   const [inputcode, setInputCode] = useState('');
   const { userData } = useUser();
   const { updateCSSVariables } = useThemeStyles();
+  // Get orgId from user context or decoded token
+  let orgId = null;
+  if (userData?.org_id) {
+    orgId = userData.org_id;
+  } else {
+    const decoded = decodeToken();
+    orgId = decoded?.org_id;
+  }
 
   // Apply theme variables when component mounts
   React.useEffect(() => {
@@ -35,10 +42,11 @@ function VerificationPopup({ onClose, email, code }) {
           userId = decoded?.id;
         }
         if (!userId) throw new Error('User ID not found in token');
+        if (!orgId) throw new Error('Organization ID not found');
 
         // Send verified email update to the server with Authorization header
         await axios.put(
-          `${BASE_URLS.settings}/email/${userId}`,
+          `${BASE_URLS.orgsettings}/email/${orgId}`,
           { email },
           {
             headers: {
@@ -47,15 +55,39 @@ function VerificationPopup({ onClose, email, code }) {
           }
         );
 
-        toast.success('Verification successful!');
+        toast.success('Verification successful!', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          style: { zIndex: 9999 }
+        });
         onClose(); // Close the popup after successful verification
       } catch (error) {
         console.error('There was an error verifying the email!', error);
-        toast.error('Verification failed. Please try again.');
+        toast.error('Verification failed. Please try again.', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          style: { zIndex: 9999 }
+        });
       }
     } else {
       // Show error if code does not match
-      toast.error('Invalid verification code. Please try again.');
+      toast.error('Invalid verification code. Please try again.', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: { zIndex: 9999 }
+      });
     }
   };
 
@@ -65,8 +97,8 @@ function VerificationPopup({ onClose, email, code }) {
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      aria-labelledby="verification-popup-title"
-      aria-describedby="verification-popup-description"
+      aria-labelledby="org-verification-popup-title"
+      aria-describedby="org-verification-popup-description"
       BackdropProps={{
         className: 'verify-popup-backdrop'
       }}
@@ -82,8 +114,8 @@ function VerificationPopup({ onClose, email, code }) {
           <div className="verify-icon">
             <Shield className="shield-icon" />
           </div>
-          <h1 className="verify-title">Email Verification</h1>
-          <p className="verify-subtitle">Verify your email address to secure your account</p>
+          <h1 className="verify-title">Organization Email Verification</h1>
+          <p className="verify-subtitle">Verify your organization email address</p>
         </div>
         
         <form className="verify-form" onSubmit={handleSubmit}>
@@ -131,4 +163,4 @@ function VerificationPopup({ onClose, email, code }) {
   );
 }
 
-export default VerificationPopup;
+export default OrgVerificationPopup;

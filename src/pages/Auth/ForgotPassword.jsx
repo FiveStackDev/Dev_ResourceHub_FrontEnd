@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BASE_URLS } from "./../../services/api/config";
 import "../css/ForgotPassword.css";
 import { Link } from "react-router-dom";
-import ForgotPasswordVerificationPopup from './../../components/Settings/ForgotPasswordVerificationPopup';
+import ForgotPasswordVerificationPopup from './../../components/Settings/Account/ForgotPasswordVerificationPopup';
 
 
 const ForgotPassword = () => {

@@ -14,8 +14,8 @@ import {
   Grid
 } from '@mui/material';
 import { Monitor, Clock, Palette } from 'lucide-react';
-import { useThemeContext } from '../../theme/ThemeProvider';
-import ThemeToggle from '../../layouts/shared/ThemeToggle';
+import { useThemeContext } from '../../../theme/ThemeProvider';
+import ThemeToggle from '../../../layouts/shared/ThemeToggle';
 
 const AppearanceSettings = () => {
   const { mode, toggleMode, setMode } = useThemeContext();

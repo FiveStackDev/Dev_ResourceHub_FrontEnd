@@ -3,7 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Dialog } from '@mui/material';
 import { Shield, Mail, Check, X } from 'lucide-react';
-import './Styles/VerifyPopup.css';
+import '../Styles/VerifyPopup.css';
 
 function ForgotPasswordVerificationPopup({ onClose, email, code, onVerified }) {
   const [inputcode, setInputCode] = useState('');
