@@ -152,13 +152,42 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     [userData.role],
   );
 
-  const isAdminView = useMemo(
-    () => location.pathname.startsWith('/admin'),
-    [location.pathname],
-  );
+  const isAdminView = useMemo(() => {
+    // If user is on an admin route, they're in admin view
+    if (location.pathname.startsWith('/admin')) {
+      return true;
+    }
+    
+    // If user is admin/superadmin and on a shared route, they're still in admin view
+    // unless they explicitly navigated to a user route
+    if ((userData.role === 'Admin' || userData.role === 'SuperAdmin')) {
+      const sharedRoutes = ['/settings', '/notifications', '/organization'];
+      const isOnSharedRoute = sharedRoutes.some(route => location.pathname.startsWith(route));
+      const isOnUserRoute = location.pathname.startsWith('/user');
+      
+      if (isOnSharedRoute && !isOnUserRoute) {
+        return true;
+      }
+      
+      if (isOnUserRoute) {
+        return false;
+      }
+      
+      // Default to admin view for admins on other routes
+      return true;
+    }
+    
+    return false;
+  }, [location.pathname, userData.role]);
 
   const toggleAdminMode = useCallback(() => {
-    navigate(isAdminView ? '/user-dashboarduser' : '/admin-dashboardadmin');
+    if (isAdminView) {
+      // If currently in admin view, switch to user view
+      navigate('/user-dashboarduser');
+    } else {
+      // If currently in user view, switch to admin view
+      navigate('/admin-dashboardadmin');
+    }
   }, [isAdminView, navigate]);
 
   const value = useMemo(
