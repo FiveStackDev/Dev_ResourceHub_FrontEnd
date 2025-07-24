@@ -333,12 +333,8 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={isSomeCurrentPageSelected && !isAllCurrentPageSelected}
-                    checked={isAllCurrentPageSelected}
-                    onChange={handleSelectAll}
-                  />
+                <TableCell >
+                  
                 </TableCell>
                 <TableCell 
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
@@ -423,11 +419,8 @@ const MaintenanceTable = ({ onDeleteMaintenances }) => {
                     hover
                     selected={selected.includes(maintenance.maintenance_id)}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selected.includes(maintenance.maintenance_id)}
-                        onChange={() => handleSelect(maintenance.maintenance_id)}
-                      />
+                    <TableCell >
+                      
                     </TableCell>
                     <TableCell>{maintenance.maintenance_id}</TableCell>
                     <TableCell>{maintenance.user_id}</TableCell>

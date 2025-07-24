@@ -429,12 +429,8 @@ const AssetsTable = ({ onDeleteAssets }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={isSomeCurrentPageSelected && !isAllCurrentPageSelected}
-                    checked={isAllCurrentPageSelected}
-                    onChange={handleSelectAll}
-                  />
+                <TableCell>
+                  
                 </TableCell>
                 <TableCell 
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
@@ -522,11 +518,8 @@ const AssetsTable = ({ onDeleteAssets }) => {
                   hover
                   selected={selected.includes(asset.asset_id)}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selected.includes(asset.asset_id)}
-                      onChange={() => handleSelect(asset.asset_id)}
-                    />
+                  <TableCell >
+                    
                   </TableCell>
                   <TableCell>{asset.asset_id}</TableCell>
                   <TableCell>{asset.asset_name}</TableCell>

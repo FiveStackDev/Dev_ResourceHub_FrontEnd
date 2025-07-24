@@ -445,12 +445,8 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={isSomeCurrentPageSelected && !isAllCurrentPageSelected}
-                    checked={isAllCurrentPageSelected}
-                    onChange={handleSelectAll}
-                  />
+                <TableCell>
+                  
                 </TableCell>
                 <TableCell 
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
@@ -518,11 +514,8 @@ const MealEventsTable = ({ onDeleteMealEvents }) => {
                     hover
                     selected={selected.includes(eventId)}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selected.includes(eventId)}
-                        onChange={() => handleSelect(eventId)}
-                      />
+                    <TableCell>
+                      
                     </TableCell>
                     <TableCell>{mealEvent.mealtime_name}</TableCell>
                     <TableCell>{mealEvent.mealtype_name}</TableCell>
