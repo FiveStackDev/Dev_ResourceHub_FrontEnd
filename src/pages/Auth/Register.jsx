@@ -78,18 +78,28 @@ function Register() {
         body: JSON.stringify(payload),
       });
 
+      const responseData = await response.json();
+      
       if (response.ok) {
-        toast.success('Registration successful!');
-        setCredentials({
-          org_name: '',
-          email: '',
-          username: '',
-          confirmPassword: '',
-          password: '',
-        });
+        // Check if the response contains an error message even with OK status
+        if (responseData.message && responseData.message.toLowerCase().includes('email already exists')) {
+          setErrorMessage(responseData.message);
+          toast.error(responseData.message);
+        } else {
+          // Successful registration
+          toast.success('Registration successful!');
+          setCredentials({
+            org_name: '',
+            email: '',
+            username: '',
+            confirmPassword: '',
+            password: '',
+          });
+        }
       } else {
-        const errorData = await response.json();
-        setErrorMessage('Failed to register');
+        const errorMsg = responseData.message || 'Failed to register';
+        setErrorMessage(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err) {
       setErrorMessage('An error occurred. Please try again later.');
