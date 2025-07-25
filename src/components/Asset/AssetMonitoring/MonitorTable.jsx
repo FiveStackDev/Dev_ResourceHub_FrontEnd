@@ -9,16 +9,13 @@ import {
   Avatar,
   useTheme,
   Chip,
-  Checkbox,
   TablePagination,
   Paper,
   Box,
-  Button,
   Tooltip,
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { alpha } from '@mui/material/styles';
-import { Trash2 } from 'lucide-react';
 import PopupEdit from './PopupEdit';
 
 const getStatusColor = (status, theme) => {
@@ -52,58 +49,14 @@ const MonitorTable = ({
   showHandoverColumns = true,
   customColumns = [],
   onSave,
-  onDeleteAssets, // For bulk delete
 }) => {
   const theme = useTheme();
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('requestedasset_id');
-
-  // Only select assets visible on the current page
-  const getCurrentPageAssetIds = () => {
-    return sortedAssets
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .map((asset) => asset.requestedasset_id);
-  };
-
-  const handleSelectAll = (event) => {
-    const currentPageAssetIds = getCurrentPageAssetIds();
-    if (event.target.checked) {
-      const newSelected = Array.from(
-        new Set([...selected, ...currentPageAssetIds]),
-      );
-      setSelected(newSelected);
-    } else {
-      const newSelected = selected.filter(
-        (id) => !currentPageAssetIds.includes(id),
-      );
-      setSelected(newSelected);
-    }
-  };
-
-  const handleSelect = (id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = [...selected, id];
-    } else {
-      newSelected = selected.filter((item) => item !== id);
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleBulkDelete = () => {
-    if (onDeleteAssets) {
-      onDeleteAssets(selected);
-      setSelected([]);
-    }
-  };
 
   const handleSort = (column) => {
     const isSameColumn = column === sortColumn;
@@ -122,8 +75,6 @@ const MonitorTable = ({
     if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
-
-  const canDeleteSelected = selected.length > 0;
 
   const handleRowClick = (asset) => {
     setSelectedAsset(asset);
@@ -156,25 +107,6 @@ const MonitorTable = ({
                   },
                 }}
               >
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={
-                      getCurrentPageAssetIds().length > 0 &&
-                      getCurrentPageAssetIds().every((id) =>
-                        selected.includes(id),
-                      )
-                    }
-                    indeterminate={
-                      getCurrentPageAssetIds().some((id) =>
-                        selected.includes(id),
-                      ) &&
-                      !getCurrentPageAssetIds().every((id) =>
-                        selected.includes(id),
-                      )
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell
                   onClick={() => handleSort('username')}
                   sx={{
@@ -307,11 +239,6 @@ const MonitorTable = ({
                       key={asset.requestedasset_id}
                       hover
                       sx={{
-                        backgroundColor: selected.includes(asset.requestedasset_id)
-                          ? theme.palette.mode === 'dark'
-                            ? alpha(theme.palette.primary.dark, 0.2)
-                            : alpha(theme.palette.primary.light, 0.2)
-                          : 'transparent',
                         '&:hover': {
                           backgroundColor:
                             theme.palette.mode === 'dark'
@@ -323,15 +250,6 @@ const MonitorTable = ({
                       }}
                       onClick={() => handleRowClick(asset)}
                     >
-                      <TableCell 
-                        padding="checkbox"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Checkbox
-                          checked={selected.includes(asset.requestedasset_id)}
-                          onChange={() => handleSelect(asset.requestedasset_id)}
-                        />
-                      </TableCell>
                       <TableCell align="center">
                         <div className="flex items-center gap-3">
                           <Avatar
@@ -379,40 +297,6 @@ const MonitorTable = ({
         </TableContainer>
 
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {selected.length > 0 && (
-            <Box
-              sx={{
-                backgroundColor:
-                  theme.palette.mode === 'dark'
-                    ? alpha(theme.palette.primary.dark, 0.15)
-                    : alpha(theme.palette.primary.light, 0.15),
-                padding: '8px 16px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderTop: `1px solid ${theme.palette.divider}`,
-                borderBottom: `1px solid ${theme.palette.divider}`,
-              }}
-            >
-              <span
-                style={{ color: theme.palette.primary.main, fontWeight: 500 }}
-              >
-                {selected.length} assets selected
-              </span>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                startIcon={<Trash2 size={18} />}
-                onClick={handleBulkDelete}
-                disabled={!canDeleteSelected}
-                sx={{ borderRadius: theme.shape.borderRadius }}
-              >
-                Delete Selected
-              </Button>
-            </Box>
-          )}
-
           <TablePagination
             component="div"
             count={assets.length}

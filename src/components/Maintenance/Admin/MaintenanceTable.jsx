@@ -18,12 +18,11 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Checkbox,
   Box,
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { alpha } from '@mui/material/styles';
-import { Pencil, Trash2, SendHorizontal, Send, X } from 'lucide-react';
+import { Pencil, SendHorizontal, Send, X } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
 import { DeleteConfirmDialog } from '../shared/DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
@@ -96,7 +95,6 @@ export const MaintenanceTable = ({
   maintenance,
   onEditMaintenance,
   onDeleteMaintenance,
-  onDeleteMaintenances, // For bulk delete
 }) => {
   const theme = useTheme();
   const [editMaintenance, setEditMaintenance] = useState(null);
@@ -106,52 +104,8 @@ export const MaintenanceTable = ({
   const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selected, setSelected] = useState([]);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('maintenance_id');
-
-  // Only select maintenance visible on the current page
-  const getCurrentPageMaintenanceIds = () => {
-    return sortedMaintenance
-      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      .map((item) => item.maintenance_id);
-  };
-
-  const handleSelectAll = (event) => {
-    const currentPageMaintenanceIds = getCurrentPageMaintenanceIds();
-    if (event.target.checked) {
-      const newSelected = Array.from(
-        new Set([...selected, ...currentPageMaintenanceIds]),
-      );
-      setSelected(newSelected);
-    } else {
-      const newSelected = selected.filter(
-        (id) => !currentPageMaintenanceIds.includes(id),
-      );
-      setSelected(newSelected);
-    }
-  };
-
-  const handleSelect = (id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = [...selected, id];
-    } else {
-      newSelected = selected.filter((item) => item !== id);
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleBulkDelete = () => {
-    if (onDeleteMaintenances) {
-      onDeleteMaintenances(selected);
-      setSelected([]);
-    }
-    setIsDeleteDialogOpen(false);
-  };
 
   const handleSort = (column) => {
     const isSameColumn = column === sortColumn;
@@ -170,8 +124,6 @@ export const MaintenanceTable = ({
     if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
-
-  const canDeleteSelected = selected.length > 0;
 
   // Get color for priority level
   const getPriorityColor = (priority) => {
@@ -343,25 +295,6 @@ export const MaintenanceTable = ({
                   },
                 }}
               >
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={
-                      getCurrentPageMaintenanceIds().length > 0 &&
-                      getCurrentPageMaintenanceIds().every((id) =>
-                        selected.includes(id),
-                      )
-                    }
-                    indeterminate={
-                      getCurrentPageMaintenanceIds().some((id) =>
-                        selected.includes(id),
-                      ) &&
-                      !getCurrentPageMaintenanceIds().every((id) =>
-                        selected.includes(id),
-                      )
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell
                   onClick={() => handleSort('username')}
                   sx={{
@@ -450,11 +383,6 @@ export const MaintenanceTable = ({
                       key={item.maintenance_id}
                       hover
                       sx={{
-                        backgroundColor: selected.includes(item.maintenance_id)
-                          ? theme.palette.mode === 'dark'
-                            ? alpha(theme.palette.primary.dark, 0.2)
-                            : alpha(theme.palette.primary.light, 0.2)
-                          : 'transparent',
                         '&:hover': {
                           backgroundColor:
                             theme.palette.mode === 'dark'
@@ -464,12 +392,6 @@ export const MaintenanceTable = ({
                         borderBottom: `1px solid ${theme.palette.divider}`,
                       }}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selected.includes(item.maintenance_id)}
-                          onChange={() => handleSelect(item.maintenance_id)}
-                        />
-                      </TableCell>
                       <TableCell>{item.username}</TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell>
@@ -551,40 +473,6 @@ export const MaintenanceTable = ({
         </TableContainer>
 
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          {selected.length > 0 && (
-            <Box
-              sx={{
-                backgroundColor:
-                  theme.palette.mode === 'dark'
-                    ? alpha(theme.palette.primary.dark, 0.15)
-                    : alpha(theme.palette.primary.light, 0.15),
-                padding: '8px 16px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderTop: `1px solid ${theme.palette.divider}`,
-                borderBottom: `1px solid ${theme.palette.divider}`,
-              }}
-            >
-              <span
-                style={{ color: theme.palette.primary.main, fontWeight: 500 }}
-              >
-                {selected.length} maintenance items selected
-              </span>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                startIcon={<Trash2 size={18} />}
-                onClick={() => setIsDeleteDialogOpen(true)}
-                disabled={!canDeleteSelected}
-                sx={{ borderRadius: theme.shape.borderRadius }}
-              >
-                Delete Selected
-              </Button>
-            </Box>
-          )}
-
           <TablePagination
             component="div"
             count={maintenance.length}
@@ -616,12 +504,8 @@ export const MaintenanceTable = ({
         open={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={() => {
-          if (selected.length > 0) {
-            handleBulkDelete();
-          } else {
-            onDeleteMaintenance(selectedId);
-            setIsDeleteDialogOpen(false);
-          }
+          onDeleteMaintenance(selectedId);
+          setIsDeleteDialogOpen(false);
         }}
       />
 
