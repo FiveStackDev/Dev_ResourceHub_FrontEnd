@@ -78,6 +78,76 @@
   gap: 8px;
 }
 
+/* Form Section Styles */
+.form-section {
+  background: var(--settings-card-bg-secondary);
+  border: 1px solid var(--settings-card-border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--settings-accent-primary),
+    var(--settings-accent-secondary)
+  );
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--settings-card-text-primary);
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--settings-card-border);
+}
+
+/* Section Button Styles */
+.section-button {
+  padding: 12px 20px !important;
+  background: linear-gradient(
+    135deg,
+    var(--settings-accent-primary),
+    var(--settings-accent-secondary)
+  ) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex ;
+  align-items: center;
+  justify-content: center;
+  gap: 8px !important;
+  width: 160px !important;
+  min-width: 160px !important;
+  max-width: 160px !important;
+  box-sizing: border-box !important;
+}
+
+.section-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.section-button:active {
+  transform: translateY(0);
+}
+
 /* Form Group Password - Enhanced Styling */
 .form-group-password {
   display: flex;
@@ -406,6 +476,21 @@ input[type='file']:hover {
     gap: 20px;
   }
 
+  .form-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .section-button {
+    width: 100%;
+    justify-content: center;
+  }
+
   .form-group {
     gap: 6px;
   }
@@ -444,6 +529,17 @@ input[type='file']:hover {
   .header img {
     width: 100px;
     height: 100px;
+  }
+
+  .form-section {
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    margin-bottom: 12px;
   }
 
   .form-group input,

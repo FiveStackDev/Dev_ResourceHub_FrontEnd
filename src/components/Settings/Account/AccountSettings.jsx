@@ -287,66 +287,88 @@ const AccountSection = () => {
       </div>
 
       <div className="form-container">
-        {/* Phone update form */}
-        <form onSubmit={handlePhoneSubmit} className="form-group">
-          <label>
+        {/* Contact Information Section */}
+        <div className="form-section">
+          <h3 className="section-title">
             <Phone
-              size={18}
-              style={{
-                marginRight: '8px',
-                verticalAlign: 'middle',
-                display: 'inline',
-              }}
+              size={20}
+              style={{ marginRight: '8px', verticalAlign: 'middle' }}
             />
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Enter your phone number"
-            required
-          />
-          <button type="submit">
-            <Save size={18} />
-            Update Phone
-          </button>
-        </form>
+            Contact Information
+          </h3>
 
-        {/* Email update section */}
-        <div className="form-group">
-          <label>
-            <Mail
-              size={18}
-              style={{
-                marginRight: '8px',
-                verticalAlign: 'middle',
-                display: 'inline',
-              }}
+          {/* Phone update form */}
+          <form onSubmit={handlePhoneSubmit} className="form-group">
+            <label>
+              <Phone
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+              required
             />
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email address"
-            required
-          />
-          <button
-            type="button"
-            onClick={() => handleEmailSubmit(formData.email)}
-          >
-            <Save size={18} />
-            Update Email
-          </button>
+            <button type="submit" className="section-button">
+              <Save size={18} />
+              Update Phone
+            </button>
+          </form>
+
+          {/* Email update section */}
+          <div className="form-group">
+            <label>
+              <Mail
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email address"
+              required
+            />
+            <button
+              type="button"
+              className="section-button"
+              onClick={() => handleEmailSubmit(formData.email)}
+            >
+              <Save size={18} />
+              Update Email
+            </button>
+          </div>
         </div>
 
-        {/* Password change form */}
-        <form onSubmit={handlePasswordSubmit}>
-          <div className="form-group-password">
+        {/* Security Section */}
+        <div className="form-section">
+          <h3 className="section-title">
+            <Lock
+              size={20}
+              style={{ marginRight: '8px', verticalAlign: 'middle' }}
+            />
+            Security Settings
+          </h3>
+
+          {/* Password change form */}
+          <form onSubmit={handlePasswordSubmit}>
+            <div className="form-group-password">
             <div className="password-header">
               <Lock
                 size={24}
@@ -444,6 +466,7 @@ const AccountSection = () => {
             </button>
           </div>
         </form>
+        </div>
       </div>
 
       {/* Email verification popup */}

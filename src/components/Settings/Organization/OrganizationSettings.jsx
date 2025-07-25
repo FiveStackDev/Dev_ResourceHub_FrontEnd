@@ -510,6 +510,37 @@ const OrganizationSection = () => {
               placeholder="https://www.yourcompany.com"
             />
           </div>
+
+          <div className="form-group">
+            <label>
+              <Mail
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
+              Organization Email
+            </label>
+            <input
+              className="form-input"
+              type="email"
+              name="email"
+              value={formData.org_email}
+              onChange={handleChange}
+              placeholder="Enter organization email"
+              required
+            />
+            <button
+              type="button"
+              className="section-button"
+              onClick={() => handleEmailSubmit(formData.org_email)}
+            >
+              <Save size={18} />
+              Update Email
+            </button>
+          </div>
         </div>
 
         <button type="submit" disabled={uploading} className="submit-button">
@@ -517,37 +548,6 @@ const OrganizationSection = () => {
           {uploading ? 'Uploading...' : 'Save Organization Profile'}
         </button>
       </form>
-
-      <hr />
-
-      <div className="form-group" style={{ marginTop: '24px' }}>
-        <label>
-          <Mail
-            size={18}
-            style={{
-              marginRight: '8px',
-              verticalAlign: 'middle',
-              display: 'inline',
-            }}
-          />
-          Organization Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={formData.org_email}
-          onChange={handleChange}
-          placeholder="Enter organization email"
-          required
-        />
-        <button
-          type="button"
-          onClick={() => handleEmailSubmit(formData.org_email)}
-        >
-          <Save size={18} />
-          Update Email
-        </button>
-      </div>
 
       {openVerifyPopup && (
         <VerificationPopup

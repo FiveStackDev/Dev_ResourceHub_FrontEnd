@@ -217,60 +217,73 @@ const ProfileSection = () => {
         />
       </div>
       <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-group">
-          <label>
+        {/* Personal Information Section */}
+        <div className="form-section">
+          <h3 className="section-title">
             <User
-              size={18}
-              style={{
-                marginRight: '8px',
-                verticalAlign: 'middle',
-                display: 'inline',
-              }}
+              size={20}
+              style={{ marginRight: '8px', verticalAlign: 'middle' }}
             />
-            Display Name
-          </label>
-          <input
-            className="form-input"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your display name"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>
-            <FileText
-              size={18}
-              style={{
-                marginRight: '8px',
-                verticalAlign: 'middle',
-                display: 'inline',
-              }}
+            Personal Information
+          </h3>
+
+          <div className="form-group">
+            <label>
+              <User
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
+              Display Name
+            </label>
+            <input
+              className="form-input"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your display name"
+              required
             />
-            Bio
-          </label>
-          <textarea
-            name="bio"
-            value={formData.bio}
-            onChange={handleChange}
-            rows="4"
-            placeholder="Tell us about yourself..."
-            maxLength={150}
-          />
-          <small
-            style={{
-              color: 'var(--settings-popup-text-secondary)',
-              fontSize: '13px',
-              textAlign: 'right',
-              display: 'block',
-              marginTop: '4px',
-            }}
-          >
-            {formData.bio.length}/150 characters
-          </small>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <FileText
+                size={18}
+                style={{
+                  marginRight: '8px',
+                  verticalAlign: 'middle',
+                  display: 'inline',
+                }}
+              />
+              Bio
+            </label>
+            <textarea
+              name="bio"
+              value={formData.bio}
+              onChange={handleChange}
+              rows="4"
+              placeholder="Tell us about yourself..."
+              maxLength={150}
+            />
+            <small
+              style={{
+                color: 'var(--settings-popup-text-secondary)',
+                fontSize: '13px',
+                textAlign: 'right',
+                display: 'block',
+                marginTop: '4px',
+              }}
+            >
+              {formData.bio.length}/150 characters
+            </small>
+          </div>
         </div>
+
         <button type="submit" disabled={uploading}>
           <Save size={18} />
           {uploading ? 'Uploading...' : 'Save Profile'}
