@@ -15,7 +15,7 @@ export const BASE_URLS = {
   dashboardAdmin: `${BASE_URL}/dashboard-admin-f7e/v1.0`,
   dashboardUser: `${BASE_URL}/dashboard-user-bda/v1.0`,
   orgsettings: `${BASE_URL}/orgsettings-433/v1.0`,
-  report: `${BASE_URL}/report-a89/v1.0`,
+  report: `${BASE_URL}/schedulereports-a9e/v1.0`,
   notification: `${BASE_URL}/notification-ad2/v1.0`,
 
   // For local development
