@@ -22,7 +22,7 @@ import {
 export default function RequestedMeals() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const todayStr = today.toISOString().split('T')[0];
+  const todayStr = today.toLocaleDateString('en-CA'); // Uses YYYY-MM-DD format while respecting local timezone
 
   const [mealEvents, setMealEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -115,9 +115,8 @@ export default function RequestedMeals() {
     if (startDate && endDate) {
       filtered = filtered.filter((event) => {
         const eventDate = new Date(event.meal_request_date);
-        return (
-          eventDate >= new Date(startDate) && eventDate <= new Date(endDate)
-        );
+        const eventDateStr = eventDate.toLocaleDateString('en-CA');
+        return eventDateStr >= startDate && eventDateStr <= endDate;
       });
     }
 
@@ -166,18 +165,18 @@ export default function RequestedMeals() {
     setSelectedDateButton(days);
     
     if (days === 0) { // Today
-      setStartDate(date.toISOString().split('T')[0]);
-      setEndDate(date.toISOString().split('T')[0]);
+      setStartDate(date.toLocaleDateString('en-CA'));
+      setEndDate(date.toLocaleDateString('en-CA'));
     } else if (days === -1) { // Yesterday
       const yesterday = new Date(date);
       yesterday.setDate(date.getDate() - 1);
-      setStartDate(yesterday.toISOString().split('T')[0]);
-      setEndDate(yesterday.toISOString().split('T')[0]);
+      setStartDate(yesterday.toLocaleDateString('en-CA'));
+      setEndDate(yesterday.toLocaleDateString('en-CA'));
     } else if (days === 1) { // Tomorrow
       const tomorrow = new Date(date);
       tomorrow.setDate(date.getDate() + 1);
-      setStartDate(tomorrow.toISOString().split('T')[0]);
-      setEndDate(tomorrow.toISOString().split('T')[0]);
+      setStartDate(tomorrow.toLocaleDateString('en-CA'));
+      setEndDate(tomorrow.toLocaleDateString('en-CA'));
     }
   };
 
