@@ -182,6 +182,25 @@ export const MaintenanceTableUser = ({
                   )}
                 </TableCell>
                 <TableCell
+                  onClick={() => handleSort('description')}
+                  sx={{
+                    cursor: 'pointer',
+                    '&:hover': { color: theme.palette.primary.main },
+                  }}
+                >
+                  Category
+                  {sortColumn === 'Category' && (
+                    <span className="ml-1">
+                      {sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      )}
+                    </span>
+                  )}
+                </TableCell>
+                
+                <TableCell
                   onClick={() => handleSort('priorityLevel')}
                   sx={{
                     cursor: 'pointer',
@@ -199,6 +218,7 @@ export const MaintenanceTableUser = ({
                     </span>
                   )}
                 </TableCell>
+                
                 <TableCell
                   onClick={() => handleSort('status')}
                   sx={{
@@ -253,6 +273,8 @@ export const MaintenanceTableUser = ({
                         </div>
                       </TableCell>
                       <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.Categoy}</TableCell>
+                      
                       <TableCell>
                         <Chip
                           label={item.priorityLevel}

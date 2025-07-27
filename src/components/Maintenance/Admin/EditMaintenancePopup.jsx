@@ -18,6 +18,7 @@ import '../shared/MaintenanceDialog.css';
 export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
   const [description, setDescription] = useState('');
   const [priorityLevel, setPriorityLevel] = useState('');
+  const [Category, setCategory] = useState('');
   const [status, setStatus] = useState('');
 
   // Theme styles hook
@@ -116,7 +117,7 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
-                  label="Name"
+                  label="Title"
                   value={maintenance?.name || ''}
                   disabled
                   className="maintenance-popup-textfield"
@@ -144,6 +145,23 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                     <MenuItem value="Low">🟡 Low </MenuItem>
                     <MenuItem value="Medium">🟠 Medium </MenuItem>
                     <MenuItem value="High">🔴 High </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="maintenance-popup-input-group">
+                <FormControl fullWidth className="maintenance-popup-select">
+                  <InputLabel>Category</InputLabel>
+                  <Select
+                    value={Category}
+                    label="Category"
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <MenuItem value="Tech Support">Tech Support </MenuItem>
+                    <MenuItem value="General Maintenance">General Maintenance </MenuItem>
+                    <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene </MenuItem>
+                    <MenuItem value="Furniture and Fixtures">Furniture and Fixtures </MenuItem>
+                    <MenuItem value="Safety and Security">Safety and Security </MenuItem>
+                    <MenuItem value="Lighting and power">Lighting and power </MenuItem>
                   </Select>
                 </FormControl>
               </div>

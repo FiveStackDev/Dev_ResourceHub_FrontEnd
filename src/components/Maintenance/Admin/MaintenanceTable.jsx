@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { alpha } from '@mui/material/styles';
-import { Pencil, SendHorizontal, Send, X } from 'lucide-react';
+import { Pencil, SendHorizontal, Send, X,Trash2 } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
 import { DeleteConfirmDialog } from '../shared/DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
@@ -332,6 +332,24 @@ export const MaintenanceTable = ({
                   )}
                 </TableCell>
                 <TableCell
+                  onClick={() => handleSort('Category')}
+                  sx={{
+                    cursor: 'pointer',
+                    '&:hover': { color: theme.palette.primary.main },
+                  }}
+                >
+                  Category
+                  {sortColumn === 'Category' && (
+                    <span className="ml-1">
+                      {sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      )}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell
                   onClick={() => handleSort('priorityLevel')}
                   sx={{
                     cursor: 'pointer',
@@ -394,6 +412,21 @@ export const MaintenanceTable = ({
                     >
                       <TableCell>{item.username}</TableCell>
                       <TableCell>{item.description}</TableCell>
+                       <TableCell>{item.category}</TableCell>
+                    
+                        <TableCell>
+                        <Chip
+                          label={item.priorityLevel}
+                          size="small"
+                          sx={{
+                            backgroundColor: priorityStyle.bg,
+                            color: priorityStyle.color,
+                            fontWeight: 600,
+                            fontSize: '0.75rem',
+                            height: '24px',
+                          }}
+                        />
+                      </TableCell>
                       <TableCell>
                         <Chip
                           label={item.priorityLevel}
