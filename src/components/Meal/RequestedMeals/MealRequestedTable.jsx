@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TablePagination,
   Paper,
   Box,
   useTheme,
@@ -17,6 +18,8 @@ const MealRequestedTable = ({ events }) => {
 
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('meal_request_date');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSort = (column) => {
     const isAsc = sortColumn === column && sortDirection === 'asc';
@@ -36,6 +39,21 @@ const MealRequestedTable = ({ events }) => {
     if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Get current page data
+  const paginatedEvents = sortedEvents.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box position="relative">
@@ -117,7 +135,7 @@ const MealRequestedTable = ({ events }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedEvents.map((mealEvent, index) => {
+            {paginatedEvents.map((mealEvent, index) => {
               const eventId = `${mealEvent.user_id}_${mealEvent.meal_request_date}_${index}`;
               return (
                 <TableRow key={eventId} hover>
@@ -132,6 +150,15 @@ const MealRequestedTable = ({ events }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={sortedEvents.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Box>
   );
 };
