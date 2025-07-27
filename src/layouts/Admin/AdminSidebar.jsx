@@ -34,8 +34,9 @@ const navItems = [
     title: 'Meal',
     icon: <MealIcon />,
     submenu: [
-      { title: 'Meal Times', path: '/admin-addmealtime' },
-      { title: 'Meal Types', path: '/admin-addmealtype' },
+      { title: 'Meal Times', path: '/admin-mealTimes' },
+      { title: 'Meal Types', path: '/admin-mealTypes' },
+      { title: 'Requested Meals', path: '/admin-requestedMeals' },
     ],
   },
   {

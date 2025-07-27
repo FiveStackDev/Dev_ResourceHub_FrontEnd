@@ -334,6 +334,7 @@ const OrganizationSection = () => {
           uploading={uploading}
           isProfile={false}
           alt="Organization Logo"
+          defaultImage="https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg"
         />
       </div>
       <form onSubmit={handleSubmit} className="form-container">
