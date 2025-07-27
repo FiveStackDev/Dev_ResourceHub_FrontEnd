@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { alpha } from '@mui/material/styles';
-import { Pencil, SendHorizontal, Send, X } from 'lucide-react';
+import { Pencil, SendHorizontal, Send, X,Trash2 } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
 import { DeleteConfirmDialog } from '../shared/DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
