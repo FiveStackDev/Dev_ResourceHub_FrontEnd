@@ -26,7 +26,6 @@ import { Pencil, SendHorizontal, Send, X,Trash2 } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
 import { DeleteConfirmDialog } from '../shared/DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../../services/api/config.js';
 import '../shared/MaintenanceDialog.css';
 
@@ -234,28 +233,11 @@ export const MaintenanceTable = ({
 
       const result = await response.json();
       toast.success(
-        result.message || 'Maintenance notification sent to all users!',
-        {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'colored',
-        },
+        result.message || 'Maintenance notification sent to all users!'
       );
     } catch (error) {
       console.error('Error sending maintenance notification:', error);
-      toast.error(`Failed to send notification: ${error.message}`, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: 'colored',
-      });
+      toast.error(`Failed to send notification: ${error.message}`);
     }
   };
 
@@ -537,16 +519,7 @@ export const MaintenanceTable = ({
       />
 
       <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
+      
       />
     </>
   );
