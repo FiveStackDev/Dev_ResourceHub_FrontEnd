@@ -191,7 +191,7 @@ export const MaintenanceTable = ({
   const [selectedMaintenance, setSelectedMaintenance] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('maintenance_id');
 

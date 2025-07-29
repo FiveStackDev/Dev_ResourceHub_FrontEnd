@@ -188,21 +188,24 @@ const MaintenanceDetails = () => {
               >
                 <MenuItem value="All">All</MenuItem>
                 <MenuItem value="Tech Support">Tech Support </MenuItem>
-                <MenuItem value="General Maintenance">
-                  General Maintenance{' '}
-                </MenuItem>
-                <MenuItem value="Cleaning and Hygiene">
-                  Cleaning and Hygiene{' '}
-                </MenuItem>
-                <MenuItem value="Furniture and Fixtures">
-                  Furniture and Fixtures{' '}
-                </MenuItem>
-                <MenuItem value="Safety and Security">
-                  Safety and Security{' '}
-                </MenuItem>
-                <MenuItem value="Lighting and power">
-                  Lighting and power{' '}
-                </MenuItem>
+                    <MenuItem value="General Maintenance">
+                      General Maintenance{' '}
+                    </MenuItem>
+                    <MenuItem value="Cleaning and Hygiene">
+                      Cleaning and Hygiene{' '}
+                    </MenuItem>
+                    <MenuItem value="Building Maintenance">
+                      Building Maintenance{' '}
+                    </MenuItem>
+                    <MenuItem value="Safety and Security">
+                      Safety and Security{' '}
+                    </MenuItem>
+                    <MenuItem value="Utilities & Energy">
+                      Utilities & Energy{' '}
+                    </MenuItem>
+                    <MenuItem value="HVAC">
+                      HVAC(Heating, Ventilation & Air Conditioning){' '}
+                    </MenuItem>
               </Select>
             </FormControl>
             <FormControl

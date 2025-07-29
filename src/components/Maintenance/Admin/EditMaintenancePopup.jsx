@@ -164,14 +164,17 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
                     <MenuItem value="Cleaning and Hygiene">
                       Cleaning and Hygiene{' '}
                     </MenuItem>
-                    <MenuItem value="Furniture and Fixtures">
-                      Furniture and Fixtures{' '}
+                    <MenuItem value="Building Maintenance">
+                      Building Maintenance{' '}
                     </MenuItem>
                     <MenuItem value="Safety and Security">
                       Safety and Security{' '}
                     </MenuItem>
-                    <MenuItem value="Lighting and power">
-                      Lighting and power{' '}
+                    <MenuItem value="Utilities & Energy">
+                      Utilities & Energy{' '}
+                    </MenuItem>
+                    <MenuItem value="HVAC">
+                      HVAC(Heating, Ventilation & Air Conditioning){' '}
                     </MenuItem>
                   </Select>
                 </FormControl>

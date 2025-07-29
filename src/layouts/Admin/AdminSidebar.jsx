@@ -20,6 +20,7 @@ import {
   ExpandLess,
   ExpandMore,
 } from '@mui/icons-material';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import { Link } from 'react-router-dom';
 import { useSidebar } from '../../contexts/SidebarContext';
 import SidebarWrapper from '../shared/SidebarWrapper';
@@ -51,7 +52,7 @@ const navItems = [
   },
   {
     title: 'Services',
-    icon: <MaintenanceIcon />,
+    icon: <MiscellaneousServicesIcon />,
     path: '/admin-maintenance',
   },
   {

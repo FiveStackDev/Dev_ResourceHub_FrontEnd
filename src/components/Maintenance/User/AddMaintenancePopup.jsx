@@ -132,7 +132,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Category</InputLabel>
-                  <Select
+                               <Select
                     value={category}
                     label="Category"
                     onChange={(e) => setCategory(e.target.value)}
@@ -144,14 +144,17 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                     <MenuItem value="Cleaning and Hygiene">
                       Cleaning and Hygiene{' '}
                     </MenuItem>
-                    <MenuItem value="Furniture and Fixtures">
-                      Furniture and Fixtures{' '}
+                    <MenuItem value="Building Maintenance">
+                      Building Maintenance{' '}
                     </MenuItem>
                     <MenuItem value="Safety and Security">
                       Safety and Security{' '}
                     </MenuItem>
-                    <MenuItem value="Lighting and power">
-                      Lighting and power{' '}
+                    <MenuItem value="Utilities & Energy">
+                      Utilities & Energy{' '}
+                    </MenuItem>
+                    <MenuItem value="HVAC">
+                      HVAC(Heating, Ventilation & Air Conditioning){' '}
                     </MenuItem>
                   </Select>
                 </FormControl>
