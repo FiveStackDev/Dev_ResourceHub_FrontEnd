@@ -18,7 +18,7 @@ import '../shared/MaintenanceDialog.css';
 export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
   const [name, setName] = useState('');
   const [priorityLevel, setPriorityLevel] = useState('Low');
-  const [Category, setCategory] = useState('Tech Support');
+  const [category, setCategory] = useState('Tech Support');
   const [description, setDescription] = useState('');
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -40,11 +40,12 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
       return;
     }
 
-    onAdd({ name, priorityLevel, description });
+    onAdd({ name, priorityLevel, description, category });
     // Clear form after successful submission
     setName('');
     setPriorityLevel('Low');
     setDescription('');
+    setCategory('Tech Support');
     setNameError(false);
     setDescriptionError(false);
     onClose();
@@ -56,6 +57,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
     setPriorityLevel('Low');
     setDescription('');
     setNameError(false);
+    setCategory('Tech Support');
     setDescriptionError(false);
     onClose();
   };
@@ -127,20 +129,30 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                 </FormControl>
               </div>
 
-               <div className="maintenance-popup-input-group">
+              <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Category</InputLabel>
                   <Select
-                    value={Category}
+                    value={category}
                     label="Category"
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <MenuItem value="Tech Support">Tech Support </MenuItem>
-                    <MenuItem value="General Maintenance">General Maintenance </MenuItem>
-                    <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene </MenuItem>
-                    <MenuItem value="Furniture and Fixtures">Furniture and Fixtures </MenuItem>
-                    <MenuItem value="Safety and Security">Safety and Security </MenuItem>
-                    <MenuItem value="Lighting and power">Lighting and power </MenuItem>
+                    <MenuItem value="General Maintenance">
+                      General Maintenance{' '}
+                    </MenuItem>
+                    <MenuItem value="Cleaning and Hygiene">
+                      Cleaning and Hygiene{' '}
+                    </MenuItem>
+                    <MenuItem value="Furniture and Fixtures">
+                      Furniture and Fixtures{' '}
+                    </MenuItem>
+                    <MenuItem value="Safety and Security">
+                      Safety and Security{' '}
+                    </MenuItem>
+                    <MenuItem value="Lighting and power">
+                      Lighting and power{' '}
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </div>

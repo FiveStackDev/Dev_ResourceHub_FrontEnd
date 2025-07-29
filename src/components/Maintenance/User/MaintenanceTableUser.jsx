@@ -199,7 +199,7 @@ export const MaintenanceTableUser = ({
                     </span>
                   )}
                 </TableCell>
-                
+
                 <TableCell
                   onClick={() => handleSort('priorityLevel')}
                   sx={{
@@ -218,7 +218,7 @@ export const MaintenanceTableUser = ({
                     </span>
                   )}
                 </TableCell>
-                
+
                 <TableCell
                   onClick={() => handleSort('status')}
                   sx={{
@@ -273,8 +273,8 @@ export const MaintenanceTableUser = ({
                         </div>
                       </TableCell>
                       <TableCell>{item.description}</TableCell>
-                      <TableCell>{item.Categoy}</TableCell>
-                      
+                      <TableCell>{item.category}</TableCell>
+
                       <TableCell>
                         <Chip
                           label={item.priorityLevel}

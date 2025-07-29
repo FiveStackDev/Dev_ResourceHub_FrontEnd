@@ -19,7 +19,7 @@ export const EditMaintenancePopup = ({
 }) => {
   const [name, setName] = useState('');
   const [priorityLevel, setPriorityLevel] = useState('Low');
-  const [Category, setCategory] = useState('Tech Support');
+  const [category, setCategory] = useState('Tech Support');
   const [description, setDescription] = useState('');
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -36,6 +36,7 @@ export const EditMaintenancePopup = ({
     if (maintenance) {
       setName(maintenance.name || '');
       setPriorityLevel(maintenance.priorityLevel || 'Low');
+      setCategory(maintenance.category);
       setDescription(maintenance.description || '');
     }
   }, [maintenance]);
@@ -53,6 +54,7 @@ export const EditMaintenancePopup = ({
       ...maintenance,
       name,
       priorityLevel,
+      category,
       description,
     });
 
@@ -147,16 +149,26 @@ export const EditMaintenancePopup = ({
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Category</InputLabel>
                   <Select
-                    value={Category}
+                    value={category}
                     label="Category"
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <MenuItem value="Tech Support">Tech Support </MenuItem>
-                    <MenuItem value="General Maintenance">General Maintenance </MenuItem>
-                    <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene </MenuItem>
-                    <MenuItem value="Furniture and Fixtures">Furniture and Fixtures </MenuItem>
-                    <MenuItem value="Safety and Security">Safety and Security </MenuItem>
-                    <MenuItem value="Lighting and power">Lighting and power </MenuItem>
+                    <MenuItem value="General Maintenance">
+                      General Maintenance{' '}
+                    </MenuItem>
+                    <MenuItem value="Cleaning and Hygiene">
+                      Cleaning and Hygiene{' '}
+                    </MenuItem>
+                    <MenuItem value="Furniture and Fixtures">
+                      Furniture and Fixtures{' '}
+                    </MenuItem>
+                    <MenuItem value="Safety and Security">
+                      Safety and Security{' '}
+                    </MenuItem>
+                    <MenuItem value="Lighting and power">
+                      Lighting and power{' '}
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </div>

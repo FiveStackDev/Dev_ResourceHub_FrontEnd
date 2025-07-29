@@ -414,19 +414,7 @@ export const MaintenanceTable = ({
                       <TableCell>{item.description}</TableCell>
                        <TableCell>{item.category}</TableCell>
                     
-                        <TableCell>
-                        <Chip
-                          label={item.priorityLevel}
-                          size="small"
-                          sx={{
-                            backgroundColor: priorityStyle.bg,
-                            color: priorityStyle.color,
-                            fontWeight: 600,
-                            fontSize: '0.75rem',
-                            height: '24px',
-                          }}
-                        />
-                      </TableCell>
+                       
                       <TableCell>
                         <Chip
                           label={item.priorityLevel}

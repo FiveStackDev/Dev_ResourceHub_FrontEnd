@@ -67,6 +67,7 @@ const MaintenanceDetails = () => {
         name: newMaintenance.name,
         priorityLevel: newMaintenance.priorityLevel,
         description: newMaintenance.description,
+        category: newMaintenance.category,
         user_id: parseInt(userId),
       };
 
@@ -128,14 +129,18 @@ const MaintenanceDetails = () => {
     const searchMatch = item.username
       .toLowerCase()
       .includes(searchText.toLowerCase());
-    const typeMatch = filterType === 'All' || item.priorityLevel === filterType|| item.status === filterType || item.category === filterType;
+    const typeMatch =
+      filterType === 'All' ||
+      item.priorityLevel === filterType ||
+      item.status === filterType ||
+      item.category === filterType;
     return searchMatch && typeMatch;
   });
 
   return (
     <AdminLayout>
       <div className="space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Maintenance</h1>
+        <h1 className="text-2xl font-semibold">Maintenance & Services</h1>
 
         <div
           style={{

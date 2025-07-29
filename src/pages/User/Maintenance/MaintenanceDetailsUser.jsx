@@ -76,6 +76,7 @@ const MaintenanceDetailsUser = () => {
         priorityLevel: newMaintenance.priorityLevel,
         description: newMaintenance.description,
         user_id: parseInt(userId),
+        category: newMaintenance.category,
       };
 
       const response = await axios.post(
@@ -139,14 +140,18 @@ const MaintenanceDetailsUser = () => {
     const searchMatch = (item.username || '')
       .toLowerCase()
       .includes(searchText.toLowerCase());
-    const typeMatch = filterType === 'All' || item.priorityLevel === filterType || item.status === filterType || item.category === filterType;
+    const typeMatch =
+      filterType === 'All' ||
+      item.priorityLevel === filterType ||
+      item.status === filterType ||
+      item.category === filterType;
     return searchMatch && typeMatch;
-  }); 
+  });
 
   return (
     <UserLayout>
       <div className="min-h-screen space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Maintenance</h1>
+        <h1 className="text-2xl font-semibold">Maintenance & Services</h1>
 
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -188,11 +193,21 @@ const MaintenanceDetailsUser = () => {
               >
                 <MenuItem value="All">All</MenuItem>
                 <MenuItem value="Tech Support">Tech Support </MenuItem>
-                    <MenuItem value="General Maintenance">General Maintenance </MenuItem>
-                    <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene </MenuItem>
-                    <MenuItem value="Furniture and Fixtures">Furniture and Fixtures </MenuItem>
-                    <MenuItem value="Safety and Security">Safety and Security </MenuItem>
-                    <MenuItem value="Lighting and power">Lighting and power </MenuItem>
+                <MenuItem value="General Maintenance">
+                  General Maintenance{' '}
+                </MenuItem>
+                <MenuItem value="Cleaning and Hygiene">
+                  Cleaning and Hygiene{' '}
+                </MenuItem>
+                <MenuItem value="Furniture and Fixtures">
+                  Furniture and Fixtures{' '}
+                </MenuItem>
+                <MenuItem value="Safety and Security">
+                  Safety and Security{' '}
+                </MenuItem>
+                <MenuItem value="Lighting and power">
+                  Lighting and power{' '}
+                </MenuItem>
               </Select>
             </FormControl>
             <FormControl
