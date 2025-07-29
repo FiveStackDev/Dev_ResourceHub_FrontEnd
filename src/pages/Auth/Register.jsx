@@ -155,7 +155,7 @@ function Register() {
 
           {/* Email */}
           <TextField
-            label="Youer Email Address"
+            label="Your Email Address"
             name="email"
             type="email"
             variant="outlined"
