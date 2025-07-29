@@ -13,6 +13,7 @@ function AddMealTime() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [mealTimes, setMealTimes] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const title = 'Add New Meal Time';
   const getSubtitle = () => 'Manage meal times for the day';
@@ -43,6 +44,7 @@ function AddMealTime() {
 
   // Fetch all meal times from API
   const fetchMealTimes = async () => {
+     setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URLS.mealtime}/details`, {
         headers: {
@@ -57,6 +59,8 @@ function AddMealTime() {
       setMealTimes(data);
     } catch (error) {
       setError(`Error fetching meal times: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,7 +72,7 @@ function AddMealTime() {
   return (
     <AdminLayout>
       <div className="min-h-screen space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Meal times</h1>
+        <h1 className="text-2xl font-semibold">Meal Times</h1>
 
         {/* Button to open the add meal time popup */}
         <Button
@@ -87,7 +91,12 @@ function AddMealTime() {
 
         {/* Meal time cards */}
         <div className="meal-items-grid">
-          {mealTimes.length > 0 ? (
+          {isLoading ? (
+            <div className="meal-no-items">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2"></div>
+              <p>Loading meal times...</p>
+            </div>
+          ) : mealTimes.length > 0 ? (
             mealTimes.map((meal) => (
               <MealCard
                 key={meal.mealtime_id}
@@ -99,7 +108,7 @@ function AddMealTime() {
               />
             ))
           ) : (
-            <p className="meal-no-items">No meal times available</p>
+            <p className="meal-no-items">Loading ....</p>
           )}
         </div>
 

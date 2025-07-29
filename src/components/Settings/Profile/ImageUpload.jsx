@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Camera, Upload, Eye, Edit, X, Image } from 'lucide-react';
+import { Camera, Upload, Eye, Edit, X, Image,Trash2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 const ImageUpload = ({
@@ -9,6 +9,7 @@ const ImageUpload = ({
   uploading,
   isProfile = true,
   alt = 'Image',
+  defaultImage = 'https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg?t=st=1746539771~exp=1746543371~hmac=66ec0b65bf0ae4d49922a69369cec4c0e3b3424613be723e0ca096a97d1039f1&w=740',
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState('view'); // 'view' or 'edit'
@@ -109,13 +110,6 @@ const ImageUpload = ({
 
   return (
     <>
-      {/* Debug info */}
-      {process.env.NODE_ENV === 'development' && (
-        <div style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
-          Modal State: {showModal ? 'OPEN' : 'CLOSED'} | Mode: {modalMode} |
-          Image: {currentImage ? 'YES' : 'NO'}
-        </div>
-      )}
 
       <div className="image-upload-container">
         <div className="image-display">
@@ -146,6 +140,14 @@ const ImageUpload = ({
                   title="Edit Image"
                 >
                   <Edit size={16} />
+                </button>
+                 <button
+                  type="button"
+                  className="image-action-btn delete-btn"
+                  onClick={() => openModal('delete')}
+                  title="Delete Image"
+                >
+                  <Trash2 size={16} />
                 </button>
               </div>
             </div>
@@ -187,6 +189,50 @@ const ImageUpload = ({
             </div>
           </div>,
           portalContainer,
+        )}
+
+      {portalContainer &&
+        showModal &&
+        modalMode === 'delete' &&
+        createPortal(
+          <div className="professional-modal-overlay" onClick={closeModal}>
+            <div
+              className="professional-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="professional-modal-header">
+                <div className="header-content">
+                  <div className="header-icon">
+                    <Trash2 size={24} />
+                  </div>
+                  <div className="header-text">
+                    <h3>Delete {isProfile ? 'Profile Picture' : 'Organization Logo'}</h3>
+                    <p>Are you sure you want to delete your {isProfile ? 'profile picture' : 'organization logo'}?</p>
+                  </div>
+                </div>
+                <button className="professional-close-btn" onClick={closeModal}>
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="professional-modal-content" style={{ display: 'flex', justifyContent: 'flex-end', padding: '20px' }}>
+                <button className="professional-btn-secondary" onClick={closeModal} style={{ marginRight: '10px' }}>
+                  Cancel
+                </button>
+                <button 
+                  className="professional-btn-primary"
+                  onClick={() => {
+                    onImageChange(null, defaultImage);
+                    closeModal();
+                    toast.success('Image has been reset to default');
+                  }}
+                  
+>
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>,
+          portalContainer
         )}
 
       {portalContainer &&

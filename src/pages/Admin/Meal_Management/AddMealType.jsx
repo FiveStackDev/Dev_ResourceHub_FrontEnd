@@ -13,6 +13,7 @@ function AddMealType() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [mealTypes, setMealTypes] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const title = 'Add New Meal Type';
   const getSubtitle = () => 'Manage meal types for the day';
@@ -43,6 +44,7 @@ function AddMealType() {
 
   // Fetch all meal types from the backend
   const fetchMealTypes = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URLS.mealtype}/details`, {
         headers: {
@@ -57,6 +59,8 @@ function AddMealType() {
       setMealTypes(data);
     } catch (error) {
       setError(`Error fetching meal types: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,7 +72,7 @@ function AddMealType() {
   return (
     <AdminLayout>
       <div className="min-h-screen space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Meal types</h1>
+        <h1 className="text-2xl font-semibold">Meal Types</h1>
 
         {/* Button to open popup */}
         <Button
@@ -87,7 +91,12 @@ function AddMealType() {
 
         {/* Meal type cards */}
         <div className="meal-items-grid">
-          {mealTypes.length > 0 ? (
+          {isLoading ? (
+            <div className="meal-no-items">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2"></div>
+              <p>Loading meal types...</p>
+            </div>
+          ) : mealTypes.length > 0 ? (
             mealTypes.map((meal) => (
               <MealCard
                 key={meal.mealtype_id}
@@ -99,7 +108,7 @@ function AddMealType() {
               />
             ))
           ) : (
-            <p className="meal-no-items">No meal types available</p>
+            <p className="meal-no-items">No meal types found</p>
           )}
         </div>
 

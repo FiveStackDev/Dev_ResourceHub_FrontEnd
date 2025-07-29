@@ -26,9 +26,10 @@ import MaintenanceDetails from './pages/Admin/Maintenance/MaintenanceDetails';
 import ReportHome from './pages/Admin/Reports/ReportHome';
 import AssetReport from './pages/Admin/Reports/AssetReport';
 import MealReport from './pages/Admin/Reports/MealReport';
+import RequestedMeals from './pages/Admin/Meal_Management/RequestedMeals';
 import MaintenanceReport from './pages/Admin/Reports/MaintenanceReport';
-import AddMealTime from './pages/Admin/Meal_Function/AddMealTime';
-import AddMealType from './pages/Admin/Meal_Function/AddMealType';
+import AddMealTime from './pages/Admin/Meal_Management/AddMealTime';
+import AddMealType from './pages/Admin/Meal_Management/AddMealType';
 import { Users } from './pages/Admin/UserManagement/Users';
 
 // User Pages
@@ -150,7 +151,7 @@ function App() {
                 }
               />
               <Route
-                path="/admin-addmealtime"
+                path="/admin-mealTimes"
                 element={
                   <ProtectedRoute requiredRole="Admin">
                     <AddMealTime />
@@ -158,7 +159,15 @@ function App() {
                 }
               />
               <Route
-                path="/admin-addmealtype"
+                path="/admin-requestedMeals"
+                element={
+                  <ProtectedRoute requiredRole="Admin">
+                    <RequestedMeals />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin-mealTypes"
                 element={
                   <ProtectedRoute requiredRole="Admin">
                     <AddMealType />

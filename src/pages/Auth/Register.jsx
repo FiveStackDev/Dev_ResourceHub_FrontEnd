@@ -82,9 +82,9 @@ function Register() {
       
       if (response.ok) {
         // Check if the response contains an error message even with OK status
-        if (responseData.message && responseData.message.toLowerCase().includes('email already exists')) {
-          setErrorMessage(responseData.message);
-          toast.error(responseData.message);
+        if (responseData.error) {
+          setErrorMessage(responseData.error);
+          toast.error(responseData.error);
         } else {
           // Successful registration
           toast.success('Registration successful!');
@@ -97,7 +97,7 @@ function Register() {
           });
         }
       } else {
-        const errorMsg = responseData.message || 'Failed to register';
+        const errorMsg = responseData.message || responseData.error || 'Failed to register';
         setErrorMessage(errorMsg);
         toast.error(errorMsg);
       }
@@ -155,7 +155,7 @@ function Register() {
 
           {/* Email */}
           <TextField
-            label="Youer Email Address"
+            label="Your Email Address"
             name="email"
             type="email"
             variant="outlined"
