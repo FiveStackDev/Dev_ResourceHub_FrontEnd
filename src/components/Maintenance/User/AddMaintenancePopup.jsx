@@ -88,9 +88,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               <Wrench size={24} color="#f59e0b" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Add Maintenance</h2>
+              <h2 className="maintenance-popup-title">Add Request</h2>
               <p className="maintenance-popup-subtitle">
-                Create a new maintenance request
+                Create a new request
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
             </button>
             <button type="submit" className="maintenance-popup-submit-btn">
               <Plus size={16} />
-              Add Maintenance
+              Add Request
             </button>
           </div>
         </form>

@@ -151,7 +151,7 @@ const MaintenanceDetailsUser = () => {
   return (
     <UserLayout>
       <div className="min-h-screen space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Maintenance & Services</h1>
+        <h1 className="text-2xl font-semibold">Maintenances & Services</h1>
 
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -235,7 +235,7 @@ const MaintenanceDetailsUser = () => {
             startIcon={<Plus size={20} />}
             onClick={() => setIsAddMaintenanceOpen(true)}
           >
-            Add New Maintenance
+            Add New Request
           </Button>
         </div>
 

@@ -101,9 +101,9 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
               <Settings size={24} color="#f59e0b" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Edit Maintenance</h2>
+              <h2 className="maintenance-popup-title">Edit Request</h2>
               <p className="maintenance-popup-subtitle">
-                Update maintenance request details
+                Update maintenances & service request details
               </p>
             </div>
           </div>

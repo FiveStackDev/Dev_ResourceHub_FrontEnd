@@ -105,9 +105,9 @@ export const EditMaintenancePopup = ({
               <Edit size={24} color="#f59e0b" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Edit Maintenance</h2>
+              <h2 className="maintenance-popup-title">Edit Request</h2>
               <p className="maintenance-popup-subtitle">
-                Update your maintenance request
+                Update your maintenance or service request
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export const EditMaintenancePopup = ({
             </button>
             <button type="submit" className="maintenance-popup-submit-btn">
               <Edit size={16} />
-              Update Maintenance
+              Save Changes
             </button>
           </div>
         </form>

@@ -59,7 +59,7 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
             <div>
               <h2 className="maintenance-popup-title">Confirm Notification</h2>
               <p className="maintenance-popup-subtitle">
-                Send maintenance notification to user
+                Send maintenance & service notification to user
               </p>
             </div>
           </div>
@@ -72,7 +72,7 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
           <div className="maintenance-delete-warning-box">
             <p className="maintenance-delete-warning-text">
               Are you sure you want to send this notification? The user will be
-              notified about their maintenance request status.
+              notified about their request status.
             </p>
           </div>
         </div>

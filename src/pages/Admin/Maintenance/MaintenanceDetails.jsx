@@ -140,7 +140,7 @@ const MaintenanceDetails = () => {
   return (
     <AdminLayout>
       <div className="space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Maintenance & Services</h1>
+        <h1 className="text-2xl font-semibold">Maintenances & Services</h1>
 
         <div
           style={{
@@ -230,7 +230,7 @@ const MaintenanceDetails = () => {
             startIcon={<Plus size={20} />}
             onClick={() => setIsAddMaintenanceOpen(true)}
           >
-            Add New Maintenance
+            Add New Request
           </Button>
         </div>
 

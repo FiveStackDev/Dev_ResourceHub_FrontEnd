@@ -322,13 +322,14 @@
 }
 
 .maintenance-popup-submit-btn {
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 4px 12px rgba(15, 11, 245, 0.308);
+  border: #ffffff38 2px solid;
 }
 
 .maintenance-popup-submit-btn:hover {
   background: linear-gradient(135deg, #6a72ec 0%, #314eee 100%);
   transform: translateY(-2px);
+  color:#ffffff;
   box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
 }
 
