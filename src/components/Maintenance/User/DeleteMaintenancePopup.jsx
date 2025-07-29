@@ -48,7 +48,7 @@ export const DeleteMaintenancePopup = ({
               <Trash2 size={24} color="#ef4444" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Delete Maintenance</h2>
+              <h2 className="maintenance-popup-title">Delete Request</h2>
               <p className="maintenance-popup-subtitle">
                 This action cannot be undone
               </p>
@@ -62,7 +62,7 @@ export const DeleteMaintenancePopup = ({
         <div className="maintenance-popup-content">
           <div className="maintenance-delete-warning-box">
             <p className="maintenance-delete-warning-text">
-              Are you sure you want to delete this maintenance request?
+              Are you sure you want to delete this request?
             </p>
             <div
               style={{
@@ -173,7 +173,7 @@ export const DeleteMaintenancePopup = ({
             }}
           >
             <Trash2 size={16} />
-            Delete Maintenance
+            Delete Request
           </button>
         </div>
       </div>

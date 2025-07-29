@@ -19,6 +19,7 @@ export const EditMaintenancePopup = ({
 }) => {
   const [name, setName] = useState('');
   const [priorityLevel, setPriorityLevel] = useState('Low');
+  const [category, setCategory] = useState('Tech Support');
   const [description, setDescription] = useState('');
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -35,6 +36,7 @@ export const EditMaintenancePopup = ({
     if (maintenance) {
       setName(maintenance.name || '');
       setPriorityLevel(maintenance.priorityLevel || 'Low');
+      setCategory(maintenance.category);
       setDescription(maintenance.description || '');
     }
   }, [maintenance]);
@@ -52,6 +54,7 @@ export const EditMaintenancePopup = ({
       ...maintenance,
       name,
       priorityLevel,
+      category,
       description,
     });
 
@@ -102,9 +105,9 @@ export const EditMaintenancePopup = ({
               <Edit size={24} color="#f59e0b" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Edit Maintenance</h2>
+              <h2 className="maintenance-popup-title">Edit Request</h2>
               <p className="maintenance-popup-subtitle">
-                Update your maintenance request
+                Update your maintenance or service request
               </p>
             </div>
           </div>
@@ -119,11 +122,11 @@ export const EditMaintenancePopup = ({
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
-                  label="Name"
+                  label="Title"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   error={nameError}
-                  helperText={nameError ? 'Please enter a name' : ''}
+                  helperText={nameError ? 'Please enter a title' : ''}
                   className="maintenance-popup-textfield"
                 />
               </div>
@@ -139,6 +142,33 @@ export const EditMaintenancePopup = ({
                     <MenuItem value="Low">🟡 Low </MenuItem>
                     <MenuItem value="Medium">🟠 Medium </MenuItem>
                     <MenuItem value="High">🔴 High </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="maintenance-popup-input-group">
+                <FormControl fullWidth className="maintenance-popup-select">
+                  <InputLabel>Category</InputLabel>
+                  <Select
+                    value={category}
+                    label="Category"
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <MenuItem value="Tech Support">Tech Support </MenuItem>
+                    <MenuItem value="General Maintenance">
+                      General Maintenance{' '}
+                    </MenuItem>
+                    <MenuItem value="Cleaning and Hygiene">
+                      Cleaning and Hygiene{' '}
+                    </MenuItem>
+                    <MenuItem value="Furniture and Fixtures">
+                      Furniture and Fixtures{' '}
+                    </MenuItem>
+                    <MenuItem value="Safety and Security">
+                      Safety and Security{' '}
+                    </MenuItem>
+                    <MenuItem value="Lighting and power">
+                      Lighting and power{' '}
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -171,7 +201,7 @@ export const EditMaintenancePopup = ({
             </button>
             <button type="submit" className="maintenance-popup-submit-btn">
               <Edit size={16} />
-              Update Maintenance
+              Save Changes
             </button>
           </div>
         </form>

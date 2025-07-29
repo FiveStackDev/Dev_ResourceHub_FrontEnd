@@ -18,6 +18,7 @@ import '../shared/MaintenanceDialog.css';
 export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
   const [name, setName] = useState('');
   const [priorityLevel, setPriorityLevel] = useState('Low');
+  const [category, setCategory] = useState('Tech Support');
   const [description, setDescription] = useState('');
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -39,11 +40,12 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
       return;
     }
 
-    onAdd({ name, priorityLevel, description });
+    onAdd({ name, priorityLevel, description, category });
     // Clear form after successful submission
     setName('');
     setPriorityLevel('Low');
     setDescription('');
+    setCategory('Tech Support');
     setNameError(false);
     setDescriptionError(false);
     onClose();
@@ -55,6 +57,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
     setPriorityLevel('Low');
     setDescription('');
     setNameError(false);
+    setCategory('Tech Support');
     setDescriptionError(false);
     onClose();
   };
@@ -85,9 +88,9 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               <Wrench size={24} color="#f59e0b" />
             </div>
             <div>
-              <h2 className="maintenance-popup-title">Add Maintenance</h2>
+              <h2 className="maintenance-popup-title">Add Request</h2>
               <p className="maintenance-popup-subtitle">
-                Create a new maintenance request
+                Create a new request
               </p>
             </div>
           </div>
@@ -102,11 +105,11 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               <div className="maintenance-popup-input-group">
                 <TextField
                   fullWidth
-                  label="Name"
+                  label="Title"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   error={nameError}
-                  helperText={nameError ? 'Please enter a name' : ''}
+                  helperText={nameError ? 'Please enter a title' : ''}
                   className="maintenance-popup-textfield"
                 />
               </div>
@@ -122,6 +125,34 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                     <MenuItem value="Low">🟡 Low </MenuItem>
                     <MenuItem value="Medium">🟠 Medium </MenuItem>
                     <MenuItem value="High">🔴 High </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div className="maintenance-popup-input-group">
+                <FormControl fullWidth className="maintenance-popup-select">
+                  <InputLabel>Category</InputLabel>
+                  <Select
+                    value={category}
+                    label="Category"
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <MenuItem value="Tech Support">Tech Support </MenuItem>
+                    <MenuItem value="General Maintenance">
+                      General Maintenance{' '}
+                    </MenuItem>
+                    <MenuItem value="Cleaning and Hygiene">
+                      Cleaning and Hygiene{' '}
+                    </MenuItem>
+                    <MenuItem value="Furniture and Fixtures">
+                      Furniture and Fixtures{' '}
+                    </MenuItem>
+                    <MenuItem value="Safety and Security">
+                      Safety and Security{' '}
+                    </MenuItem>
+                    <MenuItem value="Lighting and power">
+                      Lighting and power{' '}
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -154,7 +185,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
             </button>
             <button type="submit" className="maintenance-popup-submit-btn">
               <Plus size={16} />
-              Add Maintenance
+              Add Request
             </button>
           </div>
         </form>

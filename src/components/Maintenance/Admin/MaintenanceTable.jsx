@@ -14,10 +14,6 @@ import {
   useTheme,
   Chip,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Box,
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
@@ -26,11 +22,26 @@ import { Pencil, SendHorizontal, Send, X,Trash2 } from 'lucide-react';
 import { EditMaintenance } from './EditMaintenancePopup.jsx';
 import { DeleteConfirmDialog } from '../shared/DeleteConfirmDialog.jsx';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../../services/api/config.js';
 import '../shared/MaintenanceDialog.css';
 
 const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
+  const [selectedRole, setSelectedRole] = useState('User');
+  const roles = [
+    { label: 'User', value: 'User' },
+    { label: 'Admin', value: 'Admin' },
+    { label: 'All', value: 'All' },
+  ];
+
+  const handleRoleChange = (role) => {
+    setSelectedRole(role);
+  };
+
+  // Pass selectedRole to onConfirm
+  const handleConfirm = () => {
+    onConfirm(selectedRole);
+  };
+
   return (
     <Dialog
       open={open}
@@ -59,7 +70,7 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
             <div>
               <h2 className="maintenance-popup-title">Confirm Notification</h2>
               <p className="maintenance-popup-subtitle">
-                Send maintenance notification to user
+                Send maintenance & service notification to selected roles
               </p>
             </div>
           </div>
@@ -71,9 +82,83 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
         <div className="maintenance-popup-content">
           <div className="maintenance-delete-warning-box">
             <p className="maintenance-delete-warning-text">
-              Are you sure you want to send this notification? The user will be
-              notified about their maintenance request status.
+              Are you sure you want to send this notification? The selected
+              roles will be notified about their request status.
             </p>
+          </div>
+
+          <div
+            className="maintenance-role-select-box"
+            style={{
+              margin: '18px 0',
+              padding: '20px',
+              borderRadius: '12px',
+              background: 'rgba(59,130,246,0.07)',
+              boxShadow: '0 2px 8px rgba(59,130,246,0.08)',
+            }}
+          >
+            <div
+              style={{
+                fontWeight: 600,
+                marginBottom: 16,
+                color: '#2563eb',
+                fontSize: '1.1rem',
+                textAlign: 'center',
+              }}
+            >
+              Select Roles:
+            </div>
+
+            <div
+              className="roles-container"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '20px',
+              }}
+            >
+              {roles.map((role) => (
+                <label
+                  key={role.value}
+                  className="role-item"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    fontWeight: 500,
+                    fontSize: '1rem',
+                    color: selectedRole === role.value ? '#4c80f0ff' : '',
+                    cursor: 'pointer',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    border:
+                      selectedRole === role.value
+                        ? '1px solid #2564eb54'
+                        : '1px solid #d1d5db6e',
+                    transition: 'all 0.2s ease',
+                    background:
+                      selectedRole === role.value
+                        ? 'rgba(127, 170, 240, 0.1)'
+                        : 'transparent',
+                  }}
+                >
+                  <input
+                    type="radio"
+                    checked={selectedRole === role.value}
+                    onChange={() => handleRoleChange(role.value)}
+                    style={{
+                      accentColor: '#2563eb',
+                      width: 18,
+                      height: 18,
+                      cursor: 'pointer',
+                    }}
+                  />
+                  <span>{role.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -81,7 +166,10 @@ const SendConfirmDialog = ({ open, onClose, onConfirm }) => {
           <button onClick={onClose} className="maintenance-popup-cancel-btn">
             Cancel
           </button>
-          <button onClick={onConfirm} className="maintenance-popup-submit-btn">
+          <button
+            onClick={handleConfirm}
+            className="maintenance-popup-submit-btn"
+          >
             <Send size={16} />
             Send Notification
           </button>
@@ -202,8 +290,8 @@ export const MaintenanceTable = ({
   };
 
   // Function to call addnotification endpoint
-  // Function to call sendMaintenanceNotification endpoint
-  const handleSendNotification = async (maintenanceItem) => {
+  // Function to call sendMaintenanceNotification endpoint with role
+  const handleSendNotification = async (maintenanceItem, role) => {
     try {
       const response = await fetch(
         `${BASE_URLS.notification}/sendMaintenanceNotification`,
@@ -221,6 +309,7 @@ export const MaintenanceTable = ({
               maintenanceItem.description ||
               'A new maintenance notification has been sent.',
             priority: maintenanceItem.priorityLevel || 'General',
+            recipient: role || 'User',
           }),
         },
       );
@@ -233,29 +322,10 @@ export const MaintenanceTable = ({
       }
 
       const result = await response.json();
-      toast.success(
-        result.message || 'Maintenance notification sent to all users!',
-        {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: 'colored',
-        },
-      );
+      toast.success(result.message || 'Maintenance notification sent!');
     } catch (error) {
       console.error('Error sending maintenance notification:', error);
-      toast.error(`Failed to send notification: ${error.message}`, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: 'colored',
-      });
+      toast.error(`Failed to send notification: ${error.message}`);
     }
   };
 
@@ -265,10 +335,10 @@ export const MaintenanceTable = ({
     setIsSendDialogOpen(true);
   };
 
-  // Handle confirming the send action
-  const handleConfirmSend = () => {
+  // Handle confirming the send action, now receives role
+  const handleConfirmSend = (role) => {
     if (selectedMaintenance) {
-      handleSendNotification(selectedMaintenance);
+      handleSendNotification(selectedMaintenance, role);
     }
     setIsSendDialogOpen(false);
     setSelectedMaintenance(null);
@@ -322,6 +392,24 @@ export const MaintenanceTable = ({
                 >
                   Description
                   {sortColumn === 'description' && (
+                    <span className="ml-1">
+                      {sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      )}
+                    </span>
+                  )}
+                </TableCell>
+                <TableCell
+                  onClick={() => handleSort('Category')}
+                  sx={{
+                    cursor: 'pointer',
+                    '&:hover': { color: theme.palette.primary.main },
+                  }}
+                >
+                  Category
+                  {sortColumn === 'Category' && (
                     <span className="ml-1">
                       {sortDirection === 'asc' ? (
                         <ArrowUpward fontSize="small" />
@@ -394,6 +482,8 @@ export const MaintenanceTable = ({
                     >
                       <TableCell>{item.username}</TableCell>
                       <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.category}</TableCell>
+
                       <TableCell>
                         <Chip
                           label={item.priorityLevel}
@@ -515,18 +605,7 @@ export const MaintenanceTable = ({
         onConfirm={handleConfirmSend}
       />
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
+      <ToastContainer />
     </>
   );
 };

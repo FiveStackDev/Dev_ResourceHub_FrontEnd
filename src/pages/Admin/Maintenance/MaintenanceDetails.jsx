@@ -33,6 +33,7 @@ const MaintenanceDetails = () => {
         headers: { ...getAuthHeader() },
       });
       setMaintenance(response.data);
+      console.log('Fetched maintenance data:', response.data);
     } catch (error) {
       console.error('Failed to fetch maintenance data:', error);
       toast.error('Failed to load maintenance data!');
@@ -66,6 +67,7 @@ const MaintenanceDetails = () => {
         name: newMaintenance.name,
         priorityLevel: newMaintenance.priorityLevel,
         description: newMaintenance.description,
+        category: newMaintenance.category,
         user_id: parseInt(userId),
       };
 
@@ -127,14 +129,18 @@ const MaintenanceDetails = () => {
     const searchMatch = item.username
       .toLowerCase()
       .includes(searchText.toLowerCase());
-    const typeMatch = filterType === 'All' || item.priorityLevel === filterType;
+    const typeMatch =
+      filterType === 'All' ||
+      item.priorityLevel === filterType ||
+      item.status === filterType ||
+      item.category === filterType;
     return searchMatch && typeMatch;
   });
 
   return (
     <AdminLayout>
       <div className="space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Maintenance</h1>
+        <h1 className="text-2xl font-semibold">Maintenances & Services</h1>
 
         <div
           style={{
@@ -169,6 +175,54 @@ const MaintenanceDetails = () => {
                 <MenuItem value="High">High</MenuItem>
               </Select>
             </FormControl>
+            <FormControl
+              variant="outlined"
+              size="small"
+              style={{ marginLeft: '10px', width: '150px' }}
+            >
+              <InputLabel>Filter by Category</InputLabel>
+              <Select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                label="Filter by Category"
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Tech Support">Tech Support </MenuItem>
+                <MenuItem value="General Maintenance">
+                  General Maintenance{' '}
+                </MenuItem>
+                <MenuItem value="Cleaning and Hygiene">
+                  Cleaning and Hygiene{' '}
+                </MenuItem>
+                <MenuItem value="Furniture and Fixtures">
+                  Furniture and Fixtures{' '}
+                </MenuItem>
+                <MenuItem value="Safety and Security">
+                  Safety and Security{' '}
+                </MenuItem>
+                <MenuItem value="Lighting and power">
+                  Lighting and power{' '}
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              variant="outlined"
+              size="small"
+              style={{ marginLeft: '10px', width: '150px' }}
+            >
+              <InputLabel>Filter by Status</InputLabel>
+              <Select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                label="Filter by Status"
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Pending">Pending</MenuItem>
+                <MenuItem value="In Progress">In Progress</MenuItem>
+                <MenuItem value="Completed">Completed</MenuItem>
+                <MenuItem value="Rejected">Rejected</MenuItem>
+              </Select>
+            </FormControl>
           </div>
           <Button
             variant="contained"
@@ -176,7 +230,7 @@ const MaintenanceDetails = () => {
             startIcon={<Plus size={20} />}
             onClick={() => setIsAddMaintenanceOpen(true)}
           >
-            Add New Maintenance
+            Add New Request
           </Button>
         </div>
 
