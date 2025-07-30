@@ -276,14 +276,14 @@ export const ChartMeal = ({ date }) => {
     // Since we only have meal types, create meal time simulation
     // Group meal types into simulated meal times
     const mealTimeMapping = {
-      Breakfast: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
-      Lunch: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
       Dinner: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
+      Lunch: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
+      Breakfast: ['Vegetarian', 'Non-Vegetarian', 'Vegan'],
     };
 
     // For now, we'll distribute meal types across three meal times
     const totalMealTypes = data.data.length;
-    const mealTimes = ['Breakfast', 'Lunch', 'Dinner'];
+    const mealTimes = ['Dinner', 'Lunch', 'Breakfast'];
 
     // Create meal time distribution by dividing meal types equally
     const mealTimeData = mealTimes
