@@ -1,6 +1,8 @@
 import { getAuthHeader } from './../../utils/authHeader';
 
 import React, { useState, useEffect } from 'react';
+import { Dialog } from '@mui/material';
+import { X } from 'lucide-react';
 import { NotificationCard } from './../../components/Notification/NotificationCard';
 import NotificationPopup from './../../components/Notification/NotificationPopup';
 import {
@@ -19,6 +21,7 @@ function Notification() {
   const itemsPerPage = 7;
   const [popupOpen, setPopupOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
+  const [confirmAllOpen, setConfirmAllOpen] = useState(false);
 
   // Fetch notifications from the API
   const fetchNotifications = async () => {
@@ -63,7 +66,8 @@ function Notification() {
     setSelectedNotification(null);
   };
 
-  // Mark as read
+
+  // Mark as read (single)
   const handleMarkRead = async (notification_id) => {
     try {
       await markNotificationRead(notification_id);
@@ -72,6 +76,25 @@ function Notification() {
       handleClosePopup();
     } catch (error) {
       toast.error('Failed to mark as read');
+    }
+  };
+
+  // Mark all as read
+  const handleMarkAllRead = async () => {
+    if (notifications.length === 0) return;
+    setConfirmAllOpen(true);
+  };
+
+  const handleConfirmAll = async () => {
+    setConfirmAllOpen(false);
+    try {
+      await Promise.all(
+        notifications.map((n) => markNotificationRead(n.notification_id))
+      );
+      toast.success('All notifications marked as read');
+      fetchNotifications();
+    } catch (error) {
+      toast.error('Failed to mark all as read');
     }
   };
 
@@ -109,6 +132,66 @@ function Notification() {
     <section className="relative flex flex-col justify-start overflow-hidden antialiased">
       <div className="w-full max-w-6xl mx-auto px-4 md:px-6 py-6">
         <h2 className="text-xl font-bold mb-6">Notifications</h2>
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={handleMarkAllRead}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+            disabled={notifications.length === 0}
+          >
+            Mark All as Read
+          </button>
+        </div>
+        <Dialog
+          open={confirmAllOpen}
+          onClose={() => setConfirmAllOpen(false)}
+          maxWidth="xs"
+          fullWidth
+          BackdropProps={{
+            style: {
+              backdropFilter: 'blur(8px)',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            },
+          }}
+          PaperProps={{
+            style: {
+              borderRadius: '18px',
+              overflow: 'visible',
+              boxShadow: '0 8px 32px rgba(59,130,246,0.18)',
+              border: '1px solid #e5e7eb',
+            },
+          }}
+        >
+          <div style={{ padding: '36px 28px', position: 'relative', minWidth: 340 }}>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style={{ background: '#e0e7ff', borderRadius: '50%', padding: 4 }}>
+                <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <h2 style={{ fontWeight: 700, fontSize: '1.25rem', color: '#2563eb', margin: 0 }}>Confirm Mark All as Read</h2>
+            </div>
+            <p style={{ marginBottom: 28, fontSize: '1.05rem', textAlign: 'left', fontWeight: 500 }}>
+              Are you sure you want to mark &nbsp;-&nbsp;<span style={{ fontWeight: 700,color:'#2563eb' }}>{notifications.length} new</span> notifications as read? This action cannot be undone.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 14 }}>
+              <button
+                onClick={() => setConfirmAllOpen(false)}
+                style={{ padding: '10px 22px', borderRadius: 10, background: '#f3f4f6', color: '#2563eb', fontWeight: 600, border: '1px solid #e0e7ff', fontSize: '1rem', cursor: 'pointer', transition: 'background 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.background = '#e0e7ff'}
+                onMouseOut={e => e.currentTarget.style.background = '#f3f4f6'}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmAll}
+                style={{ padding: '10px 22px', borderRadius: 10, background: 'linear-gradient(90deg, #2563eb 80%, #60a5fa 100%)', color: '#fff', fontWeight: 600, border: 'none', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(59,130,246,0.12)', transition: 'background 0.2s' }}
+                onMouseOver={e => e.currentTarget.style.background = 'linear-gradient(90deg, #1d4ed8 80%, #2563eb 100%)'}
+                onMouseOut={e => e.currentTarget.style.background = 'linear-gradient(90deg, #2563eb 80%, #60a5fa 100%)'}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </Dialog>
         <div className="space-y-4">
           {paginatedNotifications.map((notification, index) => (
             <div
