@@ -111,6 +111,7 @@ const MonitorTable = ({
                   },
                 }}
               >
+                <TableCell>Request Id</TableCell>
                 <TableCell
                   onClick={() => handleSort('username')}
                   sx={{
@@ -261,6 +262,7 @@ const MonitorTable = ({
 
                       
                     >
+                      <TableCell>{asset.requestedasset_id}</TableCell>
                       <TableCell align="left">
                         <div className="flex items-center gap-3">
                           <Avatar
@@ -273,7 +275,9 @@ const MonitorTable = ({
                           {asset.username}
                         </div>
                       </TableCell>
-                      <TableCell align="left">{asset.asset_name}</TableCell>
+                      <TableCell align="left">{asset.asset_name}
+     
+                      </TableCell>
                        <TableCell align="left">{asset.quantity}</TableCell>
                       {showHandoverColumns && (
                         <TableCell align="left">{handoverDate}</TableCell>
