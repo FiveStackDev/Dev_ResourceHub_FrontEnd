@@ -197,10 +197,10 @@ const MealEventsTable = () => {
   const sortedEvents = [...filteredEvents].sort((a, b) => {
     let aValue = a[sortColumn];
     let bValue = b[sortColumn];
-    
+
     if (typeof aValue === 'string') aValue = aValue.toLowerCase();
     if (typeof bValue === 'string') bValue = bValue.toLowerCase();
-    
+
     if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
     if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
@@ -217,26 +217,36 @@ const MealEventsTable = () => {
       pdfContainer.style.fontFamily = 'Arial, sans-serif';
       pdfContainer.style.backgroundColor = '#ffffff';
       pdfContainer.style.color = '#000000';
-      
+
       // Create header with title and date
       const header = document.createElement('div');
       header.style.textAlign = 'center';
       header.style.marginBottom = '30px';
       header.innerHTML = `
         <h1 style="color: #333; margin-bottom: 10px; font-size: 24px;">Meal Events Report</h1>
-        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })}</p>
+        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString(
+          'en-US',
+          {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          },
+        )}</p>
         <hr style="margin: 20px 0; border: 1px solid #ddd;">
       `;
       pdfContainer.appendChild(header);
 
       // Add filters information if any are applied
-      if (selectedMealTime || selectedMealType || selectedMonth || selectedYear || startDate || endDate) {
+      if (
+        selectedMealTime ||
+        selectedMealType ||
+        selectedMonth ||
+        selectedYear ||
+        startDate ||
+        endDate
+      ) {
         const filtersDiv = document.createElement('div');
         filtersDiv.style.marginBottom = '20px';
         filtersDiv.style.padding = '15px';
@@ -244,20 +254,28 @@ const MealEventsTable = () => {
         filtersDiv.style.borderRadius = '5px';
         filtersDiv.style.border = '1px solid #dee2e6';
         filtersDiv.style.color = '#000000';
-        
-        let filtersText = '<strong style="color: #000000;">Applied Filters:</strong><br>';
+
+        let filtersText =
+          '<strong style="color: #000000;">Applied Filters:</strong><br>';
         if (selectedMealTime) {
-          const mealTime = mealTimes.find(time => time.id == selectedMealTime);
+          const mealTime = mealTimes.find(
+            (time) => time.id == selectedMealTime,
+          );
           filtersText += `<span style="color: #333;">Meal Time: ${mealTime ? mealTime.name : selectedMealTime}</span><br>`;
         }
         if (selectedMealType) {
-          const mealType = mealTypes.find(type => type.id == selectedMealType);
+          const mealType = mealTypes.find(
+            (type) => type.id == selectedMealType,
+          );
           filtersText += `<span style="color: #333;">Meal Type: ${mealType ? mealType.name : selectedMealType}</span><br>`;
         }
-        if (selectedYear) filtersText += `<span style="color: #333;">Year: ${selectedYear}</span><br>`;
-        if (selectedMonth) filtersText += `<span style="color: #333;">Month: ${new Date(0, selectedMonth - 1).toLocaleString('default', { month: 'long' })}</span><br>`;
-        if (startDate && endDate) filtersText += `<span style="color: #333;">Date Range: ${startDate} to ${endDate}</span>`;
-        
+        if (selectedYear)
+          filtersText += `<span style="color: #333;">Year: ${selectedYear}</span><br>`;
+        if (selectedMonth)
+          filtersText += `<span style="color: #333;">Month: ${new Date(0, selectedMonth - 1).toLocaleString('default', { month: 'long' })}</span><br>`;
+        if (startDate && endDate)
+          filtersText += `<span style="color: #333;">Date Range: ${startDate} to ${endDate}</span>`;
+
         filtersDiv.innerHTML = filtersText;
         pdfContainer.appendChild(filtersDiv);
       }
@@ -265,16 +283,16 @@ const MealEventsTable = () => {
       // Clone the table and style it for PDF
       const tableElement = document.getElementById('meal-events-table');
       const clonedTable = tableElement.cloneNode(true);
-      
+
       // Style the cloned table for better PDF appearance
       clonedTable.style.width = '100%';
       clonedTable.style.borderCollapse = 'collapse';
       clonedTable.style.marginTop = '20px';
       clonedTable.style.backgroundColor = '#ffffff';
-      
+
       // Style table cells with light theme colors
       const cells = clonedTable.querySelectorAll('td, th');
-      cells.forEach(cell => {
+      cells.forEach((cell) => {
         cell.style.border = '1px solid #dee2e6';
         cell.style.padding = '8px';
         cell.style.fontSize = '12px';
@@ -282,10 +300,10 @@ const MealEventsTable = () => {
         cell.style.backgroundColor = '#ffffff';
         cell.style.color = '#000000';
       });
-      
+
       // Style header cells with light theme
       const headerCells = clonedTable.querySelectorAll('th');
-      headerCells.forEach(cell => {
+      headerCells.forEach((cell) => {
         cell.style.backgroundColor = '#f8f9fa';
         cell.style.fontWeight = 'bold';
         cell.style.color = '#000000';
@@ -294,7 +312,7 @@ const MealEventsTable = () => {
 
       // Remove sort icons from the cloned table
       const sortIcons = clonedTable.querySelectorAll('.MuiSvgIcon-root');
-      sortIcons.forEach(icon => icon.remove());
+      sortIcons.forEach((icon) => icon.remove());
 
       pdfContainer.appendChild(clonedTable);
 
@@ -317,24 +335,28 @@ const MealEventsTable = () => {
       const options = {
         filename: `meal_events_report_${new Date().toISOString().split('T')[0]}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
+        html2canvas: {
           scale: 2,
           useCORS: true,
-          allowTaint: true
+          allowTaint: true,
         },
-        jsPDF: { 
-          unit: 'mm', 
-          format: 'a4', 
-          orientation: 'landscape'
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'landscape',
         },
-        margin: [10, 10, 10, 10]
+        margin: [10, 10, 10, 10],
       };
 
-      html2pdf().from(pdfContainer).set(options).save().then(() => {
-        // Remove temporary container
-        document.body.removeChild(pdfContainer);
-        toast.success('Meal events report downloaded successfully!');
-      });
+      html2pdf()
+        .from(pdfContainer)
+        .set(options)
+        .save()
+        .then(() => {
+          // Remove temporary container
+          document.body.removeChild(pdfContainer);
+          toast.success('Meal events report downloaded successfully!');
+        });
     } catch (error) {
       console.error('Error downloading meal events report:', error);
       toast.error('Failed to download meal events report.');
@@ -347,7 +369,15 @@ const MealEventsTable = () => {
     <Box position="relative">
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            mb: 2,
+            flexWrap: 'wrap',
+            alignItems: 'center',
+          }}
+        >
           {/* Meal Time Filter */}
           <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Meal Time</InputLabel>
@@ -471,59 +501,74 @@ const MealEventsTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('mealtime_name')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Meal Time
-                    {sortColumn === 'mealtime_name' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'mealtime_name' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('mealtype_name')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Meal Type
-                    {sortColumn === 'mealtype_name' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'mealtype_name' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('username')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     User Name
-                    {sortColumn === 'username' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'username' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('submitted_date')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Submitted Date
-                    {sortColumn === 'submitted_date' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'submitted_date' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('meal_request_date')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Meal Request Date
-                    {sortColumn === 'meal_request_date' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'meal_request_date' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
               </TableRow>
@@ -532,10 +577,7 @@ const MealEventsTable = () => {
               {currentPageEvents.map((mealEvent, index) => {
                 const eventId = `${mealEvent.user_id}_${mealEvent.meal_request_date}_${index}`;
                 return (
-                  <TableRow 
-                    key={eventId}
-                    hover
-                  >
+                  <TableRow key={eventId} hover>
                     <TableCell>{mealEvent.mealtime_name}</TableCell>
                     <TableCell>{mealEvent.mealtype_name}</TableCell>
                     <TableCell>{mealEvent.username}</TableCell>
@@ -547,14 +589,25 @@ const MealEventsTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        
+
         {/* Summary Section */}
         <Box sx={{ mt: 2, p: 2, borderRadius: 1 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <span style={{ fontWeight: 'bold' }}>
               Total Meal Events: {sortedEvents.length}
             </span>
-            {(selectedMealTime || selectedMealType || selectedMonth || selectedYear || startDate || endDate) && (
+            {(selectedMealTime ||
+              selectedMealType ||
+              selectedMonth ||
+              selectedYear ||
+              startDate ||
+              endDate) && (
               <span style={{ fontSize: '0.875rem', color: '#666' }}>
                 Filtered from {mealEvents.length} total events
               </span>

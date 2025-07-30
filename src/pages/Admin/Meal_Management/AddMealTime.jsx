@@ -44,7 +44,7 @@ function AddMealTime() {
 
   // Fetch all meal times from API
   const fetchMealTimes = async () => {
-     setIsLoading(true);
+    setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URLS.mealtime}/details`, {
         headers: {

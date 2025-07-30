@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Camera, Upload, Eye, Edit, X, Image,Trash2 } from 'lucide-react';
+import { Camera, Upload, Eye, Edit, X, Image, Trash2 } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 const ImageUpload = ({
@@ -110,7 +110,6 @@ const ImageUpload = ({
 
   return (
     <>
-
       <div className="image-upload-container">
         <div className="image-display">
           {currentImage ? (
@@ -141,7 +140,7 @@ const ImageUpload = ({
                 >
                   <Edit size={16} />
                 </button>
-                 <button
+                <button
                   type="button"
                   className="image-action-btn delete-btn"
                   onClick={() => openModal('delete')}
@@ -206,33 +205,49 @@ const ImageUpload = ({
                     <Trash2 size={24} />
                   </div>
                   <div className="header-text">
-                    <h3>Delete {isProfile ? 'Profile Picture' : 'Organization Logo'}</h3>
-                    <p>Are you sure you want to delete your {isProfile ? 'profile picture' : 'organization logo'}?</p>
+                    <h3>
+                      Delete{' '}
+                      {isProfile ? 'Profile Picture' : 'Organization Logo'}
+                    </h3>
+                    <p>
+                      Are you sure you want to delete your{' '}
+                      {isProfile ? 'profile picture' : 'organization logo'}?
+                    </p>
                   </div>
                 </div>
                 <button className="professional-close-btn" onClick={closeModal}>
                   <X size={20} />
                 </button>
               </div>
-              <div className="professional-modal-content" style={{ display: 'flex', justifyContent: 'flex-end', padding: '20px' }}>
-                <button className="professional-btn-secondary" onClick={closeModal} style={{ marginRight: '10px' }}>
+              <div
+                className="professional-modal-content"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  padding: '20px',
+                }}
+              >
+                <button
+                  className="professional-btn-secondary"
+                  onClick={closeModal}
+                  style={{ marginRight: '10px' }}
+                >
                   Cancel
                 </button>
-                <button 
+                <button
                   className="professional-btn-primary"
                   onClick={() => {
                     onImageChange(null, defaultImage);
                     closeModal();
                     toast.success('Image has been reset to default');
                   }}
-                  
->
+                >
                   Delete
                 </button>
               </div>
             </div>
           </div>,
-          portalContainer
+          portalContainer,
         )}
 
       {portalContainer &&

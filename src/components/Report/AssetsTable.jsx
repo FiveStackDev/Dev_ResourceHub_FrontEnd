@@ -107,20 +107,23 @@ const AssetsTable = () => {
       pdfContainer.style.fontFamily = 'Arial, sans-serif';
       pdfContainer.style.backgroundColor = '#ffffff';
       pdfContainer.style.color = '#000000';
-      
+
       // Create header with title and date
       const header = document.createElement('div');
       header.style.textAlign = 'center';
       header.style.marginBottom = '30px';
       header.innerHTML = `
         <h1 style="color: #333; margin-bottom: 10px; font-size: 24px;">Assets Report</h1>
-        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })}</p>
+        <p style="color: #666; font-size: 14px; margin: 0;">Generated on: ${new Date().toLocaleDateString(
+          'en-US',
+          {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          },
+        )}</p>
         <hr style="margin: 20px 0; border: 1px solid #ddd;">
       `;
       pdfContainer.appendChild(header);
@@ -132,11 +135,13 @@ const AssetsTable = () => {
         filtersDiv.style.padding = '10px';
         filtersDiv.style.backgroundColor = '#f5f5f5';
         filtersDiv.style.borderRadius = '5px';
-        
+
         let filtersText = '<strong>Applied Filters:</strong> ';
-        if (categoryFilter !== 'All') filtersText += `Category: ${categoryFilter} `;
-        if (conditionFilter !== 'All') filtersText += `Condition: ${conditionFilter}`;
-        
+        if (categoryFilter !== 'All')
+          filtersText += `Category: ${categoryFilter} `;
+        if (conditionFilter !== 'All')
+          filtersText += `Condition: ${conditionFilter}`;
+
         filtersDiv.innerHTML = filtersText;
         pdfContainer.appendChild(filtersDiv);
       }
@@ -144,24 +149,24 @@ const AssetsTable = () => {
       // Clone the table and style it for PDF
       const tableElement = document.getElementById('asset-table');
       const clonedTable = tableElement.cloneNode(true);
-      
+
       // Style the cloned table for better PDF appearance
       clonedTable.style.width = '100%';
       clonedTable.style.borderCollapse = 'collapse';
       clonedTable.style.marginTop = '20px';
-      
+
       // Style table cells
       const cells = clonedTable.querySelectorAll('td, th');
-      cells.forEach(cell => {
+      cells.forEach((cell) => {
         cell.style.border = '1px solid #ddd';
         cell.style.padding = '8px';
         cell.style.fontSize = '12px';
         cell.style.textAlign = 'left';
       });
-      
+
       // Style header cells
       const headerCells = clonedTable.querySelectorAll('th');
-      headerCells.forEach(cell => {
+      headerCells.forEach((cell) => {
         cell.style.backgroundColor = '#f8f9fa';
         cell.style.fontWeight = 'bold';
         cell.style.color = '#333';
@@ -169,7 +174,7 @@ const AssetsTable = () => {
 
       // Remove sort icons from the cloned table
       const sortIcons = clonedTable.querySelectorAll('.MuiSvgIcon-root');
-      sortIcons.forEach(icon => icon.remove());
+      sortIcons.forEach((icon) => icon.remove());
 
       pdfContainer.appendChild(clonedTable);
 
@@ -191,24 +196,28 @@ const AssetsTable = () => {
       const options = {
         filename: `assets_report_${new Date().toISOString().split('T')[0]}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
+        html2canvas: {
           scale: 2,
           useCORS: true,
-          allowTaint: true
+          allowTaint: true,
         },
-        jsPDF: { 
-          unit: 'mm', 
-          format: 'a4', 
-          orientation: 'landscape' // Changed to landscape for better table viewing
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'landscape', // Changed to landscape for better table viewing
         },
-        margin: [10, 10, 10, 10]
+        margin: [10, 10, 10, 10],
       };
 
-      html2pdf().from(pdfContainer).set(options).save().then(() => {
-        // Remove temporary container
-        document.body.removeChild(pdfContainer);
-        toast.success('Assets report downloaded successfully!');
-      });
+      html2pdf()
+        .from(pdfContainer)
+        .set(options)
+        .save()
+        .then(() => {
+          // Remove temporary container
+          document.body.removeChild(pdfContainer);
+          toast.success('Assets report downloaded successfully!');
+        });
     } catch (error) {
       console.error('Error downloading assets report:', error);
       toast.error('Failed to download assets report.');
@@ -238,10 +247,10 @@ const AssetsTable = () => {
   const sortedAssets = [...filteredAssets].sort((a, b) => {
     let aValue = a[sortColumn];
     let bValue = b[sortColumn];
-    
+
     if (typeof aValue === 'string') aValue = aValue.toLowerCase();
     if (typeof bValue === 'string') bValue = bValue.toLowerCase();
-    
+
     if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
     if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
@@ -387,7 +396,15 @@ const AssetsTable = () => {
     <Box position="relative">
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            mb: 2,
+            flexWrap: 'wrap',
+            alignItems: 'center',
+          }}
+        >
           <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Category</InputLabel>
             <Select
@@ -416,7 +433,7 @@ const AssetsTable = () => {
               ))}
             </Select>
           </FormControl>
-          
+
           <Button
             variant="contained"
             color="primary"
@@ -438,91 +455,109 @@ const AssetsTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('asset_id')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Asset ID
-                    {sortColumn === 'asset_id' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'asset_id' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('asset_name')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Asset Name
-                    {sortColumn === 'asset_name' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'asset_name' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('category')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Category
-                    {sortColumn === 'category' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'category' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('quantity')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Quantity
-                    {sortColumn === 'quantity' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'quantity' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('condition_type')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Condition Type
-                    {sortColumn === 'condition_type' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'condition_type' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('location')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Location
-                    {sortColumn === 'location' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'location' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
-                <TableCell 
+                <TableCell
                   sx={{ cursor: 'pointer', userSelect: 'none' }}
                   onClick={() => handleSort('is_available')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     Availability
-                    {sortColumn === 'is_available' && (
-                      sortDirection === 'asc' ? <ArrowUpward fontSize="small" /> : <ArrowDownward fontSize="small" />
-                    )}
+                    {sortColumn === 'is_available' &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpward fontSize="small" />
+                      ) : (
+                        <ArrowDownward fontSize="small" />
+                      ))}
                   </Box>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {currentPageAssets.map((asset, index) => (
-                <TableRow 
-                  key={asset.asset_id}
-                  hover
-                >
+                <TableRow key={asset.asset_id} hover>
                   <TableCell>{asset.asset_id}</TableCell>
                   <TableCell>{asset.asset_name}</TableCell>
                   <TableCell>{asset.category}</TableCell>
@@ -537,10 +572,16 @@ const AssetsTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        
+
         {/* Summary Section */}
-        <Box sx={{ mt: 2, p: 2,borderRadius: 1 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ mt: 2, p: 2, borderRadius: 1 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <span style={{ fontWeight: 'bold' }}>
               Total Assets: {sortedAssets.length}
             </span>

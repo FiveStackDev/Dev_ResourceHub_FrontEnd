@@ -52,7 +52,7 @@ const MealRequestedTable = ({ events }) => {
   // Get current page data
   const paginatedEvents = sortedEvents.slice(
     page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
+    page * rowsPerPage + rowsPerPage,
   );
 
   return (

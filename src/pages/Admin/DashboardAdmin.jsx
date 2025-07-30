@@ -19,24 +19,24 @@ import { QuickActions } from '../../components/Dashboard/User/QuickActions';
 const customUserActions = [
   {
     icon: CalendarDays,
-    title: 'View Meal Calendar',
-    description: 'Check your booked meals',
+    title: 'View Meal Request',
+    description: 'Go to Meal Calendar (Admin)',
     iconColor: 'text-blue-500',
-    path: '/user-mealcalendar',
+    path: '/admin-requestedMeals',
   },
   {
     icon: PackageCheck,
-    title: 'Check Due Assets',
-    description: 'View assets nearing return date',
+    title: 'View Asset Monitoring',
+    description: 'Go to Asset Monitoring (Admin)',
     iconColor: 'text-purple-500',
-    path: '/user-dueassets',
+    path: '/admin-assetmonitoring',
   },
   {
     icon: Wrench,
-    title: 'Report Issue',
-    description: 'Submit maintenance request',
+    title: 'View Maintenance',
+    description: 'Go to Maintenance (Admin)',
     iconColor: 'text-red-500',
-    path: '/user-maintenance',
+    path: '/admin-maintenance',
   },
 ];
 

@@ -329,7 +329,7 @@
 .maintenance-popup-submit-btn:hover {
   background: linear-gradient(135deg, #6a72ec 0%, #314eee 100%);
   transform: translateY(-2px);
-  color:#ffffff;
+  color: #ffffff;
   box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
 }
 
@@ -604,6 +604,3 @@
 .maintenance-delete-container {
   animation: maintenancePopupSlideIn 0.3s ease-out;
 }
-
-
-

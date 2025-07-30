@@ -148,7 +148,7 @@ export const EditMaintenancePopup = ({
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Category</InputLabel>
-                               <Select
+                  <Select
                     value={category}
                     label="Category"
                     onChange={(e) => setCategory(e.target.value)}

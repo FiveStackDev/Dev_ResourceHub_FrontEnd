@@ -79,7 +79,7 @@ function Register() {
       });
 
       const responseData = await response.json();
-      
+
       if (response.ok) {
         // Check if the response contains an error message even with OK status
         if (responseData.error) {
@@ -97,7 +97,8 @@ function Register() {
           });
         }
       } else {
-        const errorMsg = responseData.message || responseData.error || 'Failed to register';
+        const errorMsg =
+          responseData.message || responseData.error || 'Failed to register';
         setErrorMessage(errorMsg);
         toast.error(errorMsg);
       }

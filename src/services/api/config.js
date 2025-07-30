@@ -1,11 +1,12 @@
 // API base URL for all microservices
-const BASE_URL = 'https://0342643f-1625-4083-9f20-f6ce59b372c0-dev.e1-us-east-azure.choreoapis.dev/dev-resourcehub/backend';
+const BASE_URL =
+  'https://0342643f-1625-4083-9f20-f6ce59b372c0-dev.e1-us-east-azure.choreoapis.dev/dev-resourcehub/backend';
 
 // Service-specific base URLs
 export const BASE_URLS = {
-  login: `${BASE_URL}/auth-380/v1.0`,
+  login: `${BASE_URL}/v1.0`,
   maintenance: `${BASE_URL}/maintenance-f9f/v1.0`,
-  asset: `${BASE_URL}/v1.0`,
+  asset: `${BASE_URL}/asset-e99/v1.0`,
   user: `${BASE_URL}/user-294/v1.0`,
   assetRequest: `${BASE_URL}/assetrequest-9fc/v1.0`,
   calendar: `${BASE_URL}/calendar-eb2/v1.0`,

@@ -191,7 +191,9 @@ function AssetTable({
                     <TableCell>{asset.location}</TableCell>
                     <TableCell>
                       <Chip
-                        label={asset.is_available ? 'Available' : 'Not Available'}
+                        label={
+                          asset.is_available ? 'Available' : 'Not Available'
+                        }
                         color={asset.is_available ? 'success' : 'default'}
                         variant="outlined"
                         size="small"

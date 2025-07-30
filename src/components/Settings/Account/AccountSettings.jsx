@@ -369,103 +369,103 @@ const AccountSection = () => {
           {/* Password change form */}
           <form onSubmit={handlePasswordSubmit}>
             <div className="form-group-password">
-            <div className="password-header">
-              <Lock
-                size={24}
-                style={{ color: 'var(--settings-accent-primary)' }}
-              />
-              <h3>Change Password</h3>
-            </div>
-
-            {/* Current password */}
-            <div className="password-input-group">
-              <label className="password-input-label">Current Password</label>
-              <div className="password-input-container">
-                <input
-                  type={showCurrentPassword ? 'text' : 'password'}
-                  name="currentPassword"
-                  value={formData.currentPassword}
-                  onChange={handleChange}
-                  placeholder="Enter your current password"
-                  required
+              <div className="password-header">
+                <Lock
+                  size={24}
+                  style={{ color: 'var(--settings-accent-primary)' }}
                 />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={handleClickShowCurrentPassword}
-                >
-                  {showCurrentPassword ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
-                </button>
+                <h3>Change Password</h3>
               </div>
+
+              {/* Current password */}
+              <div className="password-input-group">
+                <label className="password-input-label">Current Password</label>
+                <div className="password-input-container">
+                  <input
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    name="currentPassword"
+                    value={formData.currentPassword}
+                    onChange={handleChange}
+                    placeholder="Enter your current password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle-btn"
+                    onClick={handleClickShowCurrentPassword}
+                  >
+                    {showCurrentPassword ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* New password */}
+              <div className="password-input-group">
+                <label className="password-input-label">New Password</label>
+                <div className="password-input-container">
+                  <input
+                    type={showNewPassword ? 'text' : 'password'}
+                    name="newPassword"
+                    value={formData.newPassword}
+                    onChange={handleChange}
+                    placeholder="Enter your new password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle-btn"
+                    onClick={handleClickShowNewPassword}
+                  >
+                    {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm password */}
+              <div className="password-input-group">
+                <label className="password-input-label">
+                  Confirm New Password
+                </label>
+                <div className="password-input-container">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm your new password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle-btn"
+                    onClick={handleClickShowConfirmPassword}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {passwordError && (
+                <div className="password-error">
+                  <Lock size={16} />
+                  {passwordError}
+                </div>
+              )}
+
+              <button type="submit" className="passwordsumbit">
+                <Lock size={18} />
+                Change Password
+              </button>
             </div>
-
-            {/* New password */}
-            <div className="password-input-group">
-              <label className="password-input-label">New Password</label>
-              <div className="password-input-container">
-                <input
-                  type={showNewPassword ? 'text' : 'password'}
-                  name="newPassword"
-                  value={formData.newPassword}
-                  onChange={handleChange}
-                  placeholder="Enter your new password"
-                  required
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={handleClickShowNewPassword}
-                >
-                  {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Confirm password */}
-            <div className="password-input-group">
-              <label className="password-input-label">
-                Confirm New Password
-              </label>
-              <div className="password-input-container">
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm your new password"
-                  required
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={handleClickShowConfirmPassword}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {passwordError && (
-              <div className="password-error">
-                <Lock size={16} />
-                {passwordError}
-              </div>
-            )}
-
-            <button type="submit" className="passwordsumbit">
-              <Lock size={18} />
-              Change Password
-            </button>
-          </div>
-        </form>
+          </form>
         </div>
       </div>
 

@@ -98,7 +98,8 @@
 .step-indicator.active {
   background: var(--settings-step-active-bg, rgba(59, 130, 246, 0.05));
   border-color: var(--settings-accent-primary, #3b82f6);
-  box-shadow: 0 0 0 3px var(--settings-accent-primary-alpha, rgba(59, 130, 246, 0.1));
+  box-shadow: 0 0 0 3px
+    var(--settings-accent-primary-alpha, rgba(59, 130, 246, 0.1));
 }
 
 .step-indicator.completed {
@@ -349,7 +350,8 @@
 .step-input:focus {
   outline: none;
   border-color: var(--settings-accent-primary, #3b82f6);
-  box-shadow: 0 0 0 3px var(--settings-accent-primary-alpha, rgba(59, 130, 246, 0.1));
+  box-shadow: 0 0 0 3px
+    var(--settings-accent-primary-alpha, rgba(59, 130, 246, 0.1));
 }
 
 .step-input.error {
@@ -370,46 +372,46 @@
     max-height: 95vh;
     width: 100%;
   }
-  
+
   .delete-popup-header {
     padding: 1rem 1.5rem;
   }
-  
+
   .delete-popup-title h2 {
     font-size: 1.25rem;
   }
-  
+
   .delete-popup-content {
     padding: 1.5rem;
   }
-  
+
   .steps-progress {
     flex-direction: column;
   }
-  
+
   .step-indicator {
     min-width: auto;
   }
-  
+
   .step-actions {
     flex-direction: column;
   }
-  
+
   .step-button {
     width: 100%;
   }
-  
+
   .delete-trigger-header {
     flex-direction: column;
     text-align: center;
     gap: 1rem;
   }
-  
+
   .delete-trigger-button {
     width: 100%;
     justify-content: center;
   }
-  
+
   .current-step {
     padding: 1.5rem;
   }

@@ -5,9 +5,13 @@ export const QuickActions = ({ actions }) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleAction = (path) => {
+  const handleAction = (path, external) => {
     if (path) {
-      navigate(path);
+      if (external) {
+        window.open(path, '_blank');
+      } else {
+        navigate(path);
+      }
     } else {
       console.warn('Action triggered with no path defined.');
     }
@@ -24,20 +28,20 @@ export const QuickActions = ({ actions }) => {
         color: theme.palette.text.primary,
         boxShadow: theme.shadows[1],
       }}
-      className="rounded-lg p-6"
+      className="p-6 rounded-lg"
     >
       <h2
-        className="text-xl font-semibold mb-4"
+        className="mb-4 text-xl font-semibold"
         style={{ color: theme.palette.text.primary }}
       >
         Quick Actions
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {actions.map((action, idx) => (
           <button
             key={idx}
-            onClick={() => handleAction(action.path)}
-            className="flex items-center gap-3 p-3 rounded-lg w-full transition-colors"
+            onClick={() => handleAction(action.path, action.external)}
+            className="flex items-center w-full gap-3 p-3 transition-colors rounded-lg"
             style={{
               background: theme.palette.action.hover,
               color: theme.palette.text.primary,
