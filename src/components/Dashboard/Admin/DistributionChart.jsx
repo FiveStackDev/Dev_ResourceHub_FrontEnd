@@ -33,7 +33,7 @@ ChartJS.register(
 
 export const DistributionChart = () => {
   const theme = useTheme();
-  const [filterType, setFilterType] = useState('meals');
+  const [filterType, setFilterType] = useState('services');
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split('T')[0];
