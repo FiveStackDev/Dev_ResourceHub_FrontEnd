@@ -66,7 +66,6 @@ function Notification() {
     setSelectedNotification(null);
   };
 
-
   // Mark as read (single)
   const handleMarkRead = async (notification_id) => {
     try {
@@ -89,7 +88,7 @@ function Notification() {
     setConfirmAllOpen(false);
     try {
       await Promise.all(
-        notifications.map((n) => markNotificationRead(n.notification_id))
+        notifications.map((n) => markNotificationRead(n.notification_id)),
       );
       toast.success('All notifications marked as read');
       fetchNotifications();
@@ -161,31 +160,113 @@ function Notification() {
             },
           }}
         >
-          <div style={{ padding: '36px 28px', position: 'relative', minWidth: 340 }}>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style={{ background: '#e0e7ff', borderRadius: '50%', padding: 4 }}>
-                <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <div
+            style={{
+              padding: '36px 28px',
+              position: 'relative',
+              minWidth: 340,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                marginBottom: 18,
+              }}
+            >
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                style={{
+                  background: '#e0e7ff',
+                  borderRadius: '50%',
+                  padding: 4,
+                }}
+              >
+                <path
+                  d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  stroke="#2563eb"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
-              <h2 style={{ fontWeight: 700, fontSize: '1.25rem', color: '#2563eb', margin: 0 }}>Confirm Mark All as Read</h2>
+              <h2
+                style={{
+                  fontWeight: 700,
+                  fontSize: '1.25rem',
+                  color: '#2563eb',
+                  margin: 0,
+                }}
+              >
+                Confirm Mark All as Read
+              </h2>
             </div>
-            <p style={{ marginBottom: 28, fontSize: '1.05rem', textAlign: 'left', fontWeight: 500 }}>
-              Are you sure you want to mark &nbsp;-&nbsp;<span style={{ fontWeight: 700,color:'#2563eb' }}>{notifications.length} new</span> notifications as read? This action cannot be undone.
+            <p
+              style={{
+                marginBottom: 28,
+                fontSize: '1.05rem',
+                textAlign: 'left',
+                fontWeight: 500,
+              }}
+            >
+              Are you sure you want to mark &nbsp;-&nbsp;
+              <span style={{ fontWeight: 700, color: '#2563eb' }}>
+                {notifications.length} new
+              </span>{' '}
+              notifications as read? This action cannot be undone.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 14 }}>
+            <div
+              style={{ display: 'flex', justifyContent: 'flex-end', gap: 14 }}
+            >
               <button
                 onClick={() => setConfirmAllOpen(false)}
-                style={{ padding: '10px 22px', borderRadius: 10, background: '#f3f4f6', color: '#2563eb', fontWeight: 600, border: '1px solid #e0e7ff', fontSize: '1rem', cursor: 'pointer', transition: 'background 0.2s' }}
-                onMouseOver={e => e.currentTarget.style.background = '#e0e7ff'}
-                onMouseOut={e => e.currentTarget.style.background = '#f3f4f6'}
+                style={{
+                  padding: '10px 22px',
+                  borderRadius: 10,
+                  background: '#f3f4f6',
+                  color: '#2563eb',
+                  fontWeight: 600,
+                  border: '1px solid #e0e7ff',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s',
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = '#e0e7ff')
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = '#f3f4f6')
+                }
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmAll}
-                style={{ padding: '10px 22px', borderRadius: 10, background: 'linear-gradient(90deg, #2563eb 80%, #60a5fa 100%)', color: '#fff', fontWeight: 600, border: 'none', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(59,130,246,0.12)', transition: 'background 0.2s' }}
-                onMouseOver={e => e.currentTarget.style.background = 'linear-gradient(90deg, #1d4ed8 80%, #2563eb 100%)'}
-                onMouseOut={e => e.currentTarget.style.background = 'linear-gradient(90deg, #2563eb 80%, #60a5fa 100%)'}
+                style={{
+                  padding: '10px 22px',
+                  borderRadius: 10,
+                  background:
+                    'linear-gradient(90deg, #2563eb 80%, #60a5fa 100%)',
+                  color: '#fff',
+                  fontWeight: 600,
+                  border: 'none',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(59,130,246,0.12)',
+                  transition: 'background 0.2s',
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background =
+                    'linear-gradient(90deg, #1d4ed8 80%, #2563eb 100%)')
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background =
+                    'linear-gradient(90deg, #2563eb 80%, #60a5fa 100%)')
+                }
               >
                 Confirm
               </button>

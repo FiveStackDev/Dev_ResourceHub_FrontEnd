@@ -133,17 +133,24 @@ const AssetMonitoringAdmin = () => {
     (asset) =>
       (filterCategory === 'All' || asset.category === filterCategory) &&
       (asset.username.toLowerCase().includes(searchText.toLowerCase()) ||
-        asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
+        asset.asset_name.toLowerCase().includes(searchText.toLowerCase())),
   );
 
   // Filter by due status
   if (dueFilter === 'Due') {
     filteredAssets = filteredAssets.filter(
-      (asset) => typeof asset.remaining_days === 'number' && asset.remaining_days < 0 && asset.status=="Accepted" && asset.is_returning==true
+      (asset) =>
+        typeof asset.remaining_days === 'number' &&
+        asset.remaining_days < 0 &&
+        asset.status == 'Accepted' &&
+        asset.is_returning == true,
     );
   } else if (dueFilter === 'Not Due') {
     filteredAssets = filteredAssets.filter(
-      (asset) => typeof asset.remaining_days === 'number' && (asset.is_returning==false || asset.remaining_days > 0) && asset.status=="Accepted"
+      (asset) =>
+        typeof asset.remaining_days === 'number' &&
+        (asset.is_returning == false || asset.remaining_days > 0) &&
+        asset.status == 'Accepted',
     );
   }
 
@@ -186,11 +193,15 @@ const AssetMonitoringAdmin = () => {
             </FormControl>
 
             {/* Due Status Filter Dropdown */}
-            <FormControl variant="outlined" size="small" style={{ minWidth: 160 }}>
+            <FormControl
+              variant="outlined"
+              size="small"
+              style={{ minWidth: 160 }}
+            >
               <InputLabel>Due Status</InputLabel>
               <Select
                 value={dueFilter}
-                onChange={e => setDueFilter(e.target.value)}
+                onChange={(e) => setDueFilter(e.target.value)}
                 label="Due Status"
               >
                 <MenuItem value="All">All</MenuItem>

@@ -304,7 +304,9 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                                     setIsDeleteDialogOpen(true);
                                   }}
                                   disabled={!canDeleteUser(user.userType)}
-                                  sx={{ borderRadius: theme.shape.borderRadius }}
+                                  sx={{
+                                    borderRadius: theme.shape.borderRadius,
+                                  }}
                                 >
                                   Delete
                                 </Button>
