@@ -116,7 +116,12 @@ export const Users = () => {
       setIsAddUserOpen(false);
       toast.success(response.message || 'User added successfully');
     } catch (error) {
-      toast.error(`Failed to add user: ${error.message}`);
+      // Show a simple error if email already exists
+      if (error?.message?.includes('Email already exists in the organization')) {
+        toast.error('Email already exists in the organization. Please use a different email address.');
+      } else {
+        toast.error(`Failed to add user: ${error.message}`);
+      }
     }
   };
 
