@@ -271,42 +271,47 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
                     <TableCell>{user.additionalDetails}</TableCell>
                     <TableCell align="center">
                       <div className="flex justify-center gap-2">
-                        <Tooltip title="Edit User">
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            startIcon={<Pencil size={18} />}
-                            onClick={() => onEditUser(user)}
-                            sx={{ borderRadius: theme.shape.borderRadius }}
-                          >
-                            Edit
-                          </Button>
-                        </Tooltip>
-                        <Tooltip
-                          title={
-                            canDeleteUser(user.userType)
-                              ? 'Delete User'
-                              : 'Not authorized'
-                          }
-                        >
-                          <span>
-                            <Button
-                              variant="outlined"
-                              color="error"
-                              size="small"
-                              startIcon={<Trash2 size={18} />}
-                              onClick={() => {
-                                setSelected([user.id]);
-                                setIsDeleteDialogOpen(true);
-                              }}
-                              disabled={!canDeleteUser(user.userType)}
-                              sx={{ borderRadius: theme.shape.borderRadius }}
+                        {/* Only show Edit and Delete for non-SuperAdmin users */}
+                        {user.userType !== 'SuperAdmin' && (
+                          <>
+                            <Tooltip title="Edit User">
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                startIcon={<Pencil size={18} />}
+                                onClick={() => onEditUser(user)}
+                                sx={{ borderRadius: theme.shape.borderRadius }}
+                              >
+                                Edit
+                              </Button>
+                            </Tooltip>
+                            <Tooltip
+                              title={
+                                canDeleteUser(user.userType)
+                                  ? 'Delete User'
+                                  : 'Not authorized'
+                              }
                             >
-                              Delete
-                            </Button>
-                          </span>
-                        </Tooltip>
+                              <span>
+                                <Button
+                                  variant="outlined"
+                                  color="error"
+                                  size="small"
+                                  startIcon={<Trash2 size={18} />}
+                                  onClick={() => {
+                                    setSelected([user.id]);
+                                    setIsDeleteDialogOpen(true);
+                                  }}
+                                  disabled={!canDeleteUser(user.userType)}
+                                  sx={{ borderRadius: theme.shape.borderRadius }}
+                                >
+                                  Delete
+                                </Button>
+                              </span>
+                            </Tooltip>
+                          </>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>
