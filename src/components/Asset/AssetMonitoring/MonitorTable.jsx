@@ -238,6 +238,8 @@ const MonitorTable = ({
                     <TableRow
                       key={asset.requestedasset_id}
                       hover
+                       align="center"
+
                       sx={{
                         '&:hover': {
                           backgroundColor:
@@ -247,8 +249,13 @@ const MonitorTable = ({
                         },
                         borderBottom: `1px solid ${theme.palette.divider}`,
                         cursor: 'pointer',
+                        ...(typeof remainingDays === 'number' && remainingDays < 0
+                          ? { backgroundColor: 'rgba(255, 0, 0, 0.09)' }
+                          : {}),
                       }}
                       onClick={() => handleRowClick(asset)}
+
+                      
                     >
                       <TableCell align="center">
                         <div className="flex items-center gap-3">
@@ -268,7 +275,9 @@ const MonitorTable = ({
                         <TableCell align="center">{handoverDate}</TableCell>
                       )}
                       {showHandoverColumns && (
-                        <TableCell align="center">{remainingDays}</TableCell>
+                        <TableCell>
+                          {remainingDays}
+                        </TableCell>
                       )}
                       <TableCell align="center">
                         <Chip
