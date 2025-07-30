@@ -37,9 +37,7 @@ const navItems = [
   {
     title: 'Assets',
     icon: <AssetIcon />,
-    submenu: [
-      { title: 'Asset Requests', path: '/user-assetrequest' },
-    ],
+    submenu: [{ title: 'Asset Requests', path: '/user-assetrequest' }],
   },
   {
     title: 'Services',
@@ -50,7 +48,7 @@ const navItems = [
     title: 'Users',
     path: '/user-users',
     icon: <UsersIcon />,
-  }
+  },
 ];
 
 const UserSidebar = () => {

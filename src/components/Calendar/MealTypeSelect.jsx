@@ -69,10 +69,21 @@ export default function MealTypeSelect({ onSelect, mealtype_ids = [] }) {
       {isLoading ? (
         <div className="calendar-meal-grid">
           {skeletons.map((_, idx) => (
-            <div key={idx} className="calendar-meal-card calendar-meal-card-skeleton">
+            <div
+              key={idx}
+              className="calendar-meal-card calendar-meal-card-skeleton"
+            >
               <div className="calendar-meal-card-media skeleton-bg" />
               <div className="calendar-meal-card-content">
-                <div className="skeleton-text" style={{ width: '60%', height: '1.2rem', background: '#e5e7eb', borderRadius: '4px' }}></div>
+                <div
+                  className="skeleton-text"
+                  style={{
+                    width: '60%',
+                    height: '1.2rem',
+                    background: '#e5e7eb',
+                    borderRadius: '4px',
+                  }}
+                ></div>
               </div>
               <div className="calendar-meal-card-actions">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mb-2"></div>

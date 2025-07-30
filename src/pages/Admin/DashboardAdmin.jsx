@@ -14,16 +14,9 @@ import { DistributionChart } from '../../components/Dashboard/Admin/Distribution
 import { ChartMeal } from '../../components/Dashboard/Admin/ChartMeal';
 import { ChartResources } from '../../components/Dashboard/Admin/ChartResources';
 import { useAdminDashboardData } from '../../query/adminDashboardQueries';
-import { QuickActions } from '../../components/Dashboard/User/QuickActions';
+import { QuickActions } from '../../components/Dashboard/Common/QuickActions';
 
 const customUserActions = [
-  {
-    icon: CalendarDays,
-    title: 'View Meal Request',
-    description: 'Go to Meal Calendar (Admin)',
-    iconColor: 'text-blue-500',
-    path: '/admin-requestedMeals',
-  },
   {
     icon: PackageCheck,
     title: 'View Asset Monitoring',
@@ -33,10 +26,17 @@ const customUserActions = [
   },
   {
     icon: Wrench,
-    title: 'View Maintenance',
-    description: 'Go to Maintenance (Admin)',
+    title: 'Services & Maintenances',
+    description: 'Go to Services & Maintenances (Admin)',
     iconColor: 'text-red-500',
     path: '/admin-maintenance',
+  },
+  {
+    icon: CalendarDays,
+    title: 'View Meal Request',
+    description: 'Go to Meal Calendar (Admin)',
+    iconColor: 'text-blue-500',
+    path: '/admin-requestedMeals',
   },
 ];
 

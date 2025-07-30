@@ -9,19 +9,17 @@ import {
 } from '@mui/material';
 import { Search } from 'lucide-react';
 import UserLayout from '../../../layouts/User/UserLayout';
-import {ViewAdminsTable} from '../../../components/Users/UserTable/AdminViewTable';
-import {toast } from 'react-toastify';
+import { ViewAdminsTable } from '../../../components/Users/UserTable/AdminViewTable';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from '../../../services/api/config';
 
 export const Users = () => {
-
   const [users, setUsers] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
 
-
-   const apiRequest = async (url, method, body = null) => {
+  const apiRequest = async (url, method, body = null) => {
     // Try both 'authToken' and 'token' for compatibility
     const token =
       localStorage.getItem('authToken') || localStorage.getItem('token');
@@ -63,7 +61,7 @@ export const Users = () => {
       const data = await apiRequest(`${BASE_URLS.user}/details`, 'GET');
       setUsers(
         data.map((user) => ({
-          id: user.user_id.toString(), 
+          id: user.user_id.toString(),
           email: user.email,
           userType: user.usertype,
           additionalDetails: user.bio,
@@ -87,17 +85,16 @@ export const Users = () => {
   }, [fetchUsers]);
 
   const filteredUsers = useMemo(
-  () =>
-    users.filter(({ email, additionalDetails, userType }) => {
-      const isAdmin = userType === 'Admin' || userType === 'SuperAdmin';
-      const searchMatch = [email, additionalDetails].some((field) =>
-        field?.toLowerCase().includes(searchText.toLowerCase())
-      );
-      return isAdmin && searchMatch;
-    }),
-  [users, searchText],
-);
-
+    () =>
+      users.filter(({ email, additionalDetails, userType }) => {
+        const isAdmin = userType === 'Admin' || userType === 'SuperAdmin';
+        const searchMatch = [email, additionalDetails].some((field) =>
+          field?.toLowerCase().includes(searchText.toLowerCase()),
+        );
+        return isAdmin && searchMatch;
+      }),
+    [users, searchText],
+  );
 
   return (
     <UserLayout>
@@ -119,17 +116,13 @@ export const Users = () => {
               }}
             />
           </div>
-
         </div>
 
         {loading ? (
           <div>Loading users...</div>
         ) : (
-          <ViewAdminsTable
-            users={filteredUsers}
-          />
+          <ViewAdminsTable users={filteredUsers} />
         )}
-
       </div>
     </UserLayout>
   );

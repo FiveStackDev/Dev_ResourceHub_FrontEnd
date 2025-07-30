@@ -222,7 +222,12 @@ const MonitorTable = ({
               {sortedAssets
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((asset) => {
-                  const validStatuses = ['Pending', 'Accepted', 'Rejected','Handovered'];
+                  const validStatuses = [
+                    'Pending',
+                    'Accepted',
+                    'Rejected',
+                    'Handovered',
+                  ];
                   const status = validStatuses.includes(asset.status)
                     ? asset.status
                     : 'Pending';
@@ -243,8 +248,7 @@ const MonitorTable = ({
                     <TableRow
                       key={asset.requestedasset_id}
                       hover
-                       align="left"
-
+                      align="left"
                       sx={{
                         '&:hover': {
                           backgroundColor:
@@ -254,13 +258,12 @@ const MonitorTable = ({
                         },
                         borderBottom: `1px solid ${theme.palette.divider}`,
                         cursor: 'pointer',
-                        ...(typeof remainingDays === 'number' && remainingDays < 0
+                        ...(typeof remainingDays === 'number' &&
+                        remainingDays < 0
                           ? { backgroundColor: 'rgba(255, 0, 0, 0.09)' }
                           : {}),
                       }}
                       onClick={() => handleRowClick(asset)}
-
-                      
                     >
                       <TableCell>{asset.requestedasset_id}</TableCell>
                       <TableCell align="left">
@@ -275,17 +278,13 @@ const MonitorTable = ({
                           {asset.username}
                         </div>
                       </TableCell>
-                      <TableCell align="left">{asset.asset_name}
-     
-                      </TableCell>
-                       <TableCell align="left">{asset.quantity}</TableCell>
+                      <TableCell align="left">{asset.asset_name}</TableCell>
+                      <TableCell align="left">{asset.quantity}</TableCell>
                       {showHandoverColumns && (
                         <TableCell align="left">{handoverDate}</TableCell>
                       )}
                       {showHandoverColumns && (
-                        <TableCell align="left">
-                          {remainingDays}
-                        </TableCell>
+                        <TableCell align="left">{remainingDays}</TableCell>
                       )}
                       <TableCell align="left">
                         <Chip

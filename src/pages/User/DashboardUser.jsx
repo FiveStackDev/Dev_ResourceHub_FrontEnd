@@ -10,7 +10,7 @@ import axios from 'axios';
 import UserLayout from '../../layouts/User/UserLayout';
 import { StatCard } from '../../components/Dashboard/User/StatCard';
 import { RecentActivities } from '../../components/Dashboard/User/RecentActivities';
-import { QuickActions } from '../../components/Dashboard/User/QuickActions';
+import { QuickActions } from '../../components/Dashboard/Common/QuickActions';
 import { getMonthLabels } from '../../utils/dateUtils';
 import { useUserDashboardData } from '../../query/userDashboardQueries';
 
