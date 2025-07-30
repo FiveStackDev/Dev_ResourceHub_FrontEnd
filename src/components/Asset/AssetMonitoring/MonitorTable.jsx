@@ -12,7 +12,6 @@ import {
   TablePagination,
   Paper,
   Box,
-  Tooltip,
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { alpha } from '@mui/material/styles';
@@ -113,7 +112,7 @@ const MonitorTable = ({
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
-                  align="center"
+                  align="left"
                 >
                   User
                   {sortColumn === 'username' && (
@@ -132,7 +131,7 @@ const MonitorTable = ({
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
-                  align="center"
+                  align="left"
                 >
                   Asset ID
                   {sortColumn === 'asset_id' && (
@@ -151,7 +150,7 @@ const MonitorTable = ({
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
-                  align="center"
+                  align="left"
                 >
                   Asset
                   {sortColumn === 'asset_name' && (
@@ -165,10 +164,10 @@ const MonitorTable = ({
                   )}
                 </TableCell>
                 {showHandoverColumns && (
-                  <TableCell align="center">Handover Date</TableCell>
+                  <TableCell align="left">Handover Date</TableCell>
                 )}
                 {showHandoverColumns && (
-                  <TableCell align="center">Days Remaining</TableCell>
+                  <TableCell align="left">Days Remaining</TableCell>
                 )}
                 <TableCell
                   onClick={() => handleSort('status')}
@@ -176,7 +175,7 @@ const MonitorTable = ({
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
-                  align="center"
+                  align="left"
                 >
                   Status
                   {sortColumn === 'status' && (
@@ -195,7 +194,7 @@ const MonitorTable = ({
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
-                  align="center"
+                  align="left"
                 >
                   Category
                   {sortColumn === 'category' && (
@@ -238,7 +237,7 @@ const MonitorTable = ({
                     <TableRow
                       key={asset.requestedasset_id}
                       hover
-                       align="center"
+                       align="left"
 
                       sx={{
                         '&:hover': {
@@ -257,7 +256,7 @@ const MonitorTable = ({
 
                       
                     >
-                      <TableCell align="center">
+                      <TableCell align="left">
                         <div className="flex items-center gap-3">
                           <Avatar
                             src={
@@ -269,17 +268,17 @@ const MonitorTable = ({
                           {asset.username}
                         </div>
                       </TableCell>
-                      <TableCell align="center">{asset.asset_id}</TableCell>
-                      <TableCell align="center">{asset.asset_name}</TableCell>
+                      <TableCell align="left">{asset.asset_id}</TableCell>
+                      <TableCell align="left">{asset.asset_name}</TableCell>
                       {showHandoverColumns && (
-                        <TableCell align="center">{handoverDate}</TableCell>
+                        <TableCell align="left">{handoverDate}</TableCell>
                       )}
                       {showHandoverColumns && (
-                        <TableCell>
+                        <TableCell align="left">
                           {remainingDays}
                         </TableCell>
                       )}
-                      <TableCell align="center">
+                      <TableCell align="left">
                         <Chip
                           label={status}
                           size="small"
@@ -292,7 +291,7 @@ const MonitorTable = ({
                           }}
                         />
                       </TableCell>
-                      <TableCell align="center">{asset.category}</TableCell>
+                      <TableCell align="left">{asset.category}</TableCell>
                       {customColumns.map((col, index) => (
                         <TableCell key={`row-${index}`}>
                           {col.render(asset)}
