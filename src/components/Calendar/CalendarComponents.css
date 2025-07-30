@@ -142,6 +142,7 @@
   margin-top: 6px;
   color: var(--calendar-popup-text-secondary);
   font-weight: 400;
+  color: #1d4ed8;
   text-align: center;
 }
 
@@ -678,7 +679,7 @@
 .calendar-delete-confirm-btn:focus,
 .calendar-popup-close-btn:focus,
 .calendar-meal-card-button:focus {
-  outline: 2px solid #22c55e;
+  outline: 2px solid #223bc5;
   outline-offset: 2px;
 }
 

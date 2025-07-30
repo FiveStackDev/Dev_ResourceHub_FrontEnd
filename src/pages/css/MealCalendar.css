@@ -1,3 +1,29 @@
+/* Selected day styling */
+.fc-day-selected {
+  background: linear-gradient(135deg, #3b82f6 60%, #2563eb 100%) !important;
+  color: #fff !important;
+  border-radius: 50%;
+  border: 2px solid #2563eb !important;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+  font-weight: bold;
+}
+
+/* Range selection styling */
+.fc-day-range {
+  background: linear-gradient(90deg, #e0e7ff 0%, #0072f5 100%) !important;
+  color: #1e293b !important;
+  border-radius: 50%;
+  border: 2px dashed #3b82f6 !important;
+  box-shadow: 0 1px 4px rgba(59,130,246,0.10);
+}
+
+/* Disabled day styling override */
+.fc-day-disabled {
+  background: #f3f4f6 !important;
+  color: #9ca3af !important;
+  pointer-events: none;
+  opacity: 0.6;
+}
 /* Styling for disabled days */
 .fc-day-disabled {
   background-color: #1e1e2f !important;

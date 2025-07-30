@@ -47,25 +47,26 @@
 }
 
 .mealtime-card {
+  flex: 0 0 280px;
   width: 280px;
   height: 340px;
-  padding: 20px;
+  padding: 0 0 20px 0;
   max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+
   background: linear-gradient(
     135deg,
     var(--card-bg-primary) 0%,
     var(--card-bg-secondary) 100%
   );
+  border: 1px solid var(--calendar-card-border);
   border-radius: 16px;
-  box-shadow: 0 8px 24px var(--card-shadow);
-  transition: all 0.3s ease;
-  border: 1px solid var(--card-border);
-  position: relative;
+  box-shadow: 0px 4px 12px var(--calendar-card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .mealtime-card::before {
@@ -91,13 +92,16 @@
 }
 
 .mealtime-card-media {
-  height: 180px;
-  width: 180px;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px var(--card-shadow);
+height: 240px;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
   transition: all 0.3s ease;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
 }
 
 .mealtime-card:hover .mealtime-card-media {
@@ -107,7 +111,7 @@
 
 .mealtime-card-content {
   text-align: center;
-  padding: 16px 0;
+  padding: 16px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -115,11 +119,12 @@
 }
 
 .mealtime-card-content h5 {
-  color: var(--card-text-primary);
+ color: var(--calendar-card-text-primary);
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   margin: 0;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  line-height: 1.4;
 }
 
 .mealtime-card-actions {
