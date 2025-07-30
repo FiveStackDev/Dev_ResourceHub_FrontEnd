@@ -47,7 +47,6 @@ const navItems = [
     submenu: [
       { title: 'Organization Assets', path: '/admin-asset' },
       { title: 'Requested Assets', path: '/admin-assetmonitoring' },
-      { title: 'Due Assets', path: '/admin-dueassets' },
     ],
   },
   {

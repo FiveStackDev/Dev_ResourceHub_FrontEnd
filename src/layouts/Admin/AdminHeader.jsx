@@ -19,7 +19,7 @@ const AdminHeader = () => {
       setUnreadCount(count);
     };
     fetchUnreadCount();
-    intervalId = setInterval(fetchUnreadCount, 2000);
+    intervalId = setInterval(fetchUnreadCount, 2500);
     return () => clearInterval(intervalId);
   }, []);
 

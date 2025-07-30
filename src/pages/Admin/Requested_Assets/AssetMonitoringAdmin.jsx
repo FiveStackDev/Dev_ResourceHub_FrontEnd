@@ -23,6 +23,7 @@ const AssetMonitoringAdmin = () => {
   const [searchText, setSearchText] = useState('');
   const [filterCategory, setFilterCategory] = useState(passedCategory);
   const [assets, setAssets] = useState([]);
+  const [dueFilter, setDueFilter] = useState('All'); // 'All', 'Due', 'Not Due'
 
   const uniqueCategories = [
     'All',
@@ -127,12 +128,24 @@ const AssetMonitoringAdmin = () => {
     }
   };
 
-  const filteredAssets = assets.filter(
+  // Filter by category and search
+  let filteredAssets = assets.filter(
     (asset) =>
       (filterCategory === 'All' || asset.category === filterCategory) &&
       (asset.username.toLowerCase().includes(searchText.toLowerCase()) ||
-        asset.asset_name.toLowerCase().includes(searchText.toLowerCase())),
+        asset.asset_name.toLowerCase().includes(searchText.toLowerCase()))
   );
+
+  // Filter by due status
+  if (dueFilter === 'Due') {
+    filteredAssets = filteredAssets.filter(
+      (asset) => typeof asset.remaining_days === 'number' && asset.remaining_days < 0 && asset.status=="Accepted" && asset.is_returning==true
+    );
+  } else if (dueFilter === 'Not Due') {
+    filteredAssets = filteredAssets.filter(
+      (asset) => typeof asset.remaining_days === 'number' && (asset.is_returning==false || asset.remaining_days > 0) && asset.status=="Accepted"
+    );
+  }
 
   return (
     <AdminLayout>
@@ -169,6 +182,20 @@ const AssetMonitoringAdmin = () => {
                     {cat}
                   </MenuItem>
                 ))}
+              </Select>
+            </FormControl>
+
+            {/* Due Status Filter Dropdown */}
+            <FormControl variant="outlined" size="small" style={{ minWidth: 160 }}>
+              <InputLabel>Due Status</InputLabel>
+              <Select
+                value={dueFilter}
+                onChange={e => setDueFilter(e.target.value)}
+                label="Due Status"
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Due">Due</MenuItem>
+                <MenuItem value="Not Due">Not Due</MenuItem>
               </Select>
             </FormControl>
           </div>

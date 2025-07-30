@@ -39,7 +39,6 @@ const navItems = [
     icon: <AssetIcon />,
     submenu: [
       { title: 'Asset Requests', path: '/user-assetrequest' },
-      { title: 'Due Assets', path: '/user-dueassets' },
     ],
   },
   {
