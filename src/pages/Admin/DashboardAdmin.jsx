@@ -104,14 +104,14 @@ const AdminDashboard = () => {
           <div className="flex flex-col h-full lg:col-span-1">
             <ChartResources />
           </div>
-          <div className="flex flex-col h-full lg:col-span-3">
+          <div className="flex flex-col h-full gap-3 lg:col-span-3">
             <DistributionChart />
+            <QuickActions actions={customUserActions} />
           </div>
           <div className="flex flex-col h-full lg:col-span-1">
             <ChartMeal />
           </div>
         </div>
-        <QuickActions actions={customUserActions} />
       </div>
     </AdminLayout>
   );
