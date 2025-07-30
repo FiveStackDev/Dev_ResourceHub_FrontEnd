@@ -52,7 +52,7 @@ const MaintenanceTable = () => {
   });
 
   // Enhanced table state
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState('desc');
   const [sortColumn, setSortColumn] = useState('maintenance_id');
 
   const handleSort = (column) => {

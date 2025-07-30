@@ -29,7 +29,7 @@ export const UserTable = ({ users, onEditUser, onDeleteUsers }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortDirection, setSortDirection] = useState('asc');
-  const [sortColumn, setSortColumn] = useState('email');
+  const [sortColumn, setSortColumn] = useState('user_id');
 
   const canDeleteUser = (targetUserType) => {
     if (isSuperAdmin) return true;

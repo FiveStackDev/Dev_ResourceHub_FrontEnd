@@ -54,7 +54,7 @@ const MonitorTable = ({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState('desc');
   const [sortColumn, setSortColumn] = useState('requestedasset_id');
 
   const handleSort = (column) => {

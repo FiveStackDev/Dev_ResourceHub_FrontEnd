@@ -31,7 +31,7 @@ function AssetTable({
   const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState('desc');
   const [sortColumn, setSortColumn] = useState('asset_name');
 
   const handleSort = (column) => {

@@ -27,7 +27,7 @@ export const MaintenanceTableUser = ({
   const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState('desc');
   const [sortColumn, setSortColumn] = useState('maintenance_id');
 
   const handleSort = (column) => {
