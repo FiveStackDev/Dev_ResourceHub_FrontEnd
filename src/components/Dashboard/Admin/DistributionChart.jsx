@@ -358,7 +358,7 @@ export const DistributionChart = () => {
           >
             Weekly Insights
           </h4>
-          <div className="grid grid-cols-1 gap-4 text-xs md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 text-xs md:grid-cols-4">
             {data.datasets.map((dataset, index) => {
               const total = dataset.data.reduce((sum, val) => sum + val, 0);
               const average = (total / dataset.data.length).toFixed(1);
