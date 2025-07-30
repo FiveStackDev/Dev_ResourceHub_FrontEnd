@@ -126,15 +126,15 @@ const MonitorTable = ({
                   )}
                 </TableCell>
                 <TableCell
-                  onClick={() => handleSort('asset_id')}
+                  onClick={() => handleSort('asset_name')}
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
                   align="left"
                 >
-                  Asset ID
-                  {sortColumn === 'asset_id' && (
+                  Asset
+                  {sortColumn === 'asset_name' && (
                     <span className="ml-1">
                       {sortDirection === 'asc' ? (
                         <ArrowUpward fontSize="small" />
@@ -145,15 +145,15 @@ const MonitorTable = ({
                   )}
                 </TableCell>
                 <TableCell
-                  onClick={() => handleSort('asset_name')}
+                  onClick={() => handleSort('quantity')}
                   sx={{
                     cursor: 'pointer',
                     '&:hover': { color: theme.palette.primary.main },
                   }}
                   align="left"
                 >
-                  Asset
-                  {sortColumn === 'asset_name' && (
+                  Quantity
+                  {sortColumn === 'quantity' && (
                     <span className="ml-1">
                       {sortDirection === 'asc' ? (
                         <ArrowUpward fontSize="small" />
@@ -268,8 +268,8 @@ const MonitorTable = ({
                           {asset.username}
                         </div>
                       </TableCell>
-                      <TableCell align="left">{asset.asset_id}</TableCell>
                       <TableCell align="left">{asset.asset_name}</TableCell>
+                       <TableCell align="left">{asset.quantity}</TableCell>
                       {showHandoverColumns && (
                         <TableCell align="left">{handoverDate}</TableCell>
                       )}
