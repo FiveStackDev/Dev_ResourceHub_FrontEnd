@@ -34,6 +34,7 @@ import { Users } from './pages/Admin/UserManagement/Users';
 
 // User Pages
 import UserDashboard from './pages/User/DashboardUser';
+import ViewUsers from './pages/User/ViewUsers/Users';
 import AssetRequestUsers from './pages/User/RequestAsset/AssetRequestUsers';
 import DueAssetUser from './pages/User/RequestAsset/DueAssetUser';
 import MealCalender from './pages/User/MealRequest/MealCalander';
@@ -184,6 +185,15 @@ function App() {
               />
 
               {/* User Routes */}
+              <Route
+                path="/user-users"
+                element={
+                  <ProtectedRoute requiredRole="User">
+                    <ViewUsers />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route
                 path="/user-dashboarduser"
                 element={

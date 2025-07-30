@@ -46,6 +46,11 @@ const navItems = [
     icon: <MiscellaneousServicesIcon />,
     path: '/user-maintenance',
   },
+  {
+    title: 'Users',
+    path: '/user-users',
+    icon: <UsersIcon />,
+  }
 ];
 
 const UserSidebar = () => {
