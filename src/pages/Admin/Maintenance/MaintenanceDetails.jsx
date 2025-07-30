@@ -254,7 +254,6 @@ const MaintenanceDetails = () => {
           onClose={() => setIsAddMaintenanceOpen(false)}
           onAdd={handleAddMaintenance}
         />
-        <ToastContainer />
       </div>
     </AdminLayout>
   );
