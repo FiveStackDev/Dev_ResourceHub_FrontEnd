@@ -2,7 +2,6 @@ import React from 'react';
 import { AlertTriangle, Trash2 } from 'lucide-react';
 
 const DeleteOrganizationTrigger = ({ onOpenDelete, orgData }) => {
-  
   const handleClick = () => {
     console.log('Delete trigger clicked!');
     onOpenDelete();

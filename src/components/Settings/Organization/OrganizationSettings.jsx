@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Building, MapPin, Mail, Save, Globe, Phone, Calendar, Info } from 'lucide-react';
+import {
+  Building,
+  MapPin,
+  Mail,
+  Save,
+  Globe,
+  Phone,
+  Calendar,
+  Info,
+} from 'lucide-react';
 import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
 import { useUser, decodeToken } from '../../../contexts/UserContext';
@@ -9,7 +18,9 @@ import { useThemeStyles } from '../../../hooks/useThemeStyles';
 import VerificationPopup from './OrgVerificationPopup';
 import ConfirmationDialog from '../Shared/ConfirmationDialog';
 import ImageUpload from '../Profile/ImageUpload';
-import DeleteOrganization, { DeleteOrganizationTrigger } from './DeleteOrganization';
+import DeleteOrganization, {
+  DeleteOrganizationTrigger,
+} from './DeleteOrganization';
 import '../Styles/SettingsComponents.css';
 
 const OrganizationSection = () => {
@@ -569,19 +580,25 @@ const OrganizationSection = () => {
       )}
 
       {/* Delete Organization Section - Danger Zone */}
-      <DeleteOrganizationTrigger 
-        orgData={formData} 
+      <DeleteOrganizationTrigger
+        orgData={formData}
         onOpenDelete={() => {
-          console.log('Opening delete popup, current state:', isDeletePopupOpen);
+          console.log(
+            'Opening delete popup, current state:',
+            isDeletePopupOpen,
+          );
           setIsDeletePopupOpen(true);
           console.log('Delete popup state set to true');
         }}
       />
 
       {/* Delete Organization Popup */}
-      {console.log('Rendering DeleteOrganization with isOpen:', isDeletePopupOpen)}
-      <DeleteOrganization 
-        orgData={formData} 
+      {console.log(
+        'Rendering DeleteOrganization with isOpen:',
+        isDeletePopupOpen,
+      )}
+      <DeleteOrganization
+        orgData={formData}
         isOpen={isDeletePopupOpen}
         onClose={() => {
           console.log('Closing delete popup');

@@ -258,8 +258,12 @@ const MonitorTable = ({
                       <TableCell>{asset.requestedasset_id}</TableCell>
                       <TableCell>{asset.asset_name}</TableCell>
                       <TableCell>{asset.quantity}</TableCell>
-                      {showHandoverColumns && <TableCell>{handoverDate}</TableCell>}
-                      {showHandoverColumns && <TableCell>{remainingDays}</TableCell>}
+                      {showHandoverColumns && (
+                        <TableCell>{handoverDate}</TableCell>
+                      )}
+                      {showHandoverColumns && (
+                        <TableCell>{remainingDays}</TableCell>
+                      )}
                       <TableCell>
                         <Chip
                           label={asset.status}
@@ -289,7 +293,9 @@ const MonitorTable = ({
                                 color="primary"
                                 size="small"
                                 startIcon={<Edit size={18} />}
-                                onClick={() => onEditAsset && onEditAsset(asset)}
+                                onClick={() =>
+                                  onEditAsset && onEditAsset(asset)
+                                }
                                 sx={{ borderRadius: theme.shape.borderRadius }}
                               >
                                 Edit
@@ -305,7 +311,9 @@ const MonitorTable = ({
                                 color="error"
                                 size="small"
                                 startIcon={<Trash2 size={18} />}
-                                onClick={() => onDeleteAsset && onDeleteAsset(asset)}
+                                onClick={() =>
+                                  onDeleteAsset && onDeleteAsset(asset)
+                                }
                                 sx={{ borderRadius: theme.shape.borderRadius }}
                               >
                                 Delete

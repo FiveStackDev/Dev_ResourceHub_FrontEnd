@@ -1,54 +1,53 @@
 .date-filter-button {
-    min-width: 100px !important;
-    transition: all 0.3s ease !important;
+  min-width: 100px !important;
+  transition: all 0.3s ease !important;
 }
 
 .date-filter-button.selected {
-    background-color: #3f51b5 !important;
-    color: white !important;
-    border-color: #007bff !important;
+  background-color: #3f51b5 !important;
+  color: white !important;
+  border-color: #007bff !important;
 }
 
 .date-filter-button.selected:hover {
-    background-color: #3f51b5 !important;
+  background-color: #3f51b5 !important;
 }
 
 .date-filter-button:not(.selected) {
-    border-color: rgba(25, 118, 210, 0.5) !important;
-    
+  border-color: rgba(25, 118, 210, 0.5) !important;
 }
 
 .date-filter-button:not(.selected):hover {
-    background-color: rgba(25, 118, 210, 0.1) !important;
-    border-color: #3f51b5 !important;
+  background-color: rgba(25, 118, 210, 0.1) !important;
+  border-color: #3f51b5 !important;
 }
 
 .summary-card {
-    min-width: 150px;
-    padding: 0;
-    height: 60px;
-    margin-bottom:10px ;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+  min-width: 150px;
+  padding: 0;
+  height: 60px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .summary-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .today-card {
-    background-color:#3f51b5 !important;
-    color: white !important;
+  background-color: #3f51b5 !important;
+  color: white !important;
 }
 
 .total-card {
-    background-color: #3f51b5 !important;
-    color: white !important;
+  background-color: #3f51b5 !important;
+  color: white !important;
 }
 
 .meal-time-card {
-    background-color: white;
-    color: #333;
-    border: 1px solid rgba(25, 118, 210, 0.2);
+  background-color: white;
+  color: #333;
+  border: 1px solid rgba(25, 118, 210, 0.2);
 }

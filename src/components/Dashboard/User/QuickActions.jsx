@@ -15,7 +15,7 @@ export const QuickActions = ({ actions }) => {
     } else {
       console.warn('Action triggered with no path defined.');
     }
-  }
+  };
 
   if (!actions || actions.length === 0) {
     return <div className="p-4 text-gray-500">No quick actions available.</div>;

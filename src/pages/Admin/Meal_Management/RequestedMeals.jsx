@@ -16,7 +16,7 @@ import {
   Card,
   CardContent,
   Typography,
-  Stack
+  Stack,
 } from '@mui/material';
 
 export default function RequestedMeals() {
@@ -65,7 +65,7 @@ export default function RequestedMeals() {
         const mealTimesWithTypes = data.map((meal) => ({
           id: meal.mealtime_id,
           name: meal.mealtime_name,
-          mealtype_ids: meal.mealtype_ids || []
+          mealtype_ids: meal.mealtype_ids || [],
         }));
         setMealTimes(mealTimesWithTypes);
       })
@@ -94,10 +94,12 @@ export default function RequestedMeals() {
   // Update available meal types when meal time changes
   useEffect(() => {
     if (selectedMealTime) {
-      const selectedMealTimeData = mealTimes.find(mt => String(mt.id) === String(selectedMealTime));
+      const selectedMealTimeData = mealTimes.find(
+        (mt) => String(mt.id) === String(selectedMealTime),
+      );
       if (selectedMealTimeData) {
-        const availableTypes = mealTypes.filter(type => 
-          selectedMealTimeData.mealtype_ids.includes(type.id)
+        const availableTypes = mealTypes.filter((type) =>
+          selectedMealTimeData.mealtype_ids.includes(type.id),
         );
         setAvailableMealTypes(availableTypes);
         setSelectedMealType(''); // Reset meal type selection
@@ -143,15 +145,22 @@ export default function RequestedMeals() {
     }
 
     setFilteredEvents(filtered);
-  }, [selectedMealTime, selectedMealType, selectedMonth, startDate, endDate, mealEvents]);
+  }, [
+    selectedMealTime,
+    selectedMealType,
+    selectedMonth,
+    startDate,
+    endDate,
+    mealEvents,
+  ]);
 
   // Calculate statistics
   const getTotalRequests = () => filteredEvents.length;
   const getRequestsByMealTime = () => {
     const requestsByTime = {};
-    mealTimes.forEach(time => {
+    mealTimes.forEach((time) => {
       requestsByTime[time.name] = filteredEvents.filter(
-        event => String(event.mealtime_id) === String(time.id)
+        (event) => String(event.mealtime_id) === String(time.id),
       ).length;
     });
     return requestsByTime;
@@ -161,18 +170,21 @@ export default function RequestedMeals() {
   const handleQuickDateFilter = (days) => {
     const date = new Date();
     date.setHours(0, 0, 0, 0);
-    
+
     setSelectedDateButton(days);
-    
-    if (days === 0) { // Today
+
+    if (days === 0) {
+      // Today
       setStartDate(date.toLocaleDateString('en-CA'));
       setEndDate(date.toLocaleDateString('en-CA'));
-    } else if (days === -1) { // Yesterday
+    } else if (days === -1) {
+      // Yesterday
       const yesterday = new Date(date);
       yesterday.setDate(date.getDate() - 1);
       setStartDate(yesterday.toLocaleDateString('en-CA'));
       setEndDate(yesterday.toLocaleDateString('en-CA'));
-    } else if (days === 1) { // Tomorrow
+    } else if (days === 1) {
+      // Tomorrow
       const tomorrow = new Date(date);
       tomorrow.setDate(date.getDate() + 1);
       setStartDate(tomorrow.toLocaleDateString('en-CA'));
@@ -185,11 +197,8 @@ export default function RequestedMeals() {
       <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Requested Meals</h1>
 
-
-
         {/* Statistics Cards */}
         <Box>
-        
           <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto' }}>
             {/* Total Requests */}
             <Card className="summary-card total-card">
@@ -198,7 +207,7 @@ export default function RequestedMeals() {
                 <Typography variant="h4">{getTotalRequests()}</Typography>
               </CardContent>
             </Card>
-              
+
             {/* Meal Times */}
             {mealTimes.map((time) => (
               <Card key={time.id} className="summary-card meal-time-card">
@@ -213,29 +222,37 @@ export default function RequestedMeals() {
           </Box>
         </Box>
 
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, flexWrap: 'wrap', alignItems: 'center', mt: 3 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            mb: 2,
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            mt: 3,
+          }}
+        >
           {/* Left side: Quick Date Filters */}
           <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-            <Button 
+            <Button
               className={`date-filter-button ${selectedDateButton === -1 ? 'selected' : ''}`}
-              size="small" 
-              variant="outlined" 
+              size="small"
+              variant="outlined"
               onClick={() => handleQuickDateFilter(-1)}
             >
               Yesterday
             </Button>
-            <Button 
+            <Button
               className={`date-filter-button ${selectedDateButton === 0 ? 'selected' : ''}`}
-              size="small" 
+              size="small"
               variant="outlined"
               onClick={() => handleQuickDateFilter(0)}
             >
               Today
             </Button>
-            <Button 
+            <Button
               className={`date-filter-button ${selectedDateButton === 1 ? 'selected' : ''}`}
-              size="small" 
+              size="small"
               variant="outlined"
               onClick={() => handleQuickDateFilter(1)}
             >
@@ -263,9 +280,9 @@ export default function RequestedMeals() {
             </FormControl>
 
             {/* Meal Type Filter */}
-            <FormControl 
-              variant="outlined" 
-              size="small" 
+            <FormControl
+              variant="outlined"
+              size="small"
               sx={{ minWidth: 120 }}
               disabled={!selectedMealTime}
             >
@@ -295,7 +312,9 @@ export default function RequestedMeals() {
                 <MenuItem value="">All</MenuItem>
                 {Array.from({ length: 12 }, (_, i) => (
                   <MenuItem key={i + 1} value={i + 1}>
-                    {new Date(0, i).toLocaleString('default', { month: 'long' })}
+                    {new Date(0, i).toLocaleString('default', {
+                      month: 'long',
+                    })}
                   </MenuItem>
                 ))}
               </Select>

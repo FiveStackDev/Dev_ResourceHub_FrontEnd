@@ -89,9 +89,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
             </div>
             <div>
               <h2 className="maintenance-popup-title">Add Request</h2>
-              <p className="maintenance-popup-subtitle">
-                Create a new request
-              </p>
+              <p className="maintenance-popup-subtitle">Create a new request</p>
             </div>
           </div>
           <button onClick={handleClose} className="maintenance-popup-close-btn">
@@ -132,7 +130,7 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
               <div className="maintenance-popup-input-group">
                 <FormControl fullWidth className="maintenance-popup-select">
                   <InputLabel>Category</InputLabel>
-                               <Select
+                  <Select
                     value={category}
                     label="Category"
                     onChange={(e) => setCategory(e.target.value)}
