@@ -30,6 +30,11 @@ const getStatusColor = (status, theme) => {
         bg: alpha(theme.palette.info.light, 0.2),
         color: theme.palette.info.main,
       };
+    case 'handovered':
+      return {
+        bg: alpha(theme.palette.warning.light, 0.2),
+        color: theme.palette.warning.main,
+      };
     case 'rejected':
       return {
         bg: alpha(theme.palette.error.light, 0.2),
@@ -216,7 +221,7 @@ const MonitorTable = ({
               {sortedAssets
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((asset) => {
-                  const validStatuses = ['Pending', 'Accepted', 'Rejected'];
+                  const validStatuses = ['Pending', 'Accepted', 'Rejected','Handovered'];
                   const status = validStatuses.includes(asset.status)
                     ? asset.status
                     : 'Pending';
