@@ -21,7 +21,7 @@
 .fc-day-disabled {
   background: #f3f4f6 !important;
   color: #9ca3af !important;
-  pointer-events: none;
+  pointer-events: disabled !important;
   opacity: 0.6;
 }
 /* Styling for disabled days */
