@@ -308,26 +308,16 @@ yarn install
 Create a `.env` file in the root directory and configure your environment variables:
 
 ```env
-# API Configuration
-VITE_API_BASE_URL=http://localhost:9090/api
+# Cloudinary Configuration (for file uploads)
+VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+VITE_CLOUDINARY_API_URL=https://api.cloudinary.com/v1_1/your_cloud_name/image/upload
+
+# Optional: Additional configuration variables
 VITE_APP_NAME=Resource Hub
-
-# Authentication Service
-VITE_AUTH_URL=http://localhost:9094/auth
-
-# Microservice URLs (for local development)
-VITE_MAINTENANCE_URL=http://localhost:9090/maintenance
-VITE_ASSET_URL=http://localhost:9090/asset
-VITE_USER_URL=http://localhost:9090/user
-VITE_CALENDAR_URL=http://localhost:9090/calendar
-VITE_NOTIFICATION_URL=http://localhost:9093/notification
-VITE_DASHBOARD_ADMIN_URL=http://localhost:9092/dashboard/admin
-VITE_DASHBOARD_USER_URL=http://localhost:9092/dashboard/user
-
-# Other configuration variables as needed
 ```
 
-> **Note:** The application is configured to work with multiple microservices. Update the URLs according to your backend service deployment. For production deployment, update the `BASE_URL` in `src/services/api/config.js`.
+> **Note:** The application uses Cloudinary for file uploads (profile pictures, asset images, etc.). Get your Cloudinary credentials from your [Cloudinary Dashboard](https://cloudinary.com/console). The API endpoints are configured directly in `src/services/api/config.js` and don't require environment variables for local development.
 
 ## 🎯 Usage
 
