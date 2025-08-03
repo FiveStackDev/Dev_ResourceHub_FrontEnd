@@ -56,6 +56,15 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
           overflow: 'visible',
         },
       }}
+      sx={{
+        '& .MuiDialog-paper': {
+          '@media (max-width: 600px)': {
+            margin: '16px',
+            width: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 32px)',
+          },
+        },
+      }}
       aria-labelledby="edit-asset-modal-title"
       aria-describedby="edit-asset-modal-description"
     >
@@ -74,7 +83,7 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
           </div>
         </div>
 
-        <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
+        <div className="asset-popup-content">
           <div className="asset-form-group">
             <label className="asset-form-label">Asset Name</label>
             <div

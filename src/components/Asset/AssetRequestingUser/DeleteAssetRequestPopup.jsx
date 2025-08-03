@@ -32,6 +32,15 @@ const DeleteAssetRequestPopup = ({ open, onClose, asset, onDelete }) => {
           overflow: 'visible',
         },
       }}
+      sx={{
+        '& .MuiDialog-paper': {
+          '@media (max-width: 600px)': {
+            margin: '16px',
+            width: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 32px)',
+          },
+        },
+      }}
     >
       <div className="asset-popup-container">
         <div className="asset-popup-header">

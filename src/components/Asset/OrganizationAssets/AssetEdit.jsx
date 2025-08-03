@@ -104,6 +104,15 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           overflow: 'visible',
         },
       }}
+      sx={{
+        '& .MuiDialog-paper': {
+          '@media (max-width: 600px)': {
+            margin: '16px',
+            width: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 32px)',
+          },
+        },
+      }}
     >
       <div className="asset-popup-container">
         <div className="asset-popup-header">
@@ -120,7 +129,7 @@ function EditAssetPopup({ open, asset, onClose, onUpdate }) {
           </div>
         </div>
 
-        <div style={{ overflowY: 'auto', maxHeight: 'calc(100% - 120px)' }}>
+        <div className="asset-popup-content">
           <div className="asset-form-group">
             <label htmlFor="name" className="asset-form-label">
               <Package

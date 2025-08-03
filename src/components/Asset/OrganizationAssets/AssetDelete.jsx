@@ -28,6 +28,15 @@ function DeleteAssetPopup({ open, asset, onClose, onDelete }) {
           overflow: 'visible',
         },
       }}
+      sx={{
+        '& .MuiDialog-paper': {
+          '@media (max-width: 600px)': {
+            margin: '16px',
+            width: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 32px)',
+          },
+        },
+      }}
     >
       <div className="asset-delete-container">
         <div className="asset-delete-header">

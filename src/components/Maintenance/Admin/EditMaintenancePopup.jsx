@@ -93,6 +93,15 @@ export const EditMaintenance = ({ maintenance, open, onClose, onSave }) => {
           overflow: 'visible',
         },
       }}
+      sx={{
+        '& .MuiDialog-paper': {
+          '@media (max-width: 600px)': {
+            margin: '16px',
+            width: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 32px)',
+          },
+        },
+      }}
     >
       <div className="maintenance-popup-container">
         <div className="maintenance-popup-header">

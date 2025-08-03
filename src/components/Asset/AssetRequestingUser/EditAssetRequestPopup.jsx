@@ -56,6 +56,15 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
           overflow: 'visible',
         },
       }}
+      sx={{
+        '& .MuiDialog-paper': {
+          '@media (max-width: 600px)': {
+            margin: '16px',
+            width: 'calc(100vw - 32px)',
+            maxHeight: 'calc(100vh - 32px)',
+          },
+        },
+      }}
     >
       <div className="asset-popup-container">
         <div className="asset-popup-header">
@@ -72,7 +81,7 @@ const EditAssetRequestPopup = ({ open, onClose, asset, onSave }) => {
           </div>
         </div>
 
-        <div style={{ overflowY: 'auto', maxHeight: 'calc(80vh - 200px)' }}>
+        <div className="asset-popup-content">
           <div className="asset-form-group">
             <label className="asset-form-label">Asset Name</label>
             <div

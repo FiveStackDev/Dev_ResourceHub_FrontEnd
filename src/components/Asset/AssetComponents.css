@@ -91,6 +91,14 @@
   position: relative;
   overflow: hidden;
   max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-popup-content {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
 }
 
 .asset-popup-container::before {
@@ -297,6 +305,8 @@
   background-color: var(--asset-input-bg);
   color: var(--asset-popup-text-primary);
   appearance: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%236366f1' d='M2 0L0 2h4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
@@ -348,6 +358,7 @@
   margin-top: 32px;
   padding-top: 24px;
   border-top: 2px solid var(--asset-popup-border-color);
+  flex-shrink: 0;
 }
 
 .asset-button {
@@ -468,6 +479,9 @@
   );
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
 }
 
 .asset-delete-container::before {
@@ -524,6 +538,18 @@
   margin-bottom: 24px;
 }
 
+.asset-delete-warning-box {
+  background: linear-gradient(
+    135deg,
+    var(--asset-delete-warning-bg-primary) 0%,
+    var(--asset-delete-warning-bg-secondary) 100%
+  );
+  border: 2px solid var(--asset-delete-warning-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
 .asset-delete-warning-text {
   color: var(--asset-popup-text-primary);
   font-size: 1.1rem;
@@ -535,6 +561,8 @@
   display: flex;
   gap: 12px;
   justify-content: flex-end;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 /* Switch/Toggle Styling */
@@ -595,30 +623,197 @@
 }
 
 /* Responsive Design */
-@media (max-width: 480px) {
-  .asset-popup-container,
-  .asset-delete-container {
-    width: 95vw;
-    padding: 16px;
-    max-height: 90vh;
-    margin: 10px;
+@media (max-width: 600px) {
+  /* Global Dialog Paper responsive styling */
+  .MuiDialog-paper {
+    margin: 8px !important;
+    width: calc(100% - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100vh - 16px) !important;
+    border-radius: 12px !important;
   }
 
-  .asset-popup-title {
+  .MuiDialog-container {
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Dialog Paper responsive styling */
+  .MuiDialog-paper {
+    margin: 16px !important;
+    width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 32px) !important;
+  }
+
+  /* Maintenance popup responsive styling */
+  .maintenance-popup-container {
+    width: 100% !important;
+    padding: 16px !important;
+    max-height: calc(100vh - 32px) !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+  }
+
+  .maintenance-popup-content {
+    margin-bottom: 12px !important;
+    overflow-y: auto !important;
+  }
+
+  .maintenance-popup-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+  }
+
+  .maintenance-popup-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+    padding-top: 12px !important;
+  }
+
+  .maintenance-popup-button {
+    width: 100% !important;
+    min-height: 44px !important;
+    font-size: 0.875rem !important;
+  }
+
+  .maintenance-form-group {
+    margin-bottom: 16px !important;
+  }
+
+  .maintenance-form-input,
+  .maintenance-form-select,
+  .maintenance-form-textarea {
+    width: 100% !important;
+    min-height: 44px !important;
+    padding: 12px 14px !important;
+    font-size: 0.875rem !important;
+  }
+
+  .maintenance-form-textarea {
+    min-height: 88px !important;
+  }
+
+  .asset-popup-container,
+  .asset-delete-container {
+    width: 100% !important;
+    padding: 16px !important;
+    max-height: calc(100vh - 32px) !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+  }
+
+  .asset-popup-content {
+    margin-bottom: 12px;
+  }
+
+  .asset-popup-title,
+  .asset-delete-title {
     font-size: 1.25rem;
   }
 
-  .asset-button-group {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 16px;
-    padding-top: 12px;
+  .asset-popup-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .asset-popup-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  .asset-popup-header-content {
+    width: 100%;
+  }
+
+  .asset-popup-header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .asset-popup-close-btn {
+    position: relative;
+    top: 0;
+    right: 0;
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+  }
+
+  .asset-button-group,
+  .asset-delete-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+    padding-top: 12px !important;
+    width: 100% !important;
   }
 
   .asset-button {
     width: 100%;
-    padding: 10px;
+    padding: 14px;
     font-size: 0.875rem;
+    min-height: 44px; /* Touch-friendly minimum height */
+  }
+
+  .asset-form-group {
+    margin-bottom: 16px;
+  }
+
+  .asset-form-label {
+    font-size: 0.875rem;
+    margin-bottom: 6px;
+  }
+
+  .asset-form-input,
+  .asset-form-select,
+  .asset-form-textarea {
+    padding: 12px 14px !important;
+    font-size: 0.875rem !important;
+    min-height: 44px !important; /* Touch-friendly minimum height */
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .asset-form-textarea {
+    min-height: 88px !important;
+  }
+
+  .asset-switch-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .asset-delete-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .asset-delete-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .asset-delete-warning,
+  .asset-delete-warning-box {
+    padding: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 16px !important;
+  }
+
+  .asset-delete-warning-text {
+    font-size: 0.95rem;
   }
 
   .asset-home-card {
@@ -641,17 +836,45 @@
 
 @media (min-width: 481px) and (max-width: 600px) {
   .asset-popup-container,
-  .asset-delete-container {
-    width: 90vw;
-    padding: 20px;
-    max-height: 85vh;
+  .asset-delete-container,
+  .maintenance-popup-container {
+    width: 90vw !important;
+    padding: 20px !important;
+    max-height: 85vh !important;
+  }
+  
+  .maintenance-popup-header {
+    gap: 12px !important;
   }
 
-  .asset-popup-title {
+  .maintenance-popup-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .maintenance-popup-button {
+    width: 100% !important;
+    min-height: 44px !important;
+  }
+
+  .asset-popup-title,
+  .asset-delete-title {
     font-size: 1.375rem;
   }
 
-  .asset-button-group {
+  .asset-popup-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .asset-popup-header-icon,
+  .asset-delete-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .asset-button-group,
+  .asset-delete-actions {
     flex-direction: column;
     gap: 8px;
     margin-top: 18px;
@@ -660,6 +883,25 @@
 
   .asset-button {
     width: 100%;
+    padding: 11px;
+    font-size: 0.9rem;
+  }
+
+  .asset-form-group {
+    margin-bottom: 18px;
+  }
+
+  .asset-form-input,
+  .asset-form-select {
+    padding: 11px 14px;
+  }
+
+  .asset-delete-warning {
+    padding: 18px;
+  }
+
+  .asset-delete-warning-box {
+    padding: 18px;
   }
 
   .asset-home-card {
@@ -682,14 +924,41 @@
 
 @media (min-width: 601px) and (max-width: 768px) {
   .asset-popup-container,
-  .asset-delete-container {
+  .asset-delete-container,
+  .maintenance-popup-container {
     width: 85vw;
     padding: 24px;
     max-height: 85vh;
   }
 
-  .asset-popup-title {
+  .maintenance-popup-header {
+    gap: 16px;
+  }
+
+  .maintenance-popup-actions {
+    gap: 10px;
+  }
+
+  .asset-popup-title,
+  .asset-delete-title {
     font-size: 1.5rem;
+  }
+
+  .asset-button-group,
+  .asset-delete-actions {
+    gap: 10px;
+  }
+
+  .asset-form-group {
+    margin-bottom: 20px;
+  }
+
+  .asset-delete-warning {
+    padding: 20px;
+  }
+
+  .asset-delete-warning-box {
+    padding: 20px;
   }
 
   .asset-home-card {
@@ -707,6 +976,20 @@
 
   .asset-home-card-content h5 {
     font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .asset-popup-container,
+  .asset-delete-container {
+    width: 80vw;
+    max-width: 600px;
+    padding: 28px;
+  }
+
+  .asset-popup-title,
+  .asset-delete-title {
+    font-size: 1.625rem;
   }
 }
 
