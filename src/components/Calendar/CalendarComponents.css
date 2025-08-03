@@ -393,7 +393,60 @@
   opacity: 1;
 }
 
-@media screen and (max-width: 768px) {
+/* Mobile-first responsive design for calendar */
+@media screen and (max-width: 480px) {
+  .calendar-meal-grid {
+    padding: 8px;
+    gap: 8px;
+    height: 300px;
+  }
+
+  .calendar-meal-card {
+    flex: 0 0 180px;
+    min-width: 180px;
+    height: 260px;
+  }
+
+  .calendar-meal-card-media {
+    height: 120px;
+  }
+
+  .calendar-meal-card-content {
+    padding: 8px;
+  }
+
+  .calendar-meal-card-content h5 {
+    font-size: 0.875rem;
+  }
+
+  .calendar-meal-card-actions {
+    padding: 8px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .calendar-meal-grid {
+    padding: 12px;
+    gap: 12px;
+    height: 340px;
+  }
+
+  .calendar-meal-card {
+    flex: 0 0 220px;
+    min-width: 220px;
+    height: 300px;
+  }
+
+  .calendar-meal-card-media {
+    height: 140px;
+  }
+
+  .calendar-meal-card-content h5 {
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (min-width: 769px) {
   .calendar-meal-grid {
     padding: 15px;
     gap: 15px;
@@ -404,20 +457,6 @@
     flex: 0 0 250px;
     min-width: 250px;
     height: 320px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .calendar-meal-grid {
-    padding: 10px;
-    gap: 12px;
-    height: 340px;
-  }
-
-  .calendar-meal-card {
-    flex: 0 0 220px;
-    min-width: 220px;
-    height: 300px;
   }
 }
 
@@ -611,40 +650,88 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .calendar-meal-card-media {
-    height: 180px;
-  }
-
-  .calendar-meal-card-content h5 {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .calendar-popup-container,
   .calendar-delete-container {
-    width: 95%;
-    padding: 24px;
+    width: 95vw;
+    max-width: none;
+    margin: 10px;
+    padding: 16px;
   }
 
   .calendar-delete-title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
   }
 
   .calendar-delete-warning-text {
-    font-size: 1rem;
-    margin-bottom: 28px;
+    font-size: 0.875rem;
+    margin-bottom: 20px;
   }
 
   .calendar-delete-actions {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .calendar-delete-actions button {
     width: 100%;
+    padding: 12px;
+  }
+
+  .calendar-meal-card-media {
+    height: 120px;
+  }
+
+  .calendar-meal-card-content {
+    padding: 8px;
+  }
+
+  .calendar-meal-card-content h5 {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+  .calendar-popup-container,
+  .calendar-delete-container {
+    width: 90vw;
+    padding: 20px;
+  }
+
+  .calendar-delete-title {
+    font-size: 1.375rem;
+    margin-bottom: 18px;
+  }
+
+  .calendar-delete-warning-text {
+    font-size: 0.9375rem;
+    margin-bottom: 24px;
+  }
+
+  .calendar-delete-actions {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .calendar-delete-actions button {
+    width: 100%;
+  }
+
+  .calendar-meal-card-media {
+    height: 140px;
+  }
+
+  .calendar-meal-card-content h5 {
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .calendar-popup-container,
+  .calendar-delete-container {
+    width: 85vw;
+    padding: 24px;
   }
 
   .calendar-meal-card-media {
@@ -661,16 +748,6 @@
 
   .calendar-meal-card-actions {
     padding: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .calendar-meal-card-media {
-    height: 140px;
-  }
-
-  .calendar-meal-card-content h5 {
-    font-size: 0.95rem;
   }
 }
 

@@ -20,7 +20,10 @@ const BaseLayout = ({ header, sidebar, children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${sidebarWidth}px)` },
+          width: { 
+            xs: '100%',
+            sm: isMobile ? '100%' : `calc(100% - ${sidebarWidth}px)`,
+          },
           transition: (theme) =>
             theme.transitions.create('width', {
               easing: theme.transitions.easing.sharp,
@@ -39,8 +42,8 @@ const BaseLayout = ({ header, sidebar, children }) => {
             flexGrow: 1,
             display: 'flex',
             flexDirection: 'column',
-            px: 3,
-            py: 2,
+            px: { xs: 1, sm: 2, md: 3 },
+            py: { xs: 1, sm: 2 },
             width: '100%',
             maxWidth: '1800px',
             mx: 'auto',

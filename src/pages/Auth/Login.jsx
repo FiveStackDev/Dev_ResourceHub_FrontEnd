@@ -111,7 +111,7 @@ function Login() {
     <div className="login-page">
       <div className="login-left">
         <div className="logo">
-          <img src="/logo.png" alt="Logo" />
+          <img id="login-logo" src="/logo.png" alt="Logo" />
         </div>
         <h1>Welcome Back!</h1>
       </div>

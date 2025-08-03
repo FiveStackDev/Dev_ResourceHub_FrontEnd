@@ -595,23 +595,67 @@
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .asset-popup-container,
   .asset-delete-container {
-    width: 95%;
+    width: 95vw;
+    padding: 16px;
+    max-height: 90vh;
+    margin: 10px;
+  }
+
+  .asset-popup-title {
+    font-size: 1.25rem;
+  }
+
+  .asset-button-group {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 12px;
+  }
+
+  .asset-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.875rem;
+  }
+
+  .asset-home-card {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    min-height: 260px;
+    padding: 12px;
+  }
+
+  .asset-home-card-media {
+    height: 140px;
+    width: 140px;
+  }
+
+  .asset-home-card-content h5 {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+  .asset-popup-container,
+  .asset-delete-container {
+    width: 90vw;
     padding: 20px;
     max-height: 85vh;
   }
 
   .asset-popup-title {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
   }
 
   .asset-button-group {
     flex-direction: column;
     gap: 8px;
-    margin-top: 20px;
-    padding-top: 16px;
+    margin-top: 18px;
+    padding-top: 14px;
   }
 
   .asset-button {
@@ -619,27 +663,46 @@
   }
 
   .asset-home-card {
-    width: 250px;
-    height: 300px;
-    padding: 20px;
-  }
-
-  .asset-home-card-media {
-    height: 180px;
-    width: 180px;
-  }
-}
-
-@media (max-width: 480px) {
-  .asset-home-card {
-    width: 220px;
-    height: 280px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    min-height: 280px;
     padding: 16px;
   }
 
   .asset-home-card-media {
     height: 160px;
     width: 160px;
+  }
+
+  .asset-home-card-content h5 {
+    font-size: 1.05rem;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .asset-popup-container,
+  .asset-delete-container {
+    width: 85vw;
+    padding: 24px;
+    max-height: 85vh;
+  }
+
+  .asset-popup-title {
+    font-size: 1.5rem;
+  }
+
+  .asset-home-card {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    min-height: 300px;
+    padding: 20px;
+  }
+
+  .asset-home-card-media {
+    height: 180px;
+    width: 180px;
   }
 
   .asset-home-card-content h5 {

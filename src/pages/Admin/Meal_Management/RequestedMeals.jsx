@@ -194,26 +194,47 @@ export default function RequestedMeals() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen space-y-3 p-2">
-        <h1 className="text-2xl font-semibold">Requested Meals</h1>
+      <div className="min-h-screen space-y-3 p-1 sm:p-2">
+        <h1 className="text-xl sm:text-2xl font-semibold">Requested Meals</h1>
 
         {/* Statistics Cards */}
         <Box>
-          <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: { xs: 1, sm: 2 }, 
+            overflowX: 'auto',
+            pb: 1,
+            '&::-webkit-scrollbar': {
+              height: 4,
+            },
+            '&::-webkit-scrollbar-track': {
+              background: '#f1f1f1',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#888',
+              borderRadius: '4px',
+            },
+          }}>
             {/* Total Requests */}
-            <Card className="summary-card total-card">
+            <Card className="summary-card total-card" sx={{ minWidth: { xs: 140, sm: 150 } }}>
               <CardContent sx={{ py: 1, textAlign: 'center' }}>
-                <Typography variant="h6">Total Requests</Typography>
-                <Typography variant="h4">{getTotalRequests()}</Typography>
+                <Typography variant="h6" sx={{ fontSize: { xs: '0.9rem', sm: '1.25rem' } }}>
+                  Total Requests
+                </Typography>
+                <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', sm: '2.125rem' } }}>
+                  {getTotalRequests()}
+                </Typography>
               </CardContent>
             </Card>
 
             {/* Meal Times */}
             {mealTimes.map((time) => (
-              <Card key={time.id} className="summary-card meal-time-card">
+              <Card key={time.id} className="summary-card meal-time-card" sx={{ minWidth: { xs: 120, sm: 150 } }}>
                 <CardContent sx={{ py: 1 }}>
-                  <Typography variant="h6">{time.name}</Typography>
-                  <Typography variant="h4">
+                  <Typography variant="h6" sx={{ fontSize: { xs: '0.9rem', sm: '1.25rem' } }}>
+                    {time.name}
+                  </Typography>
+                  <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', sm: '2.125rem' } }}>
                     {getRequestsByMealTime()[time.name] || 0}
                   </Typography>
                 </CardContent>
@@ -225,20 +246,29 @@ export default function RequestedMeals() {
         <Box
           sx={{
             display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
             justifyContent: 'space-between',
             mb: 2,
-            flexWrap: 'wrap',
-            alignItems: 'center',
+            gap: { xs: 2, md: 0 },
+            alignItems: { xs: 'stretch', md: 'center' },
             mt: 3,
           }}
         >
           {/* Left side: Quick Date Filters */}
-          <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            spacing={1} 
+            sx={{ 
+              mb: { xs: 0, md: 1 },
+              width: { xs: '100%', md: 'auto' }
+            }}
+          >
             <Button
               className={`date-filter-button ${selectedDateButton === -1 ? 'selected' : ''}`}
               size="small"
               variant="outlined"
               onClick={() => handleQuickDateFilter(-1)}
+              fullWidth={{ xs: true, sm: false }}
             >
               Yesterday
             </Button>
@@ -247,6 +277,7 @@ export default function RequestedMeals() {
               size="small"
               variant="outlined"
               onClick={() => handleQuickDateFilter(0)}
+              fullWidth={{ xs: true, sm: false }}
             >
               Today
             </Button>
@@ -255,15 +286,24 @@ export default function RequestedMeals() {
               size="small"
               variant="outlined"
               onClick={() => handleQuickDateFilter(1)}
+              fullWidth={{ xs: true, sm: false }}
             >
               Tomorrow
             </Button>
           </Stack>
 
           {/* Right side: Other Filters */}
-          <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', gap: 1 }}>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            spacing={2} 
+            sx={{ 
+              flexWrap: 'wrap', 
+              gap: 1,
+              width: { xs: '100%', md: 'auto' }
+            }}
+          >
             {/* Meal Time Filter */}
-            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+            <FormControl variant="outlined" size="small" sx={{ minWidth: { xs: '100%', sm: 120 } }}>
               <InputLabel>Meal Time</InputLabel>
               <Select
                 value={selectedMealTime}
@@ -283,7 +323,7 @@ export default function RequestedMeals() {
             <FormControl
               variant="outlined"
               size="small"
-              sx={{ minWidth: 120 }}
+              sx={{ minWidth: { xs: '100%', sm: 120 } }}
               disabled={!selectedMealTime}
             >
               <InputLabel>Meal Type</InputLabel>

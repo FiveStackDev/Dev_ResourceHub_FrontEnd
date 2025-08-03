@@ -80,12 +80,12 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen p-2 space-y-3">
+      <div className="min-h-screen space-y-3 p-1 sm:p-2">
         {/* Heading */}
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold">Dashboard</h1>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
@@ -99,16 +99,17 @@ const AdminDashboard = () => {
             />
           ))}
         </div>
-        {/* Optimized Charts Row with 1:3:1 ratio */}
-        <div className="grid items-stretch grid-cols-1 gap-3 lg:grid-cols-5">
-          <div className="flex flex-col h-full lg:col-span-1">
+        {/* Mobile-First Charts Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 items-stretch">
+          {/* On mobile: stack vertically, on large screens: use 1:3:1 ratio */}
+          <div className="flex flex-col h-full lg:col-span-1 order-2 lg:order-1">
             <ChartResources />
           </div>
-          <div className="flex flex-col h-full gap-3 lg:col-span-3">
+          <div className="flex flex-col h-full gap-3 lg:col-span-3 order-1 lg:order-2">
             <DistributionChart />
             <QuickActions actions={customUserActions} />
           </div>
-          <div className="flex flex-col h-full lg:col-span-1">
+          <div className="flex flex-col h-full lg:col-span-1 order-3">
             <ChartMeal />
           </div>
         </div>

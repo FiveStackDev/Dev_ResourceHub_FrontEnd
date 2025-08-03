@@ -98,13 +98,13 @@ export const Users = () => {
 
   return (
     <UserLayout>
-      <div className="space-y-3 p-2">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold">View Users</h1>
+      <div className="space-y-3 p-1 sm:p-2">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-semibold">View Users</h1>
         </div>
 
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
             <TextField
               label="Search"
               variant="outlined"
@@ -114,14 +114,17 @@ export const Users = () => {
               InputProps={{
                 startAdornment: <Search size={20} className="mr-2" />,
               }}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             />
           </div>
         </div>
 
         {loading ? (
-          <div>Loading users...</div>
+          <div className="text-center py-4">Loading users...</div>
         ) : (
-          <ViewAdminsTable users={filteredUsers} />
+          <div className="overflow-x-auto">
+            <ViewAdminsTable users={filteredUsers} />
+          </div>
         )}
       </div>
     </UserLayout>

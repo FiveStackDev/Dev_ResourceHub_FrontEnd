@@ -264,7 +264,7 @@ function Register() {
       <ToastContainer />
       <div className="login-left">
         <div className="logo">
-          <img src="/logo.png" alt="Logo" />
+          <img id="register-logo" src="/logo.png" alt="Logo" />
         </div>
         <h1>Welcome!</h1>
       </div>

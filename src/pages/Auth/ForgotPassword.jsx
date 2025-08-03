@@ -148,7 +148,7 @@ const ForgotPassword = () => {
       <div className="forgot-page">
         <div className="left-panel">
           <div className="logo">
-            <img src="/logo.png" alt="Logo" />
+            <img id="forgot-logo" src="/logo.png" alt="Logo" />
           </div>
           <h1>No Worries.!!</h1>
           <a href="/login">

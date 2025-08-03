@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useMemo } from 'react';
 // Sidebar dimensions
 const EXPANDED_WIDTH = 225;
 const COLLAPSED_WIDTH = 75;
+const MOBILE_BREAKPOINT = 768; // Updated to md breakpoint
 
 interface SidebarContextType {
   isOpen: boolean;
@@ -33,7 +34,7 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   // Handle window resize effect
   React.useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 900;
+      const mobile = window.innerWidth < MOBILE_BREAKPOINT;
       setIsMobile(mobile);
       if (mobile) {
         setIsOpen(false);
@@ -53,8 +54,8 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
-  // Calculate sidebar width based on state
-  const sidebarWidth = isOpen ? EXPANDED_WIDTH : COLLAPSED_WIDTH;
+  // Calculate sidebar width based on state and mobile
+  const sidebarWidth = isMobile ? (isOpen ? EXPANDED_WIDTH : 0) : (isOpen ? EXPANDED_WIDTH : COLLAPSED_WIDTH);
 
   const value = useMemo(
     () => ({ isOpen, toggle, open, close, isMobile, sidebarWidth }),

@@ -5,8 +5,38 @@
 
 .maintenen {
   display: grid;
-  grid-template-columns: repeat(3, 2fr);
+  grid-template-columns: 1fr;
   gap: 16px;
   padding: 10px;
-  padding-left: 100px;
+  padding-left: 10px;
+}
+
+/* Small screens */
+@media (min-width: 480px) {
+  .maintenen {
+    padding-left: 20px;
+  }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 768px) {
+  .maintenen {
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 50px;
+  }
+}
+
+/* Large screens (desktop) */
+@media (min-width: 1024px) {
+  .maintenen {
+    grid-template-columns: repeat(3, 1fr);
+    padding-left: 100px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1440px) {
+  .maintenen {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

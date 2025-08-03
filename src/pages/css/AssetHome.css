@@ -5,22 +5,41 @@
 
 .asset-home {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  padding: 30px;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 15px;
   justify-content: center;
 }
 
-/* Medium screens (tablets) */
-@media (max-width: 1215px) {
+/* Small screens (mobile) */
+@media (min-width: 480px) {
   .asset-home {
-    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+    gap: 25px;
   }
 }
 
-/* Small screens (mobile) */
-@media (max-width: 861px) {
+/* Medium screens (tablets) */
+@media (min-width: 768px) {
   .asset-home {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 25px;
+  }
+}
+
+/* Large screens (desktop) */
+@media (min-width: 1024px) {
+  .asset-home {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding: 30px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1440px) {
+  .asset-home {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

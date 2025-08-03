@@ -17,6 +17,14 @@
   max-width: 400px;
 }
 
+#login-logo {
+  max-width: 400px;
+}
+
+#register-logo {
+  max-width: 400px;
+}
+
 .login-page .login-left h1 {
   margin-top: 20px;
   font-size: 90px;
@@ -268,34 +276,51 @@ button[type='submit'] {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    height: auto;
+    height: 100vh;
     padding: 0;
+    overflow: hidden;
   }
-  .login-left,
+  .login-left {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    flex: 0.3;
+  }
   .login-right {
     width: 100%;
     min-width: 0;
     padding: 0;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     display: flex;
     flex-direction: column;
+    flex: 0.7;
   }
   .login-left .logo img {
-    max-width: 120px;
-    margin-bottom: 8px;
+    max-width: 80px;
+    margin-bottom: 5px;
+  }
+  #login-logo {
+    max-width: 80px !important;
+    margin-bottom: 5px;
+  }
+  #register-logo {
+    max-width: 80px !important;
+    margin-bottom: 5px;
   }
   .login-left h1 {
-    font-size: 2rem;
-    margin: 8px 0 16px 0;
-    text-align: center;
+    display: block;
   }
   .login-form {
-    margin: 0 auto;
-    max-width: 95vw;
+    margin: 10px auto 0;
+    max-width: 85vw;
     width: 100%;
     min-width: 0;
-    padding: 18px 8px;
+    padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.08);
@@ -305,67 +330,105 @@ button[type='submit'] {
 @media (max-width: 768px) {
   .login-page {
     flex-direction: column;
-    height: auto;
+    height: 100vh;
     min-height: 100vh;
+    padding: 0;
+    justify-content: center;
+    overflow: hidden;
   }
-  .login-left,
-  .login-right {
-    flex: unset;
+  .login-left {
+    flex: 0.25;
     width: 100%;
     min-width: 0;
-    padding: 24px 0;
+    padding: 0;
     align-items: center;
-    justify-content: center;
-  }
-  .login-left .logo img {
-    max-width: 220px;
-  }
-  .login-left h1 {
-    font-size: 2.5rem;
-    margin-top: 10px;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
   }
   .login-right {
-    padding: 0 10px;
+    flex: 0.75;
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+  .login-left .logo img {
+    max-width: 70px;
+  }
+  #login-logo {
+    max-width: 70px !important;
+  }
+  #register-logo {
+    max-width: 70px !important;
+  }
+  .login-left h1 {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
   }
   .login-form {
-    max-width: 100%;
-    padding: 16px 0;
+    max-width: 90%;
+    width: 100%;
+    padding: 25px;
+    margin: 15px auto 0;
   }
 }
 
 @media (max-width: 480px) {
   .login-page {
-    padding: 0 4px;
+    padding: 0;
+    justify-content: center;
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
   }
   .login-left {
-    padding-top: 24px;
-    padding-bottom: 8px;
+    padding: 0;
+    flex: 0.2;
+    justify-content: flex-end;
   }
   .login-left .logo {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
   }
   .login-left .logo img {
-    max-width: 80px;
+    max-width: 60px;
+    margin-bottom: 0;
+  }
+  #login-logo {
+    max-width: 150px !important;
+    margin-bottom: 0;
+  }
+  #register-logo {
+    max-width: 150px !important;
     margin-bottom: 0;
   }
   .login-left h1 {
-    font-size: 1.2rem;
-    margin: 4px 0 10px 0;
     text-align: center;
-    line-height: 1.2;
+    display: block;
+    margin-bottom: 10px;
   }
   .login-right {
-    padding: 0 2px;
+    padding: 0;
+    flex: 0.8;
+    justify-content: flex-start;
+    margin-bottom:60px ;
   }
   .login-form {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-    padding: 10px 4px 18px 4px;
+    padding: 20px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.08);
+    max-width: 90%;
+    width: 100%;
+    margin: 10px auto 0;
   }
   .login-form h2 {
-    font-size: 1rem;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
   }
   .login-form input {
     font-size: 0.95rem;
@@ -385,8 +448,8 @@ button[type='submit'] {
   }
   button[type='submit'] {
     font-size: 1rem;
-    padding: 8px;
+    padding: 10px;
     border-radius: 6px;
-    margin-top: 4px;
+    margin-top: 8px;
   }
 }

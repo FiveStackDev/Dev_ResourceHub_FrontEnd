@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { StatCardPopup } from './StatCardPopup';
-import { useTheme } from '@mui/material';
+import { useTheme, Box, Typography } from '@mui/material';
 
 export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -34,32 +34,55 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
 
   return (
     <>
-      <div
-        style={{
+      <Box
+        sx={{
           background: theme.palette.background.paper,
           color: theme.palette.text.primary,
           boxShadow: theme.shadows[1],
+          borderRadius: 2,
+          p: { xs: 2, sm: 3, md: 4 },
+          cursor: 'pointer',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: theme.shadows[4],
+          }
         }}
-        className="rounded-lg p-4 cursor-pointer transition-all"
         onClick={() => setIsPopupOpen(true)}
       >
-        <div className="flex items-center justify-between mb-1">
-          <h3
-            style={{ color: theme.palette.text.secondary }}
-            className="text-sm font-medium flex items-center gap-2"
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+          <Typography
+            variant="body2"
+            sx={{ 
+              color: theme.palette.text.secondary,
+              fontWeight: 500,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              fontSize: { xs: '0.75rem', sm: '0.875rem' }
+            }}
           >
             {title}
             <ChevronDown
               size={16}
               style={{ color: theme.palette.text.disabled }}
             />
-          </h3>
-          {icon}
-        </div>
-        <p style={{ color: getCardTextColor() }} className="text-2xl font-bold">
+          </Typography>
+          <Box sx={{ flexShrink: 0 }}>
+            {icon}
+          </Box>
+        </Box>
+        <Typography 
+          variant="h4"
+          sx={{ 
+            color: getCardTextColor(),
+            fontWeight: 'bold',
+            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' }
+          }}
+        >
           {value}
-        </p>
-      </div>
+        </Typography>
+      </Box>
 
       <StatCardPopup
         open={isPopupOpen}
