@@ -1,15 +1,18 @@
 import { getAuthHeader } from './../../utils/authHeader';
 import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URLS } from './../../services/api/config';
 import '../css/ForgotPassword.css';
 import { Link } from 'react-router-dom';
-import ForgotPasswordVerificationPopup from './../../components/Settings/Account/ForgotPasswordVerificationPopup';
+import CommonVerificationPopup from '../../components/Settings/Account/CommonVerificationPopup';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [openVerifyPopup, setOpenVerifyPopup] = useState(false);
   const [code, setCode] = useState('');
 
@@ -17,22 +20,11 @@ const ForgotPassword = () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
-    if (!validateEmail(email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
-    setIsLoading(true);
+  const sendVerificationCode = async (emailAddress) => {
     try {
-      // Generate random code
-      const randomCode =
-        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+      const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
 
-      // Send code to email using the forgot password endpoint that checks if user exists
       const response = await fetch(
         `${BASE_URLS.login}/sendForgotPasswordCode`,
         {
@@ -41,29 +33,118 @@ const ForgotPassword = () => {
             'Content-Type': 'application/json',
             ...getAuthHeader(),
           },
-          body: JSON.stringify({ email, code: randomCode }),
+          body: JSON.stringify({ email: emailAddress, code: randomCode }),
         },
       );
 
       if (response.ok) {
-        setOpenVerifyPopup(true);
-        setMessage(`Verification code sent to ${email}`);
+        return { success: true, code: randomCode.toString() };
       } else {
         const errorData = await response.json();
-        setError(
-          errorData.message ||
-            'Failed to send verification code. Please check your email address.',
-        );
+        return { 
+          success: false, 
+          error: errorData.message || 'Failed to send verification code. Please check your email address.' 
+        };
       }
     } catch (err) {
-      setError('Failed to send verification code. Please try again later.');
+      console.error('Send verification code error:', err);
+      return { 
+        success: false, 
+        error: 'Failed to send verification code. Please try again later.' 
+      };
+    }
+  };
+
+  const handleResendCode = async () => {
+    const result = await sendVerificationCode(email);
+    if (result.success) {
+      setCode(result.code);
+      toast.success('New verification code sent to your email!');
+    } else {
+      toast.error(result.error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    setError('');
+    
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    
+    setIsLoading(true);
+    
+    try {
+      const result = await sendVerificationCode(email);
+      
+      if (result.success) {
+        setCode(result.code);
+        setOpenVerifyPopup(true);
+        setMessage(`Verification code sent to ${email}`);
+        toast.success(`Verification code sent to ${email}`);
+      } else {
+        setError(result.error);
+        toast.error(result.error);
+      }
+    } catch (err) {
+      console.error('Forgot password error:', err);
+      const errorMsg = 'Failed to send verification code. Please try again later.';
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleVerificationSuccess = async () => {
+    setMessage('Verification successful! Sending password reset email...');
+    setIsProcessing(true);
+    
+    try {
+      const response = await fetch(
+        `${BASE_URLS.login}/resetpassword`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify({ email }),
+        },
+      );
+      
+      if (response.ok) {
+        setMessage('Password reset email sent successfully! Check your inbox.');
+        toast.success('Password reset email sent successfully! Check your inbox.');
+        setEmail('');
+        
+        // Redirect to login after a short delay
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 3000);
+      } else {
+        const errorData = await response.json();
+        const errorMsg = errorData.message || 'Failed to send reset email';
+        setError(errorMsg);
+        toast.error(errorMsg);
+      }
+    } catch (err) {
+      console.error('Password reset error:', err);
+      const errorMsg = 'An error occurred. Please try again later.';
+      setError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   return (
     <div className="forgot-page1">
+      <ToastContainer />
       <div className="forgot-page">
         <div className="left-panel">
           <div className="logo">
@@ -84,15 +165,23 @@ const ForgotPassword = () => {
                 type="email"
                 placeholder="Email address"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  // Clear errors when user starts typing
+                  if (error) setError('');
+                }}
                 required
-                disabled={isLoading}
+                disabled={isLoading || isProcessing}
               />
             </div>
             {message && <p className="success-message">{message}</p>}
             {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="reset-btn" disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'RESET PASSWORD'}
+            <button 
+              type="submit" 
+              className="reset-btn" 
+              disabled={isLoading || isProcessing || !email.trim()}
+            >
+              {isLoading ? 'Sending...' : isProcessing ? 'Processing...' : 'RESET PASSWORD'}
             </button>
           </form>
           <p>
@@ -100,40 +189,17 @@ const ForgotPassword = () => {
           </p>
         </div>
         {openVerifyPopup && (
-          <ForgotPasswordVerificationPopup
-            onClose={() => setOpenVerifyPopup(false)}
+          <CommonVerificationPopup
+            title="Forgot Password Verification"
+            onClose={() => {
+              setOpenVerifyPopup(false);
+              setMessage('');
+              setError('');
+            }}
             email={email}
             code={code}
-            onVerified={async () => {
-              setMessage(
-                'Verification successful! Sending password reset email...',
-              );
-              setIsLoading(true);
-              try {
-                const response = await fetch(
-                  `${BASE_URLS.login}/resetpassword`,
-                  {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      ...getAuthHeader(),
-                    },
-                    body: JSON.stringify({ email }),
-                  },
-                );
-                if (response.ok) {
-                  setMessage('Password reset email sent successfully!');
-                  setEmail('');
-                } else {
-                  const errorData = await response.json();
-                  setError(errorData.message || 'Failed to send reset email');
-                }
-              } catch (err) {
-                setError('An error occurred. Please try again later.');
-              } finally {
-                setIsLoading(false);
-              }
-            }}
+            onVerified={handleVerificationSuccess}
+            onResendCode={handleResendCode}
           />
         )}
       </div>

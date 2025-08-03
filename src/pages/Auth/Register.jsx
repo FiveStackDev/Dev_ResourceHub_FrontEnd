@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Login.css';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   TextField,
   FormControl,
@@ -12,6 +13,8 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { BASE_URLS } from './../../services/api/config';
+import { getAuthHeader } from '../../utils/authHeader';
+import CommonVerificationPopup from '../../components/Settings/Account/CommonVerificationPopup';
 
 function Register() {
   const [credentials, setCredentials] = useState({
@@ -23,16 +26,30 @@ function Register() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [openVerifyPopup, setOpenVerifyPopup] = useState(false);
+  const [code, setCode] = useState('');
 
   // Password validation rule
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
     if (!passwordRegex.test(password)) {
       return 'Password must be at least 8 characters long, contain one uppercase letter, and one symbol.';
+    }
+    return '';
+  };
+
+  // Email validation rule
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return 'Please enter a valid email address.';
     }
     return '';
   };
@@ -44,16 +61,42 @@ function Register() {
       [name]: value,
     }));
 
+    // Clear previous errors when user starts typing
     if (name === 'password') {
       const error = validatePassword(value);
       setPasswordError(error);
     }
+
+    if (name === 'email') {
+      const error = validateEmail(value);
+      setEmailError(error);
+    }
+
+    // Clear general errors when user makes changes
+    if (error) setError('');
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage('');
+    setMessage('');
+    setError('');
+
+    // Validate email before proceeding
+    const emailErr = validateEmail(credentials.email);
+    if (emailErr) {
+      setEmailError(emailErr);
+      setIsLoading(false);
+      return;
+    }
+
+    // Validate password before proceeding
+    const passError = validatePassword(credentials.password);
+    if (passError) {
+      setPasswordError(passError);
+      setIsLoading(false);
+      return;
+    }
 
     if (credentials.password !== credentials.confirmPassword) {
       toast.error('Password and Confirm Password do not match.');
@@ -61,49 +104,37 @@ function Register() {
       return;
     }
 
-    setIsLoading(true);
+    // Validate all required fields
+    if (!credentials.org_name.trim()) {
+      toast.error('Organization name is required.');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!credentials.username.trim()) {
+      toast.error('Username is required.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const payload = {
-        org_name: credentials.org_name,
-        email: credentials.email,
-        username: credentials.username,
-        password: credentials.password,
-      };
-      const response = await fetch(`${BASE_URLS.orgsettings}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(typeof getAuthHeader === 'function' ? getAuthHeader() : {}),
-        },
-        body: JSON.stringify(payload),
-      });
+      const result = await sendVerificationCode(credentials.email);
 
-      const responseData = await response.json();
-
-      if (response.ok) {
-        // Check if the response contains an error message even with OK status
-        if (responseData.error) {
-          setErrorMessage(responseData.error);
-          toast.error(responseData.error);
-        } else {
-          // Successful registration
-          toast.success('Registration successful!');
-          setCredentials({
-            org_name: '',
-            email: '',
-            username: '',
-            confirmPassword: '',
-            password: '',
-          });
-        }
+      if (result.success) {
+        setCode(result.code);
+        setOpenVerifyPopup(true);
+        setMessage(`Verification code sent to ${credentials.email}`);
+        toast.success(`Verification code sent to ${credentials.email}`);
       } else {
-        const errorMsg =
-          responseData.message || responseData.error || 'Failed to register';
-        setErrorMessage(errorMsg);
-        toast.error(errorMsg);
+        setError(result.error);
+        toast.error(result.error);
       }
     } catch (err) {
-      setErrorMessage('An error occurred. Please try again later.');
+      console.error('Registration error:', err);
+      const errorMsg =
+        'Failed to send verification code. Please try again later.';
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -114,8 +145,123 @@ function Register() {
     setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (e) => e.preventDefault();
 
+  const sendVerificationCode = async (email) => {
+    try {
+      const randomCode =
+        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+      setCode(randomCode.toString());
+
+      const response = await fetch(
+        `${BASE_URLS.orgsettings}/registerVerificationCode`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeader(),
+          },
+          body: JSON.stringify({ email, code: randomCode }),
+        },
+      );
+
+      if (response.ok) {
+        return { success: true, code: randomCode.toString() };
+      } else {
+        const errorData = await response.json();
+        return {
+          success: false,
+          error: errorData.message || 'Failed to send verification code.',
+        };
+      }
+    } catch (err) {
+      console.error('Send verification code error:', err);
+      return {
+        success: false,
+        error: 'Failed to send verification code. Please try again later.',
+      };
+    }
+  };
+
+  const handleResendCode = async () => {
+    const result = await sendVerificationCode(credentials.email);
+    if (result.success) {
+      setCode(result.code);
+      toast.success('New verification code sent to your email!');
+    } else {
+      toast.error(result.error);
+    }
+  };
+
+  const handleVerificationSuccess = async () => {
+    setMessage('Verification successful! Creating your account...');
+    setIsVerifying(true);
+
+    try {
+      const payload = {
+        org_name: credentials.org_name,
+        email: credentials.email,
+        username: credentials.username,
+        password: credentials.password,
+      };
+
+      const response = await fetch(`${BASE_URLS.orgsettings}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        // Check if the response contains an error message even with OK status
+        if (responseData.error) {
+          setError(responseData.error);
+          toast.error(responseData.error);
+        } else {
+          // Successful registration
+          setMessage(
+            'Registration successful! You can now login with your credentials.',
+          );
+          toast.success('Registration successful! Redirecting to login...');
+
+          // Clear form
+          setCredentials({
+            org_name: '',
+            email: '',
+            username: '',
+            confirmPassword: '',
+            password: '',
+          });
+
+          // Redirect to login after a short delay
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 2000);
+        }
+      } else {
+        const errorMsg =
+          responseData.message ||
+          responseData.error ||
+          'Failed to register. Please try again.';
+        setError(errorMsg);
+        toast.error(errorMsg);
+      }
+    } catch (err) {
+      console.error('Registration submission error:', err);
+      const errorMsg =
+        'An error occurred during registration. Please try again later.';
+      setError(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
   return (
     <div className="login-page">
+      <ToastContainer />
       <div className="login-left">
         <div className="logo">
           <img src="/logo.png" alt="Logo" />
@@ -126,7 +272,7 @@ function Register() {
       <div className="login-right">
         <form onSubmit={handleRegister} className="login-form">
           <h2>Register</h2>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          {/* Error message is shown below the form fields, not here */}
 
           {/* Organization Name */}
           <TextField
@@ -164,6 +310,8 @@ function Register() {
             margin="normal"
             value={credentials.email}
             onChange={handleChange}
+            error={!!emailError}
+            helperText={emailError}
             required
           />
 
@@ -218,16 +366,44 @@ function Register() {
             />
           </FormControl>
           <div className="form-options"></div>
-          <button className="submitbtn" type="submit" disabled={isLoading}>
-            {isLoading ? 'Creating...' : 'Register'}
+
+          {message && <p className="success-message">{message}</p>}
+          {error && <p className="error-message">{error}</p>}
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={
+              isLoading || isVerifying || !!passwordError || !!emailError
+            }
+          >
+            {isLoading
+              ? 'Sending Verification Code...'
+              : isVerifying
+                ? 'Creating Account...'
+                : 'Register'}
           </button>
-          <br></br>
+          <br></br><br></br>
           <div className="form-options">
             <p>
               Already have an account? <Link to="/login">Login</Link>
             </p>
           </div>
         </form>
+
+        {openVerifyPopup && (
+          <CommonVerificationPopup
+            title="Register Email Verification"
+            onClose={() => {
+              setOpenVerifyPopup(false);
+              setMessage('');
+              setError('');
+            }}
+            email={credentials.email}
+            code={code}
+            onVerified={handleVerificationSuccess}
+            onResendCode={handleResendCode}
+          />
+        )}
       </div>
     </div>
   );

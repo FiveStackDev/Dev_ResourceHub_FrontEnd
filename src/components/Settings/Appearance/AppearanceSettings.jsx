@@ -74,7 +74,7 @@ const AppearanceSettings = () => {
     if (scheduleSettings.enabled) {
       applyScheduledTheme();
 
-      const interval = setInterval(applyScheduledTheme, 60000); // Check every minute
+      const interval = setInterval(applyScheduledTheme, 6000); // Check every minute
       return () => clearInterval(interval);
     }
   }, [scheduleSettings.enabled, applyScheduledTheme]);

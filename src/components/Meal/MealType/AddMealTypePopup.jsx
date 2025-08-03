@@ -103,6 +103,17 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
       return null;
     }
 
+    
+    if (!imageFile.type.startsWith('image/')) {
+      toast.error('Please select a valid image file');
+      return;
+    }
+    // Validate file size (5MB limit)
+    if (imageFile.size > 5 * 1024 * 1024) {
+      toast.error('Image size should be less than 5MB');
+      return;
+    }
+
     setUploading(true);
     const formData = new FormData();
     formData.append('file', imageFile);
