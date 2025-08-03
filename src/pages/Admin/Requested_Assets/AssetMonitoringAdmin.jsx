@@ -161,22 +161,25 @@ const AssetMonitoringAdmin = () => {
           Asset Monitoring {filterCategory !== 'All' && `: ${filterCategory}`}
         </h1>
 
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4 flex-1">
-            <TextField
-              label="Search by Name or Asset"
-              variant="outlined"
-              size="small"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              InputProps={{ startAdornment: <Search size={20} /> }}
-              className="min-w-[240px] flex-1"
-            />
+        <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+          {/* Search Field */}
+          <TextField
+            label="Search by Name or Asset"
+            variant="outlined"
+            size="small"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            InputProps={{ startAdornment: <Search size={20} /> }}
+            className="w-full md:w-[240px]"
+          />
 
+          {/* Filter Controls Container */}
+          <div className="flex flex-col sm:flex-row gap-4 flex-1">
+            {/* Category Filter */}
             <FormControl
               variant="outlined"
               size="small"
-              style={{ minWidth: 200 }}
+              className="w-full sm:w-auto min-w-[200px]"
             >
               <InputLabel>Filter by Category</InputLabel>
               <Select
@@ -192,11 +195,11 @@ const AssetMonitoringAdmin = () => {
               </Select>
             </FormControl>
 
-            {/* Due Status Filter Dropdown */}
+            {/* Due Status Filter */}
             <FormControl
               variant="outlined"
               size="small"
-              style={{ minWidth: 160 }}
+              className="w-full sm:w-auto min-w-[160px]"
             >
               <InputLabel>Due Status</InputLabel>
               <Select

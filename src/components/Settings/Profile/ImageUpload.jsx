@@ -115,7 +115,7 @@ const ImageUpload = ({
           {currentImage ? (
             <div className="image-wrapper">
               <img
-                src={currentImage}
+                src={currentImage }
                 alt={alt}
                 className={`uploaded-image ${isProfile ? 'profile-image' : 'org-image'}`}
                 onError={(e) => {

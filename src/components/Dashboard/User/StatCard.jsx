@@ -40,7 +40,7 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
           color: theme.palette.text.primary,
           boxShadow: theme.shadows[1],
           borderRadius: 2,
-          p: { xs: 3, sm: 4, md: 6 },
+          p: { xs:2, sm: 2, md:2 },
           cursor: 'pointer',
           transition: 'all 0.2s ease-in-out',
           '&:hover': {
@@ -74,7 +74,7 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
           sx={{
             fontWeight: 'bold',
             color: theme.palette.text.primary,
-            fontSize: { xs: '1.5rem', sm: '2rem', md: '3rem' }
+            fontSize: { xs: '1.5rem', sm: '1rem', md: '2rem' }
           }}
         >
           {value}

@@ -340,7 +340,7 @@ const OrganizationSection = () => {
           Manage your organization profile and information
         </p>
         <ImageUpload
-          currentImage={formData.org_logo}
+          currentImage={formData.org_logo || 'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'} 
           onImageChange={handleImageChange}
           uploading={uploading}
           isProfile={false}

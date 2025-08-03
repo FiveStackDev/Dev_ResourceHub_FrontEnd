@@ -142,14 +142,9 @@ const MaintenanceDetails = () => {
       <div className="space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Maintenances & Services</h1>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="flex flex-col lg:flex-row gap-4 mb-4">
+          {/* Left side - Filters */}
+          <div className="flex flex-col sm:flex-row gap-4 flex-1 flex-wrap">
             <TextField
               label="Search"
               variant="outlined"
@@ -157,84 +152,82 @@ const MaintenanceDetails = () => {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               InputProps={{ startAdornment: <Search size={20} /> }}
+              className="w-full sm:w-[200px]"
             />
-            <FormControl
-              variant="outlined"
-              size="small"
-              style={{ marginLeft: '10px', width: '150px' }}
-            >
-              <InputLabel>Filter by Priority</InputLabel>
-              <Select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                label="Filter by Priority"
+            <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
+              <FormControl
+                variant="outlined"
+                size="small"
+                className="w-full sm:w-[150px]"
               >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Low">Low</MenuItem>
-                <MenuItem value="Medium">Medium</MenuItem>
-                <MenuItem value="High">High</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              size="small"
-              style={{ marginLeft: '10px', width: '150px' }}
-            >
-              <InputLabel>Filter by Category</InputLabel>
-              <Select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                label="Filter by Category"
+                <InputLabel>Filter by Priority</InputLabel>
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Filter by Priority"
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Low">Low</MenuItem>
+                  <MenuItem value="Medium">Medium</MenuItem>
+                  <MenuItem value="High">High</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl
+                variant="outlined"
+                size="small"
+                className="w-full sm:w-[150px]"
               >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Tech Support">Tech Support </MenuItem>
-                <MenuItem value="General Maintenance">
-                  General Maintenance{' '}
-                </MenuItem>
-                <MenuItem value="Cleaning and Hygiene">
-                  Cleaning and Hygiene{' '}
-                </MenuItem>
-                <MenuItem value="Building Maintenance">
-                  Building Maintenance{' '}
-                </MenuItem>
-                <MenuItem value="Safety and Security">
-                  Safety and Security{' '}
-                </MenuItem>
-                <MenuItem value="Utilities & Energy">
-                  Utilities & Energy{' '}
-                </MenuItem>
-                <MenuItem value="HVAC">
-                  HVAC(Heating, Ventilation & Air Conditioning){' '}
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl
-              variant="outlined"
-              size="small"
-              style={{ marginLeft: '10px', width: '150px' }}
-            >
-              <InputLabel>Filter by Status</InputLabel>
-              <Select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                label="Filter by Status"
+                <InputLabel>Filter by Category</InputLabel>
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Filter by Category"
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Tech Support">Tech Support</MenuItem>
+                  <MenuItem value="General Maintenance">General Maintenance</MenuItem>
+                  <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene</MenuItem>
+                  <MenuItem value="Building Maintenance">Building Maintenance</MenuItem>
+                  <MenuItem value="Safety and Security">Safety and Security</MenuItem>
+                  <MenuItem value="Utilities & Energy">Utilities & Energy</MenuItem>
+                  <MenuItem value="HVAC">HVAC(Heating, Ventilation & Air Conditioning)</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl
+                variant="outlined"
+                size="small"
+                className="w-full sm:w-[150px]"
               >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Pending">Pending</MenuItem>
-                <MenuItem value="In Progress">In Progress</MenuItem>
-                <MenuItem value="Completed">Completed</MenuItem>
-                <MenuItem value="Rejected">Rejected</MenuItem>
-              </Select>
-            </FormControl>
+                <InputLabel>Filter by Status</InputLabel>
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Filter by Status"
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Pending">Pending</MenuItem>
+                  <MenuItem value="In Progress">In Progress</MenuItem>
+                  <MenuItem value="Completed">Completed</MenuItem>
+                  <MenuItem value="Rejected">Rejected</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<Plus size={20} />}
-            onClick={() => setIsAddMaintenanceOpen(true)}
-          >
-            Add New Request
-          </Button>
+
+          {/* Right side - Add Button */}
+          <div className="flex justify-end">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Plus size={20} />}
+              onClick={() => setIsAddMaintenanceOpen(true)}
+              className="w-full sm:w-auto"
+            >
+              Add New Request
+            </Button>
+          </div>
         </div>
 
         {loading ? (
