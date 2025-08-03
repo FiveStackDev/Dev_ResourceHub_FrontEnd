@@ -266,7 +266,7 @@ function Register() {
         <div className="logo">
           <img id="register-logo" src="/logo.png" alt="Logo" />
         </div>
-        <h1>Welcome!</h1>
+        <h2>Welcome!</h2>
       </div>
 
       <div className="login-right">
