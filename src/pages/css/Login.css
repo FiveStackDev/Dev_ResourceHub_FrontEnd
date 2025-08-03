@@ -361,11 +361,12 @@ button[type='submit'] {
   }
   #login-logo {
     max-width: 70px !important;
+
   }
   #register-logo {
     max-width: 70px !important;
   }
-  .login-left h1 {
+  .login-left h2 {
     display: block;
     font-size: 1.5rem;
     margin-bottom: 10px;
@@ -393,8 +394,8 @@ button[type='submit'] {
     justify-content: flex-end;
   }
   .login-left .logo {
-    margin-top: 20px;
-    margin-bottom: 0px;
+    margin-top: 40px;
+    margin-bottom: 30px;
   }
   .login-left .logo img {
     max-width: 60px;
@@ -412,7 +413,7 @@ button[type='submit'] {
     font-size: 2rem;
     text-align: center;
     font-weight: 900;
-    display: block;
+    display: none;
   }
   .login-right {
     padding: 0;
