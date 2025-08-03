@@ -221,7 +221,7 @@ export default function RequestedMeals() {
                 <Typography variant="h6" sx={{ fontSize: { xs: '0.9rem', sm: '1.25rem' } }}>
                   Total Requests
                 </Typography>
-                <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', sm: '2.125rem' } }}>
+                <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', sm: '1rem' } }}>
                   {getTotalRequests()}
                 </Typography>
               </CardContent>
@@ -231,10 +231,10 @@ export default function RequestedMeals() {
             {mealTimes.map((time) => (
               <Card key={time.id} className="summary-card meal-time-card" sx={{ minWidth: { xs: 120, sm: 150 } }}>
                 <CardContent sx={{ py: 1 }}>
-                  <Typography variant="h6" sx={{ fontSize: { xs: '0.9rem', sm: '1.25rem' } }}>
+                  <Typography variant="h6" sx={{ fontSize: { textAlign: 'center', xs: '0.9rem', sm: '1.25rem' } }}>
                     {time.name}
                   </Typography>
-                  <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', sm: '2.125rem' } }}>
+                  <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', sm: '1.2rem', textAlign: 'center' } }}>
                     {getRequestsByMealTime()[time.name] || 0}
                   </Typography>
                 </CardContent>
