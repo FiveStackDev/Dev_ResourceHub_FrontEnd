@@ -380,6 +380,7 @@ button[type='submit'] {
 
 @media (max-width: 480px) {
   .login-page {
+    display: block;
     padding: 0;
     justify-content: center;
     min-height: 100vh;
@@ -392,22 +393,23 @@ button[type='submit'] {
     justify-content: flex-end;
   }
   .login-left .logo {
-    margin-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 0px;
   }
   .login-left .logo img {
     max-width: 60px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
   #login-logo {
     max-width: 150px !important;
-    margin-bottom: 30px;
+    margin-bottom: 00px;
   }
   #register-logo {
     max-width: 150px !important;
     margin-bottom: 0;
   }
   .login-left h2 {
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     font-weight: 900;
     display: block;
