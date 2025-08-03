@@ -460,23 +460,33 @@ When reporting issues, please include:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+---
+
 ## 👥 Team
 
-**FiveStackDev Team**
+**FiveStackDev** - Development Team
+- GitHub: [@FiveStackDev](https://github.com/FiveStackDev)
 
-- **Frontend Development:** React/TypeScript architecture and component development
-- **Backend Integration:** Microservices integration and API development
-- **UI/UX Design:** Material-UI theming and responsive design implementation
-- **Quality Assurance:** Code review, testing, and performance optimization
+### Core Contributors
+
+- **Minul Chathumal** - [@Minulck](https://github.com/Minulck)
+- **Theekshana Udara** - [@th33k](https://github.com/th33k)
+- **Piumini Tishani** - [@PiuminiTishani](https://github.com/PiuminiTishani)
+- **Nethminiwelgama** - [@nethminiwelgama](https://github.com/nethminiwelgama)
+- **Sineth Nimhan** - [@SinethNimhan](https://github.com/SinethNimhan)
+
+---
 
 ## 📞 Support
 
 For support and questions:
+- 📧 **Email**: resourcehub.contact.info@gmail.com
+- 📚 **Documentation**: [Project Wiki](https://github.com/FiveStackDev/Resource_Hub-Backend-/wiki)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/FiveStackDev/Resource_Hub-Backend-/issues)
 
-- **GitHub Issues:** Create an issue for bug reports or feature requests
-- **Development Team:** Contact the FiveStackDev team for technical support
-- **Documentation:** Check this README and inline code documentation
-- **Community:** Join discussions in the project repository
+---
+
+<div align="center">
 
 ## 🚀 Deployment
 
@@ -512,3 +522,5 @@ The application is configured for Vercel deployment with `vercel.json`. To deplo
 ## Database Relational Schema
 
 ![Database_Diagram](https://github.com/user-attachments/assets/b6e15acc-67d6-4530-a637-359ac1f70104)
+
+**⭐ Star this repo if you find it helpful! ⭐**
