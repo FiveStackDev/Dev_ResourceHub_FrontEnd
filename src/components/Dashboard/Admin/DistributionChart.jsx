@@ -327,12 +327,14 @@ export const DistributionChart = () => {
             </Select>
           </FormControl>
 
+
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-3 py-2 text-sm border rounded"
+            className="px-3 py-2 text-sm border rounded w-full sm:w-auto max-w-[200px]"
             style={{
+              maxWidth: '130px',
               background: theme.palette.background.paper,
               color: theme.palette.text.primary,
               border: `1px solid ${theme.palette.divider}`,
