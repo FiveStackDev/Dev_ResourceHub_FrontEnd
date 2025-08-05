@@ -161,25 +161,29 @@ const AssetMonitoringAdmin = () => {
           Asset Monitoring {filterCategory !== 'All' && `: ${filterCategory}`}
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
-          {/* Search Field */}
+        <div className="flex items-center justify-between gap-1 w-full">
           <TextField
             label="Search by Name or Asset"
             variant="outlined"
             size="small"
+            sx={{ 
+              flex: 1,
+              minWidth: '120px',
+              maxWidth: '350px',
+            }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            InputProps={{ startAdornment: <Search size={20} /> }}
-            className="w-full md:w-[240px]"
+            InputProps={{
+              startAdornment: <Search size={20} className="mr-2" />,
+            }}
           />
-
-          {/* Filter Controls Container */}
-          <div className="flex flex-col sm:flex-row gap-4 flex-1">
-            {/* Category Filter */}
-            <FormControl
-              variant="outlined"
-              size="small"
-              className="w-full sm:w-auto min-w-[200px]"
+          <div className="flex items-center gap-4">
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                width: '100px'
+              }}
             >
               <InputLabel>Filter by Category</InputLabel>
               <Select
@@ -195,11 +199,12 @@ const AssetMonitoringAdmin = () => {
               </Select>
             </FormControl>
 
-            {/* Due Status Filter */}
-            <FormControl
-              variant="outlined"
-              size="small"
-              className="w-full sm:w-auto min-w-[160px]"
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                width: '100px'
+              }}
             >
               <InputLabel>Due Status</InputLabel>
               <Select
