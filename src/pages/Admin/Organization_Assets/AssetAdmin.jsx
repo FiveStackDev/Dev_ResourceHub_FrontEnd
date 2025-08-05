@@ -91,21 +91,29 @@ function AssetAdmin() {
           <h1 className="text-2xl font-semibold">Assets</h1>
         </div>
 
-        <div className="search-filter-section">
-          <div className="search-filter-container">
+        <div className="flex items-center justify-between gap-2 w-full">
             <TextField
               label="Search"
               variant="outlined"
               size="small"
+              sx={{ 
+                flex: 1,
+                minWidth: '120px',
+                maxWidth: '350px',
+              }}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              InputProps={{ startAdornment: <Search size={20} /> }}
-              className="search-bar"
+              InputProps={{
+                startAdornment: <Search size={20} className="mr-2" />,
+              }}
             />
-            <FormControl
-              variant="outlined"
-              size="small"
-              className="category-dropdown"
+           <div className="flex items-center gap-4">
+             <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                width: '150px'
+              }}
             >
               <InputLabel>Filter by Category</InputLabel>
               <Select
@@ -120,17 +128,19 @@ function AssetAdmin() {
                 ))}
               </Select>
             </FormControl>
-          </div>
-
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<UserPlus size={20} />}
-            className="add-asset-btn"
-            onClick={() => setAddAssetOpen(true)}
-          >
-            Add New Asset
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ 
+                minWidth: 'fit-content',
+                height: '40px'
+              }}
+              startIcon={<UserPlus size={20} />}
+              onClick={() => setAddAssetOpen(true)}
+            >
+              Add Asset
+            </Button>
+           </div>
         </div>
 
         <div className="table-container">

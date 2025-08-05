@@ -162,7 +162,10 @@ function AssetTable({
               <TableCell>
                 <strong>Availability</strong>
               </TableCell>
-              <TableCell>
+              <TableCell
+                align="left"
+                sx={{ minWidth: { xs: '120px', sm: 'auto' } }}
+              >
                 <strong>Actions</strong>
               </TableCell>
             </TableRow>
@@ -200,21 +203,53 @@ function AssetTable({
                       />
                     </TableCell>
                     <TableCell>
-                      <Button
-                        sx={{ mr: '10px' }}
-                        color="primary"
-                        variant="outlined"
-                        onClick={() => handleEditOpen(asset)}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          gap: 1,
+                          flexDirection: { xs: 'row', sm: 'row' },
+                          width: { xs: '50%', sm: 'auto' },
+                        }}
                       >
-                        Edit <Edit />
-                      </Button>
-                      <Button
-                        color="error"
-                        variant="outlined"
-                        onClick={() => handleDeleteOpen(asset)}
-                      >
-                        Delete <Delete />
-                      </Button>
+                        <Button
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                          onClick={() => handleEditOpen(asset)}
+                          sx={{
+                            minWidth: { xs: '100%', sm: 'auto' },
+                            display: 'flex',
+                            gap: 0.5,
+                            py: 0.5,
+                            px: 1,
+                            '& .MuiSvgIcon-root': {
+                              fontSize: '1.1rem',
+                            },
+                          }}
+                        >
+                          <Edit fontSize="small" />
+                          Edit
+                        </Button>
+                        <Button
+                          size="small"
+                          color="error"
+                          variant="outlined"
+                          onClick={() => handleDeleteOpen(asset)}
+                          sx={{
+                            minWidth: { xs: '100%', sm: 'auto' },
+                            display: 'flex',
+                            gap: 0.5,
+                            py: 0.5,
+                            px: 1,
+                            '& .MuiSvgIcon-root': {
+                              fontSize: '1.1rem',
+                            },
+                          }}
+                        >
+                          <Delete fontSize="small" />
+                          Delete
+                        </Button>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))
