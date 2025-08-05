@@ -1,5 +1,4 @@
 import { getAuthHeader } from '../../../utils/authHeader';
-
 import React, { useState, useEffect } from 'react';
 import MonitorTable from '../../../components/Asset/AssetRequestingUser/UserAssetRequestedtable';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -10,8 +9,9 @@ import {
   Select,
   InputLabel,
   FormControl,
+  CircularProgress,
 } from '@mui/material';
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import RequestButton from '../../../components/Asset/AssetRequestingUser/RequestButton';
 import EditAssetRequestPopup from '../../../components/Asset/AssetRequestingUser/EditAssetRequestPopup';
 import DeleteAssetRequestPopup from '../../../components/Asset/AssetRequestingUser/DeleteAssetRequestPopup';
@@ -19,7 +19,8 @@ import UserLayout from '../../../layouts/User/UserLayout';
 import { BASE_URLS } from '../../../services/api/config';
 import { useUser } from '../../../contexts/UserContext';
 import { decodeToken } from '../../../contexts/UserContext';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AssetRequestUsers = () => {
   const navigate = useNavigate();
@@ -33,28 +34,24 @@ const AssetRequestUsers = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
-  const [dueFilter, setDueFilter] = useState('All'); // 'All', 'Due', 'Not Due'
+  const [dueFilter, setDueFilter] = useState('All');
+  const [loading, setLoading] = useState(true);
 
   const uniqueCategories = [
     'All',
     ...new Set(assets.map((asset) => asset.category)),
   ];
 
-  // Get user id from context
   const { userData } = useUser();
-  // Fallback: decode token directly if userData.id is undefined
   let userId = userData.id;
   if (!userId) {
     const decoded = decodeToken();
     userId = decoded?.id;
-    console.log('AssetRequestUsers fallback decoded userId:', userId);
-  } else {
-    console.log('AssetRequestUsers userId:', userId);
   }
 
-  // Fetch assets
   const fetchAssets = async () => {
     if (!userId) return;
+    setLoading(true);
     try {
       const response = await fetch(
         `${BASE_URLS.assetRequest}/details/${userId}`,
@@ -66,7 +63,6 @@ const AssetRequestUsers = () => {
         },
       );
       const data = await response.json();
-      // Ensure assets is always an array
       if (Array.isArray(data)) {
         setAssets(data);
       } else if (data && Array.isArray(data.assets)) {
@@ -77,22 +73,24 @@ const AssetRequestUsers = () => {
     } catch (error) {
       setAssets([]);
       console.error('Failed to fetch assets:', error);
+      toast.error('Failed to load asset requests!');
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAssets(); // Initial fetch when the component mounts
+    fetchAssets();
   }, []);
 
   useEffect(() => {
-    setFilterCategory(passedCategory); // Update filter category based on URL state
+    setFilterCategory(passedCategory);
   }, [passedCategory]);
 
   const handleCategoryChange = (newCategory) => {
     setFilterCategory(newCategory);
   };
 
-  // Filter by category and search
   let filteredAssets = assets.filter(
     (asset) =>
       (filterCategory === 'All' || asset.category === filterCategory) &&
@@ -100,7 +98,6 @@ const AssetRequestUsers = () => {
         asset.asset_name.toLowerCase().includes(searchText.toLowerCase())),
   );
 
-  // Filter by due status
   if (dueFilter === 'Due') {
     filteredAssets = filteredAssets.filter(
       (asset) =>
@@ -122,9 +119,8 @@ const AssetRequestUsers = () => {
   const handleRequestClose = () => setRequestOpen(false);
 
   const handleRequestSubmit = () => {
-    // Re-fetch the asset data after the request is made
-    fetchAssets(); // Ensure the list is updated
-    setRequestOpen(false); // Close the request dialog
+    fetchAssets();
+    setRequestOpen(false);
   };
 
   const handleEditAsset = (asset) => {
@@ -193,84 +189,135 @@ const AssetRequestUsers = () => {
       <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Asset Requests</h1>
 
-        <div className="flex items-center justify-between gap-1 w-full">
-          <TextField
-            label="Search by Name or Asset"
-            variant="outlined"
-            size="small"
-            sx={{ 
-              flex: 1,
-              minWidth: '100px',
-              maxWidth: '350px',
-            }}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            InputProps={{
-              startAdornment: <Search size={20} className="mr-2" />,
-            }}
-          />
-          <div className="flex items-center gap-2">
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                width: '90px'
-              }}
-            >
-              <InputLabel>Filter by Category</InputLabel>
-              <Select
-                value={filterCategory}
-                onChange={(e) => handleCategoryChange(e.target.value)}
-                label="Filter by Category"
-              >
-                {uniqueCategories.map((cat) => (
-                  <MenuItem key={cat} value={cat}>
-                    {cat}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                width: '90px'
-              }}
-            >
-              <InputLabel>Due Status</InputLabel>
-              <Select
-                value={dueFilter}
-                onChange={(e) => setDueFilter(e.target.value)}
-                label="Due Status"
-              >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Due">Due</MenuItem>
-                <MenuItem value="Not Due">Not Due</MenuItem>
-              </Select>
-            </FormControl>
-
+        <div className="p-2">
+          {/* Mobile view */}
+          <div className="sm:hidden flex flex-col space-y-2">
+            <div className="flex items-center space-x-2 overflow-x-auto pb-2 pt-2">
+              <TextField
+                label="Search"
+                variant="outlined"
+                size="small"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                InputProps={{
+                  startAdornment: <Search size={20} className="mr-2" />,
+                }}
+                sx={{ 
+                  width: '140px',
+                  flex: '0 0 auto'
+                }}
+              />
+              <FormControl variant="outlined" size="small" sx={{ width: '100px', flex: '0 0 auto' }}>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  value={filterCategory}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  label="Category"
+                >
+                  {uniqueCategories.map((cat) => (
+                    <MenuItem key={cat} value={cat}>
+                      {cat}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl variant="outlined" size="small" sx={{ width: '100px', flex: '0 0 auto' }}>
+                <InputLabel>Due Status</InputLabel>
+                <Select
+                  value={dueFilter}
+                  onChange={(e) => setDueFilter(e.target.value)}
+                  label="Due Status"
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Due">Due</MenuItem>
+                  <MenuItem value="Not Due">Not Due</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
             <Button
               variant="contained"
               color="primary"
+              startIcon={<Plus size={20} />}
               onClick={handleRequestOpen}
-              sx={{ 
-                whiteSpace: 'nowrap',
-                fontWeight: 'bold'
-              }}
+              sx={{ height: '40px' }}
             >
-              Request
+              Request Asset
+            </Button>
+          </div>
+
+          {/* Desktop view */}
+          <div 
+            className="hidden sm:flex"
+            style={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '8px'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <TextField
+                label="Search by Name or Asset"
+                variant="outlined"
+                size="small"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                InputProps={{
+                  startAdornment: <Search size={20} className="mr-2" />,
+                }}
+                sx={{ width: '200px' }}
+              />
+              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  value={filterCategory}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  label="Category"
+                >
+                  {uniqueCategories.map((cat) => (
+                    <MenuItem key={cat} value={cat}>
+                      {cat}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+                <InputLabel>Due Status</InputLabel>
+                <Select
+                  value={dueFilter}
+                  onChange={(e) => setDueFilter(e.target.value)}
+                  label="Due Status"
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Due">Due</MenuItem>
+                  <MenuItem value="Not Due">Not Due</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<Plus size={20} />}
+              onClick={handleRequestOpen}
+              sx={{ height: '40px' }}
+            >
+              Request Asset
             </Button>
           </div>
         </div>
 
-        <div className="mt-6">
-          <MonitorTable
-            assets={filteredAssets}
-            onEditAsset={handleEditAsset}
-            onDeleteAsset={handleDeleteAsset}
-          />
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div className="mt-6">
+            <MonitorTable
+              assets={filteredAssets}
+              onEditAsset={handleEditAsset}
+              onDeleteAsset={handleDeleteAsset}
+            />
+          </div>
+        )}
 
         <RequestButton
           open={requestOpen}
@@ -278,7 +325,6 @@ const AssetRequestUsers = () => {
           onRequest={handleRequestSubmit}
         />
 
-        {/* Edit Dialog */}
         <EditAssetRequestPopup
           open={editDialogOpen}
           onClose={() => {
@@ -289,7 +335,6 @@ const AssetRequestUsers = () => {
           onSave={handleSaveEdit}
         />
 
-        {/* Delete Dialog */}
         <DeleteAssetRequestPopup
           open={deleteDialogOpen}
           onClose={() => {
@@ -299,6 +344,8 @@ const AssetRequestUsers = () => {
           asset={selectedAsset}
           onDelete={handleConfirmDelete}
         />
+
+        <ToastContainer />
       </div>
     </UserLayout>
   );
