@@ -3,7 +3,4 @@ import PWAManager from './PWAManager';
 import PWAUpdatePrompt from './PWAUpdatePrompt';
 
 // Export all PWA components
-export {
-  PWAManager,
-  PWAUpdatePrompt
-};
+export { PWAManager, PWAUpdatePrompt };

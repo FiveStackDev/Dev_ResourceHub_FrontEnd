@@ -9,7 +9,7 @@ const PWAManager = () => {
     // Use the vite-plugin-pwa registerSW function with auto-update
     // Define the interval (in milliseconds) for checking for service worker updates
     const intervalMS = 60 * 60 * 1000; // Check every hour
-    
+
     const updateSW = registerSW({
       onNeedRefresh() {
         // This will be handled by PWAUpdatePrompt component
@@ -21,7 +21,7 @@ const PWAManager = () => {
       immediate: true,
       // Register an interval to check for updates
       registerPath: '/sw.js',
-      intervalMS
+      intervalMS,
     });
 
     return () => {

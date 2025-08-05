@@ -23,7 +23,10 @@ const PWAInstallPrompt = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt,
+      );
     };
   }, []);
 
@@ -52,9 +55,9 @@ const PWAInstallPrompt = () => {
   };
 
   return (
-    <Snackbar 
-      open={showPrompt} 
-      autoHideDuration={20000} 
+    <Snackbar
+      open={showPrompt}
+      autoHideDuration={20000}
       onClose={handleClose}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
@@ -62,9 +65,9 @@ const PWAInstallPrompt = () => {
         severity="info"
         onClose={handleClose}
         action={
-          <Button 
-            color="primary" 
-            size="small" 
+          <Button
+            color="primary"
+            size="small"
             onClick={handleInstallClick}
             startIcon={<DownloadIcon />}
           >

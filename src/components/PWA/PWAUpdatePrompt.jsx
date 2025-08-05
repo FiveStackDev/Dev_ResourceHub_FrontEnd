@@ -18,9 +18,9 @@ const PWAUpdatePrompt = () => {
       },
       onOfflineReady() {
         console.log('App ready to work offline');
-      }
+      },
     });
-    
+
     setUpdateSW(() => swUpdater);
 
     return () => {
@@ -30,7 +30,7 @@ const PWAUpdatePrompt = () => {
 
   const handleUpdate = () => {
     if (!updateSW) return;
-    
+
     // Update to the new version
     updateSW();
     setShowUpdatePrompt(false);
@@ -48,9 +48,9 @@ const PWAUpdatePrompt = () => {
       <Alert
         severity="info"
         action={
-          <Button 
-            color="secondary" 
-            size="small" 
+          <Button
+            color="secondary"
+            size="small"
             onClick={handleUpdate}
             startIcon={<RefreshIcon />}
           >
