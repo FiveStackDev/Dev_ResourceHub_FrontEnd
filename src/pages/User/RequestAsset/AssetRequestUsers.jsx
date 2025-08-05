@@ -202,12 +202,16 @@ const AssetRequestUsers = () => {
                 InputProps={{
                   startAdornment: <Search size={20} className="mr-2" />,
                 }}
-                sx={{ 
+                sx={{
                   width: '120px',
-                  flex: '0 0 auto'
+                  flex: '0 0 auto',
                 }}
               />
-              <FormControl variant="outlined" size="small" sx={{ width: '100px', flex: '0 0 auto' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '100px', flex: '0 0 auto' }}
+              >
                 <InputLabel>Category</InputLabel>
                 <Select
                   value={filterCategory}
@@ -221,7 +225,11 @@ const AssetRequestUsers = () => {
                   ))}
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" size="small" sx={{ width: '100px', flex: '0 0 auto' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '100px', flex: '0 0 auto' }}
+              >
                 <InputLabel>Due Status</InputLabel>
                 <Select
                   value={dueFilter}
@@ -246,12 +254,12 @@ const AssetRequestUsers = () => {
           </div>
 
           {/* Desktop view */}
-          <div 
+          <div
             className="hidden sm:flex"
             style={{
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: '8px'
+              gap: '8px',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -266,7 +274,11 @@ const AssetRequestUsers = () => {
                 }}
                 sx={{ width: '200px' }}
               />
-              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '130px' }}
+              >
                 <InputLabel>Category</InputLabel>
                 <Select
                   value={filterCategory}
@@ -280,7 +292,11 @@ const AssetRequestUsers = () => {
                   ))}
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '130px' }}
+              >
                 <InputLabel>Due Status</InputLabel>
                 <Select
                   value={dueFilter}

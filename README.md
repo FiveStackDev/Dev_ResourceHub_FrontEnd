@@ -55,7 +55,7 @@ Resource Hub is a comprehensive web application designed for efficient managemen
 - **Meal Requests:**
   - Interactive FullCalendar interface for meal booking and management
   - View meal schedules, availability, and personal meal history
-- **Asset Requests:** 
+- **Asset Requests:**
   - Submit asset requests with category-based filtering
   - Track asset request status and due dates
   - View personal asset allocation history
@@ -237,12 +237,14 @@ Resource_Hub-Frontend/
 ## 🚦 Application Routes
 
 ### Public Routes
+
 - `/` - Redirects to login page
 - `/login` - User authentication
 - `/register` - User registration
 - `/forgot-password` - Password recovery
 
 ### Admin Routes (Admin & SuperAdmin Access)
+
 - `/admin-dashboardadmin` - Admin dashboard with analytics
 - `/admin-assethome` - Asset categories overview
 - `/admin-assetmonitoring` - Asset monitoring and tracking
@@ -260,6 +262,7 @@ Resource_Hub-Frontend/
 - `/admin-users` - User management
 
 ### User Routes
+
 - `/user-dashboarduser` - User dashboard
 - `/user-users` - User directory
 - `/user-assetrequest` - Asset request submission
@@ -268,6 +271,7 @@ Resource_Hub-Frontend/
 - `/user-maintenance` - Maintenance request submission
 
 ### Shared Routes (All Authenticated Users)
+
 - `/notifications` - Notification center
 - `/settings` - Application settings
 - `/organization` - Organization details
@@ -393,23 +397,27 @@ Ensure all required backend services are running and properly configured before 
 The application follows a modern, scalable architecture with clear separation of concerns:
 
 ### Component Architecture
+
 - **Modular Component Structure:** Reusable UI components organized by feature and domain
 - **Role-Based Layouts:** Separate layout systems for Admin and User interfaces
 - **Protected Routing:** Comprehensive route protection with multi-level role authorization
 - **Shared Components:** Common UI elements and utilities across different user roles
 
 ### State Management
+
 - **Context-Based Global State:** React Context for user authentication, sidebar state, and theme management
 - **Query-Based Data Fetching:** TanStack React Query for efficient server state management
 - **Local Component State:** React hooks for component-specific state management
 
 ### Design Patterns
+
 - **Higher-Order Components:** Protected routes and layout wrappers
 - **Custom Hooks:** Reusable logic for notifications, themes, and data fetching
 - **Provider Pattern:** Context providers for global state management
 - **Compound Components:** Complex UI components with multiple sub-components
 
 ### Microservices Integration
+
 - **Service-Oriented Architecture:** Integration with multiple backend microservices
 - **API Abstraction:** Centralized API configuration and service management
 - **Error Handling:** Comprehensive error handling and user feedback systems
@@ -438,6 +446,7 @@ We welcome contributions to the Resource Hub project! Please follow these guidel
 ### Commit Message Convention
 
 Follow conventional commit format:
+
 - `feat:` New features
 - `fix:` Bug fixes
 - `docs:` Documentation updates
@@ -465,6 +474,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👥 Team
 
 **FiveStackDev** - Development Team
+
 - GitHub: [@FiveStackDev](https://github.com/FiveStackDev)
 
 ### Core Contributors
@@ -480,6 +490,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions:
+
 - 📧 **Email**: resourcehub.contact.info@gmail.com
 - 📚 **Documentation**: [Project Wiki](https://github.com/FiveStackDev/Resource_Hub-Backend-/wiki)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/FiveStackDev/Resource_Hub-Backend-/issues)

@@ -327,7 +327,6 @@ export const DistributionChart = () => {
             </Select>
           </FormControl>
 
-
           <input
             type="date"
             value={selectedDate}

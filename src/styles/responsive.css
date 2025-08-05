@@ -58,12 +58,12 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  
+
   .responsive-grid-3 {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  
+
   .responsive-grid-4 {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -75,7 +75,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
-  
+
   .responsive-grid-4 {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
@@ -226,11 +226,11 @@
   .responsive-spacing-sm {
     padding: 0.75rem;
   }
-  
+
   .responsive-spacing-md {
     padding: 1rem;
   }
-  
+
   .responsive-spacing-lg {
     padding: 1.5rem;
   }
@@ -240,11 +240,11 @@
   .responsive-spacing-sm {
     padding: 1rem;
   }
-  
+
   .responsive-spacing-md {
     padding: 1.5rem;
   }
-  
+
   .responsive-spacing-lg {
     padding: 2rem;
   }

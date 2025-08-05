@@ -22,7 +22,8 @@ const ForgotPassword = () => {
 
   const sendVerificationCode = async (emailAddress) => {
     try {
-      const randomCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+      const randomCode =
+        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       setCode(randomCode.toString());
 
       const response = await fetch(
@@ -41,16 +42,18 @@ const ForgotPassword = () => {
         return { success: true, code: randomCode.toString() };
       } else {
         const errorData = await response.json();
-        return { 
-          success: false, 
-          error: errorData.message || 'Failed to send verification code. Please check your email address.' 
+        return {
+          success: false,
+          error:
+            errorData.message ||
+            'Failed to send verification code. Please check your email address.',
         };
       }
     } catch (err) {
       console.error('Send verification code error:', err);
-      return { 
-        success: false, 
-        error: 'Failed to send verification code. Please try again later.' 
+      return {
+        success: false,
+        error: 'Failed to send verification code. Please try again later.',
       };
     }
   };
@@ -69,18 +72,18 @@ const ForgotPassword = () => {
     e.preventDefault();
     setMessage('');
     setError('');
-    
+
     if (!validateEmail(email)) {
       setError('Please enter a valid email address');
       toast.error('Please enter a valid email address');
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
       const result = await sendVerificationCode(email);
-      
+
       if (result.success) {
         setCode(result.code);
         setOpenVerifyPopup(true);
@@ -92,7 +95,8 @@ const ForgotPassword = () => {
       }
     } catch (err) {
       console.error('Forgot password error:', err);
-      const errorMsg = 'Failed to send verification code. Please try again later.';
+      const errorMsg =
+        'Failed to send verification code. Please try again later.';
       setError(errorMsg);
       toast.error(errorMsg);
     } finally {
@@ -103,25 +107,24 @@ const ForgotPassword = () => {
   const handleVerificationSuccess = async () => {
     setMessage('Verification successful! Sending password reset email...');
     setIsProcessing(true);
-    
+
     try {
-      const response = await fetch(
-        `${BASE_URLS.login}/resetpassword`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeader(),
-          },
-          body: JSON.stringify({ email }),
+      const response = await fetch(`${BASE_URLS.login}/resetpassword`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeader(),
         },
-      );
-      
+        body: JSON.stringify({ email }),
+      });
+
       if (response.ok) {
         setMessage('Password reset email sent successfully! Check your inbox.');
-        toast.success('Password reset email sent successfully! Check your inbox.');
+        toast.success(
+          'Password reset email sent successfully! Check your inbox.',
+        );
         setEmail('');
-        
+
         // Redirect to login after a short delay
         setTimeout(() => {
           window.location.href = '/login';
@@ -176,12 +179,16 @@ const ForgotPassword = () => {
             </div>
             {message && <p className="success-message">{message}</p>}
             {error && <p className="error-message">{error}</p>}
-            <button 
-              type="submit" 
-              className="reset-btn" 
+            <button
+              type="submit"
+              className="reset-btn"
               disabled={isLoading || isProcessing || !email.trim()}
             >
-              {isLoading ? 'Sending...' : isProcessing ? 'Processing...' : 'RESET PASSWORD'}
+              {isLoading
+                ? 'Sending...'
+                : isProcessing
+                  ? 'Processing...'
+                  : 'RESET PASSWORD'}
             </button>
           </form>
           <p>

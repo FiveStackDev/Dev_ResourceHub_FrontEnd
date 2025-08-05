@@ -103,7 +103,6 @@ export const MealCardPopup = ({ open, onClose, title, subtitle, onSubmit }) => {
       return null;
     }
 
-    
     if (!imageFile.type.startsWith('image/')) {
       toast.error('Please select a valid image file');
       return;

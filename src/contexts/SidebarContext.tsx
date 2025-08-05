@@ -55,7 +55,13 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   const close = () => setIsOpen(false);
 
   // Calculate sidebar width based on state and mobile
-  const sidebarWidth = isMobile ? (isOpen ? EXPANDED_WIDTH : 0) : (isOpen ? EXPANDED_WIDTH : COLLAPSED_WIDTH);
+  const sidebarWidth = isMobile
+    ? isOpen
+      ? EXPANDED_WIDTH
+      : 0
+    : isOpen
+      ? EXPANDED_WIDTH
+      : COLLAPSED_WIDTH;
 
   const value = useMemo(
     () => ({ isOpen, toggle, open, close, isMobile, sidebarWidth }),

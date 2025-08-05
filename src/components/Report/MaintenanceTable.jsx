@@ -395,7 +395,7 @@ const MaintenanceTable = () => {
 
         {/* Mobile View */}
         <Box sx={{ display: { xs: 'block', sm: 'none' }, mb: 3 }}>
-          <Box 
+          <Box
             sx={{
               display: 'flex',
               gap: 1,
@@ -416,12 +416,12 @@ const MaintenanceTable = () => {
               },
             }}
           >
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{
                 minWidth: '80px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             >
               <InputLabel>Status</InputLabel>
@@ -438,12 +438,12 @@ const MaintenanceTable = () => {
               </Select>
             </FormControl>
 
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{
                 minWidth: '80px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             >
               <InputLabel>Priority</InputLabel>
@@ -467,9 +467,9 @@ const MaintenanceTable = () => {
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ 
+              sx={{
                 width: '105px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             />
             <TextField
@@ -479,14 +479,14 @@ const MaintenanceTable = () => {
               value={endDate}
               onChange={(e) => setEndDate(e.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ 
+              sx={{
                 width: '105px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             />
           </Box>
 
-          <Box 
+          <Box
             sx={{
               display: 'flex',
               gap: 2,

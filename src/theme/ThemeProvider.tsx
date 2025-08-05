@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+} from 'react';
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { getTheme } from './theme';
 
@@ -61,7 +68,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     if (typeof window !== 'undefined') {
       const scheduleSettings = getScheduleSettings();
       if (scheduleSettings.enabled) {
-        return isDarkTime(scheduleSettings.startTime, scheduleSettings.endTime) ? 'dark' : 'light';
+        return isDarkTime(scheduleSettings.startTime, scheduleSettings.endTime)
+          ? 'dark'
+          : 'light';
       }
       // Check localStorage for saved theme
       const savedTheme = localStorage.getItem('theme');
@@ -86,7 +95,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       // Don't allow manual toggle when scheduling is enabled
       return;
     }
-    
+
     setMode((prevMode) => {
       const newMode = prevMode === 'light' ? 'dark' : 'light';
       localStorage.setItem('theme', newMode);
@@ -102,9 +111,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   const checkAndApplyScheduledTheme = useCallback(() => {
     const scheduleSettings = getScheduleSettings();
     if (scheduleSettings.enabled) {
-      const shouldBeDark = isDarkTime(scheduleSettings.startTime, scheduleSettings.endTime);
+      const shouldBeDark = isDarkTime(
+        scheduleSettings.startTime,
+        scheduleSettings.endTime,
+      );
       const newMode = shouldBeDark ? 'dark' : 'light';
-      setMode(currentMode => {
+      setMode((currentMode) => {
         if (currentMode !== newMode) {
           return newMode;
         }

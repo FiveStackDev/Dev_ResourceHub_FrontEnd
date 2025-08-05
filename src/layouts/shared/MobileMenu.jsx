@@ -46,11 +46,18 @@ const MobileMenu = ({
       </MenuItem>
 
       <MenuItem>
-       <Link to="/notifications" style={{ textDecoration: 'none', color: 'inherit' }}>
-           <NotificationsIcon sx={{ mr: 2 }} />
-        Notifications
-        <Badge badgeContent={notificationCount} color="error" sx={{ ml: 2 }} />
-       </Link>
+        <Link
+          to="/notifications"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <NotificationsIcon sx={{ mr: 2 }} />
+          Notifications
+          <Badge
+            badgeContent={notificationCount}
+            color="error"
+            sx={{ ml: 2 }}
+          />
+        </Link>
       </MenuItem>
 
       <MenuItem>

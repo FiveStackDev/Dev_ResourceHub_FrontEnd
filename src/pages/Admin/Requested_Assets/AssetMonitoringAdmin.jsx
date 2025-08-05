@@ -166,7 +166,7 @@ const AssetMonitoringAdmin = () => {
             label="Search by Name or Asset"
             variant="outlined"
             size="small"
-            sx={{ 
+            sx={{
               flex: 1,
               minWidth: '120px',
               maxWidth: '350px',
@@ -178,11 +178,11 @@ const AssetMonitoringAdmin = () => {
             }}
           />
           <div className="flex items-center gap-4">
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                width: '100px'
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{
+                width: '100px',
               }}
             >
               <InputLabel>Filter by Category</InputLabel>
@@ -199,11 +199,11 @@ const AssetMonitoringAdmin = () => {
               </Select>
             </FormControl>
 
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                width: '100px'
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{
+                width: '100px',
               }}
             >
               <InputLabel>Due Status</InputLabel>
