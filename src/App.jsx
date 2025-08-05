@@ -10,6 +10,9 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// PWA Components
+import { PWAInstallPrompt, PWAManager, PWAUpdatePrompt } from './components/PWA';
+
 // Auth Pages
 import Login from './pages/Auth/Login';
 import ForgotPassword from './pages/Auth/ForgotPassword';
@@ -243,6 +246,12 @@ function App() {
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
             <ToastContainer />
+            {/* PWA Install Prompt */}
+            <PWAInstallPrompt />
+            {/* PWA Update Notification */}
+            <PWAUpdatePrompt />
+            {/* PWA Service Worker Manager */}
+            <PWAManager />
           </SidebarProvider>
         </UserProvider>
       </Router>
