@@ -17,7 +17,7 @@ export default defineConfig({
     apple: {
       sizes: [180],
       resizeOptions: {
-        background: '#ffffff',
+        background: '#000000',
         fit: 'contain',
         position: 'center'
       }

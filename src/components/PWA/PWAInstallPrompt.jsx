@@ -73,7 +73,7 @@ const PWAInstallPrompt = () => {
         }
         sx={{ width: '100%' }}
       >
-        Install ResourceHub for a better experience!
+        {/* Removed default prompt text */}
       </Alert>
     </Snackbar>
   );
