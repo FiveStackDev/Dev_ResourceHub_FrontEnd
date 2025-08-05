@@ -332,9 +332,9 @@ export const DistributionChart = () => {
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-3 py-2 text-sm border rounded w-full sm:w-auto max-w-[150px]"
+            className="px-1 text-sm border rounded w-full sm:w-auto max-w-[150px]"
             style={{
-              width: '125px',
+              width: '100px',
               background: theme.palette.background.paper,
               color: theme.palette.text.primary,
               border: `1px solid ${theme.palette.divider}`,
