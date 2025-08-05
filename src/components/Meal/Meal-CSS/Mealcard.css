@@ -92,7 +92,7 @@
 }
 
 .mealtime-card-media {
-height: 240px;
+  height: 240px;
   width: 100%;
   border-radius: 0;
   box-shadow: none;
@@ -119,7 +119,7 @@ height: 240px;
 }
 
 .mealtime-card-content h5 {
- color: var(--calendar-card-text-primary);
+  color: var(--calendar-card-text-primary);
   font-weight: 600;
   font-size: 1.2rem;
   margin: 0;

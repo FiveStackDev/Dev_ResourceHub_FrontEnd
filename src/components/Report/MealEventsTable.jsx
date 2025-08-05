@@ -452,7 +452,9 @@ const MealEventsTable = () => {
                 <MenuItem value="">All</MenuItem>
                 {Array.from({ length: 12 }, (_, i) => (
                   <MenuItem key={i + 1} value={i + 1}>
-                    {new Date(0, i).toLocaleString('default', { month: 'long' })}
+                    {new Date(0, i).toLocaleString('default', {
+                      month: 'long',
+                    })}
                   </MenuItem>
                 ))}
               </Select>
@@ -502,7 +504,7 @@ const MealEventsTable = () => {
         {/* Mobile View */}
         <Box sx={{ display: { xs: 'block', sm: 'none' }, mb: 3 }}>
           {/* Mobile Filters Row */}
-          <Box 
+          <Box
             sx={{
               display: 'flex',
               gap: 1,
@@ -524,12 +526,12 @@ const MealEventsTable = () => {
             }}
           >
             {/* Meal Time Filter */}
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{
                 minWidth: '80px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             >
               <InputLabel>Time</InputLabel>
@@ -548,12 +550,12 @@ const MealEventsTable = () => {
             </FormControl>
 
             {/* Meal Type Filter */}
-            <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{
                 minWidth: '80px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             >
               <InputLabel>Type</InputLabel>
@@ -579,9 +581,9 @@ const MealEventsTable = () => {
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ 
+              sx={{
                 width: '105px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             />
             <TextField
@@ -591,15 +593,15 @@ const MealEventsTable = () => {
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ 
+              sx={{
                 width: '105px',
-                flex: '0 0 auto'
+                flex: '0 0 auto',
               }}
             />
           </Box>
 
           {/* Mobile Buttons Row */}
-          <Box 
+          <Box
             sx={{
               display: 'flex',
               gap: 2,

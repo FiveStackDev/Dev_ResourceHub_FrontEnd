@@ -4,7 +4,7 @@
   color: #fff !important;
   border-radius: 50%;
   border: 2px solid #2563eb !important;
-  box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
   font-weight: bold;
 }
 
@@ -14,7 +14,7 @@
   color: #1e293b !important;
   border-radius: 50%;
   border: 2px dashed #3b82f6 !important;
-  box-shadow: 0 1px 4px rgba(59,130,246,0.10);
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.1);
 }
 
 /* Disabled day styling override */

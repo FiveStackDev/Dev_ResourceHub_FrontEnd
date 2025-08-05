@@ -64,13 +64,15 @@ const AppearanceSettings = () => {
   // When schedule settings change, save to localStorage
   useEffect(() => {
     localStorage.setItem('themeSchedule', JSON.stringify(scheduleSettings));
-    
+
     // Trigger a custom event to notify ThemeProvider of changes
-    window.dispatchEvent(new StorageEvent('storage', {
-      key: 'themeSchedule',
-      newValue: JSON.stringify(scheduleSettings),
-      storageArea: localStorage
-    }));
+    window.dispatchEvent(
+      new StorageEvent('storage', {
+        key: 'themeSchedule',
+        newValue: JSON.stringify(scheduleSettings),
+        storageArea: localStorage,
+      }),
+    );
   }, [scheduleSettings]);
 
   const handleScheduleToggle = () => {

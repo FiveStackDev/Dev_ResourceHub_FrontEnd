@@ -166,35 +166,69 @@ const MaintenanceDetailsUser = () => {
                 InputProps={{
                   startAdornment: <Search size={20} className="mr-2" />,
                 }}
-                sx={{ 
+                sx={{
                   width: '100px',
-                  flex: '0 0 auto'
+                  flex: '0 0 auto',
                 }}
               />
-              <FormControl variant="outlined" size="small" sx={{ width: '85px', flex: '0 0 auto' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '85px', flex: '0 0 auto' }}
+              >
                 <InputLabel>Priority</InputLabel>
-                <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} label="Priority">
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Priority"
+                >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Low">Low</MenuItem>
                   <MenuItem value="Medium">Medium</MenuItem>
                   <MenuItem value="High">High</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" size="small" sx={{ width: '85px', flex: '0 0 auto' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '85px', flex: '0 0 auto' }}
+              >
                 <InputLabel>Category</InputLabel>
-                <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} label="Category">
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Category"
+                >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Tech Support">Tech Support</MenuItem>
-                  <MenuItem value="General Maintenance">General Maintenance</MenuItem>
-                  <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene</MenuItem>
-                  <MenuItem value="Furniture and Fixtures">Furniture and Fixtures</MenuItem>
-                  <MenuItem value="Safety and Security">Safety and Security</MenuItem>
-                  <MenuItem value="Lighting and power">Lighting and power</MenuItem>
+                  <MenuItem value="General Maintenance">
+                    General Maintenance
+                  </MenuItem>
+                  <MenuItem value="Cleaning and Hygiene">
+                    Cleaning and Hygiene
+                  </MenuItem>
+                  <MenuItem value="Furniture and Fixtures">
+                    Furniture and Fixtures
+                  </MenuItem>
+                  <MenuItem value="Safety and Security">
+                    Safety and Security
+                  </MenuItem>
+                  <MenuItem value="Lighting and power">
+                    Lighting and power
+                  </MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" size="small" sx={{ width: '85px', flex: '0 0 auto' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '85px', flex: '0 0 auto' }}
+              >
                 <InputLabel>Status</InputLabel>
-                <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} label="Status">
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Status"
+                >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Pending">Pending</MenuItem>
                   <MenuItem value="In Progress">In Progress</MenuItem>
@@ -215,12 +249,12 @@ const MaintenanceDetailsUser = () => {
           </div>
 
           {/* Desktop view */}
-          <div 
+          <div
             className="hidden sm:flex"
             style={{
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: '8px'
+              gap: '8px',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -235,30 +269,64 @@ const MaintenanceDetailsUser = () => {
                 }}
                 sx={{ width: '200px' }}
               />
-              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '130px' }}
+              >
                 <InputLabel>Priority</InputLabel>
-                <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} label="Priority">
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Priority"
+                >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Low">Low</MenuItem>
                   <MenuItem value="Medium">Medium</MenuItem>
                   <MenuItem value="High">High</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '130px' }}
+              >
                 <InputLabel>Category</InputLabel>
-                <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} label="Category">
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Category"
+                >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Tech Support">Tech Support</MenuItem>
-                  <MenuItem value="General Maintenance">General Maintenance</MenuItem>
-                  <MenuItem value="Cleaning and Hygiene">Cleaning and Hygiene</MenuItem>
-                  <MenuItem value="Furniture and Fixtures">Furniture and Fixtures</MenuItem>
-                  <MenuItem value="Safety and Security">Safety and Security</MenuItem>
-                  <MenuItem value="Lighting and power">Lighting and power</MenuItem>
+                  <MenuItem value="General Maintenance">
+                    General Maintenance
+                  </MenuItem>
+                  <MenuItem value="Cleaning and Hygiene">
+                    Cleaning and Hygiene
+                  </MenuItem>
+                  <MenuItem value="Furniture and Fixtures">
+                    Furniture and Fixtures
+                  </MenuItem>
+                  <MenuItem value="Safety and Security">
+                    Safety and Security
+                  </MenuItem>
+                  <MenuItem value="Lighting and power">
+                    Lighting and power
+                  </MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="outlined" size="small" sx={{ width: '130px' }}>
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ width: '130px' }}
+              >
                 <InputLabel>Status</InputLabel>
-                <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} label="Status">
+                <Select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  label="Status"
+                >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Pending">Pending</MenuItem>
                   <MenuItem value="In Progress">In Progress</MenuItem>

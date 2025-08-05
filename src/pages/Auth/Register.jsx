@@ -266,7 +266,7 @@ function Register() {
         <div className="logo">
           <img id="register-logo" src="/logo.png" alt="Logo" />
         </div>
-        <h2 id='heading_text'>Welcome!</h2>
+        <h2 id="heading_text">Welcome!</h2>
       </div>
 
       <div className="login-right">
@@ -382,7 +382,8 @@ function Register() {
                 ? 'Creating Account...'
                 : 'Register'}
           </button>
-          <br></br><br></br>
+          <br></br>
+          <br></br>
           <div className="form-options">
             <p>
               Already have an account? <Link to="/login">Login</Link>

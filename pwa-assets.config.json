@@ -1,0 +1,16 @@
+{
+  "preset": "minimal",
+  "baseIcon": "./public/ResourceHub.png",
+  "assetsOutputPath": "./public/pwa-assets",
+  "manifest": {
+    "name": "ResourceHub",
+    "short_name": "ResourceHub",
+    "description": "A complete resource management solution",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "/",
+    "id": "resourcehub-pwa"
+  }
+}

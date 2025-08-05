@@ -20,7 +20,7 @@ const BaseLayout = ({ header, sidebar, children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { 
+          width: {
             xs: '100%',
             sm: isMobile ? '100%' : `calc(100% - ${sidebarWidth}px)`,
           },

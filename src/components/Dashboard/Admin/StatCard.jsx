@@ -46,20 +46,27 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
           '&:hover': {
             transform: 'translateY(-2px)',
             boxShadow: theme.shadows[4],
-          }
+          },
         }}
         onClick={() => setIsPopupOpen(true)}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            mb: 1,
+          }}
+        >
           <Typography
             variant="body2"
-            sx={{ 
+            sx={{
               color: theme.palette.text.secondary,
               fontWeight: 500,
               display: 'flex',
               alignItems: 'center',
               gap: 1,
-              fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              fontSize: { xs: '0.75rem', sm: '0.875rem' },
             }}
           >
             {title}
@@ -68,16 +75,14 @@ export const StatCard = ({ title, value, previousValue, icon, chartData }) => {
               style={{ color: theme.palette.text.disabled }}
             />
           </Typography>
-          <Box sx={{ flexShrink: 0 }}>
-            {icon}
-          </Box>
+          <Box sx={{ flexShrink: 0 }}>{icon}</Box>
         </Box>
-        <Typography 
+        <Typography
           variant="h4"
-          sx={{ 
+          sx={{
             color: getCardTextColor(),
             fontWeight: 'bold',
-            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' }
+            fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
           }}
         >
           {value}

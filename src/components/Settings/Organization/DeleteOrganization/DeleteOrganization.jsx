@@ -12,12 +12,12 @@ import './DeleteOrganization.css';
 const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  
+
   React.useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -58,7 +58,7 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
 
   console.log('Rendering popup - isOpen is true');
 
-  const mobileSteps = ["", "", "", ""];
+  const mobileSteps = ['', '', '', ''];
   const desktopSteps = [
     'Consequences Warning',
     'Organization Name',
@@ -210,7 +210,7 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
             padding: {
               xs: '0.5rem',
               sm: '1rem',
-              md: '2rem'
+              md: '2rem',
             },
             background: themeColors.background,
             maxHeight: 'calc(90vh - 120px)',
@@ -299,16 +299,18 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
                       </span>
                     }
                   >
-                    <span style={{
-                      fontSize: {
-                        xs: '0.75rem',
-                        sm: '0.875rem'
-                      },
-                      whiteSpace: {
-                        xs: 'nowrap',
-                        sm: 'normal'
-                      }
-                    }}>
+                    <span
+                      style={{
+                        fontSize: {
+                          xs: '0.75rem',
+                          sm: '0.875rem',
+                        },
+                        whiteSpace: {
+                          xs: 'nowrap',
+                          sm: 'normal',
+                        },
+                      }}
+                    >
                       {label}
                     </span>
                   </StepLabel>
@@ -327,11 +329,11 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
               padding: {
                 xs: '1rem',
                 sm: '1.5rem',
-                md: '2rem'
+                md: '2rem',
               },
               marginBottom: {
                 xs: '1rem',
-                sm: '1.5rem'
+                sm: '1.5rem',
               },
             }}
           >

@@ -361,7 +361,6 @@ button[type='submit'] {
   }
   #login-logo {
     max-width: 70px !important;
-
   }
   #register-logo {
     max-width: 70px !important;
@@ -403,19 +402,18 @@ button[type='submit'] {
   #register-logo {
     max-width: 150px !important;
   }
-  
+
   .login-left #heading_text {
     font-size: 40px;
     text-align: center;
     font-weight: 900;
-    margin-top: 0px ;
-
+    margin-top: 0px;
   }
   .login-right {
     padding: 0;
     flex: 0.8;
     justify-content: flex-start;
-    margin-bottom:200px ;
+    margin-bottom: 200px;
   }
   .login-form {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);

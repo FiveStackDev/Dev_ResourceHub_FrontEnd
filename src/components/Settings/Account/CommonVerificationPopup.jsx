@@ -5,7 +5,14 @@ import { Dialog } from '@mui/material';
 import { Shield, Mail, Check, X, RefreshCw } from 'lucide-react';
 import '../Styles/VerifyPopup.css';
 
-function CommonVerificationPopup({ title, onClose, email, code, onVerified, onResendCode }) {
+function CommonVerificationPopup({
+  title,
+  onClose,
+  email,
+  code,
+  onVerified,
+  onResendCode,
+}) {
   const [inputcode, setInputCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [countdown, setCountdown] = useState(60);
@@ -33,7 +40,7 @@ function CommonVerificationPopup({ title, onClose, email, code, onVerified, onRe
     }
 
     setIsSubmitting(true);
-    
+
     try {
       if (inputcode === code) {
         if (onVerified) await onVerified();
@@ -118,8 +125,8 @@ function CommonVerificationPopup({ title, onClose, email, code, onVerified, onRe
             />
           </div>
           <div className="verify-buttons">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="verify-submit-btn"
               disabled={isSubmitting || !inputcode.trim()}
             >

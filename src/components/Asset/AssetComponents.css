@@ -782,7 +782,7 @@
     width: 100% !important;
     box-sizing: border-box !important;
   }
-  
+
   .asset-form-textarea {
     min-height: 88px !important;
   }
@@ -842,7 +842,7 @@
     padding: 20px !important;
     max-height: 85vh !important;
   }
-  
+
   .maintenance-popup-header {
     gap: 12px !important;
   }

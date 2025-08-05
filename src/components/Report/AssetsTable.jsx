@@ -408,26 +408,26 @@ const AssetsTable = () => {
               flexWrap: 'nowrap',
               pb: 1,
               '& > *': {
-                flex: '0 0 auto'
-              }
+                flex: '0 0 auto',
+              },
             },
             // Desktop styles
             '@media (min-width: 601px)': {
               flexWrap: 'wrap',
-              alignItems: 'center'
-            }
+              alignItems: 'center',
+            },
           }}
         >
-          <FormControl 
-            variant="outlined" 
-            size="small" 
-            sx={{ 
+          <FormControl
+            variant="outlined"
+            size="small"
+            sx={{
               '@media (max-width: 600px)': {
-                width: '89px'
+                width: '89px',
               },
               '@media (min-width: 601px)': {
-                minWidth: '100px'
-              }
+                minWidth: '100px',
+              },
             }}
           >
             <InputLabel>Category</InputLabel>
@@ -443,16 +443,16 @@ const AssetsTable = () => {
               ))}
             </Select>
           </FormControl>
-          <FormControl 
-            variant="outlined" 
-            size="small" 
-            sx={{ 
+          <FormControl
+            variant="outlined"
+            size="small"
+            sx={{
               '@media (max-width: 600px)': {
-                width: '89px'
+                width: '89px',
               },
               '@media (min-width: 601px)': {
-                minWidth: '100px'
-              }
+                minWidth: '100px',
+              },
             }}
           >
             <InputLabel>Condition</InputLabel>
@@ -473,11 +473,11 @@ const AssetsTable = () => {
             variant="contained"
             color="primary"
             onClick={handleDownloadPDF}
-            sx={{ 
+            sx={{
               height: '40px',
               '@media (min-width: 601px)': {
-                ml: 'auto'
-              }
+                ml: 'auto',
+              },
             }}
           >
             Download

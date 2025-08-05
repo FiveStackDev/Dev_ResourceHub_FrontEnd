@@ -190,27 +190,27 @@ export const Users = () => {
         </div>
 
         <div className="flex items-center justify-between gap-2 w-full">
-            <TextField
-              label="Search"
+          <TextField
+            label="Search"
+            variant="outlined"
+            size="small"
+            sx={{
+              flex: 1,
+              minWidth: '120px',
+              maxWidth: '350px',
+            }}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            InputProps={{
+              startAdornment: <Search size={20} className="mr-2" />,
+            }}
+          />
+          <div className="flex items-center gap-8">
+            <FormControl
               variant="outlined"
               size="small"
-              sx={{ 
-                flex: 1,
-                minWidth: '120px',
-                maxWidth: '350px',
-              }}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              InputProps={{
-                startAdornment: <Search size={20} className="mr-2" />,
-              }}
-            />
-           <div className="flex items-center gap-8">
-             <FormControl 
-              variant="outlined" 
-              size="small" 
-              sx={{ 
-                width: '120px'
+              sx={{
+                width: '120px',
               }}
             >
               <InputLabel>Type</InputLabel>
@@ -227,16 +227,16 @@ export const Users = () => {
             <Button
               variant="contained"
               color="primary"
-              sx={{ 
+              sx={{
                 minWidth: 'fit-content',
-                height: '40px'
+                height: '40px',
               }}
               startIcon={<UserPlus size={20} />}
               onClick={() => setIsAddUserOpen(true)}
             >
               Add User
             </Button>
-           </div>
+          </div>
         </div>
 
         {loading ? (

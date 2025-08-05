@@ -59,16 +59,16 @@
   .header {
     margin-bottom: 15px;
   }
-  
+
   .title {
     font-size: 1.125rem;
   }
-  
+
   .search-filter-section {
     margin-top: 15px;
     gap: 12px;
   }
-  
+
   .add-asset-btn {
     padding: 10px 14px;
     font-size: 0.9rem;

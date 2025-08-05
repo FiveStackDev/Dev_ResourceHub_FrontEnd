@@ -113,7 +113,7 @@ function Login() {
         <div className="logo">
           <img id="login-logo" src="/logo.png" alt="Logo" />
         </div>
-        <h2 id='heading_text'>Welcome Back!</h2>
+        <h2 id="heading_text">Welcome Back!</h2>
       </div>
       <div className="login-right">
         <form onSubmit={handleLogin} className="login-form">
