@@ -310,7 +310,7 @@ export const DistributionChart = () => {
 
         {/* Filter Controls */}
         <div className="flex gap-3">
-          <FormControl size="small" style={{ minWidth: 120 }}>
+          <FormControl size="small" style={{ width: 108 }}>
             <InputLabel>Type</InputLabel>
             <Select
               value={filterType}
@@ -332,9 +332,9 @@ export const DistributionChart = () => {
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-3 py-2 text-sm border rounded w-full sm:w-auto max-w-[200px]"
+            className="px-3 py-2 text-sm border rounded w-full sm:w-auto max-w-[150px]"
             style={{
-              maxWidth: '130px',
+              width: '125px',
               background: theme.palette.background.paper,
               color: theme.palette.text.primary,
               border: `1px solid ${theme.palette.divider}`,
