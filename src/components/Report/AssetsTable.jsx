@@ -399,13 +399,37 @@ const AssetsTable = () => {
         <Box
           sx={{
             display: 'flex',
-            gap: 2,
+            gap: 1,
             mb: 2,
-            flexWrap: 'wrap',
-            alignItems: 'center',
+            pt: 1,
+            // Mobile styles
+            '@media (max-width: 600px)': {
+              overflowX: 'auto',
+              flexWrap: 'nowrap',
+              pb: 1,
+              '& > *': {
+                flex: '0 0 auto'
+              }
+            },
+            // Desktop styles
+            '@media (min-width: 601px)': {
+              flexWrap: 'wrap',
+              alignItems: 'center'
+            }
           }}
         >
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <FormControl 
+            variant="outlined" 
+            size="small" 
+            sx={{ 
+              '@media (max-width: 600px)': {
+                width: '89px'
+              },
+              '@media (min-width: 601px)': {
+                minWidth: '100px'
+              }
+            }}
+          >
             <InputLabel>Category</InputLabel>
             <Select
               value={categoryFilter}
@@ -419,7 +443,18 @@ const AssetsTable = () => {
               ))}
             </Select>
           </FormControl>
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+          <FormControl 
+            variant="outlined" 
+            size="small" 
+            sx={{ 
+              '@media (max-width: 600px)': {
+                width: '89px'
+              },
+              '@media (min-width: 601px)': {
+                minWidth: '100px'
+              }
+            }}
+          >
             <InputLabel>Condition</InputLabel>
             <Select
               value={conditionFilter}
@@ -438,16 +473,22 @@ const AssetsTable = () => {
             variant="contained"
             color="primary"
             onClick={handleDownloadPDF}
-            sx={{ ml: 'auto' }}
+            sx={{ 
+              height: '40px',
+              '@media (min-width: 601px)': {
+                ml: 'auto'
+              }
+            }}
           >
-            Download PDF
+            Download
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={() => setOpenSchedulePopup(true)}
+            sx={{ height: '40px' }}
           >
-            Schedule PDF
+            Schedule
           </Button>
         </Box>
         {/* Table Container */}
