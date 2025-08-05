@@ -10,7 +10,7 @@ const UserHeader = () => {
   // Get user context and decode token
   const { user } = useUser();
   const decoded = decodeToken() || {};
-  const org_logo = decoded.org_logo || '/Resource_Hub.png';
+  const org_logo = decoded.org_logo || '/Resource_hub_black.png';
 
   // Fetch unread notification count on mount
   const [unreadCount, setUnreadCount] = useState(0);
