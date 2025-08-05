@@ -134,8 +134,7 @@ const ConsequencesStep = ({ onComplete, stepData }) => {
                   display: 'flex',
                   alignItems: 'flex-start',
                   gap: '0.75rem',
-                  background: 'var(--settings-card-bg)',
-                  border: '2px solid var(--settings-card-border)',
+
                   borderRadius: '10px',
                   padding: '1rem',
                 }}

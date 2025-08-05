@@ -11,6 +11,17 @@ import './DeleteOrganization.css';
 
 const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [stepData, setStepData] = useState({
     consequencesAccepted: false,
     organizationName: '',
@@ -47,12 +58,14 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
 
   console.log('Rendering popup - isOpen is true');
 
-  const steps = [
+  const mobileSteps = ["", "", "", ""];
+  const desktopSteps = [
     'Consequences Warning',
     'Organization Name',
     'Password Verification',
     'Email Verification',
   ];
+  const steps = isMobile ? mobileSteps : desktopSteps;
 
   const stepComponents = [
     ConsequencesStep,
@@ -131,6 +144,8 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
           borderRadius: '16px',
           border: '2px solid #dc2626',
           maxWidth: '900px',
+          width: '95%',
+          margin: '16px',
           overflow: 'visible',
           background: themeColors.background,
         },
@@ -148,6 +163,7 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '1.5rem 2rem',
+
             borderBottom: '2px solid #f87171',
           }}
         >
@@ -191,7 +207,11 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
         <div
           className="delete-popup-content"
           style={{
-            padding: '2rem',
+            padding: {
+              xs: '0.5rem',
+              sm: '1rem',
+              md: '2rem'
+            },
             background: themeColors.background,
             maxHeight: 'calc(90vh - 120px)',
             overflowY: 'auto',
@@ -268,15 +288,29 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
                         style={{
                           fontSize: '0.75rem',
                           color: themeColors.textSecondary,
-                          display: 'block',
+                          display: 'none',
                           marginTop: '4px',
+                          '@media (min-width: 768px)': {
+                            display: 'block',
+                          },
                         }}
                       >
                         {stepDescriptions[index]}
                       </span>
                     }
                   >
-                    {label}
+                    <span style={{
+                      fontSize: {
+                        xs: '0.75rem',
+                        sm: '0.875rem'
+                      },
+                      whiteSpace: {
+                        xs: 'nowrap',
+                        sm: 'normal'
+                      }
+                    }}>
+                      {label}
+                    </span>
                   </StepLabel>
                 </Step>
               ))}
@@ -290,8 +324,15 @@ const DeleteOrganization = ({ orgData, isOpen, onClose }) => {
               border:
                 mode === 'dark' ? '2px solid #4b5563' : '2px solid #e2e8f0',
               borderRadius: '12px',
-              padding: '2rem',
-              marginBottom: '1.5rem',
+              padding: {
+                xs: '1rem',
+                sm: '1.5rem',
+                md: '2rem'
+              },
+              marginBottom: {
+                xs: '1rem',
+                sm: '1.5rem'
+              },
             }}
           >
             <CurrentStepComponent
