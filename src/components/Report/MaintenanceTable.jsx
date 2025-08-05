@@ -318,81 +318,199 @@ const MaintenanceTable = () => {
     <div style={{ position: 'relative' }}>
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <div
-          style={{
-            display: 'flex',
-            gap: 16,
-            marginBottom: 20,
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
-          {/* Status Filter */}
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              label="Status"
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          {/* Desktop View */}
+          <div
+            style={{
+              display: 'flex',
+              gap: 16,
+              marginBottom: 20,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+            }}
+          >
+            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                label="Status"
+              >
+                {statusOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              <InputLabel>Priority</InputLabel>
+              <Select
+                value={priorityFilter}
+                onChange={(e) => setPriorityFilter(e.target.value)}
+                label="Priority"
+              >
+                {priorityOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              label="Start Date"
+              type="date"
+              size="small"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ minWidth: 140 }}
+            />
+            <TextField
+              label="End Date"
+              type="date"
+              size="small"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ minWidth: 140 }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownloadPDF}
+              style={{ marginLeft: 'auto' }}
             >
-              {statusOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {/* Priority Filter */}
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Priority</InputLabel>
-            <Select
-              value={priorityFilter}
-              onChange={(e) => setPriorityFilter(e.target.value)}
-              label="Priority"
+              Download PDF
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenSchedulePopup(true)}
             >
-              {priorityOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {/* Date Range Filter */}
-          <TextField
-            label="Start Date"
-            type="date"
-            size="small"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            sx={{ minWidth: 140 }}
-          />
-          <TextField
-            label="End Date"
-            type="date"
-            size="small"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            InputLabelProps={{ shrink: true }}
-            sx={{ minWidth: 140 }}
-          />
+              Schedule PDF
+            </Button>
+          </div>
+        </Box>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleDownloadPDF}
-            style={{ marginLeft: 'auto' }}
+        {/* Mobile View */}
+        <Box sx={{ display: { xs: 'block', sm: 'none' }, mb: 3 }}>
+          <Box 
+            sx={{
+              display: 'flex',
+              gap: 1,
+              mb: 2,
+              pt: 1,
+              overflowX: 'auto',
+              flexWrap: 'nowrap',
+              pb: 1,
+              '&::-webkit-scrollbar': {
+                height: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: '#f1f1f1',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#888',
+                borderRadius: '4px',
+              },
+            }}
           >
-            Download PDF
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpenSchedulePopup(true)}
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                minWidth: '80px',
+                flex: '0 0 auto'
+              }}
+            >
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                label="Status"
+              >
+                {statusOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                minWidth: '80px',
+                flex: '0 0 auto'
+              }}
+            >
+              <InputLabel>Priority</InputLabel>
+              <Select
+                value={priorityFilter}
+                onChange={(e) => setPriorityFilter(e.target.value)}
+                label="Priority"
+              >
+                {priorityOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <TextField
+              label="Start Date"
+              type="date"
+              size="small"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ 
+                width: '105px',
+                flex: '0 0 auto'
+              }}
+            />
+            <TextField
+              label="End Date"
+              type="date"
+              size="small"
+              value={endDate}
+              onChange={(e) => setEndDate(e.value)}
+              InputLabelProps={{ shrink: true }}
+              sx={{ 
+                width: '105px',
+                flex: '0 0 auto'
+              }}
+            />
+          </Box>
+
+          <Box 
+            sx={{
+              display: 'flex',
+              gap: 2,
+              justifyContent: 'space-between',
+            }}
           >
-            Schedule PDF
-          </Button>
-        </div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownloadPDF}
+              sx={{ flex: 1 }}
+            >
+              Download PDF
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenSchedulePopup(true)}
+              sx={{ flex: 1 }}
+            >
+              Schedule PDF
+            </Button>
+          </Box>
+        </Box>
 
         {/* Table Container */}
         <TableContainer component={Paper} id="maintenance-table">
@@ -404,7 +522,7 @@ const MaintenanceTable = () => {
                   onClick={() => handleSort('maintenance_id')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    Maintenance ID
+                    Number
                     {sortColumn === 'maintenance_id' &&
                       (sortDirection === 'asc' ? (
                         <ArrowUpward fontSize="small" />
@@ -418,7 +536,7 @@ const MaintenanceTable = () => {
                   onClick={() => handleSort('user_id')}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    User ID
+                    User_ID
                     {sortColumn === 'user_id' &&
                       (sortDirection === 'asc' ? (
                         <ArrowUpward fontSize="small" />

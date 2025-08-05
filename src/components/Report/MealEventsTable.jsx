@@ -369,96 +369,209 @@ const MealEventsTable = () => {
     <Box position="relative">
       {/* Blur wrapper */}
       <div className={isPopupOpen ? 'blurred-content' : ''}>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            mb: 2,
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
-          {/* Meal Time Filter */}
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Meal Time</InputLabel>
-            <Select
-              value={selectedMealTime}
-              onChange={(e) => setSelectedMealTime(e.target.value)}
-              label="Meal Time"
-            >
-              <MenuItem value="">All</MenuItem>
-              {mealTimes.map((time) => (
-                <MenuItem key={time.id} value={time.id}>
-                  {time.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          {/* Meal Type Filter */}
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Meal Type</InputLabel>
-            <Select
-              value={selectedMealType}
-              onChange={(e) => setSelectedMealType(e.target.value)}
-              label="Meal Type"
-            >
-              <MenuItem value="">All</MenuItem>
-              {mealTypes.map((type) => (
-                <MenuItem key={type.id} value={type.id}>
-                  {type.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          {/* Year Filter */}
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Year</InputLabel>
-            <Select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-              label="Year"
-            >
-              <MenuItem value="">All</MenuItem>
-              {/* Dynamically get years from mealEvents */}
-              {Array.from(
-                new Set(
-                  mealEvents
-                    .filter((event) => event && event.meal_request_date)
-                    .map((event) =>
-                      new Date(event.meal_request_date).getFullYear(),
-                    ),
-                ),
-              )
-                .sort((a, b) => b - a)
-                .map((year) => (
-                  <MenuItem key={year} value={year}>
-                    {year}
+        {/* Desktop View */}
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              mb: 2,
+              flexWrap: 'wrap',
+              alignItems: 'center',
+            }}
+          >
+            {/* Meal Time Filter */}
+            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              <InputLabel>Meal Time</InputLabel>
+              <Select
+                value={selectedMealTime}
+                onChange={(e) => setSelectedMealTime(e.target.value)}
+                label="Meal Time"
+              >
+                <MenuItem value="">All</MenuItem>
+                {mealTimes.map((time) => (
+                  <MenuItem key={time.id} value={time.id}>
+                    {time.name}
                   </MenuItem>
                 ))}
-            </Select>
-          </FormControl>
+              </Select>
+            </FormControl>
 
-          {/* Month Filter */}
-          <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Month</InputLabel>
-            <Select
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-              label="Month"
+            {/* Meal Type Filter */}
+            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              <InputLabel>Meal Type</InputLabel>
+              <Select
+                value={selectedMealType}
+                onChange={(e) => setSelectedMealType(e.target.value)}
+                label="Meal Type"
+              >
+                <MenuItem value="">All</MenuItem>
+                {mealTypes.map((type) => (
+                  <MenuItem key={type.id} value={type.id}>
+                    {type.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Year Filter */}
+            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              <InputLabel>Year</InputLabel>
+              <Select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                label="Year"
+              >
+                <MenuItem value="">All</MenuItem>
+                {Array.from(
+                  new Set(
+                    mealEvents
+                      .filter((event) => event && event.meal_request_date)
+                      .map((event) =>
+                        new Date(event.meal_request_date).getFullYear(),
+                      ),
+                  ),
+                )
+                  .sort((a, b) => b - a)
+                  .map((year) => (
+                    <MenuItem key={year} value={year}>
+                      {year}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+
+            {/* Month Filter */}
+            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              <InputLabel>Month</InputLabel>
+              <Select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                label="Month"
+              >
+                <MenuItem value="">All</MenuItem>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <MenuItem key={i + 1} value={i + 1}>
+                    {new Date(0, i).toLocaleString('default', { month: 'long' })}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Date Range Filter */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <TextField
+                label="Start Date"
+                type="date"
+                size="small"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 140 }}
+              />
+              <TextField
+                label="End Date"
+                type="date"
+                size="small"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 140 }}
+              />
+            </Box>
+
+            {/* Buttons */}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownloadPDF}
+              sx={{ ml: 'auto' }}
             >
-              <MenuItem value="">All</MenuItem>
-              {Array.from({ length: 12 }, (_, i) => (
-                <MenuItem key={i + 1} value={i + 1}>
-                  {new Date(0, i).toLocaleString('default', { month: 'long' })}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              Download PDF
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenSchedulePopup(true)}
+            >
+              Schedule PDF
+            </Button>
+          </Box>
+        </Box>
 
-          {/* Date Range Filter (after Month) */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        {/* Mobile View */}
+        <Box sx={{ display: { xs: 'block', sm: 'none' }, mb: 3 }}>
+          {/* Mobile Filters Row */}
+          <Box 
+            sx={{
+              display: 'flex',
+              gap: 1,
+              mb: 2,
+              pt: 2,
+              overflowX: 'auto',
+              flexWrap: 'nowrap',
+              pb: 1,
+              '&::-webkit-scrollbar': {
+                height: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: '#f1f1f1',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#888',
+                borderRadius: '4px',
+              },
+            }}
+          >
+            {/* Meal Time Filter */}
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                minWidth: '80px',
+                flex: '0 0 auto'
+              }}
+            >
+              <InputLabel>Time</InputLabel>
+              <Select
+                value={selectedMealTime}
+                onChange={(e) => setSelectedMealTime(e.target.value)}
+                label="Meal Time"
+              >
+                <MenuItem value="">All</MenuItem>
+                {mealTimes.map((time) => (
+                  <MenuItem key={time.id} value={time.id}>
+                    {time.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Meal Type Filter */}
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                minWidth: '80px',
+                flex: '0 0 auto'
+              }}
+            >
+              <InputLabel>Type</InputLabel>
+              <Select
+                value={selectedMealType}
+                onChange={(e) => setSelectedMealType(e.target.value)}
+                label="Meal Type"
+              >
+                <MenuItem value="">All</MenuItem>
+                {mealTypes.map((type) => (
+                  <MenuItem key={type.id} value={type.id}>
+                    {type.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Date Range Filter */}
             <TextField
               label="Start Date"
               type="date"
@@ -466,7 +579,10 @@ const MealEventsTable = () => {
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ minWidth: 140 }}
+              sx={{ 
+                width: '105px',
+                flex: '0 0 auto'
+              }}
             />
             <TextField
               label="End Date"
@@ -475,26 +591,38 @@ const MealEventsTable = () => {
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ minWidth: 140 }}
+              sx={{ 
+                width: '105px',
+                flex: '0 0 auto'
+              }}
             />
           </Box>
 
-          {/* Download PDF Button */}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleDownloadPDF}
-            sx={{ ml: 'auto' }}
+          {/* Mobile Buttons Row */}
+          <Box 
+            sx={{
+              display: 'flex',
+              gap: 2,
+              justifyContent: 'space-between',
+            }}
           >
-            Download PDF
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpenSchedulePopup(true)}
-          >
-            Schedule PDF
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDownloadPDF}
+              sx={{ flex: 1 }}
+            >
+              Download PDF
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenSchedulePopup(true)}
+              sx={{ flex: 1 }}
+            >
+              Schedule PDF
+            </Button>
+          </Box>
         </Box>
         {/* Table */}
         <TableContainer component={Paper} id="meal-events-table">
