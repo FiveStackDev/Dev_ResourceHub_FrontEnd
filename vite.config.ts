@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({ 
       registerType: 'autoUpdate', 
       includeAssets: [ 
-        'ResourceHub.png', 
+        'Resource_Hub.png', 
         'favicon.ico', 
         'apple-touch-icon-180x180.png', 
         'pwa-64x64.png',
@@ -93,4 +93,4 @@ export default defineConfig({
     // https: true, // Uncomment for HTTPS in development
   }, 
   base: '/', 
-}); 
+});

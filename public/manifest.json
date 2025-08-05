@@ -6,9 +6,9 @@
   "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait",
-  "icons": [
+    "icons": [
     {
-      "src": "/pwa-64x64.png",
+      "src": "/Resource_Hub.png",
       "sizes": "64x64",
       "type": "image/png"
     },
