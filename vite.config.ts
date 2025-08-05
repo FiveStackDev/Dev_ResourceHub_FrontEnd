@@ -11,8 +11,11 @@ export default defineConfig({
       includeAssets: [ 
         'ResourceHub.png', 
         'favicon.ico', 
-        'apple-touch-icon.png', 
-        'safari-pinned-tab.svg' 
+        'apple-touch-icon-180x180.png', 
+        'pwa-64x64.png',
+        'pwa-192x192.png',
+        'pwa-512x512.png',
+        'maskable-icon-512x512.png'
       ], 
       manifest: { 
         name: 'ResourceHub', 
@@ -23,28 +26,30 @@ export default defineConfig({
         display: 'standalone', 
         orientation: 'portrait', 
         start_url: '/', 
-        id: 'resourcehub-pwa', 
+        scope: '/',
+        id: 'resourcehub-pwa',
+        categories: ['business', 'productivity'],
+        lang: 'en', 
         icons: [ 
           { 
-            src: '/pwa-assets/192.png', 
+            src: '/pwa-64x64.png', 
+            sizes: '64x64', 
+            type: 'image/png' 
+          },
+          { 
+            src: '/pwa-192x192.png', 
             sizes: '192x192', 
             type: 'image/png', 
             purpose: 'any' 
           }, 
           { 
-            src: '/pwa-assets/512.png', 
+            src: '/pwa-512x512.png', 
             sizes: '512x512', 
             type: 'image/png', 
             purpose: 'any' 
           }, 
           { 
-            src: '/pwa-assets/192-maskable.png', 
-            sizes: '192x192', 
-            type: 'image/png', 
-            purpose: 'maskable' 
-          }, 
-          { 
-            src: '/pwa-assets/512-maskable.png', 
+            src: '/maskable-icon-512x512.png', 
             sizes: '512x512', 
             type: 'image/png', 
             purpose: 'maskable' 
@@ -82,8 +87,10 @@ export default defineConfig({
     exclude: ['lucide-react'], 
   }, 
   server: { 
-    host: 'localhost', 
-    // Don't specify port so it can flexibly use what's available 
+    host: 'localhost',
+    // Don't specify port so it can flexibly use what's available
+    // For PWA testing, you might want to use HTTPS in production
+    // https: true, // Uncomment for HTTPS in development
   }, 
   base: '/', 
 }); 
