@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react';
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { getTheme } from './theme';
 
@@ -40,7 +40,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Get schedule settings from localStorage
-  const getScheduleSettings = () => {
+  const getScheduleSettings = useCallback(() => {
     const saved = localStorage.getItem('themeSchedule');
     if (saved) {
       try {
@@ -54,10 +54,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       startTime: '19:00',
       endTime: '07:00',
     };
-  };
+  }, []);
 
   // Detect system theme preference on initial load theme
-  const getInitialMode = () => {
+  const getInitialMode = useCallback(() => {
     if (typeof window !== 'undefined') {
       const scheduleSettings = getScheduleSettings();
       if (scheduleSettings.enabled) {
@@ -76,53 +76,72 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     }
     return 'light';
-  };
-  const [mode, setMode] = useState<'light' | 'dark'>(getInitialMode());
+  }, [getScheduleSettings]);
 
-  const toggleMode = () => {
+  const [mode, setMode] = useState<'light' | 'dark'>(() => getInitialMode());
+
+  const toggleMode = useCallback(() => {
+    const scheduleSettings = getScheduleSettings();
+    if (scheduleSettings.enabled) {
+      // Don't allow manual toggle when scheduling is enabled
+      return;
+    }
+    
     setMode((prevMode) => {
       const newMode = prevMode === 'light' ? 'dark' : 'light';
-      // Only save to localStorage if not scheduled
-      const isScheduled = localStorage.getItem('darkModeScheduled') === 'true';
-      if (!isScheduled) {
-        localStorage.setItem('theme', newMode);
-      }
+      localStorage.setItem('theme', newMode);
       return newMode;
     });
-  };
+  }, [getScheduleSettings]);
 
-  const setModeDirectly = (newMode: 'light' | 'dark') => {
+  const setModeDirectly = useCallback((newMode: 'light' | 'dark') => {
     setMode(newMode);
-  };
+  }, []);
+
+  // Check and apply scheduled theme
+  const checkAndApplyScheduledTheme = useCallback(() => {
+    const scheduleSettings = getScheduleSettings();
+    if (scheduleSettings.enabled) {
+      const shouldBeDark = isDarkTime(scheduleSettings.startTime, scheduleSettings.endTime);
+      const newMode = shouldBeDark ? 'dark' : 'light';
+      setMode(currentMode => {
+        if (currentMode !== newMode) {
+          return newMode;
+        }
+        return currentMode;
+      });
+    }
+  }, [getScheduleSettings]);
 
   const theme = useMemo(() => getTheme(mode), [mode]);
 
-  // Effect for theme scheduling
+  // Effect for theme scheduling - this is the main scheduling logic
   useEffect(() => {
-    const checkAndApplyScheduledTheme = () => {
-      const scheduleSettings = getScheduleSettings();
-      if (scheduleSettings.enabled) {
-        const shouldBeDark = isDarkTime(scheduleSettings.startTime, scheduleSettings.endTime);
-        const newMode = shouldBeDark ? 'dark' : 'light';
-        if (mode !== newMode) {
-          setMode(newMode);
-        }
+    // Check theme immediately on mount
+    checkAndApplyScheduledTheme();
+
+    // Set up interval to check every minute (60 seconds)
+    const interval = setInterval(checkAndApplyScheduledTheme, 60000);
+
+    // Listen for localStorage changes (when settings are updated)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'themeSchedule') {
+        checkAndApplyScheduledTheme();
       }
     };
 
-    // Check theme immediately
-    checkAndApplyScheduledTheme();
+    window.addEventListener('storage', handleStorageChange);
 
-    // Set up interval to check every 50 seconds
-    const interval = setInterval(checkAndApplyScheduledTheme, 50000);
-
-    // Cleanup interval on unmount
-    return () => clearInterval(interval);
-  }, [mode]); // Re-run effect if mode changes
+    // Cleanup
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [checkAndApplyScheduledTheme]);
 
   const contextValue = useMemo(
     () => ({ mode, toggleMode, setMode: setModeDirectly }),
-    [mode],
+    [mode, toggleMode, setModeDirectly],
   );
 
   return (

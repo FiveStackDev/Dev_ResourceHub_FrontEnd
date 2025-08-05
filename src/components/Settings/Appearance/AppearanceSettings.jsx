@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -61,31 +61,17 @@ const AppearanceSettings = () => {
     }
   };
 
-  // Apply theme based on schedule
-  const applyScheduledTheme = useCallback(() => {
-    if (scheduleSettings.enabled) {
-      const shouldBeDark = isDarkTime();
-      setMode(shouldBeDark ? 'dark' : 'light');
-    }
-  }, [scheduleSettings, setMode]);
-
-  // On mount, apply scheduled theme if enabled
-  useEffect(() => {
-    if (scheduleSettings.enabled) {
-      applyScheduledTheme();
-
-      const interval = setInterval(applyScheduledTheme, 6000); // Check every minute
-      return () => clearInterval(interval);
-    }
-  }, [scheduleSettings.enabled, applyScheduledTheme]);
-
   // When schedule settings change, save to localStorage
   useEffect(() => {
     localStorage.setItem('themeSchedule', JSON.stringify(scheduleSettings));
-    if (scheduleSettings.enabled) {
-      applyScheduledTheme();
-    }
-  }, [scheduleSettings, applyScheduledTheme]); // Dependencies for settings changes
+    
+    // Trigger a custom event to notify ThemeProvider of changes
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'themeSchedule',
+      newValue: JSON.stringify(scheduleSettings),
+      storageArea: localStorage
+    }));
+  }, [scheduleSettings]);
 
   const handleScheduleToggle = () => {
     setScheduleSettings((prev) => ({
