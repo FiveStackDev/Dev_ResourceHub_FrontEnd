@@ -17,13 +17,10 @@ import Register from './pages/Auth/Register';
 
 // Admin Pages
 import AdminDashboard from './pages/Admin/DashboardAdmin';
-import AssetHome from './pages/Admin/Requested_Assets/AssetHome';
 import AssetMonitoringAdmin from './pages/Admin/Requested_Assets/AssetMonitoringAdmin';
 import DueAsset from './pages/Admin/Requested_Assets/DueAssset';
 import AssetAdmin from './pages/Admin/Organization_Assets/AssetAdmin';
-import MaintenanceHome from './pages/Admin/Maintenance/MaintenanceHome';
 import MaintenanceDetails from './pages/Admin/Maintenance/MaintenanceDetails';
-import ReportHome from './pages/Admin/Reports/ReportHome';
 import AssetReport from './pages/Admin/Reports/AssetReport';
 import MealReport from './pages/Admin/Reports/MealReport';
 import RequestedMeals from './pages/Admin/Meal_Management/RequestedMeals';
@@ -72,14 +69,6 @@ function App() {
                 }
               />
               <Route
-                path="/admin-assethome"
-                element={
-                  <ProtectedRoute requiredRole="Admin">
-                    <AssetHome />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
                 path="/admin-assetmonitoring"
                 element={
                   <ProtectedRoute requiredRole="Admin">
@@ -104,26 +93,10 @@ function App() {
                 }
               />
               <Route
-                path="/admin-maintenancehome"
-                element={
-                  <ProtectedRoute requiredRole="Admin">
-                    <MaintenanceHome />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
                 path="/admin-maintenance"
                 element={
                   <ProtectedRoute requiredRole="Admin">
                     <MaintenanceDetails />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin-reporthome"
-                element={
-                  <ProtectedRoute requiredRole="Admin">
-                    <ReportHome />
                   </ProtectedRoute>
                 }
               />

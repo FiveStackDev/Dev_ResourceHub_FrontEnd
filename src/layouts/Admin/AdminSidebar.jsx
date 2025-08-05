@@ -43,7 +43,6 @@ const navItems = [
   {
     title: 'Assets',
     icon: <AssetIcon />,
-    path: '/admin-assethome',
     submenu: [
       { title: 'Organization Assets', path: '/admin-asset' },
       { title: 'Assets Monitoring', path: '/admin-assetmonitoring' },
@@ -62,7 +61,6 @@ const navItems = [
   {
     title: 'Reports',
     icon: <ReportIcon />,
-    path: '/admin-reporthome',
     submenu: [
       { title: 'Asset Report', path: '/admin-assetreport' },
       { title: 'Meal Report', path: '/admin-mealreport' },
