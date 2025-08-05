@@ -112,10 +112,10 @@ function AssetAdmin() {
               variant="outlined" 
               size="small" 
               sx={{ 
-                width: '150px'
+                width: '120px'
               }}
             >
-              <InputLabel>Filter by Category</InputLabel>
+              <InputLabel>Category</InputLabel>
               <Select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}

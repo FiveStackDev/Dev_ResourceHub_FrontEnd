@@ -210,10 +210,10 @@ export const Users = () => {
               variant="outlined" 
               size="small" 
               sx={{ 
-                width: '150px'
+                width: '120px'
               }}
             >
-              <InputLabel>Filter by Type</InputLabel>
+              <InputLabel>Type</InputLabel>
               <Select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}

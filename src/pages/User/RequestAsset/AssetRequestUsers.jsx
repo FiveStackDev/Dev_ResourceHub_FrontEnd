@@ -203,7 +203,7 @@ const AssetRequestUsers = () => {
                   startAdornment: <Search size={20} className="mr-2" />,
                 }}
                 sx={{ 
-                  width: '140px',
+                  width: '120px',
                   flex: '0 0 auto'
                 }}
               />
