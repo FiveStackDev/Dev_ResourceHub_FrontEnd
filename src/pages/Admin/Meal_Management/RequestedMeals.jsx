@@ -245,123 +245,112 @@ export default function RequestedMeals() {
 
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: 'space-between',
             mb: 2,
-            gap: { xs: 2, md: 0 },
-            alignItems: { xs: 'stretch', md: 'center' },
             mt: 3,
           }}
         >
-          {/* Left side: Quick Date Filters */}
+          {/* Mobile Layout */}
           <Stack 
-            direction={{ xs: 'column', sm: 'row' }} 
-            spacing={1} 
-            sx={{ 
-              mb: { xs: 0, md: 1 },
-              width: { xs: '100%', md: 'auto' }
-            }}
-          >
-            <Button
-              className={`date-filter-button ${selectedDateButton === -1 ? 'selected' : ''}`}
-              size="small"
-              variant="outlined"
-              onClick={() => handleQuickDateFilter(-1)}
-              fullWidth={{ xs: true, sm: false }}
-            >
-              Yesterday
-            </Button>
-            <Button
-              className={`date-filter-button ${selectedDateButton === 0 ? 'selected' : ''}`}
-              size="small"
-              variant="outlined"
-              onClick={() => handleQuickDateFilter(0)}
-              fullWidth={{ xs: true, sm: false }}
-            >
-              Today
-            </Button>
-            <Button
-              className={`date-filter-button ${selectedDateButton === 1 ? 'selected' : ''}`}
-              size="small"
-              variant="outlined"
-              onClick={() => handleQuickDateFilter(1)}
-              fullWidth={{ xs: true, sm: false }}
-            >
-              Tomorrow
-            </Button>
-          </Stack>
-
-          {/* Right side: Other Filters */}
-          <Stack 
-            direction={{ xs: 'column', sm: 'row' }} 
+            direction="column"
             spacing={2} 
             sx={{ 
-              flexWrap: 'wrap', 
-              gap: 1,
-              width: { xs: '100%', md: 'auto' }
+              width: '100%',
+              display: { xs: 'flex', md: 'none' }
             }}
           >
-            {/* Meal Time Filter */}
-            <FormControl variant="outlined" size="small" sx={{ minWidth: { xs: '100%', sm: 120 } }}>
-              <InputLabel>Meal Time</InputLabel>
-              <Select
-                value={selectedMealTime}
-                onChange={(e) => setSelectedMealTime(e.target.value)}
-                label="Meal Time"
-              >
-                <MenuItem value="">All</MenuItem>
-                {mealTimes.map((time) => (
-                  <MenuItem key={time.id} value={time.id}>
-                    {time.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Meal Type Filter */}
-            <FormControl
-              variant="outlined"
-              size="small"
-              sx={{ minWidth: { xs: '100%', sm: 120 } }}
-              disabled={!selectedMealTime}
+            {/* Date quick filters - Single line */}
+            <Stack 
+              direction="row" 
+              spacing={1} 
+              sx={{ 
+                width: '100%',
+                justifyContent: 'center',
+              }}
             >
-              <InputLabel>Meal Type</InputLabel>
-              <Select
-                value={selectedMealType}
-                onChange={(e) => setSelectedMealType(e.target.value)}
-                label="Meal Type"
+              <Button
+                className={`date-filter-button ${selectedDateButton === -1 ? 'selected' : ''}`}
+                size="small"
+                variant="outlined"
+                onClick={() => handleQuickDateFilter(-1)}
               >
-                <MenuItem value="">All</MenuItem>
-                {availableMealTypes.map((type) => (
-                  <MenuItem key={type.id} value={type.id}>
-                    {type.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Month Filter */}
-            <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-              <InputLabel>Month</InputLabel>
-              <Select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                label="Month"
+                Yesterday
+              </Button>
+              <Button
+                className={`date-filter-button ${selectedDateButton === 0 ? 'selected' : ''}`}
+                size="small"
+                variant="outlined"
+                onClick={() => handleQuickDateFilter(0)}
               >
-                <MenuItem value="">All</MenuItem>
-                {Array.from({ length: 12 }, (_, i) => (
-                  <MenuItem key={i + 1} value={i + 1}>
-                    {new Date(0, i).toLocaleString('default', {
-                      month: 'long',
-                    })}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                Today
+              </Button>
+              <Button
+                className={`date-filter-button ${selectedDateButton === 1 ? 'selected' : ''}`}
+                size="small"
+                variant="outlined"
+                onClick={() => handleQuickDateFilter(1)}
+              >
+                Tomorrow
+              </Button>
+            </Stack>
 
-            {/* Date Range Filter */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            {/* Scrollable filters */}
+            <Stack 
+              direction="row" 
+              spacing={1} 
+              sx={{ 
+                flexWrap: 'nowrap',
+                overflowX: 'auto',
+                pb: 1.5,
+                pt: 1,
+                '&::-webkit-scrollbar': {
+                  height: 4
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#f1f1f1'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#888',
+                  borderRadius: '4px'
+                }
+              }}
+            >
+              <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+                <InputLabel>Meal Time</InputLabel>
+                <Select
+                  value={selectedMealTime}
+                  onChange={(e) => setSelectedMealTime(e.target.value)}
+                  label="Meal Time"
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {mealTimes.map((time) => (
+                    <MenuItem key={time.id} value={time.id}>
+                      {time.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ minWidth: 120 }}
+                disabled={!selectedMealTime}
+              >
+                <InputLabel>Meal Type</InputLabel>
+                <Select
+                  value={selectedMealType}
+                  onChange={(e) => setSelectedMealType(e.target.value)}
+                  label="Meal Type"
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {availableMealTypes.map((type) => (
+                    <MenuItem key={type.id} value={type.id}>
+                      {type.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               <TextField
                 label="Start Date"
                 type="date"
@@ -380,8 +369,137 @@ export default function RequestedMeals() {
                 InputLabelProps={{ shrink: true }}
                 sx={{ minWidth: 140 }}
               />
-            </Box>
+            </Stack>
           </Stack>
+
+          {/* Desktop Layout */}
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              gap: 2,
+              alignItems: 'center',
+            }}
+          >
+            {/* Left side: Quick Date Filters */}
+            <Stack 
+              direction="row" 
+              spacing={1} 
+              sx={{ 
+                width: 'auto'
+              }}
+            >
+              <Button
+                className={`date-filter-button ${selectedDateButton === -1 ? 'selected' : ''}`}
+                size="small"
+                variant="outlined"
+                onClick={() => handleQuickDateFilter(-1)}
+              >
+                Yesterday
+              </Button>
+              <Button
+                className={`date-filter-button ${selectedDateButton === 0 ? 'selected' : ''}`}
+                size="small"
+                variant="outlined"
+                onClick={() => handleQuickDateFilter(0)}
+              >
+                Today
+              </Button>
+              <Button
+                className={`date-filter-button ${selectedDateButton === 1 ? 'selected' : ''}`}
+                size="small"
+                variant="outlined"
+                onClick={() => handleQuickDateFilter(1)}
+              >
+                Tomorrow
+              </Button>
+            </Stack>
+
+            {/* Right side: Other Filters */}
+            <Stack 
+              direction="row" 
+              spacing={2} 
+              sx={{ 
+                flexWrap: 'nowrap',
+                gap: 1
+              }}
+            >
+              <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+                <InputLabel>Meal Time</InputLabel>
+                <Select
+                  value={selectedMealTime}
+                  onChange={(e) => setSelectedMealTime(e.target.value)}
+                  label="Meal Time"
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {mealTimes.map((time) => (
+                    <MenuItem key={time.id} value={time.id}>
+                      {time.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{ minWidth: 120 }}
+                disabled={!selectedMealTime}
+              >
+                <InputLabel>Meal Type</InputLabel>
+                <Select
+                  value={selectedMealType}
+                  onChange={(e) => setSelectedMealType(e.target.value)}
+                  label="Meal Type"
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {availableMealTypes.map((type) => (
+                    <MenuItem key={type.id} value={type.id}>
+                      {type.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+                <InputLabel>Month</InputLabel>
+                <Select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  label="Month"
+                >
+                  <MenuItem value="">All</MenuItem>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <MenuItem key={i + 1} value={i + 1}>
+                      {new Date(0, i).toLocaleString('default', {
+                        month: 'long',
+                      })}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <TextField
+                label="Start Date"
+                type="date"
+                size="small"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 140 }}
+              />
+              <TextField
+                label="End Date"
+                type="date"
+                size="small"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{ minWidth: 140 }}
+              />
+            </Stack>
+          </Box>
         </Box>
 
         <div className="mt-6">
