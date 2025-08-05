@@ -33,7 +33,7 @@ const Settings = () => {
 
   // Common content for both Admin and User layouts
   const renderContent = (
-    <Paper elevation={2} sx={{ width: '100%', mx: 'auto', p: 4 }}>
+    <Paper elevation={2} sx={{ width: '100%', mx: 'auto', p: 1 }}>
       <h1 className="text-2xl font-bold mb-6 text-center">Settings</h1>
 
       {/* Tab navigation */}

@@ -357,7 +357,7 @@ const AccountSection = () => {
         </div>
 
         {/* Security Section */}
-        <div className="form-section">
+        <div className="">
           <h3 className="section-title">
             <Lock
               size={20}

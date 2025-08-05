@@ -178,3 +178,120 @@ height: 240px;
   border-color: var(--card-button-error-hover-border);
   color: var(--card-button-error-hover-text);
 }
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+  .mealtime-card {
+    flex: 0 0 260px;
+    width: 260px;
+    height: 320px;
+  }
+
+  .mealtime-card-media {
+    height: 220px;
+  }
+
+  .mealtime-card-content h5 {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mealtime-card {
+    flex: 0 0 240px;
+    width: 240px;
+    height: 300px;
+    padding: 0 0 16px 0;
+  }
+
+  .mealtime-card-media {
+    height: 200px;
+  }
+
+  .mealtime-card-content {
+    padding: 12px;
+  }
+
+  .mealtime-card-content h5 {
+    font-size: 1rem;
+  }
+
+  .mealtime-card-actions {
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .mealtime-card-button {
+    width: 90px;
+    padding: 8px 12px;
+    font-size: 0.813rem;
+    gap: 4px;
+  }
+
+  .mealtime-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .mealtime-card {
+    flex: 0 0 100%;
+    width: 80%;
+    height: 20%;
+    min-height: 280px;
+    margin: auto;
+  }
+
+  .mealtime-card-media {
+    height: 180px;
+  }
+
+  .mealtime-card-content {
+    padding: 12px 8px;
+  }
+
+  .mealtime-card-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 8px;
+  }
+
+  .mealtime-card-button {
+    width: calc(50% - 4px);
+    padding: 10px 8px;
+  }
+
+  /* Optimize touch targets for mobile */
+  .mealtime-card-button {
+    min-height: 44px;
+  }
+
+  /* Reduce hover effects on mobile */
+  .mealtime-card:hover {
+    transform: none;
+    box-shadow: 0px 4px 12px var(--card-shadow);
+  }
+
+  .mealtime-card:hover .mealtime-card-media {
+    transform: none;
+  }
+}
+
+/* Grid layout adjustments for different screens */
+@media screen and (max-width: 360px) {
+  .mealtime-card {
+    margin: 0 4px;
+  }
+
+  .mealtime-card-content {
+    padding: 10px 6px;
+  }
+
+  .mealtime-card-button {
+    font-size: 0.75rem;
+  }
+
+  .mealtime-card-media {
+    height: 160px;
+  }
+}
