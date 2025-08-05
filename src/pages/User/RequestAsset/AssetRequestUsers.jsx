@@ -193,62 +193,75 @@ const AssetRequestUsers = () => {
       <div className="min-h-screen space-y-3 p-2">
         <h1 className="text-2xl font-semibold">Asset Requests</h1>
 
-        <div className="search-filter-section flex items-center justify-between gap-4 mt-4">
+        <div className="flex items-center justify-between gap-1 w-full">
           <TextField
             label="Search by Name or Asset"
             variant="outlined"
             size="small"
+            sx={{ 
+              flex: 1,
+              minWidth: '100px',
+              maxWidth: '350px',
+            }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            InputProps={{ startAdornment: <Search size={20} /> }}
-            sx={{ flex: 1 }}
+            InputProps={{
+              startAdornment: <Search size={20} className="mr-2" />,
+            }}
           />
-
-          <FormControl
-            variant="outlined"
-            size="small"
-            style={{ minWidth: 200 }}
-          >
-            <InputLabel>Filter by Category</InputLabel>
-            <Select
-              value={filterCategory}
-              onChange={(e) => handleCategoryChange(e.target.value)}
-              label="Filter by Category"
+          <div className="flex items-center gap-2">
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                width: '90px'
+              }}
             >
-              {uniqueCategories.map((cat) => (
-                <MenuItem key={cat} value={cat}>
-                  {cat}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <InputLabel>Filter by Category</InputLabel>
+              <Select
+                value={filterCategory}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                label="Filter by Category"
+              >
+                {uniqueCategories.map((cat) => (
+                  <MenuItem key={cat} value={cat}>
+                    {cat}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          {/* Due Status Filter Dropdown */}
-          <FormControl
-            variant="outlined"
-            size="small"
-            style={{ minWidth: 160 }}
-          >
-            <InputLabel>Due Status</InputLabel>
-            <Select
-              value={dueFilter}
-              onChange={(e) => setDueFilter(e.target.value)}
-              label="Due Status"
+            <FormControl 
+              variant="outlined" 
+              size="small" 
+              sx={{ 
+                width: '90px'
+              }}
             >
-              <MenuItem value="All">All</MenuItem>
-              <MenuItem value="Due">Due</MenuItem>
-              <MenuItem value="Not Due">Not Due</MenuItem>
-            </Select>
-          </FormControl>
+              <InputLabel>Due Status</InputLabel>
+              <Select
+                value={dueFilter}
+                onChange={(e) => setDueFilter(e.target.value)}
+                label="Due Status"
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Due">Due</MenuItem>
+                <MenuItem value="Not Due">Not Due</MenuItem>
+              </Select>
+            </FormControl>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleRequestOpen}
-            style={{ whiteSpace: 'nowrap', fontWeight: 'bold' }}
-          >
-            Request Asset
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleRequestOpen}
+              sx={{ 
+                whiteSpace: 'nowrap',
+                fontWeight: 'bold'
+              }}
+            >
+              Request
+            </Button>
+          </div>
         </div>
 
         <div className="mt-6">
