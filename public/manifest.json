@@ -6,7 +6,7 @@
   "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait",
-    "icons": [
+  "icons": [
     {
       "src": "/Resource_hub_black.png",
       "sizes": "512x512",

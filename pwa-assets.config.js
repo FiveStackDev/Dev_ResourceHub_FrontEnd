@@ -11,17 +11,17 @@ export default defineConfig({
       resizeOptions: {
         background: '#ffffff',
         fit: 'contain',
-        position: 'center'
-      }
+        position: 'center',
+      },
     },
     apple: {
       sizes: [180],
       resizeOptions: {
         background: '#000000',
         fit: 'contain',
-        position: 'center'
-      }
-    }
+        position: 'center',
+      },
+    },
   },
-  images: 'public/ResourceHub.png'
+  images: 'public/ResourceHub.png',
 });
