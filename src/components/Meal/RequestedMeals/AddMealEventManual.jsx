@@ -8,6 +8,7 @@ import {
   Button,
   TextField,
   Autocomplete,
+  Typography,
   MenuItem,
   Select,
   InputLabel,
@@ -164,7 +165,11 @@ const AddMealEventManual = ({ open, onClose, onAdd, existingEvents }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Add Meal Event Manually</DialogTitle>
+      <DialogTitle>
+        <Typography sx={{ color: 'primary.main' }} variant="h3">
+          Add Meal Event Manually
+        </Typography>
+      </DialogTitle>
       <DialogContent>
         <Autocomplete
           options={users}
@@ -190,11 +195,13 @@ const AddMealEventManual = ({ open, onClose, onAdd, existingEvents }) => {
                   marginRight: 8,
                 }}
               />
-              <span style={{ fontWeight: 500 }}>{option.username}</span>
-              <span style={{ color: '#888', marginLeft: 6 }}>
+              <span style={{ fontWeight: 500, color: '#000000ff' }}>
+                {option.username}
+              </span>
+              <span style={{ color: '#00000067', marginLeft: 6 }}>
                 ({option.userType})
               </span>
-              <span style={{ color: '#888', marginLeft: 8 }}>
+              <span style={{ color: '#666666ff', marginLeft: 8 }}>
                 {option.email}
               </span>
             </li>

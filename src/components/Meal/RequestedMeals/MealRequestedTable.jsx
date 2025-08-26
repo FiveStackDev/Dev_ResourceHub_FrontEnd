@@ -16,6 +16,8 @@ import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 
 import AddMealEventManual from './AddMealEventManual';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { BASE_URLS } from '../../../services/api/config';
 import { getAuthHeader } from '../../../utils/authHeader';
 
 const MealRequestedTable = ({ events: initialEvents }) => {
@@ -97,6 +99,7 @@ const MealRequestedTable = ({ events: initialEvents }) => {
         toast.error('Failed to add meal event.');
       }
     } catch (e) {
+      console.error(e);
       toast.error('Error adding meal event.');
     } finally {
       setAdding(false);

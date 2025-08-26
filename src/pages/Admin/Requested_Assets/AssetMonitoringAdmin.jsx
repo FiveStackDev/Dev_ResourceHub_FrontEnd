@@ -56,6 +56,8 @@ const AssetMonitoringAdmin = () => {
 
   const handleSave = async (updatedAsset) => {
     try {
+      // Remove note before sending to backend
+      const { note, ...assetForBackend } = updatedAsset;
       const response = await fetch(
         `${BASE_URLS.assetRequest}/details/${updatedAsset.requestedasset_id}`,
         {
@@ -64,7 +66,7 @@ const AssetMonitoringAdmin = () => {
             'Content-Type': 'application/json',
             ...getAuthHeader(),
           },
-          body: JSON.stringify(updatedAsset),
+          body: JSON.stringify(assetForBackend),
         },
       );
 
@@ -91,12 +93,33 @@ const AssetMonitoringAdmin = () => {
       // Send notification to user if status is approved or rejected
       if (['Accepted', 'Rejected'].includes(updatedAsset.status)) {
         try {
+          // Compose message with note if needed
+          let message = `Your asset request for '${updatedAsset.asset_name}' has been ${updatedAsset.status.toLowerCase()}.`;
+          if (updatedAsset.status === 'Rejected' && updatedAsset.note) {
+            message += `\nReason: ${updatedAsset.note}`;
+          } else if (
+            updatedAsset.status === 'Accepted' &&
+            typeof updatedAsset.note === 'string' &&
+            updatedAsset.note.trim() &&
+            typeof updatedAsset.quantity === 'number' &&
+            typeof updatedAsset.original_quantity === 'number' &&
+            updatedAsset.quantity !== updatedAsset.original_quantity
+          ) {
+            message += `\nNote: ${updatedAsset.note}`;
+          } else if (
+            updatedAsset.status === 'Accepted' &&
+            typeof updatedAsset.note === 'string' &&
+            updatedAsset.note.trim()
+          ) {
+            // fallback: if note exists for accepted, always show
+            message += `\nNote: ${updatedAsset.note}`;
+          }
           await sendAssetNotification({
             user_id: updatedAsset.user_id,
             type: 'asset',
             reference_id: updatedAsset.requestedasset_id,
             title: `Asset Request ${updatedAsset.status}`,
-            message: `Your asset request for '${updatedAsset.asset_name}' has been ${updatedAsset.status.toLowerCase()}.`,
+            message,
             priority: 'General', // Always set priority for asset notifications
           });
           toast.success('User notified about asset request status!');

@@ -9,9 +9,14 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
   const [status, setStatus] = useState(asset.status);
   const [handoverDate, setHandoverDate] = useState(asset.handover_date);
   const [isReturning, setIsReturning] = useState(asset.is_returning);
+  const [note, setNote] = useState('');
+  const [noteError, setNoteError] = useState('');
 
   // Theme styles hook
   const { updateCSSVariables } = useThemeStyles();
+
+  // Store original quantity for comparison
+  const originalQuantity = asset.quantity;
 
   // Update CSS variables when theme changes
   useEffect(() => {
@@ -24,16 +29,34 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
       setStatus(asset.status);
       setHandoverDate(asset.handover_date);
       setIsReturning(asset.is_returning);
+      setNote('');
+      setNoteError('');
     }
   }, [asset]);
 
+  // Determine if note is required
+  const isNoteRequired =
+    status === 'Rejected' ||
+    (status === 'Accepted' && parseInt(quantity) !== originalQuantity);
+
   const handleSaveClick = () => {
+    if (isNoteRequired && !note.trim()) {
+      setNoteError('Note is required.');
+      return;
+    }
+    setNoteError('');
+    let finalNote = note.trim();
+    // If quantity changed and status is Accepted, append change details to note
+    if (status === 'Accepted' && parseInt(quantity) !== originalQuantity) {
+      finalNote = `Changed quantity from ${originalQuantity} to ${quantity} due to: ${finalNote || 'No reason provided'}`;
+    }
     onSave({
       ...asset,
       quantity: parseInt(quantity),
       status,
       handover_date: handoverDate,
       is_returning: isReturning,
+      note: finalNote,
     });
     handleClose();
     if (onRefresh) {
@@ -172,6 +195,38 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
             />
             <span className="asset-switch-label">Asset Returning</span>
           </div>
+
+          {/* Note field for rejection or quantity change */}
+          {(status === 'Rejected' ||
+            (status === 'Accepted' &&
+              parseInt(quantity) !== originalQuantity)) && (
+            <div className="asset-form-group">
+              <label htmlFor="note" className="asset-form-label">
+                Note {isNoteRequired && <span style={{ color: 'red' }}>*</span>}
+              </label>
+              <textarea
+                id="note"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                className="asset-form-input"
+                rows={3}
+                placeholder={
+                  status === 'Rejected'
+                    ? 'Reason for rejection'
+                    : 'Reason for changing quantity'
+                }
+                required={isNoteRequired}
+                style={{ resize: 'vertical' }}
+              />
+              {noteError && (
+                <div
+                  style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}
+                >
+                  {noteError}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="asset-button-group">
@@ -184,6 +239,7 @@ const PopupEdit = ({ open, handleClose, asset, onSave, onRefresh }) => {
           <button
             className="asset-button asset-button-primary"
             onClick={handleSaveClick}
+            disabled={isNoteRequired && !note.trim()}
           >
             <Edit size={16} />
             Save Changes
