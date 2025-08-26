@@ -10,11 +10,24 @@ import {
   Paper,
   Box,
   useTheme,
+  Button,
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward } from '@mui/icons-material';
 
-const MealRequestedTable = ({ events }) => {
+import AddMealEventManual from './AddMealEventManual';
+import axios from 'axios';
+import { getAuthHeader } from '../../../utils/authHeader';
+
+const MealRequestedTable = ({ events: initialEvents }) => {
   const theme = useTheme();
+  const [events, setEvents] = useState(initialEvents);
+  const [manualDialogOpen, setManualDialogOpen] = useState(false);
+  const [adding, setAdding] = useState(false);
+
+  // Sync local events state with prop when prop changes
+  React.useEffect(() => {
+    setEvents(initialEvents);
+  }, [initialEvents]);
 
   const [sortDirection, setSortDirection] = useState('asc');
   const [sortColumn, setSortColumn] = useState('meal_request_date');
@@ -55,8 +68,57 @@ const MealRequestedTable = ({ events }) => {
     page * rowsPerPage + rowsPerPage,
   );
 
+  // Add meal event handler
+  const handleManualAdd = async (data) => {
+    setAdding(true);
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const res = await axios.post(
+        `${BASE_URLS.calendar}/mealevents/add`,
+        {
+          ...data,
+          submitted_date: today,
+        },
+        { headers: { ...getAuthHeader() } },
+      );
+      if (res.status === 200 || res.status === 201) {
+        setEvents((prev) => [
+          ...prev,
+          {
+            ...data,
+            submitted_date: today,
+            username: data.username || '',
+            mealtime_name: '',
+            mealtype_name: '',
+          },
+        ]);
+        toast.success('Meal event added!');
+      } else {
+        toast.error('Failed to add meal event.');
+      }
+    } catch (e) {
+      toast.error('Error adding meal event.');
+    } finally {
+      setAdding(false);
+    }
+  };
+
   return (
     <Box position="relative">
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mb: 2 }}
+        onClick={() => setManualDialogOpen(true)}
+      >
+        Add Meal Event Manually
+      </Button>
+      <AddMealEventManual
+        open={manualDialogOpen}
+        onClose={() => setManualDialogOpen(false)}
+        onAdd={handleManualAdd}
+        existingEvents={events}
+      />
       <TableContainer component={Paper} id="meal-events-table">
         <Table>
           <TableHead>

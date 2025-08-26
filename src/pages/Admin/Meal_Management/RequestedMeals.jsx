@@ -224,8 +224,8 @@ export default function RequestedMeals() {
             >
               <CardContent sx={{ py: 1, textAlign: 'center' }}>
                 <Typography
-                  variant="h6"
-                  sx={{ fontSize: { xs: '0.9rem', sm: '1.25rem' } }}
+                  variant="h"
+                  sx={{ fontSize: { xs: '0.9rem', sm: '1.1rem' } }}
                 >
                   Total Requests
                 </Typography>
