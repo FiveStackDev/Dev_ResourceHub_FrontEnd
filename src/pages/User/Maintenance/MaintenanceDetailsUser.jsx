@@ -204,6 +204,8 @@ const MaintenanceDetailsUser = () => {
                   <MenuItem value="General Maintenance">
                     General Maintenance
                   </MenuItem>
+                  <MenuItem value="Meal Service">Meal Service</MenuItem>
+                  <MenuItem value="Asset Service">Asset Service</MenuItem>
                   <MenuItem value="Cleaning and Hygiene">
                     Cleaning and Hygiene
                   </MenuItem>
@@ -299,6 +301,8 @@ const MaintenanceDetailsUser = () => {
                 >
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Tech Support">Tech Support</MenuItem>
+                  <MenuItem value="Meal Service">Meal Service</MenuItem>
+                  <MenuItem value="Asset Service">Asset Service</MenuItem>
                   <MenuItem value="General Maintenance">
                     General Maintenance
                   </MenuItem>

@@ -8,24 +8,13 @@
   "orientation": "portrait",
     "icons": [
     {
-      "src": "/Resource_Hub.png",
-      "sizes": "64x64",
-      "type": "image/png"
-    },
-    {
-      "src": "/pwa-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/pwa-512x512.png",
+      "src": "/Resource_hub_black.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+        "purpose": "any"
     },
     {
-      "src": "/maskable-icon-512x512.png",
+      "src": "/Resource_hub_black.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

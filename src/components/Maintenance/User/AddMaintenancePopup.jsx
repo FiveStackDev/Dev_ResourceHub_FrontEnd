@@ -136,6 +136,8 @@ export const AddMaintenancePopup = ({ open, onClose, onAdd }) => {
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     <MenuItem value="Tech Support">Tech Support </MenuItem>
+                    <MenuItem value="Meal Service">Meal Service</MenuItem>
+                    <MenuItem value="Asset Service">Asset Service</MenuItem>
                     <MenuItem value="General Maintenance">
                       General Maintenance{' '}
                     </MenuItem>
