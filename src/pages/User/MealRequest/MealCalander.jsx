@@ -88,6 +88,19 @@ function MealCalendar() {
   ) => {
     try {
       if (!userId) throw new Error('User ID not found');
+
+      // Check if the user already has a meal event for this date and meal time
+      const duplicate = eventData.some(
+        (event) =>
+          event.start === selectedDate && event.meal_time_id === mealTimeId,
+      );
+      if (duplicate) {
+        toast.error(
+          'You already have a meal event for this meal time on the selected date.',
+        );
+        return;
+      }
+
       const response = await axios.post(
         `${BASE_URLS.calendar}/mealevents/add`,
         {

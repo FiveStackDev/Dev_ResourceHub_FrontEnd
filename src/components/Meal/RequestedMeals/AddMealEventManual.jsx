@@ -144,6 +144,11 @@ const AddMealEventManual = ({ open, onClose, onAdd, existingEvents }) => {
       toast.error('This user already has a meal time for this date.');
       return;
     }
+    const today = new Date().toISOString().split('T')[0];
+    if (date < today) {
+      toast.error('Cannot add event for past date.');
+      return;
+    }
     onAdd({
       user_id: selectedUser.user_id,
       mealtime_id: selectedMealTime,

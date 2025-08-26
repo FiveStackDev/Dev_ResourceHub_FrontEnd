@@ -111,7 +111,7 @@ const MealRequestedTable = ({ events: initialEvents }) => {
         sx={{ mb: 2 }}
         onClick={() => setManualDialogOpen(true)}
       >
-        Add Meal Event Manually
+        Add Meal Request
       </Button>
       <AddMealEventManual
         open={manualDialogOpen}
